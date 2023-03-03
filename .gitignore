@@ -11,16 +11,16 @@
 *.zip
 
 #User defined
-nbproject/private/
-build/
-dist/
-PetSociety-ejb/nbproject/private/
-PetSociety-ejb/build/
+PetSociety/nbproject/private/
+PetSociety/build/
 PetSociety/dist/
+PetSociety/PetSociety-ejb/nbproject/private/
+PetSociety/PetSociety-ejb/build/
+PetSociety/PetSociety/dist/
 
-PetSociety-war/nbproject/private/
-PetSociety-war/build/
-PetSociety-war/dist/
+PetSociety/PetSociety-war/nbproject/private/
+PetSociety/PetSociety-war/build/
+PetSociety/PetSociety-war/dist/
 
 nbproject/private/
 build/
