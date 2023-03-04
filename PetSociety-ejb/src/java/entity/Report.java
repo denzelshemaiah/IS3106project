@@ -31,6 +31,8 @@ public class Report implements Serializable {
     @Column(nullable = false)
     @Size(min = 50, max = 1000)
     private String reportDescription;
+    @Column(nullable = false)
+    private boolean settled = false; // sets default to false
 
     public Report() {
     }
@@ -74,6 +76,14 @@ public class Report implements Serializable {
 
     public void setReportDescription(String reportDescription) {
         this.reportDescription = reportDescription;
+    }
+
+    public boolean isSettled() {
+        return settled;
+    }
+
+    public void setSettled(boolean settled) {
+        this.settled = settled;
     }
     
 }
