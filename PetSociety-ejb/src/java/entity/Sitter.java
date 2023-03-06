@@ -1,0 +1,137 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package entity;
+
+import enumeration.ServiceEnum;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+/**
+ *
+ * @author Andrea
+ */
+@Entity
+public class Sitter implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long sitterId;
+
+    @Column(nullable = false)
+    private String serviceAddress;
+    @Column(nullable = false)
+    private String region;
+    @Column(nullable = false)
+    private String preference;
+    @Column(nullable = false)
+    private List<Date> schedule;
+    @Column(nullable = false)
+    private List<BigDecimal> rates;
+    @Column(nullable = false)
+    private ServiceEnum service;
+    
+    // authen req
+    
+    // careexperienceform
+    
+    // safetyform
+    
+    //booking reqs
+    
+    // meetandgreet req
+    
+    // parent r/s with sitter
+
+    public Long getSitterId() {
+        return sitterId;
+    }
+
+    public void setSitterId(Long sitterId) {
+        this.sitterId = sitterId;
+    }
+
+    public String getServiceAddress() {
+        return serviceAddress;
+    }
+
+    public void setServiceAddress(String serviceAddress) {
+        this.serviceAddress = serviceAddress;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getPreference() {
+        return preference;
+    }
+
+    public void setPreference(String preference) {
+        this.preference = preference;
+    }
+
+    public List<Date> getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(List<Date> schedule) {
+        this.schedule = schedule;
+    }
+
+    public List<BigDecimal> getRates() {
+        return rates;
+    }
+
+    public void setRates(List<BigDecimal> rates) {
+        this.rates = rates;
+    }
+
+    public ServiceEnum getService() {
+        return service;
+    }
+
+    public void setService(ServiceEnum service) {
+        this.service = service;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (sitterId != null ? sitterId.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the sitterId fields are not set
+        if (!(object instanceof Sitter)) {
+            return false;
+        }
+        Sitter other = (Sitter) object;
+        if ((this.sitterId == null && other.sitterId != null) || (this.sitterId != null && !this.sitterId.equals(other.sitterId))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "entity.Sitter[ id=" + sitterId + " ]";
+    }
+
+}
