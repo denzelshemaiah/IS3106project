@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,32 +21,39 @@ public class ExperienceForm implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long expFormId;
+    @Column()
+    private Integer yearsOfExperience;
+    private String headline;
+    private String experience;
 
-    public Long getId() {
-        return id;
+    public ExperienceForm() {
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Long getExpFormId() {
+        return expFormId;
+    }
+
+    public void setExpFormId(Long expFormId) {
+        this.expFormId = expFormId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (expFormId != null ? expFormId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
+        // TODO: Warning - this method won't work in the case the expFormId fields are not set
         if (!(object instanceof ExperienceForm)) {
             return false;
         }
         ExperienceForm other = (ExperienceForm) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.expFormId == null && other.expFormId != null) || (this.expFormId != null && !this.expFormId.equals(other.expFormId))) {
             return false;
         }
         return true;
@@ -53,7 +61,49 @@ public class ExperienceForm implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.ExperienceForm[ id=" + id + " ]";
+        return "entity.ExperienceForm[ id=" + expFormId + " ]";
+    }
+
+    /**
+     * @return the yearsOfExperience
+     */
+    public Integer getYearsOfExperience() {
+        return yearsOfExperience;
+    }
+
+    /**
+     * @param yearsOfExperience the yearsOfExperience to set
+     */
+    public void setYearsOfExperience(Integer yearsOfExperience) {
+        this.yearsOfExperience = yearsOfExperience;
+    }
+
+    /**
+     * @return the headline
+     */
+    public String getHeadline() {
+        return headline;
+    }
+
+    /**
+     * @param headline the headline to set
+     */
+    public void setHeadline(String headline) {
+        this.headline = headline;
+    }
+
+    /**
+     * @return the experience
+     */
+    public String getExperience() {
+        return experience;
+    }
+
+    /**
+     * @param experience the experience to set
+     */
+    public void setExperience(String experience) {
+        this.experience = experience;
     }
     
 }
