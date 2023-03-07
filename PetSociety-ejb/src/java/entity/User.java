@@ -7,11 +7,13 @@ package entity;
 
 import enumeration.UserStatusEnum;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
 
 /**
@@ -51,11 +53,15 @@ public class User implements Serializable {
     private UserStatusEnum status;
 
     // report
-    
+    @OneToMany(mappedBy = "reported")
+    private List<Report> reportsAgainstUser;
+
+    @OneToMany(mappedBy = "reporter")
+    private List<Report> reportsUserMade;
     
     // bank acc
-    
-    
+
+
     // rating
     
     
@@ -188,4 +194,19 @@ public class User implements Serializable {
         this.status = status;
     }
 
+        public List<Report> getReportsAgainstUser() {
+        return reportsAgainstUser;
+    }
+
+    public void setReportsAgainstUser(List<Report> reportsAgainstUser) {
+        this.reportsAgainstUser = reportsAgainstUser;
+    }
+
+    public List<Report> getReportsUserMade() {
+        return reportsUserMade;
+    }
+
+    public void setReportsUserMade(List<Report> reportsUserMade) {
+        this.reportsUserMade = reportsUserMade;
+    }
 }

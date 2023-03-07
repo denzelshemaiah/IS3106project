@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.Size;
 
 /**
@@ -24,17 +25,34 @@ public class Report implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reportId;
-    //@Column(nullable = false)
-    //private User reporter;
-    //@Column(nullable = false)
-    //private User reported;
     @Column(nullable = false)
     @Size(min = 50, max = 1000)
     private String reportDescription;
     @Column(nullable = false)
     private boolean settled = false; // sets default to false
+    
+    @ManyToOne
+    private User reporter;
+    @ManyToOne
+    private User reported;
 
     public Report() {
+    }
+
+    public User getReporter() {
+        return reporter;
+    }
+
+    public void setReporter(User reporter) {
+        this.reporter = reporter;
+    }
+
+    public User getReported() {
+        return reported;
+    }
+
+    public void setReported(User reported) {
+        this.reported = reported;
     }
 
     public Long getReportId() {

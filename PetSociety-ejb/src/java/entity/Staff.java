@@ -35,9 +35,18 @@ public class Staff implements Serializable {
     
     @OneToMany
     private List<Report> reports;
-    //private List<AuthenticationRequest> authenticationReqs;
+    @OneToMany
+    private List<AuthenticationRequest> authenticationReqs;
 
     public Staff() {
+    }
+
+    public List<AuthenticationRequest> getAuthenticationReqs() {
+        return authenticationReqs;
+    }
+
+    public void setAuthenticationReqs(List<AuthenticationRequest> authenticationReqs) {
+        this.authenticationReqs = authenticationReqs;
     }
 
     public Long getStaffId() {
