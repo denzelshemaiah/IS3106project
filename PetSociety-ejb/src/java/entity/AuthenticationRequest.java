@@ -20,32 +20,32 @@ public class AuthenticationRequest implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long authenticationId;
 
-    public Long getId() {
-        return id;
+    public Long getAuthenticationId() {
+        return authenticationId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setAuthenticationId(Long authenticationId) {
+        this.authenticationId = authenticationId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (authenticationId != null ? authenticationId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
+        // TODO: Warning - this method won't work in the case the authenticationId fields are not set
         if (!(object instanceof AuthenticationRequest)) {
             return false;
         }
         AuthenticationRequest other = (AuthenticationRequest) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.authenticationId == null && other.authenticationId != null) || (this.authenticationId != null && !this.authenticationId.equals(other.authenticationId))) {
             return false;
         }
         return true;
@@ -53,7 +53,7 @@ public class AuthenticationRequest implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.AuthenticationRequest[ id=" + id + " ]";
+        return "entity.AuthenticationRequest[ id=" + authenticationId + " ]";
     }
     
 }
