@@ -14,6 +14,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -26,20 +30,34 @@ public class BookingRequest implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bookingReqId;
+    //need to capture time as well for pet taxi
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     private Date startDate;
-    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = true)
     private Date endDate;
     @Column(length = 500)
-    private String desc;
+    private String description;
     @Column(precision = 2, scale = 6)
     private BigDecimal cost;
     @Column(nullable = false)
     private RequestStatusEnum status;
+    @Temporal(TemporalType.DATE)
     @Column(nullable = false)
     private Date created;
     @Column(nullable = false)
     private int numPets;
+    
+    //relationships
+    @ManyToOne
+    private Parent parent;
+    @ManyToOne
+    private Sitter sitter;
+    private Transaction transaction;
+    @OneToOne(optional=true)
+    private Rating rating;
+    
 
     public BookingRequest() {
     }
@@ -108,15 +126,15 @@ public class BookingRequest implements Serializable {
     /**
      * @return the desc
      */
-    public String getDesc() {
-        return desc;
+    public String getDescription() {
+        return description;
     }
 
     /**
      * @param desc the desc to set
      */
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescription(String desc) {
+        this.description = desc;
     }
 
     /**
@@ -173,6 +191,62 @@ public class BookingRequest implements Serializable {
      */
     public void setNumPets(int numPets) {
         this.numPets = numPets;
+    }
+
+    /**
+     * @return the parent
+     */
+    public Parent getParent() {
+        return parent;
+    }
+
+    /**
+     * @param parent the parent to set
+     */
+    public void setParent(Parent parent) {
+        this.parent = parent;
+    }
+
+    /**
+     * @return the sitter
+     */
+    public Sitter getSitter() {
+        return sitter;
+    }
+
+    /**
+     * @param sitter the sitter to set
+     */
+    public void setSitter(Sitter sitter) {
+        this.sitter = sitter;
+    }
+
+    /**
+     * @return the transaction
+     */
+    public Transaction getTransaction() {
+        return transaction;
+    }
+
+    /**
+     * @param transaction the transaction to set
+     */
+    public void setTransaction(Transaction transaction) {
+        this.transaction = transaction;
+    }
+
+    /**
+     * @return the rating
+     */
+    public Rating getRating() {
+        return rating;
+    }
+
+    /**
+     * @param rating the rating to set
+     */
+    public void setRating(Rating rating) {
+        this.rating = rating;
     }
     
 }
