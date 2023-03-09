@@ -27,7 +27,7 @@ public class CreditCard implements Serializable {
     
     //relationship with transactions
     @OneToMany(mappedBy = "credCard")
-    private List<CreditCard> credCards;
+    private List<Transaction> transactions;
 
     public CreditCard() {
     }
@@ -66,17 +66,16 @@ public class CreditCard implements Serializable {
     }
 
     /**
-     * @return the credCards
+     * @return the transactions
      */
-    public List<CreditCard> getCredCards() {
-        return credCards;
+    public List<Transaction> getTransactions() {
+        return transactions;
     }
 
     /**
-     * @param credCards the credCards to set
+     * @param transactions the transactions to set
      */
-    public void setCredCards(List<CreditCard> credCards) {
-        this.credCards = credCards;
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
     }
-    
 }
