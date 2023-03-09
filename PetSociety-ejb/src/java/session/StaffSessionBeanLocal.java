@@ -5,8 +5,10 @@
  */
 package session;
 
+import entity.Report;
 import entity.Staff;
 import error.EntityAlreadyExistsException;
+import error.InvalidLoginCredentialsException;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -20,5 +22,7 @@ public interface StaffSessionBeanLocal {
     Long createStaff(Staff staff) throws EntityAlreadyExistsException;
 
     List<Staff> retrieveAllStaff();
+
+    Staff staffLogin(String username, String password) throws InvalidLoginCredentialsException;
     
 }
