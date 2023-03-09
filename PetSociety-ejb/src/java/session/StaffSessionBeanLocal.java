@@ -5,6 +5,7 @@
  */
 package session;
 
+import error.EntityAlreadyExistsException;
 import javax.ejb.Local;
 
 /**
@@ -13,5 +14,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface StaffSessionBeanLocal {
+
+    Long createStaff(Long staff) throws EntityAlreadyExistsException;
     
 }

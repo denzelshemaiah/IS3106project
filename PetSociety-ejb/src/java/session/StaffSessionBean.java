@@ -5,6 +5,7 @@
  */
 package session;
 
+import error.EntityAlreadyExistsException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -21,5 +22,11 @@ public class StaffSessionBean implements StaffSessionBeanLocal {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+
+    @Override
+    public Long createStaff(Long staff) throws EntityAlreadyExistsException {
+        return null;
+    }
+    
     
 }
