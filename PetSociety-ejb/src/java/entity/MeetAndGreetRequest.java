@@ -13,6 +13,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -26,14 +30,22 @@ public class MeetAndGreetRequest implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long mgReqId;
     @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
     private Date mgDate;
     //length?
     @Column(length = 500)
     private String mgDesc;
-    @Column()
+    @Column(nullable = false)
     private RequestStatusEnum status;
     @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
     private Date createdDate;
+    
+    //relationships
+    @ManyToOne
+    private Parent parent;
+    @ManyToOne
+    private Sitter sitter;
 
     public MeetAndGreetRequest() {
     }
@@ -126,5 +138,33 @@ public class MeetAndGreetRequest implements Serializable {
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
-    
+
+    /**
+     * @return the parent
+     */
+    public Parent getParent() {
+        return parent;
+    }
+
+    /**
+     * @param parent the parent to set
+     */
+    public void setParent(Parent parent) {
+        this.parent = parent;
+    }
+
+    /**
+     * @return the sitter
+     */
+    public Sitter getSitter() {
+        return sitter;
+    }
+
+    /**
+     * @param sitter the sitter to set
+     */
+    public void setSitter(Sitter sitter) {
+        this.sitter = sitter;
+    }
 }
+
