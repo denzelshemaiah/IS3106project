@@ -5,10 +5,13 @@
  */
 package session;
 
+import entity.Staff;
 import error.EntityAlreadyExistsException;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -24,8 +27,21 @@ public class StaffSessionBean implements StaffSessionBeanLocal {
     // "Insert Code > Add Business Method")
 
     @Override
-    public Long createStaff(Long staff) throws EntityAlreadyExistsException {
-        return null;
+    public Long createStaff(Staff staff) throws EntityAlreadyExistsException {
+        List<Staff> allStaffs = retrieveAllStaff();
+        for (Staff s : allStaffs) {
+            if (s.getUsername().equals(staff.getUsername())) {
+                throw new EntityAlreadyExistsException("Staff with this username already exists!");
+            }
+        }
+        em.persist(staff);
+        return staff.getStaffId();
+    }
+
+    @Override
+    public List<Staff> retrieveAllStaff() {
+        Query q = em.createQuery("Select s FROM Staff s");
+        return q.getResultList();
     }
     
     

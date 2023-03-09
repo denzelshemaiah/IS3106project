@@ -23,7 +23,7 @@ public class Transaction implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long transactionId;
     @Column(precision = 2, scale = 6)
     private BigDecimal amount;

@@ -5,7 +5,9 @@
  */
 package session;
 
+import entity.Staff;
 import error.EntityAlreadyExistsException;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -15,6 +17,8 @@ import javax.ejb.Local;
 @Local
 public interface StaffSessionBeanLocal {
 
-    Long createStaff(Long staff) throws EntityAlreadyExistsException;
+    Long createStaff(Staff staff) throws EntityAlreadyExistsException;
+
+    List<Staff> retrieveAllStaff();
     
 }
