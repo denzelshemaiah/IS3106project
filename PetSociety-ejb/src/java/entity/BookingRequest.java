@@ -54,6 +54,7 @@ public class BookingRequest implements Serializable {
     private Parent parent;
     @ManyToOne
     private Sitter sitter;
+    @OneToOne
     private Transaction transaction;
     @OneToOne(optional=true)
     private Rating rating;

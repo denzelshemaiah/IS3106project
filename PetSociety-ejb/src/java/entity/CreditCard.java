@@ -6,10 +6,12 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -22,6 +24,13 @@ public class CreditCard implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    //relationship with transactions
+    @OneToMany(mappedBy = "credCard")
+    private List<CreditCard> credCards;
+
+    public CreditCard() {
+    }
 
     public Long getId() {
         return id;
@@ -54,6 +63,20 @@ public class CreditCard implements Serializable {
     @Override
     public String toString() {
         return "entity.CreditCard[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the credCards
+     */
+    public List<CreditCard> getCredCards() {
+        return credCards;
+    }
+
+    /**
+     * @param credCards the credCards to set
+     */
+    public void setCredCards(List<CreditCard> credCards) {
+        this.credCards = credCards;
     }
     
 }

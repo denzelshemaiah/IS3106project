@@ -15,6 +15,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -48,10 +49,17 @@ public class Sitter implements Serializable {
     // safetyform
     
     //booking reqs
+    @OneToMany(mappedBy="sitter")
+    private List<BookingRequest> bookings;
     
     // meetandgreet req
+    @OneToMany(mappedBy="sitter")
+    private List<MeetAndGreetRequest> mgRequests;
     
     // parent r/s with sitter
+
+    public Sitter() {
+    }
 
     public Long getSitterId() {
         return sitterId;
@@ -132,6 +140,34 @@ public class Sitter implements Serializable {
     @Override
     public String toString() {
         return "entity.Sitter[ id=" + sitterId + " ]";
+    }
+
+    /**
+     * @return the bookings
+     */
+    public List<BookingRequest> getBookings() {
+        return bookings;
+    }
+
+    /**
+     * @param bookings the bookings to set
+     */
+    public void setBookings(List<BookingRequest> bookings) {
+        this.bookings = bookings;
+    }
+
+    /**
+     * @return the mgRequests
+     */
+    public List<MeetAndGreetRequest> getMgRequests() {
+        return mgRequests;
+    }
+
+    /**
+     * @param mgRequests the mgRequests to set
+     */
+    public void setMgRequests(List<MeetAndGreetRequest> mgRequests) {
+        this.mgRequests = mgRequests;
     }
 
 }

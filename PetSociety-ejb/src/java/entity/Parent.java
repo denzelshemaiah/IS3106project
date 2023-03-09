@@ -25,10 +25,18 @@ public class Parent implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long parentId;
     
+    //relationships
     @OneToMany(mappedBy = "parent")
     private List<Search> searches;
     
-    // parent r/s with user
+    @OneToMany(mappedBy = "parent")
+    private List<MeetAndGreetRequest> mgRequests;
+    
+    @OneToMany(mappedBy = "parent")
+    private List<BookingRequest> bookings;
+
+    public Parent() {
+    }
 
     public Long getParentId() {
         return parentId;
@@ -61,6 +69,48 @@ public class Parent implements Serializable {
     @Override
     public String toString() {
         return "entity.Parent[ id=" + parentId + " ]";
+    }
+
+    /**
+     * @return the searches
+     */
+    public List<Search> getSearches() {
+        return searches;
+    }
+
+    /**
+     * @param searches the searches to set
+     */
+    public void setSearches(List<Search> searches) {
+        this.searches = searches;
+    }
+
+    /**
+     * @return the mgRequests
+     */
+    public List<MeetAndGreetRequest> getMgRequests() {
+        return mgRequests;
+    }
+
+    /**
+     * @param mgRequests the mgRequests to set
+     */
+    public void setMgRequests(List<MeetAndGreetRequest> mgRequests) {
+        this.mgRequests = mgRequests;
+    }
+
+    /**
+     * @return the bookings
+     */
+    public List<BookingRequest> getBookings() {
+        return bookings;
+    }
+
+    /**
+     * @param bookings the bookings to set
+     */
+    public void setBookings(List<BookingRequest> bookings) {
+        this.bookings = bookings;
     }
     
 }

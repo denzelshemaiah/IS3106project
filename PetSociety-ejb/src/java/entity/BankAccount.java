@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 /**
  *
@@ -22,6 +24,13 @@ public class BankAccount implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    //relationship with transactions
+    @OneToMany(mappedBy = "bankAcc")
+    private List<Transaction> transactions;
+
+    public BankAccount() {
+    }
 
     public Long getId() {
         return id;
@@ -54,6 +63,20 @@ public class BankAccount implements Serializable {
     @Override
     public String toString() {
         return "entity.BankAccount[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the transactions
+     */
+    public List<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    /**
+     * @param transactions the transactions to set
+     */
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
     }
     
 }

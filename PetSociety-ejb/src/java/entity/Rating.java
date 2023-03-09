@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -22,6 +23,13 @@ public class Rating implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    //relationship with BookingRequest
+    @OneToOne(optional = false)
+    private BookingRequest req;
+
+    public Rating() {
+    }
 
     public Long getId() {
         return id;
@@ -54,6 +62,20 @@ public class Rating implements Serializable {
     @Override
     public String toString() {
         return "entity.Rating[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the req
+     */
+    public BookingRequest getReq() {
+        return req;
+    }
+
+    /**
+     * @param req the req to set
+     */
+    public void setReq(BookingRequest req) {
+        this.req = req;
     }
     
 }

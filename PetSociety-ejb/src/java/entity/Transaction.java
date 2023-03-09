@@ -13,6 +13,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -27,7 +31,20 @@ public class Transaction implements Serializable {
     private Long transactionId;
     @Column(precision = 2, scale = 6)
     private BigDecimal amount;
+    @Temporal(TemporalType.DATE)
     private Date created;
+    
+    //relationship with bookings
+    @OneToOne(optional = false)
+    private BookingRequest booking;
+    
+    //relationship with bank account
+    @ManyToOne(optional = true)
+    private BankAccount bankAcc;
+    
+    //relationship with creditcard
+    @ManyToOne(optional = true)
+    private CreditCard credCard;
 
     public Transaction() {
     }
@@ -91,6 +108,48 @@ public class Transaction implements Serializable {
      */
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    /**
+     * @return the booking
+     */
+    public BookingRequest getBooking() {
+        return booking;
+    }
+
+    /**
+     * @param booking the booking to set
+     */
+    public void setBooking(BookingRequest booking) {
+        this.booking = booking;
+    }
+
+    /**
+     * @return the bankAcc
+     */
+    public BankAccount getBankAcc() {
+        return bankAcc;
+    }
+
+    /**
+     * @param bankAcc the bankAcc to set
+     */
+    public void setBankAcc(BankAccount bankAcc) {
+        this.bankAcc = bankAcc;
+    }
+
+    /**
+     * @return the credCard
+     */
+    public CreditCard getCredCard() {
+        return credCard;
+    }
+
+    /**
+     * @param credCard the credCard to set
+     */
+    public void setCredCard(CreditCard credCard) {
+        this.credCard = credCard;
     }
     
 }
