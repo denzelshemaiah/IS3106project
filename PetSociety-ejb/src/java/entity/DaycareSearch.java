@@ -39,6 +39,10 @@ public class DaycareSearch extends Search implements Serializable {
     private ChildrenEnum children;
     @Column(nullable = true)
     private AdditionalServiceEnum additionalService;
+    
+    public DaycareSearch() {
+      
+    }
 
     public DaycareSearch(FreqEnum freq, boolean sitterFullTime, HousingConditionEnum housingCondition, PetsInTheHouseEnum petsInTheHouse, ChildrenEnum children, AdditionalServiceEnum additionalService, Long id, Date startDate, Date endDate, int numPets, PetEnum petType, int dogSize, double rate, Parent parent) {
         super(id, startDate, endDate, numPets, petType, dogSize, rate, parent);

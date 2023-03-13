@@ -29,9 +29,9 @@ public class DropInSearch extends Search implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
-    private Time time;
+    private Date time;
     @Column(nullable = true)
     private AdditionalServiceEnum additionalService;
     @Column(nullable = false)
@@ -39,7 +39,11 @@ public class DropInSearch extends Search implements Serializable {
     @Column(nullable = false)
     @Min(0)
     private int numOfVisits;
-
+    
+    public DropInSearch() {
+      
+    }
+    
     public DropInSearch(Time time, AdditionalServiceEnum additionalService, FreqEnum frequencyEnum, int numOfVisits, Long id, Date startDate, Date endDate, int numPets, PetEnum petType, int dogSize, double rate, Parent parent) {
         super(id, startDate, endDate, numPets, petType, dogSize, rate, parent);
         this.time = time;
@@ -56,11 +60,11 @@ public class DropInSearch extends Search implements Serializable {
         this.numOfVisits = numOfVisits;
     }
 
-    public Time getTime() {
+    public Date getTime() {
         return time;
     }
 
-    public void setTime(Time time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 
