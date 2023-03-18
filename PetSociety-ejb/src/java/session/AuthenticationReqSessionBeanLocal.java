@@ -5,18 +5,17 @@
  */
 package session;
 
-import entity.Report;
+import entity.AuthenticationRequest;
 import javax.ejb.Local;
+import javax.persistence.EntityNotFoundException;
 
 /**
  *
  * @author rachelang
  */
 @Local
-public interface ReportSessionBeanLocal {
+public interface AuthenticationReqSessionBeanLocal {
 
-    Long createReport(Report report);
-
-    void markReportAsResolved(Long reportId);
+    Long createAuthenticationReq(AuthenticationRequest authenticationReq, Long userId) throws EntityNotFoundException;
     
 }
