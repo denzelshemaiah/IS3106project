@@ -25,12 +25,21 @@ public class ExperienceForm implements Serializable {
     private Long expFormId;
     @Column()
     private Integer yearsOfExperience;
+    @Column
     private String headline;
+    @Column
     private String experience;
 
     public ExperienceForm() {
     }
 
+    public ExperienceForm(Integer yearsOfExperience, String headline, String experience) {
+        this.yearsOfExperience = yearsOfExperience;
+        this.headline = headline;
+        this.experience = experience;
+    }
+
+    
     public Long getExpFormId() {
         return expFormId;
     }
