@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -30,6 +31,10 @@ public class CreditCard implements Serializable {
     //relationship with transactions
     @OneToMany(mappedBy = "credCard")
     private List<Transaction> transactions;
+    
+    //relationship with users
+    @OneToOne
+    private User user;
 
     @Column(nullable = false)
     private String ccNum;

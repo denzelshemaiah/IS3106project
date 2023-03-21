@@ -69,7 +69,8 @@ public class User implements Serializable {
     private List<Rating> ratingsUserMade;
     
     // credit card
-    
+    @OneToMany
+    private List<CreditCard> ccList;
     
     // child r/s with Parent
     
