@@ -25,6 +25,12 @@ public class AuthenticationRequest implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long authenticationId;
+    @Column(nullable = false)
+    private Date createdDate;
+    @Column(nullable = false)
+    private Sitter petSitter;
+    @Column(nullable = false)
+    private List<String> documents;
 
     public Long getAuthenticationId() {
         return authenticationId;
@@ -57,6 +63,48 @@ public class AuthenticationRequest implements Serializable {
     @Override
     public String toString() {
         return "entity.AuthenticationRequest[ id=" + authenticationId + " ]";
+    }
+
+    /**
+     * @return the createdDate
+     */
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    /**
+     * @param createdDate the createdDate to set
+     */
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    /**
+     * @return the petSitter
+     */
+    public Sitter getPetSitter() {
+        return petSitter;
+    }
+
+    /**
+     * @param petSitter the petSitter to set
+     */
+    public void setPetSitter(Sitter petSitter) {
+        this.petSitter = petSitter;
+    }
+
+    /**
+     * @return the documents
+     */
+    public List<String> getDocuments() {
+        return documents;
+    }
+
+    /**
+     * @param documents the documents to set
+     */
+    public void setDocuments(List<String> documents) {
+        this.documents = documents;
     }
     
 }
