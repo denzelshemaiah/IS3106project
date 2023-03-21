@@ -16,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -42,17 +43,15 @@ public class Sitter implements Serializable {
     @Column(nullable = false)
     private ServiceEnum service;
     
-    // authen req
-    
-    // careexperienceform
-    
-    // safetyform
-    
-    //booking reqs
+    //relationships
+    @OneToOne(optional = true)
+    private AuthenticationRequest authenReq;
+    @OneToOne(optional = true)
+    private ExperienceForm expForm;
+    @OneToOne(optional = true)
+    private SafetyForm safetyForm;
     @OneToMany(mappedBy="sitter")
     private List<BookingRequest> bookings;
-    
-    // meetandgreet req
     @OneToMany(mappedBy="sitter")
     private List<MeetAndGreetRequest> mgRequests;
     
