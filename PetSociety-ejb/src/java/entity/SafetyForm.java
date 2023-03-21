@@ -22,6 +22,9 @@ public class SafetyForm implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long safetyId;
+    
+    //relationships
+    private Sitter sitter;
 
     public Long getSafetyId() {
         return safetyId;

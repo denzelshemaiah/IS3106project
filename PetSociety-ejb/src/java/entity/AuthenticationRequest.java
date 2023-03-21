@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -31,6 +32,10 @@ public class AuthenticationRequest implements Serializable {
     private Sitter petSitter;
     @Column(nullable = false)
     private List<String> documents;
+    
+    //relationships
+    @OneToOne
+    private Sitter sitter;
 
     public Long getAuthenticationId() {
         return authenticationId;
