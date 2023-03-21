@@ -63,7 +63,10 @@ public class User implements Serializable {
 
 
     // rating
-    
+    @OneToMany
+    private List<Rating> ratingsForUsers;
+    @OneToMany
+    private List<Rating> ratingsUserMade;
     
     // credit card
     

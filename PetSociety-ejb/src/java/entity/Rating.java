@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 /**
@@ -29,25 +30,20 @@ public class Rating implements Serializable {
     @OneToOne(optional = false)
     private BookingRequest req;
 
-    
-    @Column
-    private User rater;
-    @Column
-    private User rated;
     @Column(nullable = false)
     private Integer stars;
     @Column(nullable = false)
     private String comment;
     
+    @ManyToOne
+    private User rated;
+    @ManyToOne 
+    private User rater;
+    
     public Rating() {
     }
 
-    public Rating(User rater, User rated, Integer stars, String comment) {
-        this.rater = rater;
-        this.rated = rated;
-        this.stars = stars;
-        this.comment = comment;
-    }
+    
 
     
     public Long getRatingId() {
