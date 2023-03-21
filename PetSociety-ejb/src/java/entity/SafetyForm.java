@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -24,6 +25,7 @@ public class SafetyForm implements Serializable {
     private Long safetyId;
     
     //relationships
+    @OneToOne
     private Sitter sitter;
 
     public Long getSafetyId() {
