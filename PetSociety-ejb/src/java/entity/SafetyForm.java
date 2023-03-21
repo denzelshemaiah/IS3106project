@@ -21,31 +21,31 @@ public class SafetyForm implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long safetyId;
 
-    public Long getId() {
-        return id;
+    public Long getSafetyId() {
+        return safetyId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setSafetyId(Long safetyId) {
+        this.safetyId = safetyId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (safetyId != null ? safetyId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
+        // TODO: Warning - this method won't work in the case the safetyId fields are not set
         if (!(object instanceof SafetyForm)) {
             return false;
         }
         SafetyForm other = (SafetyForm) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.safetyId == null && other.safetyId != null) || (this.safetyId != null && !this.safetyId.equals(other.safetyId))) {
             return false;
         }
         return true;
@@ -53,7 +53,7 @@ public class SafetyForm implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.SafetyForm[ id=" + id + " ]";
+        return "entity.SafetyForm[ id=" + safetyId + " ]";
     }
     
 }
