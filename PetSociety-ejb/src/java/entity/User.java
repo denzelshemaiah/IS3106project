@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.Size;
 
 /**
@@ -60,7 +61,8 @@ public class User implements Serializable {
     private List<Report> reportsUserMade;
     
     // bank acc
-
+    @OneToOne(optional = false)
+    private BankAccount bankAcc;
 
     // rating
     @OneToMany

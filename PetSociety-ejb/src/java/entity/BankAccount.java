@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.List;
 import javax.persistence.Column;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -29,6 +30,9 @@ public class BankAccount implements Serializable {
     //relationship with transactions
     @OneToMany(mappedBy = "bankAcc")
     private List<Transaction> transactions;
+    //relationship with user
+    @OneToOne(optional = false)
+    private User user;
     
     @Column(nullable = false)
     private String bankAccNum;
