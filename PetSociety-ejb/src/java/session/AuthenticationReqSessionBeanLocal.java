@@ -6,6 +6,7 @@
 package session;
 
 import entity.AuthenticationRequest;
+import java.util.List;
 import javax.ejb.Local;
 import javax.persistence.EntityNotFoundException;
 
@@ -17,5 +18,11 @@ import javax.persistence.EntityNotFoundException;
 public interface AuthenticationReqSessionBeanLocal {
 
     Long createAuthenticationReq(AuthenticationRequest authenticationReq, Long userId) throws EntityNotFoundException;
+
+    AuthenticationRequest findAuthenticationReqBySitter(Long sitterId) throws EntityNotFoundException;
+
+    List<AuthenticationRequest> getAllUnresolvedAuthenReq();
+
+    List<AuthenticationRequest> getAllAuthenticationReqs();
     
 }

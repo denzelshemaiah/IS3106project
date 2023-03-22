@@ -9,10 +9,12 @@ import entity.AuthenticationRequest;
 import entity.Parent;
 import entity.Sitter;
 import entity.User;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -34,9 +36,31 @@ public class AuthenticationReqSessionBean implements AuthenticationReqSessionBea
             throw new EntityNotFoundException("No sitter found with this userId");
         }
         // add req to sitter
+        user.setAuthenReq(authenticationReq);
         // add sitter into req
+        authenticationReq.setSitter(user);
         em.persist(authenticationReq);
         return authenticationReq.getAuthenticationId();
     }
-    
+
+    @Override
+    public AuthenticationRequest findAuthenticationReqBySitter(Long sitterId) throws EntityNotFoundException {
+        Sitter sitter = em.find(Sitter.class, sitterId);
+        if (sitter == null) {
+            throw new EntityNotFoundException("No sitter found with this sitterId");
+        }
+        return sitter.getAuthenReq();
+    }
+
+    @Override
+    public List<AuthenticationRequest> getAllUnresolvedAuthenReq() {
+        Query q = em.createQuery("SELECT a FROM AuthenticationRequest a WHERE a.resolved = FALSE");
+        return q.getResultList();
+    } 
+
+    @Override
+    public List<AuthenticationRequest> getAllAuthenticationReqs() {
+        Query q = em.createQuery("SELECT a FROM AuthenticationRequest a");
+        return q.getResultList();
+    }
 }

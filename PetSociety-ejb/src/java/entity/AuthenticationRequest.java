@@ -13,7 +13,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -27,15 +29,37 @@ public class AuthenticationRequest implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long authenticationId;
     @Column(nullable = false)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date createdDate;
     @Column(nullable = false)
-    private Sitter petSitter;
-    @Column(nullable = false)
     private List<String> documents;
+    @Column(nullable = false)
+    private Boolean resolved;
     
     //relationships
-    @OneToOne
+    @OneToOne(optional = false)
     private Sitter sitter;
+    @ManyToOne(optional = true)
+    private Staff staff;
+
+    public AuthenticationRequest() {
+    }
+
+    public Staff getStaff() {
+        return staff;
+    }
+
+    public void setStaff(Staff staff) {
+        this.staff = staff;
+    }
+
+    public Sitter getSitter() {
+        return sitter;
+    }
+
+    public void setSitter(Sitter sitter) {
+        this.sitter = sitter;
+    }
 
     public Long getAuthenticationId() {
         return authenticationId;
@@ -85,20 +109,6 @@ public class AuthenticationRequest implements Serializable {
     }
 
     /**
-     * @return the petSitter
-     */
-    public Sitter getPetSitter() {
-        return petSitter;
-    }
-
-    /**
-     * @param petSitter the petSitter to set
-     */
-    public void setPetSitter(Sitter petSitter) {
-        this.petSitter = petSitter;
-    }
-
-    /**
      * @return the documents
      */
     public List<String> getDocuments() {
@@ -110,6 +120,14 @@ public class AuthenticationRequest implements Serializable {
      */
     public void setDocuments(List<String> documents) {
         this.documents = documents;
+    }
+
+    public Boolean getResolved() {
+        return resolved;
+    }
+
+    public void setResolved(Boolean resolved) {
+        this.resolved = resolved;
     }
     
 }

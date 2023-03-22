@@ -169,4 +169,28 @@ public class Sitter implements Serializable {
         this.mgRequests = mgRequests;
     }
 
+    public AuthenticationRequest getAuthenReq() {
+        return authenReq;
+    }
+
+    public void setAuthenReq(AuthenticationRequest authenReq) {
+        this.authenReq = authenReq;
+    }
+
+    public ExperienceForm getExpForm() {
+        return expForm;
+    }
+
+    public void setExpForm(ExperienceForm expForm) {
+        this.expForm = expForm;
+    }
+
+    public SafetyForm getSafetyForm() {
+        return safetyForm;
+    }
+
+    public void setSafetyForm(SafetyForm safetyForm) {
+        this.safetyForm = safetyForm;
+    }
+
 }
