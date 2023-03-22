@@ -38,7 +38,7 @@ public class AuthenticationRequest implements Serializable {
     
     //relationships
     @OneToOne(optional = false)
-    private Sitter sitter;
+    private PetSitter sitter;
     @ManyToOne(optional = true)
     private Staff staff;
 
@@ -53,11 +53,11 @@ public class AuthenticationRequest implements Serializable {
         this.staff = staff;
     }
 
-    public Sitter getSitter() {
+    public PetSitter getSitter() {
         return sitter;
     }
 
-    public void setSitter(Sitter sitter) {
+    public void setSitter(PetSitter sitter) {
         this.sitter = sitter;
     }
 

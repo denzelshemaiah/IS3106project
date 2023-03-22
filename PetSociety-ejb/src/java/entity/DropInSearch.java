@@ -44,7 +44,7 @@ public class DropInSearch extends Search implements Serializable {
       
     }
     
-    public DropInSearch(Time time, AdditionalServiceEnum additionalService, FreqEnum frequencyEnum, int numOfVisits, Long id, Date startDate, Date endDate, int numPets, PetEnum petType, int dogSize, double rate, Parent parent) {
+    public DropInSearch(Time time, AdditionalServiceEnum additionalService, FreqEnum frequencyEnum, int numOfVisits, Long id, Date startDate, Date endDate, int numPets, PetEnum petType, int dogSize, double rate, PetParent parent) {
         super(id, startDate, endDate, numPets, petType, dogSize, rate, parent);
         this.time = time;
         this.additionalService = additionalService;

@@ -51,9 +51,9 @@ public class BookingRequest implements Serializable {
     
     //relationships
     @ManyToOne
-    private Parent parent;
+    private PetParent parent;
     @ManyToOne
-    private Sitter sitter;
+    private PetSitter sitter;
     @OneToOne
     private Transaction transaction;
     @OneToOne(optional=true)
@@ -197,28 +197,28 @@ public class BookingRequest implements Serializable {
     /**
      * @return the parent
      */
-    public Parent getParent() {
+    public PetParent getParent() {
         return parent;
     }
 
     /**
      * @param parent the parent to set
      */
-    public void setParent(Parent parent) {
+    public void setParent(PetParent parent) {
         this.parent = parent;
     }
 
     /**
      * @return the sitter
      */
-    public Sitter getSitter() {
+    public PetSitter getSitter() {
         return sitter;
     }
 
     /**
      * @param sitter the sitter to set
      */
-    public void setSitter(Sitter sitter) {
+    public void setSitter(PetSitter sitter) {
         this.sitter = sitter;
     }
 

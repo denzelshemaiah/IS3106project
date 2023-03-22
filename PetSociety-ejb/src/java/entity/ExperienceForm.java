@@ -33,7 +33,7 @@ public class ExperienceForm implements Serializable {
     
     //relationships
     @OneToOne
-    private Sitter sitter;
+    private PetSitter sitter;
 
     public ExperienceForm() {
     }

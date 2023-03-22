@@ -26,7 +26,7 @@ public class SafetyForm implements Serializable {
     
     //relationships
     @OneToOne
-    private Sitter sitter;
+    private PetSitter sitter;
 
     public Long getSafetyId() {
         return safetyId;
