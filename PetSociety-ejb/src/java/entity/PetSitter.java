@@ -17,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -33,6 +34,7 @@ public class PetSitter implements Serializable {
     @Column(nullable = false)
     private String serviceAddress;
     @Column(nullable = false)
+    @Size(max = 30)
     private String region;
     @Column(nullable = false)
     private String preference;

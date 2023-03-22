@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -26,20 +27,22 @@ public class BankAccount implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bankAccId;
+    @Column(nullable = false)
+    @Size(min = 8, max = 17)
+    private String bankAccNum;
+    @Column(nullable = false)
+    private String bankName;
+    @Column(nullable = false)
+    @Size(max = 40)
+    private String accName;
     
+
     //relationship with transactions
     @OneToMany(mappedBy = "bankAcc")
     private List<Transaction> transactions;
     //relationship with user
     @OneToOne(optional = false)
     private User user;
-    
-    @Column(nullable = false)
-    private String bankAccNum;
-    @Column(nullable = false)
-    private String bankName;
-    @Column(nullable = false)
-    private String accName;
 
     public BankAccount(String bankAccNum, String bankName, String accName) {
         this.bankAccNum = bankAccNum;

@@ -36,7 +36,7 @@ public class AuthenticationRequest implements Serializable {
     @Column(nullable = false)
     private Boolean resolved;
     
-    //relationships
+    //relationships with sitter and staff
     @OneToOne(optional = false)
     private PetSitter sitter;
     @ManyToOne(optional = true)

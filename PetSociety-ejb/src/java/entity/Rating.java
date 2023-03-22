@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -25,16 +26,17 @@ public class Rating implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ratingId;
+    @Column(nullable = false)
+    @Size(max = 5)
+    private Integer stars;
+    @Column(nullable = false)
+    @Size(max = 100)
+    private String comment;
     
     //relationship with BookingRequest
     @OneToOne(optional = false)
     private BookingRequest req;
-
-    @Column(nullable = false)
-    private Integer stars;
-    @Column(nullable = false)
-    private String comment;
-    
+    //relationship with users x 2
     @ManyToOne
     private User rated;
     @ManyToOne 

@@ -24,7 +24,7 @@ public class SafetyForm implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long safetyId;
     
-    //relationships
+    //relationship with sitter
     @OneToOne
     private PetSitter sitter;
 
