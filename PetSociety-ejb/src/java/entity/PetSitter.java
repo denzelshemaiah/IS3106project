@@ -57,7 +57,7 @@ public class PetSitter implements Serializable {
     @OneToMany(mappedBy="sitter")
     private List<MeetAndGreetRequest> mgRequests;
     
-    // parent r/s with sitter
+    
 
     public PetSitter() {
     }
