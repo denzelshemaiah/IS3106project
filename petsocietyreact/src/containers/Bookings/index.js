@@ -12,7 +12,7 @@ function Bookings() {
 
     // converts the bookings array to UI form
     const result = bookings.map((item) => {
-        return <BookingListing booking={item} tab={chosenTab}/>
+        return <BookingListing bookingId={item} tab={chosenTab}/>
     })
 
     useEffect(() => {
@@ -48,6 +48,7 @@ function Bookings() {
                         </li>
                     </ul>
                 </div>
+
                 <div class="card-body">
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="pending-tab">
@@ -69,71 +70,6 @@ function Bookings() {
                             <ul class="list-group">
                                 {result}
                             </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="body">
-                <div class="modal fade" id="cancelPendingModal" role="dialog" aria-labelledby="cancelLabel">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="cancelLabel">Confirm Cancellation</h5>
-                            <button type="button" class="btn" data-bs-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            Would you like to delete this booking request?
-                            <input type="text" id="booking-id"/>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="modal fade" id="cancelUpcomingModal" role="dialog" aria-labelledby="cancelLabel">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="cancelLabel">Confirm Cancellation</h5>
-                            <button type="button" class="btn" data-bs-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            Would you like to delete this booking request?
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal fade" id="editUpcomingModal" role="dialog" aria-labelledby="editLabel">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="editLabel">Confirm Edits</h5>
-                            <button type="button" class="btn" data-bs-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            Would you like to edit this booking request?
-                            <input type="text" name="hiddenValue" id="hiddenValue" value="" />
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
-                        </div>
                         </div>
                     </div>
                 </div>
