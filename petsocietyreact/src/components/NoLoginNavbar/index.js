@@ -14,7 +14,7 @@ function NoLoginNavbar() {
       </ul>
 
       <ul>
-        <li class="right"><a href="/signUp">Sign Up</a></li>
+        <li class="right"><Link to="/signUp">Sign Up</Link></li>
         <li class="right"><a href="/signIn">Sign In</a></li>
         <li class="right"><a href="/help">Help</a></li>
       </ul>
