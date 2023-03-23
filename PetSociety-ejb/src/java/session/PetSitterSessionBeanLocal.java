@@ -5,18 +5,16 @@
  */
 package session;
 
-import entity.Report;
+import entity.PetSitter;
 import javax.ejb.Local;
 
 /**
  *
- * @author rachelang
+ * @author rachelrphy
  */
 @Local
-public interface ReportSessionBeanLocal {
+public interface PetSitterSessionBeanLocal {
 
-    Long createReport(Report report);
-
-    void markReportAsResolved(Long reportId);
+    public Long createNewSitter(PetSitter sitter);
     
 }

@@ -25,10 +25,4 @@ public class BookingsResource {
     @EJB
     private BookingSessionBeanLocal bookingSession;
     
-    @GET
-    @Path("/{userId}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<BookingRequest> getPendingBookings(Long userId) {
-        return bookingSession.getPendingRequests(userId);
-    }
 }

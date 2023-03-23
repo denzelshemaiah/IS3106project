@@ -55,13 +55,13 @@ public class Search implements Serializable {
     
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)
-    private Parent parent;
+    private PetParent parent;
     
     public Search() {
         
     }
 
-    public Search(Long id, Date startDate, Date endDate, int numPets, PetEnum petType, int dogSize, double rate, Parent parent) {
+    public Search(Long id, Date startDate, Date endDate, int numPets, PetEnum petType, int dogSize, double rate, PetParent parent) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;

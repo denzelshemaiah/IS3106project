@@ -33,4 +33,10 @@ public class ReportSessionBean implements ReportSessionBeanLocal {
         em.persist(report);
         return report.getReportId();
     }
+
+    @Override
+    public void markReportAsResolved(Long reportId) {
+        Report report = em.find(Report.class, reportId);
+        report.setSettled(true);
+    }
 }

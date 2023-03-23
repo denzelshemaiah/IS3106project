@@ -16,13 +16,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.validation.constraints.Size;
 
 /**
  *
  * @author Andrea
  */
 @Entity
-public class Sitter implements Serializable {
+public class PetSitter implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -32,6 +34,7 @@ public class Sitter implements Serializable {
     @Column(nullable = false)
     private String serviceAddress;
     @Column(nullable = false)
+    @Size(max = 30)
     private String region;
     @Column(nullable = false)
     private String preference;
@@ -42,23 +45,21 @@ public class Sitter implements Serializable {
     @Column(nullable = false)
     private ServiceEnum service;
     
-    // authen req
-    
-    // careexperienceform
-    
-    // safetyform
-    
-    //booking reqs
+    //relationships
+    @OneToOne(optional = true)
+    private AuthenticationRequest authenReq;
+    @OneToOne(optional = true)
+    private ExperienceForm expForm;
+    @OneToOne(optional = true)
+    private SafetyForm safetyForm;
     @OneToMany(mappedBy="sitter")
     private List<BookingRequest> bookings;
-    
-    // meetandgreet req
     @OneToMany(mappedBy="sitter")
     private List<MeetAndGreetRequest> mgRequests;
     
     // parent r/s with sitter
 
-    public Sitter() {
+    public PetSitter() {
     }
 
     public Long getSitterId() {
@@ -127,10 +128,10 @@ public class Sitter implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the sitterId fields are not set
-        if (!(object instanceof Sitter)) {
+        if (!(object instanceof PetSitter)) {
             return false;
         }
-        Sitter other = (Sitter) object;
+        PetSitter other = (PetSitter) object;
         if ((this.sitterId == null && other.sitterId != null) || (this.sitterId != null && !this.sitterId.equals(other.sitterId))) {
             return false;
         }
@@ -168,6 +169,30 @@ public class Sitter implements Serializable {
      */
     public void setMgRequests(List<MeetAndGreetRequest> mgRequests) {
         this.mgRequests = mgRequests;
+    }
+
+    public AuthenticationRequest getAuthenReq() {
+        return authenReq;
+    }
+
+    public void setAuthenReq(AuthenticationRequest authenReq) {
+        this.authenReq = authenReq;
+    }
+
+    public ExperienceForm getExpForm() {
+        return expForm;
+    }
+
+    public void setExpForm(ExperienceForm expForm) {
+        this.expForm = expForm;
+    }
+
+    public SafetyForm getSafetyForm() {
+        return safetyForm;
+    }
+
+    public void setSafetyForm(SafetyForm safetyForm) {
+        this.safetyForm = safetyForm;
     }
 
 }

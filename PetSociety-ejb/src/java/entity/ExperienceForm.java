@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -23,14 +25,29 @@ public class ExperienceForm implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long expFormId;
-    @Column()
+    @Column(nullable = false)
     private Integer yearsOfExperience;
+    @Column(nullable = false)
+    @Size(max = 20)
     private String headline;
+    @Column(nullable = false)
+    @Size(max = 500)
     private String experience;
+    
+    //relationships
+    @OneToOne
+    private PetSitter sitter;
 
     public ExperienceForm() {
     }
 
+    public ExperienceForm(Integer yearsOfExperience, String headline, String experience) {
+        this.yearsOfExperience = yearsOfExperience;
+        this.headline = headline;
+        this.experience = experience;
+    }
+
+    
     public Long getExpFormId() {
         return expFormId;
     }

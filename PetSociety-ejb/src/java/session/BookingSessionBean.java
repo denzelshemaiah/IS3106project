@@ -6,6 +6,9 @@
 package session;
 
 import entity.BookingRequest;
+import entity.PetParent;
+import entity.User;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -35,11 +38,40 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
         return b.getBookingReqId();
     }
     
+    //UPDATE THIS FUNCTION
     @Override
-    public List<BookingRequest> getAllRequests() {
+    public List<BookingRequest> getPendingRequests(Long userId) {
+        //User u = em.find(User.class, userId);
         Query q = em.createQuery("SELECT b FROM BookingRequest b");
+        
+        //    if (u instanceof Parent) {
+                // if user is a parent
+        //        Query q = em.createQuery("SELECT b FROM BookingRequest b WHERE b.parent.parentId LIKE :parentId")
+        //                .setParameter("parentId", u.getUserId());
+        //    } else {
+        //        Query q = em.createQuery("SELECT b FROM BookingRequest b");
+        //    }
         return q.getResultList();
     }
-
     
+    //UPDATE THIS FUNCTION
+    @Override
+    public List<BookingRequest> getUpcomingRequests(Long userId) {
+        //User u = em.find(User.class, userId);
+        Query q = em.createQuery("SELECT b FROM BookingRequest b");
+        
+        //if (u instanceOf Parent) {
+        //  Query q = em.createQuery("SELECT b FROM BookingRequest b WHERE b.parent.parentId LIKE :parentId AND b.endDate
+        return q.getResultList();
+    }
+    
+    @Override
+    public List<BookingRequest> getArchivedRequests(Long userId) {
+        return new ArrayList<>();
+    }
+    
+    @Override
+    public List<BookingRequest> getRejectedRequests(Long userId) {
+        return new ArrayList<>();
+    }
 }

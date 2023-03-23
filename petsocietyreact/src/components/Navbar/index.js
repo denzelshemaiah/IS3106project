@@ -1,25 +1,29 @@
 import React from "react"; 
 import "./styles.css"
 import logo from "./assets/dog_logo.png"
+import { Link } from "react-router-dom";
  
 function Navbar() { 
   return ( 
-    <nav className="nav"> 
-    <img src={logo} class="logo"/>
-    <a href="/" className="site-title"> Pet Society </a>
-    <div class="wrapper">
-      <ul>
-        <li><a href="/searchSitter">Search Sitter</a></li>
-        <li><a href="/bookings">Bookings</a></li>
-        <li><a href="/meetandgreets">My Meet and Greets</a></li>
-        <li><a href="/services">Our Services</a></li>
-      </ul>
-
-      <ul>
-        <li class="right"><a href="/help">Help</a></li>
-        <li class="right"><a href="/logout">Logout</a></li>
-      </ul>
-    </div>
+    <nav class="navbar navbar-expand-lg">
+      <a href="/" class="navbar-brand"> 
+        <img src={logo} class="logo"/>
+        PetSociety 
+      </a>
+      
+      <div class="wrapper">
+        <ul class="nav navbar-nav mr-auto">
+          <li><Link to="/searchSitter">Search Sitter</Link></li>
+          <li><Link to="/bookings">Bookings</Link></li>
+          <li><Link to="/meetandgreets">Meet and Greets</Link></li>
+          <li><Link to="/services">Our Services</Link></li>
+        </ul>
+        
+        <ul class="nav navbar-nav ml-auto">
+          <li class="right"><Link to="/help">Help</Link></li>
+          <li class="right"><Link to="/logout">Logout</Link></li>
+        </ul>
+      </div>
     </nav> 
   ); 
 } 

@@ -31,12 +31,22 @@ public class Report implements Serializable {
     @Column(nullable = false)
     private boolean settled = false; // sets default to false
     
-    @ManyToOne
+    @ManyToOne(optional = false)
     private User reporter;
-    @ManyToOne
+    @ManyToOne(optional = false)
     private User reported;
+    @ManyToOne(optional = true)
+    private Staff staff;
 
     public Report() {
+    }
+
+    public Staff getStaff() {
+        return staff;
+    }
+
+    public void setStaff(Staff staff) {
+        this.staff = staff;
     }
 
     public User getReporter() {

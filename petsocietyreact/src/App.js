@@ -2,7 +2,10 @@ import './App.css';
 import {Routes, Route} from "react-router-dom";
 import Bookings from "./containers/Bookings";
 import Navbar from './components/Navbar';
+import NoLoginNavbar from './components/NoLoginNavbar';
+import SignUp from './containers/SignUp';
 import MeetAndGreets from "./containers/MeetAndGreets";
+
 
 function App() {
 
@@ -18,7 +21,7 @@ function App() {
         </Routes>
        </div>
     </>
-  );
+  )
 }
 
 export default App;

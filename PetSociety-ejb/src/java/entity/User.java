@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.Size;
 
 /**
@@ -28,12 +29,16 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
     @Column(nullable = false)
+    @Size(max = 20)
     private String firstName;
     @Column(nullable = false)
+    @Size(max = 20)
     private String lastName;
     @Column(unique = true, nullable = false)
+    @Size(min = 6, max = 20)
     private String username;
-    @Column(unique = true, nullable = false)
+    @Column(length = 8, unique = true, nullable = false)
+    @Size(min = 8)
     private String contactNum;
     @Column(unique = true, nullable = false)
     @Size(max = 50)
@@ -43,7 +48,8 @@ public class User implements Serializable {
     private String password;
     @Column(nullable = false)
     private int age;
-    @Column(nullable = false)
+    @Column(length = 8, nullable = false)
+    @Size(min = 8)
     private String emergencyContact;
     @Column(nullable = false)
     private String profilePicture;
@@ -52,21 +58,25 @@ public class User implements Serializable {
     @Column(nullable = false)
     private UserStatusEnum status;
 
-    // report
+    // relationship with report x 2
     @OneToMany(mappedBy = "reported")
     private List<Report> reportsAgainstUser;
-
     @OneToMany(mappedBy = "reporter")
     private List<Report> reportsUserMade;
     
-    // bank acc
+    // relationsgip with bank acc
+    @OneToOne(optional = false)
+    private BankAccount bankAcc;
 
-
-    // rating
+    // relationship with rating x 2
+    @OneToMany(mappedBy = "rated")
+    private List<Rating> ratingsForUsers;
+    @OneToMany(mappedBy = "rater")
+    private List<Rating> ratingsUserMade;
     
-    
-    // credit card
-    
+    // relationship with credit card
+    @OneToOne
+    private List<CreditCard> ccList;
     
     // child r/s with Parent
     
