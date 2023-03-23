@@ -1,6 +1,7 @@
 import React from "react"; 
 import "./styles.css"
 import logo from "./assets/dog_logo.png"
+import { Link } from "react-router-dom"
  
 function NoLoginNavbar() { 
   return ( 
