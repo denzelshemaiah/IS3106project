@@ -1,0 +1,19 @@
+$theme-colors: (
+    "primary" : #6610f2,
+    "warning" : #E4E2F5,
+    "danger" : #9d82ff,
+);
+
+//change colour of active nav
+$nav-pills-link-active-bg: #6610f2;
+
+.nav-pills .nav-item .nav-link {
+    background-color:transparent;
+    color: #6610f2;
+}
+
+.btn-danger {
+    color: white,
+}
+
+@import "../node_modules/bootstrap/scss/bootstrap";
