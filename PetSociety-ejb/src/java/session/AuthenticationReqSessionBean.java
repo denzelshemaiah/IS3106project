@@ -63,4 +63,13 @@ public class AuthenticationReqSessionBean implements AuthenticationReqSessionBea
         Query q = em.createQuery("SELECT a FROM AuthenticationRequest a");
         return q.getResultList();
     }
+
+    @Override
+    public void markAuthenReqAsResolved(Long authenticationId) throws EntityNotFoundException {
+        AuthenticationRequest authenReq = em.find(AuthenticationRequest.class, authenticationId);
+        if (authenReq == null) {
+            throw new EntityNotFoundException("No AuthenticationRequest found with this authenticationId");
+        }
+        authenReq.setResolved(Boolean.TRUE);
+    }
 }
