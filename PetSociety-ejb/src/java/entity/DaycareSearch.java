@@ -44,7 +44,7 @@ public class DaycareSearch extends Search implements Serializable {
       
     }
 
-    public DaycareSearch(FreqEnum freq, boolean sitterFullTime, HousingConditionEnum housingCondition, PetsInTheHouseEnum petsInTheHouse, ChildrenEnum children, AdditionalServiceEnum additionalService, Long id, Date startDate, Date endDate, int numPets, PetEnum petType, int dogSize, double rate, Parent parent) {
+    public DaycareSearch(FreqEnum freq, boolean sitterFullTime, HousingConditionEnum housingCondition, PetsInTheHouseEnum petsInTheHouse, ChildrenEnum children, AdditionalServiceEnum additionalService, Long id, Date startDate, Date endDate, int numPets, PetEnum petType, int dogSize, double rate, PetParent parent) {
         super(id, startDate, endDate, numPets, petType, dogSize, rate, parent);
         this.freq = freq;
         this.sitterFullTime = true;

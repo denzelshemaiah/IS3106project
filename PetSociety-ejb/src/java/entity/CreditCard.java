@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -27,7 +28,20 @@ public class CreditCard implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ccId;
-    
+    @Column(nullable = false)
+    @Size(min = 16, max = 19)
+    private String ccNum;
+    @Column(nullable = false)
+    @Size(max = 40)
+    private String ccName;
+    @Column(nullable = false)
+    private Date expDate;
+    @Column(nullable = false)
+    @Size(min = 3, max = 4)
+    private Integer cvv;
+    @Column(nullable = false)
+    private Boolean defaultCard; 
+   
     //relationship with transactions
     @OneToMany(mappedBy = "credCard")
     private List<Transaction> transactions;
@@ -36,17 +50,6 @@ public class CreditCard implements Serializable {
     @OneToOne
     private User user;
 
-    @Column(nullable = false)
-    private String ccNum;
-    @Column(nullable = false)
-    private String ccName;
-    @Column(nullable = false)
-    private Date expDate;
-    @Column(nullable = false)
-    private Integer cvv;
-    @Column(nullable = false)
-    private Boolean defaultCard; 
-    
     public CreditCard() {
     }
 

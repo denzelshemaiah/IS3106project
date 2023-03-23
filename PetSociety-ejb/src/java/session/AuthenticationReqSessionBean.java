@@ -6,8 +6,8 @@
 package session;
 
 import entity.AuthenticationRequest;
-import entity.Parent;
-import entity.Sitter;
+import entity.PetParent;
+import entity.PetSitter;
 import entity.User;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -31,7 +31,7 @@ public class AuthenticationReqSessionBean implements AuthenticationReqSessionBea
 
     @Override
     public Long createAuthenticationReq(AuthenticationRequest authenticationReq, Long userId) throws EntityNotFoundException {
-        Sitter user = em.find(Sitter.class, userId);
+        PetSitter user = em.find(PetSitter.class, userId);
         if (user == null) {
             throw new EntityNotFoundException("No sitter found with this userId");
         }
@@ -45,7 +45,7 @@ public class AuthenticationReqSessionBean implements AuthenticationReqSessionBea
 
     @Override
     public AuthenticationRequest findAuthenticationReqBySitter(Long sitterId) throws EntityNotFoundException {
-        Sitter sitter = em.find(Sitter.class, sitterId);
+        PetSitter sitter = em.find(PetSitter.class, sitterId);
         if (sitter == null) {
             throw new EntityNotFoundException("No sitter found with this sitterId");
         }

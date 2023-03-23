@@ -18,7 +18,7 @@ import javax.persistence.OneToMany;
  * @author Andrea
  */
 @Entity
-public class Parent implements Serializable {
+public class PetParent implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -35,7 +35,7 @@ public class Parent implements Serializable {
     @OneToMany(mappedBy = "parent")
     private List<BookingRequest> bookings;
 
-    public Parent() {
+    public PetParent() {
     }
 
     public Long getParentId() {
@@ -56,10 +56,10 @@ public class Parent implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the parentId fields are not set
-        if (!(object instanceof Parent)) {
+        if (!(object instanceof PetParent)) {
             return false;
         }
-        Parent other = (Parent) object;
+        PetParent other = (PetParent) object;
         if ((this.parentId == null && other.parentId != null) || (this.parentId != null && !this.parentId.equals(other.parentId))) {
             return false;
         }
