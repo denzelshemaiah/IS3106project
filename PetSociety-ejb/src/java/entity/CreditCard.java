@@ -169,4 +169,12 @@ public class CreditCard implements Serializable {
     public void setDefaultCard(Boolean defaultCard) {
         this.defaultCard = defaultCard;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
