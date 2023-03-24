@@ -23,12 +23,12 @@ import javax.persistence.TemporalType;
  * @author cally
  */
 @Entity
-public class Transaction implements Serializable {
+public class Payment implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long transactionId;
+    private Long paymentId;
     @Column(precision = 2, scale = 6)
     private BigDecimal amount;
     @Temporal(TemporalType.DATE)
@@ -46,32 +46,32 @@ public class Transaction implements Serializable {
     @ManyToOne(optional = true)
     private CreditCard credCard;
 
-    public Transaction() {
+    public Payment() {
     }
 
-    public Long getTransactionId() {
-        return transactionId;
+    public Long getPaymentId() {
+        return paymentId;
     }
 
-    public void setTransactionId(Long transactionId) {
-        this.transactionId = transactionId;
+    public void setPaymentId(Long paymentId) {
+        this.paymentId = paymentId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (transactionId != null ? transactionId.hashCode() : 0);
+        hash += (paymentId != null ? paymentId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the transactionId fields are not set
-        if (!(object instanceof Transaction)) {
+        // TODO: Warning - this method won't work in the case the paymentId fields are not set
+        if (!(object instanceof Payment)) {
             return false;
         }
-        Transaction other = (Transaction) object;
-        if ((this.transactionId == null && other.transactionId != null) || (this.transactionId != null && !this.transactionId.equals(other.transactionId))) {
+        Payment other = (Payment) object;
+        if ((this.paymentId == null && other.paymentId != null) || (this.paymentId != null && !this.paymentId.equals(other.paymentId))) {
             return false;
         }
         return true;
@@ -79,7 +79,7 @@ public class Transaction implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Transaction[ id=" + transactionId + " ]";
+        return "entity.Transaction[ id=" + paymentId + " ]";
     }
 
     /**

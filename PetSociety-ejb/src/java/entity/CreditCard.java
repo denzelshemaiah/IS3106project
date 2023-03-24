@@ -44,7 +44,7 @@ public class CreditCard implements Serializable {
    
     //relationship with transactions
     @OneToOne
-    private List<Transaction> transactions;
+    private List<Payment> payments;
     
     //relationship with users
     @OneToOne
@@ -89,15 +89,15 @@ public class CreditCard implements Serializable {
     /**
      * @return the transactions
      */
-    public List<Transaction> getTransactions() {
-        return transactions;
+    public List<Payment> getPayments() {
+        return payments;
     }
 
     /**
      * @param transactions the transactions to set
      */
-    public void setTransactions(List<Transaction> transactions) {
-        this.transactions = transactions;
+    public void setPayments(List<Payment> transactions) {
+        this.payments = transactions;
     }
 
     /**

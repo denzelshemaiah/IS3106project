@@ -5,7 +5,7 @@
  */
 package session;
 
-import entity.Transaction;
+import entity.Payment;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -14,7 +14,7 @@ import javax.ejb.Local;
  * @author cally
  */
 @Local
-public interface TransactionSessionBeanLocal {
-    public Long createNewTransaction(Transaction t);
-    public List<Transaction> getAllTransactions();
+public interface PaymentSessionBeanLocal {
+    public Long createNewPayment(Payment t);
+    public List<Payment> getAllPayments();
 }

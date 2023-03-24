@@ -7,7 +7,7 @@ package session;
 
 import entity.BankAccount;
 import entity.CreditCard;
-import entity.Transaction;
+import entity.Payment;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -19,13 +19,13 @@ import javax.persistence.Query;
  * @author cally
  */
 @Stateless
-public class TransactionSessionBean implements TransactionSessionBeanLocal {
+public class PaymentSessionBean implements PaymentSessionBeanLocal {
 
     @PersistenceContext(unitName = "PetSociety-ejbPU")
     private EntityManager em;
     
     @Override
-    public Long createNewTransaction(Transaction t) {
+    public Long createNewPayment(Payment t) {
         if (t.getBankAcc() != null) {
             em.persist(t);
             em.flush();
@@ -37,16 +37,16 @@ public class TransactionSessionBean implements TransactionSessionBeanLocal {
             em.flush();
             CreditCard cc = t.getCredCard();
             //add transaction to credit card
-            cc.getTransactions().add(t);
+            cc.getPayments().add(t);
         } else {
             // need to throw exception? for no payment method?
         }
-        return t.getTransactionId();
+        return t.getPaymentId();
     }
     
     @Override
-    public List<Transaction> getAllTransactions() {
-        Query q = em.createQuery("SELECT t FROM Transaction t");
+    public List<Payment> getAllPayments() {
+        Query q = em.createQuery("SELECT p FROM Payment p");
         return q.getResultList();
     }
 }

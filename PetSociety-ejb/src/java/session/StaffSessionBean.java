@@ -48,16 +48,17 @@ public class StaffSessionBean implements StaffSessionBeanLocal {
 
     @Override
     public Staff staffLogin(String username, String password) throws InvalidLoginCredentialsException {
-        Query q = em.createQuery("SELECT s FROM Staff s WHERE s.username = ?1");
-        q.setParameter(1, username);
-        Staff staff = (Staff) q.getSingleResult();
-        if (staff == null) {
-            throw new InvalidLoginCredentialsException("Wrong username or password!");
+        List<Staff> allStaff = retrieveAllStaff();
+        for (Staff s : allStaff) {
+            if (s.getUsername().equals(username)) {
+                if (s.getPassword().equals(password)) {
+                    return s;
+                }
+                else {
+                    throw new InvalidLoginCredentialsException("Wrong username or password!");
+                }
+            }
         }
-        if (staff.getPassword().equals(password)) {
-            return staff;
-        } else {
-            throw new InvalidLoginCredentialsException("Wrong username or password!");
-        }
+        throw new InvalidLoginCredentialsException("Wrong username or password!");
     }
 }

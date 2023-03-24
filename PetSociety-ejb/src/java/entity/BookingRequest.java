@@ -55,7 +55,7 @@ public class BookingRequest implements Serializable {
     @ManyToOne
     private PetSitter sitter;
     @OneToOne
-    private Transaction transaction;
+    private Payment payment;
     @OneToOne(optional=true)
     private Rating rating;
     
@@ -225,15 +225,14 @@ public class BookingRequest implements Serializable {
     /**
      * @return the transaction
      */
-    public Transaction getTransaction() {
-        return transaction;
+    public Payment getPayment() {
+        return payment;
     }
 
     /**
-     * @param transaction the transaction to set
      */
-    public void setTransaction(Transaction transaction) {
-        this.transaction = transaction;
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 
     /**

@@ -39,7 +39,7 @@ public class BankAccount implements Serializable {
 
     //relationship with transactions
     @OneToMany(mappedBy = "bankAcc")
-    private List<Transaction> transactions;
+    private List<Payment> transactions;
     //relationship with user
     @OneToOne(optional = false)
     private User user;
@@ -89,14 +89,14 @@ public class BankAccount implements Serializable {
     /**
      * @return the transactions
      */
-    public List<Transaction> getTransactions() {
+    public List<Payment> getTransactions() {
         return transactions;
     }
 
     /**
      * @param transactions the transactions to set
      */
-    public void setTransactions(List<Transaction> transactions) {
+    public void setTransactions(List<Payment> transactions) {
         this.transactions = transactions;
     }
 
