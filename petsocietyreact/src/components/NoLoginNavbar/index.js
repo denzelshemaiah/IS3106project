@@ -5,16 +5,18 @@ import { Link } from "react-router-dom"
  
 function NoLoginNavbar() { 
   return ( 
-    <nav className="nav"> 
-    <img src={logo} class="logo"/>
-    <a href="/" className="site-title"> Pet Society </a>
+    <nav className="navbar navbar-expand-lg"> 
+    <a href="/" class="navbar-brand"> 
+      <img src={logo} class="logo"/>
+      PetSociety 
+    </a>
     <div class="wrapper">
-      <ul>
+      <ul class="nav navbar-nav mr-auto">
         <li><a href="/searchSitter">Search Sitter</a></li>
         <li><a href="/services">Our Services</a></li>
       </ul>
 
-      <ul>
+      <ul class="nav navbar-nav ml-auto">
         <li class="right"><Link to="/signUp">Sign Up</Link></li>
         <li class="right"><a href="/signIn">Sign In</a></li>
         <li class="right"><a href="/help">Help</a></li>
