@@ -43,7 +43,7 @@ public class CreditCard implements Serializable {
     private Boolean defaultCard; 
    
     //relationship with transactions
-    @OneToMany(mappedBy = "credCard")
+    @OneToOne
     private List<Transaction> transactions;
     
     //relationship with users

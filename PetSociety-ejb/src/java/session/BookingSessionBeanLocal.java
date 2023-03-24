@@ -16,5 +16,8 @@ import javax.ejb.Local;
 @Local
 public interface BookingSessionBeanLocal {
     public Long createNewBooking(BookingRequest b);
-    public List<BookingRequest> getAllRequests();
+    public List<BookingRequest> getPendingRequests(Long userId);
+    public List<BookingRequest> getUpcomingRequests(Long userId);
+    public List<BookingRequest> getRejectedRequests(Long userId);
+    public List<BookingRequest> getArchivedRequests(Long userId);
 }

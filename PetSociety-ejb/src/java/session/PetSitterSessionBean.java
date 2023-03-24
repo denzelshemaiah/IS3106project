@@ -25,6 +25,7 @@ public class PetSitterSessionBean implements PetSitterSessionBeanLocal {
     
         em.persist(sitter);
         em.flush();
+
         return sitter.getUserId();
     }
 
