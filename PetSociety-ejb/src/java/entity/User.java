@@ -79,11 +79,7 @@ public class User implements Serializable {
     
     // relationship with credit card
     @OneToOne
-<<<<<<< HEAD
-    private List<CreditCard> ccList;
-=======
     private CreditCard cc;
->>>>>>> master
     
     // child r/s with Parent
     

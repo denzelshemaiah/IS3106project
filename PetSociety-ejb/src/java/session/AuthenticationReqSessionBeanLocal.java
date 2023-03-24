@@ -22,14 +22,8 @@ public interface AuthenticationReqSessionBeanLocal {
     AuthenticationRequest findAuthenticationReqBySitter(Long sitterId) throws EntityNotFoundException;
 
     List<AuthenticationRequest> getAllUnresolvedAuthenReq();
-<<<<<<< HEAD
-
-    List<AuthenticationRequest> getAllAuthenticationReqs();
-=======
     
     List<AuthenticationRequest> getAllAuthenticationReqs();
 
     void markAuthenReqAsResolved(Long authenticationId) throws EntityNotFoundException;
->>>>>>> master
-    
 }

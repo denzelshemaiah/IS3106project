@@ -17,11 +17,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-<<<<<<< HEAD
-=======
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
->>>>>>> master
 import javax.validation.constraints.Size;
 
 /**
@@ -29,11 +24,7 @@ import javax.validation.constraints.Size;
  * @author Andrea
  */
 @Entity
-<<<<<<< HEAD
-public class PetSitter implements Serializable {
-=======
 public class PetSitter extends User implements Serializable {
->>>>>>> master
 
     private static final long serialVersionUID = 1L;
     //@Id
@@ -69,17 +60,6 @@ public class PetSitter extends User implements Serializable {
     
 
     public PetSitter() {
-<<<<<<< HEAD
-    }
-
-    public Long getSitterId() {
-        return sitterId;
-    }
-
-    public void setSitterId(Long sitterId) {
-        this.sitterId = sitterId;
-=======
->>>>>>> master
     }
 
     public String getServiceAddress() {
@@ -130,34 +110,6 @@ public class PetSitter extends User implements Serializable {
         this.service = service;
     }
 
-<<<<<<< HEAD
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (sitterId != null ? sitterId.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the sitterId fields are not set
-        if (!(object instanceof PetSitter)) {
-            return false;
-        }
-        PetSitter other = (PetSitter) object;
-        if ((this.sitterId == null && other.sitterId != null) || (this.sitterId != null && !this.sitterId.equals(other.sitterId))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entity.Sitter[ id=" + sitterId + " ]";
-    }
-
-=======
->>>>>>> master
     /**
      * @return the bookings
      */
