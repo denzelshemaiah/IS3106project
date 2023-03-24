@@ -59,6 +59,7 @@ public class PetParentSessionBean implements PetParentSessionBeanLocal {
     public void updateMember(PetParent parent) throws ParentNotFoundException {
         PetParent oldParent = retrieveParentByParentId(parent.getUserId());
         
+        // from user
         oldParent.setFirstName(parent.getFirstName());
         oldParent.setLastName(parent.getLastName());
         oldParent.setContactNum(parent.getContactNum());
@@ -70,6 +71,7 @@ public class PetParentSessionBean implements PetParentSessionBeanLocal {
         oldParent.setBillingAddress(parent.getBillingAddress());
         oldParent.setStatus(parent.getStatus());
         
+        // from user, foreign
         oldParent.setReportsAgainstUser(parent.getReportsAgainstUser());
         oldParent.setReportsUserMade(parent.getReportsUserMade());
         
@@ -79,6 +81,11 @@ public class PetParentSessionBean implements PetParentSessionBeanLocal {
         oldParent.setRatingsUserMade(parent.getRatingsUserMade());
         
         oldParent.setCc(parent.getCc());
+        
+        // entity specific
+        oldParent.setSearches(parent.getSearches());
+        oldParent.setMgRequests(parent.getMgRequests());
+        oldParent.setBookings(parent.getBookings());
     } 
     
     // delete 

@@ -6,6 +6,9 @@
 package session;
 
 import entity.PetSitter;
+import error.NoResultException;
+import error.SitterNotFoundException;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -16,5 +19,13 @@ import javax.ejb.Local;
 public interface PetSitterSessionBeanLocal {
 
     public Long createNewSitter(PetSitter sitter);
+
+    public PetSitter retrieveSitterBySitterId(Long sitterId) throws SitterNotFoundException;
+
+    public List<PetSitter> retrieveAllSitters();
+
+    public void updateSitter(PetSitter sitter) throws SitterNotFoundException;
+
+    public void deleteSitter(Long sitterId) throws NoResultException, SitterNotFoundException;
     
 }
