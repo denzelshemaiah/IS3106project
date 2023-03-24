@@ -67,7 +67,7 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "reporter")
     private List<Report> reportsUserMade;
     
-    // relationsgip with bank acc
+    // relationship with bank acc
     @OneToOne(optional = false)
     private BankAccount bankAcc;
 
