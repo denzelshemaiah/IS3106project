@@ -17,6 +17,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+<<<<<<< HEAD
+=======
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+>>>>>>> master
 import javax.validation.constraints.Size;
 
 /**
@@ -24,12 +29,16 @@ import javax.validation.constraints.Size;
  * @author Andrea
  */
 @Entity
+<<<<<<< HEAD
 public class PetSitter implements Serializable {
+=======
+public class PetSitter extends User implements Serializable {
+>>>>>>> master
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long sitterId;
+    //@Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    //private Long sitterId;
 
     @Column(nullable = false)
     private String serviceAddress;
@@ -57,9 +66,10 @@ public class PetSitter implements Serializable {
     @OneToMany(mappedBy="sitter")
     private List<MeetAndGreetRequest> mgRequests;
     
-    // parent r/s with sitter
+    
 
     public PetSitter() {
+<<<<<<< HEAD
     }
 
     public Long getSitterId() {
@@ -68,6 +78,8 @@ public class PetSitter implements Serializable {
 
     public void setSitterId(Long sitterId) {
         this.sitterId = sitterId;
+=======
+>>>>>>> master
     }
 
     public String getServiceAddress() {
@@ -118,6 +130,7 @@ public class PetSitter implements Serializable {
         this.service = service;
     }
 
+<<<<<<< HEAD
     @Override
     public int hashCode() {
         int hash = 0;
@@ -143,6 +156,8 @@ public class PetSitter implements Serializable {
         return "entity.Sitter[ id=" + sitterId + " ]";
     }
 
+=======
+>>>>>>> master
     /**
      * @return the bookings
      */

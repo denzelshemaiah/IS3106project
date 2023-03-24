@@ -7,10 +7,14 @@ package entity;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 
 /**
@@ -18,12 +22,13 @@ import javax.persistence.OneToMany;
  * @author Andrea
  */
 @Entity
+<<<<<<< HEAD
 public class PetParent implements Serializable {
+=======
+public class PetParent extends User implements Serializable {
+>>>>>>> master
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long parentId;
     
     //relationships
     @OneToMany(mappedBy = "parent")
@@ -36,6 +41,7 @@ public class PetParent implements Serializable {
     private List<BookingRequest> bookings;
 
     public PetParent() {
+<<<<<<< HEAD
     }
 
     public Long getParentId() {
@@ -69,6 +75,8 @@ public class PetParent implements Serializable {
     @Override
     public String toString() {
         return "entity.Parent[ id=" + parentId + " ]";
+=======
+>>>>>>> master
     }
 
     /**

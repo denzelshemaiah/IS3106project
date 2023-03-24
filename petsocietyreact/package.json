@@ -11,7 +11,12 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.2.3",
+<<<<<<< HEAD
     "jquery": "^3.6.4",
+=======
+    "debug": "^4.3.4",
+    "mdb": "^0.1.0",
+>>>>>>> master
     "mdb-react-ui-kit": "^5.1.0",
     "mdbreact": "^5.2.0",
     "react": "^18.2.0",

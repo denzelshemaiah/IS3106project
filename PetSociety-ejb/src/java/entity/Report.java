@@ -30,6 +30,8 @@ public class Report implements Serializable {
     private String reportDescription;
     @Column(nullable = false)
     private boolean settled = false; // sets default to false
+    @Column(nullable = true)
+    private boolean valid;
     
     @ManyToOne(optional = false)
     private User reporter;
@@ -113,5 +115,12 @@ public class Report implements Serializable {
     public void setSettled(boolean settled) {
         this.settled = settled;
     }
-    
+
+    public boolean isValid() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
+    }
 }

@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Size;
@@ -22,6 +24,7 @@ import javax.validation.constraints.Size;
  * @author Andrea
  */
 @Entity
+@Inheritance(strategy=InheritanceType.JOINED)
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -76,13 +79,20 @@ public class User implements Serializable {
     
     // relationship with credit card
     @OneToOne
+<<<<<<< HEAD
     private List<CreditCard> ccList;
+=======
+    private CreditCard cc;
+>>>>>>> master
     
     // child r/s with Parent
     
     
     // child r/s with Sitter
     
+    public User() {
+    }
+
     public Long getUserId() {
         return userId;
     }
@@ -218,5 +228,37 @@ public class User implements Serializable {
 
     public void setReportsUserMade(List<Report> reportsUserMade) {
         this.reportsUserMade = reportsUserMade;
+    }
+
+    public BankAccount getBankAcc() {
+        return bankAcc;
+    }
+
+    public void setBankAcc(BankAccount bankAcc) {
+        this.bankAcc = bankAcc;
+    }
+
+    public List<Rating> getRatingsForUsers() {
+        return ratingsForUsers;
+    }
+
+    public void setRatingsForUsers(List<Rating> ratingsForUsers) {
+        this.ratingsForUsers = ratingsForUsers;
+    }
+
+    public List<Rating> getRatingsUserMade() {
+        return ratingsUserMade;
+    }
+
+    public void setRatingsUserMade(List<Rating> ratingsUserMade) {
+        this.ratingsUserMade = ratingsUserMade;
+    }
+
+    public CreditCard getCc() {
+        return cc;
+    }
+
+    public void setCc(CreditCard cc) {
+        this.cc = cc;
     }
 }
