@@ -43,7 +43,7 @@ public class BoardingSearch extends Search implements Serializable {
       
     }
 
-    public BoardingSearch(HousingConditionEnum housingCondition, PetsInTheHouseEnum petsInTheHouse, ChildrenEnum children, AdditionalServiceEnum additionalService, Long id, Date startDate, Date endDate, int numPets, PetEnum petType, int dogSize, double rate, Parent parent) {
+    public BoardingSearch(HousingConditionEnum housingCondition, PetsInTheHouseEnum petsInTheHouse, ChildrenEnum children, AdditionalServiceEnum additionalService, Long id, Date startDate, Date endDate, int numPets, PetEnum petType, int dogSize, double rate, PetParent parent) {
         super(id, startDate, endDate, numPets, petType, dogSize, rate, parent);
         this.housingCondition = housingCondition;
         this.petsInTheHouse = petsInTheHouse;

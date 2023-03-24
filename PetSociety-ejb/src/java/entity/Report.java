@@ -30,13 +30,25 @@ public class Report implements Serializable {
     private String reportDescription;
     @Column(nullable = false)
     private boolean settled = false; // sets default to false
+    @Column(nullable = true)
+    private boolean valid;
     
-    @ManyToOne
+    @ManyToOne(optional = false)
     private User reporter;
-    @ManyToOne
+    @ManyToOne(optional = false)
     private User reported;
+    @ManyToOne(optional = true)
+    private Staff staff;
 
     public Report() {
+    }
+
+    public Staff getStaff() {
+        return staff;
+    }
+
+    public void setStaff(Staff staff) {
+        this.staff = staff;
     }
 
     public User getReporter() {
@@ -103,5 +115,12 @@ public class Report implements Serializable {
     public void setSettled(boolean settled) {
         this.settled = settled;
     }
-    
+
+    public boolean isValid() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
+    }
 }

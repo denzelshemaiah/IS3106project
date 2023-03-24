@@ -16,22 +16,27 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 
 /**
  *
  * @author Andrea
  */
 @Entity
-public class Sitter implements Serializable {
+public class PetSitter extends User implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long sitterId;
+    //@Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    //private Long sitterId;
 
     @Column(nullable = false)
     private String serviceAddress;
     @Column(nullable = false)
+    @Size(max = 30)
     private String region;
     @Column(nullable = false)
     private String preference;
@@ -42,31 +47,21 @@ public class Sitter implements Serializable {
     @Column(nullable = false)
     private ServiceEnum service;
     
-    // authen req
-    
-    // careexperienceform
-    
-    // safetyform
-    
-    //booking reqs
+    //relationships
+    @OneToOne(optional = true)
+    private AuthenticationRequest authenReq;
+    @OneToOne(optional = true)
+    private ExperienceForm expForm;
+    @OneToOne(optional = true)
+    private SafetyForm safetyForm;
     @OneToMany(mappedBy="sitter")
     private List<BookingRequest> bookings;
-    
-    // meetandgreet req
     @OneToMany(mappedBy="sitter")
     private List<MeetAndGreetRequest> mgRequests;
     
-    // parent r/s with sitter
+    
 
-    public Sitter() {
-    }
-
-    public Long getSitterId() {
-        return sitterId;
-    }
-
-    public void setSitterId(Long sitterId) {
-        this.sitterId = sitterId;
+    public PetSitter() {
     }
 
     public String getServiceAddress() {
@@ -117,31 +112,6 @@ public class Sitter implements Serializable {
         this.service = service;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (sitterId != null ? sitterId.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the sitterId fields are not set
-        if (!(object instanceof Sitter)) {
-            return false;
-        }
-        Sitter other = (Sitter) object;
-        if ((this.sitterId == null && other.sitterId != null) || (this.sitterId != null && !this.sitterId.equals(other.sitterId))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entity.Sitter[ id=" + sitterId + " ]";
-    }
-
     /**
      * @return the bookings
      */
@@ -168,6 +138,30 @@ public class Sitter implements Serializable {
      */
     public void setMgRequests(List<MeetAndGreetRequest> mgRequests) {
         this.mgRequests = mgRequests;
+    }
+
+    public AuthenticationRequest getAuthenReq() {
+        return authenReq;
+    }
+
+    public void setAuthenReq(AuthenticationRequest authenReq) {
+        this.authenReq = authenReq;
+    }
+
+    public ExperienceForm getExpForm() {
+        return expForm;
+    }
+
+    public void setExpForm(ExperienceForm expForm) {
+        this.expForm = expForm;
+    }
+
+    public SafetyForm getSafetyForm() {
+        return safetyForm;
+    }
+
+    public void setSafetyForm(SafetyForm safetyForm) {
+        this.safetyForm = safetyForm;
     }
 
 }

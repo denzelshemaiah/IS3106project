@@ -16,5 +16,7 @@ import javax.ejb.Local;
 public interface ReportSessionBeanLocal {
 
     Long createReport(Report report);
+
+    void markReportAsResolved(Long reportId);
     
 }

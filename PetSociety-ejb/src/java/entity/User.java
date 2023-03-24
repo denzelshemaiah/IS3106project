@@ -13,7 +13,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.Size;
 
 /**
@@ -21,6 +24,7 @@ import javax.validation.constraints.Size;
  * @author Andrea
  */
 @Entity
+@Inheritance(strategy=InheritanceType.JOINED)
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -28,12 +32,16 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
     @Column(nullable = false)
+    @Size(max = 20)
     private String firstName;
     @Column(nullable = false)
+    @Size(max = 20)
     private String lastName;
     @Column(unique = true, nullable = false)
+    @Size(min = 6, max = 20)
     private String username;
-    @Column(unique = true, nullable = false)
+    @Column(length = 8, unique = true, nullable = false)
+    @Size(min = 8)
     private String contactNum;
     @Column(unique = true, nullable = false)
     @Size(max = 50)
@@ -43,7 +51,8 @@ public class User implements Serializable {
     private String password;
     @Column(nullable = false)
     private int age;
-    @Column(nullable = false)
+    @Column(length = 8, nullable = false)
+    @Size(min = 8)
     private String emergencyContact;
     @Column(nullable = false)
     private String profilePicture;
@@ -52,27 +61,34 @@ public class User implements Serializable {
     @Column(nullable = false)
     private UserStatusEnum status;
 
-    // report
+    // relationship with report x 2
     @OneToMany(mappedBy = "reported")
     private List<Report> reportsAgainstUser;
-
     @OneToMany(mappedBy = "reporter")
     private List<Report> reportsUserMade;
     
-    // bank acc
+    // relationsgip with bank acc
+    @OneToOne(optional = false)
+    private BankAccount bankAcc;
 
-
-    // rating
+    // relationship with rating x 2
+    @OneToMany(mappedBy = "rated")
+    private List<Rating> ratingsForUsers;
+    @OneToMany(mappedBy = "rater")
+    private List<Rating> ratingsUserMade;
     
-    
-    // credit card
-    
+    // relationship with credit card
+    @OneToOne
+    private CreditCard cc;
     
     // child r/s with Parent
     
     
     // child r/s with Sitter
     
+    public User() {
+    }
+
     public Long getUserId() {
         return userId;
     }
@@ -208,5 +224,37 @@ public class User implements Serializable {
 
     public void setReportsUserMade(List<Report> reportsUserMade) {
         this.reportsUserMade = reportsUserMade;
+    }
+
+    public BankAccount getBankAcc() {
+        return bankAcc;
+    }
+
+    public void setBankAcc(BankAccount bankAcc) {
+        this.bankAcc = bankAcc;
+    }
+
+    public List<Rating> getRatingsForUsers() {
+        return ratingsForUsers;
+    }
+
+    public void setRatingsForUsers(List<Rating> ratingsForUsers) {
+        this.ratingsForUsers = ratingsForUsers;
+    }
+
+    public List<Rating> getRatingsUserMade() {
+        return ratingsUserMade;
+    }
+
+    public void setRatingsUserMade(List<Rating> ratingsUserMade) {
+        this.ratingsUserMade = ratingsUserMade;
+    }
+
+    public CreditCard getCc() {
+        return cc;
+    }
+
+    public void setCc(CreditCard cc) {
+        this.cc = cc;
     }
 }
