@@ -1,13 +1,16 @@
 import React, {useState} from 'react';
-import Modal from "../../components/RequestModals"
+import Modal from "../../components/RequestModals";
 
 function BookingListing(props) {
-    const tab = props.tab;
-    const bookingId = props.bookingId
+    let tab = props.tab;
 
     function editButton() {
         if (tab === "pending") {
-            return <button type="button" class="btn btn-warning m-1" data-bs-toggle="modal" data-bs-target="#editPendingModal" data-bs-id= {bookingId} style={{"float": "right"}}>Edit Request</button>
+            return (
+            <>
+                <button type="button" class="btn btn-warning m-1" data-bs-toggle="modal" data-bs-target="#editPendingModal" data-bs-id={props.booking} style={{"float": "right"}}>Edit Request</button>
+            </>
+            )
         } else {
             return ""
         }
@@ -15,10 +18,10 @@ function BookingListing(props) {
     
     function cancelButton() {
         if (tab === "pending") {
-            return <button type="button" class="btn btn-danger m-1" data-bs-toggle="modal" data-bs-target="#cancelPendingModal" data-bs-id={bookingId} style={{"float": "right"}}>Cancel Request</button>
+            return <button type="button" class="btn btn-danger m-1" data-bs-toggle="modal" data-bs-target="#cancelPendingModal" data-bs-id={props.booking} style={{"float": "right"}}>Cancel Request</button>
         } else if (tab === "upcoming") {
             // need to calculate penalty
-            return <button type="button" class="btn btn-danger m-1" data-bs-toggle="modal" data-bs-target="#cancelUpcomingModal" data-bs-id={bookingId} style={{"float": "right"}}>Cancel Request</button>
+            return <button type="button" class="btn btn-danger m-1" data-bs-toggle="modal" data-bs-target="#cancelUpcomingModal" style={{"float": "right"}}>Cancel Request</button>
         }else {
             return ""
         }
@@ -30,15 +33,12 @@ function BookingListing(props) {
                 <h5>Request from name</h5>
                 Request dates<br/>
                 <p>Desription of request</p>
-                {props.booking}
                 {editButton()}
                 {cancelButton()}
             </li>
 
-            <Modal id="#editPendingModal" header="Edit Pending Request" reqId={bookingId}/>
-            <Modal id="#cancelUpcomingModal" header="Cancel Upcoming Request"/>
-            <Modal id="#cancelPendingModal" header="Cancel Pending Request"/>
-        </>
+            <Modal id= "editPendingModal" booking={props.booking}/>
+         </>
     )
 };
 

@@ -1,36 +1,74 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import BookingListing from "../BookingListing";
-import Api from "../../helpers/Api";
+import React, { useEffect, useState } from 'react';
+import { Button, Modal, ModalHeader, ModalBody } from "reactstrap";
 
-function Modal(props) {
-    const [RequestId, setRequestId] = props.reqId;
-    const [toDo, setToDo] = useState('');
+function RequestModal(props) {
+    let thisId = props.id;
+    let booking = props.booking;
+    const [modal, setModal] = useState(false);
+    const label = props.buttonLabel;
+    const [item, setItem] = useState("");
+
+    useEffect(() => {
+        if (props.item) {
+          setItem(props.item)
+        }
+      }, [props.item]);
+    
+    const toggle = () => {
+        setModal(!modal);
+    };
+
+    const closeBtn = (
+        <button className="close" class="btn" onClick={toggle}>
+          &times;
+        </button>
+    );
+
+    let button = "";
+    let title = "";
+
+    if (label === "Edit") {
+        button = (
+          <Button
+            color="warning"
+            onClick={toggle}
+            style={{ float: "left", marginRight: "10px" }}
+          >
+            {label}
+          </Button>
+        ); title="Edit Item";
+    } else {
+        button = (
+            <Button
+              color="success"
+              onClick={toggle}
+              style={{ float: "left", marginRight: "10px" }}
+            >
+              {label}
+            </Button>
+          );
+          title = "Add New Item";
+        }      
 
     return (
         <>
-            <div class="modal fade" role="dialog" aria-labelledby="modalLabel">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="modalLabel">{props.header}</h5>
-                            <button type="button" class="btn" data-bs-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            {props.content}
-                            <input type="text" id="requestId" value={props.reqId}/>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
-                        </div>
-                        </div>
-                    </div>
-                </div>
+        {button}
+        <Modal isOpen={modal}
+        toggle={toggle}
+        className={props.className}
+        backdrop={"static"}
+        keyboard={false}
+        centered={true}
+        >
+            <ModalHeader toggle={toggle} close={closeBtn}>
+                {title}
+            </ModalHeader>
+            <ModalBody>
+                {item}
+            </ModalBody>
+        </Modal>
         </>
     )
 }
 
-export default Modal;
+export default RequestModal;
