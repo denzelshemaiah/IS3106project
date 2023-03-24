@@ -12,14 +12,14 @@ function NoLoginNavbar() {
     </a>
     <div class="wrapper">
       <ul class="nav navbar-nav mr-auto">
-        <li><a href="/searchSitter">Search Sitter</a></li>
-        <li><a href="/services">Our Services</a></li>
+        <li><Link to="/searchSitter">Search Sitter</Link></li>
+        <li><Link to="/services">Our Services</Link></li>
       </ul>
 
       <ul class="nav navbar-nav ml-auto">
         <li class="right"><Link to="/signUp">Sign Up</Link></li>
-        <li class="right"><a href="/signIn">Sign In</a></li>
-        <li class="right"><a href="/help">Help</a></li>
+        <li class="right"><Link to="/signIn">Sign In</Link></li>
+        <li class="right"><Link to="/help">Help</Link></li>
       </ul>
     </div>
     </nav> 
