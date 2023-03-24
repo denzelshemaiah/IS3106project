@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import BookingListing from "../../components/BookingListing";
 import Api from "../../helpers/Api";
+import $ from 'jquery';
+import { Button } from "bootstrap";
+import RequestModal from "../../components/RequestModals"
 
 
 //page to view all bookings, follows a tab view
@@ -9,17 +12,69 @@ function Bookings() {
     const {userId = 0} = useState(0);
     const [chosenTab, setChosenTab] = useState("pending")
     const [bookings, setBookings] = useState([]);
-
-    // converts the bookings array to UI form
-    const result = bookings.map((item) => {
-        return <BookingListing bookingId={item} tab={chosenTab}/>
-    })
+    const [chosenId, setChosenId] = useState(0);
 
     useEffect(() => {
         //const bookings = Api.getAllBookings(selectedTab)
-        setBookings(["hello", "hi", "hehe"]);
+        setBookings([{"bookingId": 1, "item" : "hello"}, {"bookingId": 2, "item" : "hi"}, {"bookingId" : 3, "item" : "hehe"}]);
         //.then((res) => res.json());
     }, [chosenTab]);
+
+
+    const updateState = (item) => {
+        const itemIndex = bookings.findIndex((data) => data.id === item.id);
+        const newArray = [
+          ...bookings.slice(0, itemIndex),
+          item,
+          ...bookings.slice(itemIndex + 1)
+        ];
+        setBookings(newArray);
+      };
+
+    // converts the bookings array to UI form
+    const result = bookings.map((item) => {
+        if (chosenTab === "pending") {
+            return (
+                <>  
+                    <li class="list-group-item" key={item.id}>
+                        <h5>Request from name</h5>
+                        Request dates<br/>
+                        <p>Desription of request</p>
+                        <div style={{width:"110px", float:"right"}}>
+                            <RequestModal buttonLabel="Edit" item={item} updateState={updateState}/>
+                            {' '}
+                        </div>
+                    </li>
+                </>
+            )
+        } else if (chosenTab === "upcoming") {
+            return (
+                <>
+                    <li class="list-group-item" key={item}>
+                        <h5>Request from name</h5>
+                        Request dates<br/>
+                        <p>Desription of request</p>
+                        <div style={{width:"110px", float:"right"}}>
+                            <RequestModal buttonLabel="Cancel" item={item} updateState={updateState}/>
+                            {' '}
+                        </div>
+                    </li>
+                </>
+            )
+        } 
+        else {
+            return (
+                <>  
+                    <li class="list-group-item" key={item}>
+                        <h5>Request from name</h5>
+                        Request dates<br/>
+                        <p>Desription of request</p>
+                        {' '}
+                    </li>
+                </>
+            )
+        }
+    })
 
     function renderList(selectedTab) {
         setChosenTab(selectedTab);
@@ -29,7 +84,7 @@ function Bookings() {
         <>
             <div class="card mt-5 shadow rounded">
                 <div class="card-header">
-                    <ul class="nav nav-pills" id="tabs" role="tablist">
+                    <ul class="nav nav-pills nav-fill" id="tabs" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pending" 
                             role="tab" aria-controls="pending" type="button" aria-selected="true" onClick={() => renderList('pending')}>Pending Requests</button>
@@ -73,6 +128,7 @@ function Bookings() {
                         </div>
                     </div>
                 </div>
+                
             </div>
         </>
     );
