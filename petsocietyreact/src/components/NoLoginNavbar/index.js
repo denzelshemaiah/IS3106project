@@ -1,10 +1,7 @@
 import React from "react"; 
 import "./styles.css"
 import logo from "./assets/dog_logo.png"
-<<<<<<< HEAD
-=======
 import { Link } from "react-router-dom"
->>>>>>> master
  
 function NoLoginNavbar() { 
   return ( 
@@ -18,11 +15,7 @@ function NoLoginNavbar() {
       </ul>
 
       <ul>
-<<<<<<< HEAD
-        <li class="right"><a href="/signUp">Sign Up</a></li>
-=======
         <li class="right"><Link to="/signUp">Sign Up</Link></li>
->>>>>>> master
         <li class="right"><a href="/signIn">Sign In</a></li>
         <li class="right"><a href="/help">Help</a></li>
       </ul>
