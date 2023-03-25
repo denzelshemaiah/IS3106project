@@ -8,7 +8,8 @@ package session;
 import entity.BookingRequest;
 import entity.PetParent;
 import entity.User;
-import java.util.ArrayList;
+import enumeration.RequestStatusEnum;
+import error.NoResultException;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -37,41 +38,58 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
         }
         return b.getBookingReqId();
     }
-    
-    //UPDATE THIS FUNCTION
+
     @Override
-    public List<BookingRequest> getPendingRequests(Long userId) {
-        //User u = em.find(User.class, userId);
-        Query q = em.createQuery("SELECT b FROM BookingRequest b");
+    public List<BookingRequest> getBookings(String status, Long userId) {
+        User u = em.find(User.class, userId);
+        Query q;
+        RequestStatusEnum statusEnum;
         
-        //    if (u instanceof Parent) {
-                // if user is a parent
-        //        Query q = em.createQuery("SELECT b FROM BookingRequest b WHERE b.parent.parentId LIKE :parentId")
-        //                .setParameter("parentId", u.getUserId());
-        //    } else {
-        //        Query q = em.createQuery("SELECT b FROM BookingRequest b");
-        //    }
+        if (status.equals("pending")) {
+            statusEnum = RequestStatusEnum.PENDING;
+        } else if (status.equals("upcoming")) {
+            statusEnum = RequestStatusEnum.ACCEPTED;
+        } else if (status.equals("rejected")) {
+            statusEnum = RequestStatusEnum.REJECTED;
+        } else {
+            // archived tab
+            statusEnum = RequestStatusEnum.ARCHIVED;
+        }
+                
+        if (u instanceof PetParent) {
+            //if user is a parent
+            q = em.createQuery("SELECT b FROM BookingRequest b WHERE b.parent.userId LIKE :parentId AND b.status = :enum")
+                    .setParameter("parentId", userId)
+                    .setParameter("enum", statusEnum);
+            //check status of required bookings
+        } else {
+            q = em.createQuery("SELECT b FROM BookingRequest b WHERE b.sitter.userId LIKE :sitterId AND b.status = :enum")
+                    .setParameter("sitterId", userId)
+                    .setParameter("enum", statusEnum);
+        }
         return q.getResultList();
     }
     
-    //UPDATE THIS FUNCTION
     @Override
-    public List<BookingRequest> getUpcomingRequests(Long userId) {
-        //User u = em.find(User.class, userId);
-        Query q = em.createQuery("SELECT b FROM BookingRequest b");
-        
-        //if (u instanceOf Parent) {
-        //  Query q = em.createQuery("SELECT b FROM BookingRequest b WHERE b.parent.parentId LIKE :parentId AND b.endDate
-        return q.getResultList();
+    public void updateBooking(BookingRequest b) throws NoResultException {
+        if (b.getBookingReqId() == null) {
+            throw new NoResultException("No booking can be found!");
+        } else {
+            em.merge(b);
+        }
     }
     
-    @Override
-    public List<BookingRequest> getArchivedRequests(Long userId) {
-        return new ArrayList<>();
-    }
-    
-    @Override
-    public List<BookingRequest> getRejectedRequests(Long userId) {
-        return new ArrayList<>();
+    //need to check status, should be pending or upcoming
+    public void cancelBooking(Long bookingId) throws NoResultException {
+        BookingRequest b = em.find(BookingRequest.class, bookingId);
+        if (b == null) {
+            throw new NoResultException("No booking can be found!");
+        } else {
+            //remove relationships with other entities
+            b.getParent().getBookings().remove(b);
+            b.getSitter().getBookings().remove(b);
+            //remove from db
+            em.remove(b);
+        }
     }
 }

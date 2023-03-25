@@ -12,14 +12,25 @@ function Bookings() {
     const {userId = 0} = useState(0);
     const [chosenTab, setChosenTab] = useState("pending")
     const [bookings, setBookings] = useState([]);
-    const [chosenId, setChosenId] = useState(0);
 
     useEffect(() => {
-        //const bookings = Api.getAllBookings(selectedTab)
-        setBookings([{"bookingId": 1, "item" : "hello"}, {"bookingId": 2, "item" : "hi"}, {"bookingId" : 3, "item" : "hehe"}]);
-        //.then((res) => res.json());
+        reloadData();
     }, [chosenTab]);
 
+    //gets all the booking data for this user
+    const reloadData = () => {
+        Api.getAllBookings(chosenTab, userId)
+        .then((res) => res.json())
+        .then((bookings) => {
+            for (const booking of bookings) {
+                const {bookingReqId, cost, created, description, endDate, numPets, startDate, status} = booking;
+
+                booking.created = created.substring(0, created.length - 5);
+                booking.endDate = endDate.substring(0, endDate.length - 5);
+            }
+            setBookings(bookings);
+        });
+    }
 
     const updateState = (item) => {
         const itemIndex = bookings.findIndex((data) => data.id === item.id);
@@ -32,16 +43,16 @@ function Bookings() {
       };
 
     // converts the bookings array to UI form
-    const result = bookings.map((item) => {
+    const result = bookings.map((booking) => {
         if (chosenTab === "pending") {
             return (
                 <>  
-                    <li class="list-group-item" key={item.id}>
+                    <li class="list-group-item" key={booking.bookingReqId}>
                         <h5>Request from name</h5>
                         Request dates<br/>
                         <p>Desription of request</p>
                         <div style={{width:"110px", float:"right"}}>
-                            <RequestModal buttonLabel="Edit" item={item} updateState={updateState}/>
+                            <RequestModal buttonLabel="Edit" booking={booking} userId= {userId} updateState={updateState}/>
                             {' '}
                         </div>
                     </li>
@@ -50,12 +61,12 @@ function Bookings() {
         } else if (chosenTab === "upcoming") {
             return (
                 <>
-                    <li class="list-group-item" key={item}>
+                    <li class="list-group-item" key={booking.bookingReqId}>
                         <h5>Request from name</h5>
                         Request dates<br/>
                         <p>Desription of request</p>
                         <div style={{width:"110px", float:"right"}}>
-                            <RequestModal buttonLabel="Cancel" item={item} updateState={updateState}/>
+                            <RequestModal buttonLabel="Cancel" booking={booking} updateState={updateState}/>
                             {' '}
                         </div>
                     </li>
@@ -65,7 +76,7 @@ function Bookings() {
         else {
             return (
                 <>  
-                    <li class="list-group-item" key={item}>
+                    <li class="list-group-item" key={booking.bookingReqId}>
                         <h5>Request from name</h5>
                         Request dates<br/>
                         <p>Desription of request</p>

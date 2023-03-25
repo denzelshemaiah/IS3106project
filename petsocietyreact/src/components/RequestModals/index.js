@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Modal, ModalHeader, ModalBody } from "reactstrap";
+import { Button, Modal, ModalHeader, ModalBody, Form, Input} from "reactstrap";
 import EditForm from '../EditRequestForm';
+import Api from "../../helpers/Api";
 
 function RequestModal(props) {
 
     const [modal, setModal] = useState(false);
     const label = props.buttonLabel;
-    const [item, setItem] = useState("");
+    const [booking, setBooking] = useState("");
 
     useEffect(() => {
-        if (props.item) {
-          setItem(props.item)
+        if (props.booking) {
+          setBooking(props.booking)
         }
-      }, [props.item]);
+      }, [props.booking]);
     
     const toggle = () => {
-        setModal(!modal);
+      setModal(!modal);
     };
 
     let editForm = ""
@@ -26,13 +27,13 @@ function RequestModal(props) {
                 addItemToState={props.addItemToState}
                 updateState={props.updateState}
                 toggle={toggle}
-                item={props.item}
+                booking={props.booking}
             />
         )
     }
 
     const closeBtn = (
-        <button className="close" class="btn" onClick={toggle}>
+        <button className="close" class="btn btn-lg" onClick={toggle}>
           &times;
         </button>
     );
@@ -49,7 +50,7 @@ function RequestModal(props) {
           >
             {label}
           </Button>
-        ); title="Edit Item";
+        ); title="Edit booking";
     } else {
         button = (
             <Button
@@ -60,18 +61,42 @@ function RequestModal(props) {
               {label}
             </Button>
           );
-          title = "Delete Item";
-    }      
+          title = "Cancel booking";
+    }
+    
+    const submitFormDelete = (e) => {
+      e.preventDefault();
+      Api.deleteBooking(booking.bookingReqId)
+      props.toggle();
+    }
+
+    //edit this
+    const calculatePenalty = (e) => {
+      return 0;
+    }
 
     let cancelConfirm = "";
 
     if (label === "Cancel") {
-        cancelConfirm = (
-            <p>
-                Would you like to cancel the booking {item.item}?
-            </p>
-        )
-    }
+        cancelConfirm = ((
+          <div id="cancelModal">
+            <Form onSubmit={submitFormDelete}>
+              <p>
+                Do you want to cancel this booking?
+                You would have to pay: ${calculatePenalty(booking)}
+                <Input type="text" value={booking.bookingId}/>
+              </p>
+              <Button 
+                color="danger" 
+                type="submit"
+                style={{float: "right"}}
+                >
+                Confirm
+              </Button>
+            </Form>
+          </div>
+        ))
+        }
 
     return (
         <>

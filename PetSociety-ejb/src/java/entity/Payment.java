@@ -29,7 +29,7 @@ public class Payment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long paymentId;
-    @Column(precision = 2, scale = 6)
+    @Column(precision = 6, scale = 2)
     private BigDecimal amount;
     @Temporal(TemporalType.DATE)
     private Date created;
