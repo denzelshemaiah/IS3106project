@@ -35,8 +35,18 @@ public class PetParent extends User implements Serializable {
     
     @OneToMany(mappedBy = "parent")
     private List<BookingRequest> bookings;
+    
+    private User user;
 
     public PetParent() {
+    }
+    
+    public PetParent(User user, List<Search> searches, List<MeetAndGreetRequest> mgRequests, List<BookingRequest> bookings) {
+        this.user = user;
+        this.searches = searches;
+        this.mgRequests = mgRequests;
+        this.bookings = bookings;
+        
     }
 
     /**
@@ -79,6 +89,14 @@ public class PetParent extends User implements Serializable {
      */
     public void setBookings(List<BookingRequest> bookings) {
         this.bookings = bookings;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
     
 }

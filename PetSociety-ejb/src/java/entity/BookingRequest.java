@@ -11,6 +11,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -42,6 +44,7 @@ public class BookingRequest implements Serializable {
     @Column(precision = 6, scale = 2)
     private BigDecimal cost;
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private RequestStatusEnum status;
     @Temporal(TemporalType.DATE)
     @Column(nullable = false)

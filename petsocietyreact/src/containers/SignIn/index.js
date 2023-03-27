@@ -20,7 +20,7 @@ function SignIn() {
 
           <div className="d-flex justify-content-between mb-4">
             <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Remember me' />
-            <a href="!#">Forgot password?</a>
+            <a href="#/ForgotPassword">Forgot password?</a>
           </div>
 
           <div className='text-center text-md-start mt-4 pt-2'>

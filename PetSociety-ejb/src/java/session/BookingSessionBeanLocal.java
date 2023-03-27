@@ -6,6 +6,7 @@
 package session;
 
 import entity.BookingRequest;
+import error.NoResultException;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -16,8 +17,7 @@ import javax.ejb.Local;
 @Local
 public interface BookingSessionBeanLocal {
     public Long createNewBooking(BookingRequest b);
-    public List<BookingRequest> getPendingRequests(Long userId);
-    public List<BookingRequest> getUpcomingRequests(Long userId);
-    public List<BookingRequest> getRejectedRequests(Long userId);
-    public List<BookingRequest> getArchivedRequests(Long userId);
+    public List<BookingRequest> getBookings(String status, Long userId);
+    public void updateBooking(BookingRequest b) throws NoResultException;
+    public void cancelBooking(Long bookingId) throws NoResultException;
 }

@@ -17,7 +17,7 @@
         <!-- <h:outputStylesheet name="./css/default.css"/> -->
         <!-- <h:outputStylesheet name="./css/cssLayout.css"/> -->
 
-        <title>Login Template</title>
+        <title><ui:insert name="title"></ui:insert></title>
 
         <!-- Bootstrap core CSS -->
         <h:outputStylesheet name="bootstrap-3.3.7-dist/css/bootstrap.min.css"/> <!-- use bootstrap css instead of jsf one -->
@@ -35,6 +35,16 @@
     <h:body>
 
         <div id="top">
+            <nav class="navbar navbar-inverse navbar-fixed-top">
+                <div class="container">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#">
+                            <img src='img/dog_logo.jpg' width="30" class="img-responsive" alt=""/>
+                            PetSociety
+                        </a>
+                    </div>
+                </div>
+            </nav>
             <ui:insert name="top"></ui:insert>
         </div>
 

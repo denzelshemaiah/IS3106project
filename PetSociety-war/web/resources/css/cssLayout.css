@@ -5,9 +5,125 @@
 
 .loginForm {
     padding: 15px;
+    font-size: 13px;
+    margin: auto;
 }
 
 .loginCard {
     margin: auto;
-    background-color: #E4E2F5;
+}
+
+.loginCard.loginForm.ui-commandButton.staffLoginButton {
+    font-size: 13px;
+}
+
+.createStaffCard {
+    margin: auto;
+    padding: 10px;
+}
+
+.createStaffForm {
+    font-size: 13px;
+}
+
+.createStaff {
+    padding: 50px;
+}
+
+.btn-link {
+    font-size: 15px;
+    margin-top: 22px;
+}
+
+.btn-link:hover {
+    text-decoration: none;
+}
+
+.thead-dark {
+    background-color: black;
+    color: #f6f6f6;
+}
+
+.jumbotron-fluid {
+    background-color: transparent;
+}
+
+.lead {
+    font-size: 30px; /*used in create staff success*/
+}
+
+.myReportsButton {
+    width: 6rem;
+    background-color: #9f96fa;
+    border-color: transparent;
+}
+
+.reportspage {
+    padding-top: 200px;
+}
+
+.welcome-card {
+    height: 100%;
+    background-image: url("../../img/welcome.jpg");
+    background-size: cover;
+}
+
+.welcome-header {
+    padding-top: 15%;
+    font-size: 50px;
+}
+
+.welcome-sub-header {
+    font-size: 30px;
+    padding-bottom: 75px;
+}
+
+.report-paper {
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+.report-deets {
+    width: 8.3in;
+    background-color: white;
+}
+
+.report-card {
+    padding-left: 1in;
+}
+
+.report-card-header {
+    font-size: 40px;
+    padding-top: 30px;
+}
+
+.reported-card {
+    padding-left: 1in;
+}
+
+.reported-card-header {
+    font-size: 20px;
+}
+
+.reporter-card {
+    padding-left: 1in;
+}
+
+.reporter-card-header {
+    font-size: 20px;
+}
+
+.authen-req-card {
+    padding-top: 50px;
+    width: 8.3in;
+    min-height: 11.69in;
+}
+
+.authen-req-header {
+    font-size: 20px;
+    padding: 30px;
+}
+
+.button-footer {
+    padding: 20px;
 }
