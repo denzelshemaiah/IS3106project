@@ -19,7 +19,7 @@ public interface UserSessionBeanLocal {
 
     public User createNewUser(User user);
 
-    User getUser(String userId) throws EntityNotFoundException;
+    User getUser(Long userId) throws EntityNotFoundException;
 
     List<User> retrieveAllUsers();
 

@@ -33,7 +33,7 @@ public class UserSessionBean implements UserSessionBeanLocal {
     }
 
     @Override
-    public User getUser(String userId) throws EntityNotFoundException {
+    public User getUser(Long userId) throws EntityNotFoundException {
         User user = em.find(User.class, userId);
         if (user == null) {
             throw new EntityNotFoundException("No user found with this UserId");
