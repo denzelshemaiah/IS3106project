@@ -10,6 +10,8 @@ import {
   MDBCheckbox
 }
 from 'mdb-react-ui-kit';
+import 'mdb-react-ui-kit/dist/css/mdb.min.css';
+
 
 function SignUp() {
   return (
@@ -26,7 +28,7 @@ function SignUp() {
 
                 <MDBCol md='6' className='p-5 bg-white'>
 
-                  <h3 className="fw-normal mb-5" style={{color: '#4835d4'}}>General Infomation</h3>
+                  <h3 className="fw-normal mb-5" style={{color: '#4835d4'}}>General Information</h3>
 
                   <MDBRow>
 
@@ -58,7 +60,7 @@ function SignUp() {
                 </MDBCol>
 
 
-                <MDBCol md='6' className='bg-indigo p-5'>
+                <MDBCol md='6' style={{ backgroundColor: 'indigo' }} className='bg-blue p-5'>
 
                   <h3 className="fw-normal mb-5 text-white" style={{color: '#4835d4'}}>Contact Details</h3>
                   <MDBInput wrapperClass='mb-4' labelClass='text-white' label='Street + Nr' size='lg' id='form5' type='text'/>
