@@ -6,7 +6,9 @@
 package session;
 
 import entity.User;
+import java.util.List;
 import javax.ejb.Local;
+import javax.persistence.EntityNotFoundException;
 
 /**
  *
@@ -16,5 +18,15 @@ import javax.ejb.Local;
 public interface UserSessionBeanLocal {
 
     public User createNewUser(User user);
+
+    User getUser(String userId) throws EntityNotFoundException;
+
+    List<User> retrieveAllUsers();
+
+    List<User> searchUsersByUsername(String username);
+
+    List<User> searchUsersByEmail(String email);
+
+    List<User> searchUsersByContactNum(String contactNum);
     
 }
