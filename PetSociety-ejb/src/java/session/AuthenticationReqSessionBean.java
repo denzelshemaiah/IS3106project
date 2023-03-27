@@ -8,7 +8,9 @@ package session;
 import entity.AuthenticationRequest;
 import entity.PetParent;
 import entity.PetSitter;
+import entity.Staff;
 import entity.User;
+import enumeration.UserStatusEnum;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -65,11 +67,38 @@ public class AuthenticationReqSessionBean implements AuthenticationReqSessionBea
     }
     
     @Override
-    public void markAuthenReqAsResolved(Long authenticationId) throws EntityNotFoundException {
+    public void markAuthenReqAsResolved(Long authenticationId, Long staffId) throws EntityNotFoundException {
         AuthenticationRequest authenReq = em.find(AuthenticationRequest.class, authenticationId);
         if (authenReq == null) {
             throw new EntityNotFoundException("No AuthenticationRequest found with this authenticationId");
         }
+        Staff staff = em.find(Staff.class, staffId);
+        if (staff == null) {
+            throw new EntityNotFoundException("No Staff found with this staffId");
+        }
         authenReq.setResolved(Boolean.TRUE);
+        authenReq.setStaff(staff);
+    }
+
+    @Override
+    public AuthenticationRequest findAuthenReqById(Long authenId) {
+        return em.find(AuthenticationRequest.class, authenId);
+    }
+
+    @Override
+    public void acceptAuthenReq(Long authenId, Long staffId) throws EntityNotFoundException {
+        AuthenticationRequest authenReq = em.find(AuthenticationRequest.class, authenId);
+        if (authenReq == null) {
+            throw new EntityNotFoundException("No AuthenticationRequest found with this authenticationId");
+        }
+        Staff staff = em.find(Staff.class, staffId);
+        if (staff == null) {
+            throw new EntityNotFoundException("No Staff found with this staffId");
+        }
+        Long sitterId = authenReq.getSitter().getUserId();
+        PetSitter sitter = em.find(PetSitter.class, sitterId);
+        sitter.setStatus(UserStatusEnum.APPROVED);
+        authenReq.setResolved(Boolean.TRUE);
+        authenReq.setStaff(staff);
     }
 }

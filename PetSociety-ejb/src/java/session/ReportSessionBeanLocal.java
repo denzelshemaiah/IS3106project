@@ -6,7 +6,9 @@
 package session;
 
 import entity.Report;
+import java.util.List;
 import javax.ejb.Local;
+import javax.persistence.EntityNotFoundException;
 
 /**
  *
@@ -18,5 +20,17 @@ public interface ReportSessionBeanLocal {
     Long createReport(Report report);
 
     void markReportAsResolved(Long reportId);
+
+    List<Report> getAllUnassignedReports();
+
+    void assignReportToStaff(Long staffId, Long reportId) throws EntityNotFoundException;
+
+    List<Report> retrieveUnresolvedReportsByStaff(Long staffId) throws EntityNotFoundException;
+
+    Report getReport(Long reportId);
+
+    void rejectReport(Long reportId) throws EntityNotFoundException;
+
+    void approveReport(Long reportId) throws EntityNotFoundException;
     
 }

@@ -2,3 +2,15 @@ body {
     padding-top: 50px;
     background-color: #E4E2F5;
 }
+
+.h3 {
+    align-self: center;
+}
+
+.navbar-header {
+    height: 70px;
+}
+
+.header {
+    padding-bottom: 30px
+}

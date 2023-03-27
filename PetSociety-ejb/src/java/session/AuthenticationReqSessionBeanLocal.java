@@ -25,5 +25,9 @@ public interface AuthenticationReqSessionBeanLocal {
     
     List<AuthenticationRequest> getAllAuthenticationReqs();
 
-    void markAuthenReqAsResolved(Long authenticationId) throws EntityNotFoundException;
+    void markAuthenReqAsResolved(Long authenticationId, Long staffId) throws EntityNotFoundException;
+
+    AuthenticationRequest findAuthenReqById(Long authenId);
+
+    void acceptAuthenReq(Long authenId, Long staffId) throws EntityNotFoundException;
 }
