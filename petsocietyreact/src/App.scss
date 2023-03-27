@@ -4,8 +4,9 @@ $theme-colors: (
     "danger" : #9d82ff,
 );
 
-//change colour of active nav
-$nav-pills-link-active-bg: #6610f2;
+.nav-pills .nav-itme .active {
+    background-color: #6610f2;
+}
 
 .nav-pills .nav-item .nav-link {
     background-color:transparent;

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import BookingListing from "../../components/BookingListing";
 import Api from "../../helpers/Api";
-import $ from 'jquery';
 import { Button } from "bootstrap";
 import RequestModal from "../../components/RequestModals"
 

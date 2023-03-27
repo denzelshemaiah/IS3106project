@@ -16,11 +16,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
 function App() {
-  // test user
-  const user = {
-
-  }
-
   return (
     <>
       <Navbar></Navbar>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import './style.css'
-import { Card, CardText, CardBody, CardSubtitle, Button, Label, Input, Form, FormGroup} from "reactstrap";
+import { Card, CardText, CardBody, Button, Label, Input, Form, FormGroup} from "reactstrap";
 import { faCloudSun, faHouseChimney, faRepeat, faSuitcase, faTaxi } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-regular-svg-icons";
@@ -80,6 +80,12 @@ function MakeBookings(props) {
 
     return (
         <>
+            <head>
+                <link
+                    rel="stylesheet"
+                    href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+                />
+            </head>
             <div style={{width: "50vw", margin: "auto"}}>
                 <div style={{display: "block", marginTop:"5vh", marginBottom:"3vh"}}> 
                     <h2 id="contact-header"> Contact {sitter} </h2>

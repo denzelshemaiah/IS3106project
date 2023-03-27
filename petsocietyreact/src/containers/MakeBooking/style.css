@@ -13,3 +13,7 @@
 .react-datepicker-wrapper .react-datepicker__input-container input { 
     width: 70% 
 }
+
+.btn {
+    text-transform: unset !important;
+}
