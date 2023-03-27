@@ -29,11 +29,14 @@ public class Staff implements Serializable {
     @Column(unique = true, nullable = false)
     @Size(min = 6, max = 20)
     private String username;
+    
     @Column(nullable = false)
     @Size(min = 6, max = 20)
     private String password;
+    
     @Column(nullable = false)
     private String firstName;
+    
     @Column(nullable = false)
     private String lastName;
     

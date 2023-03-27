@@ -29,6 +29,7 @@ function SignUp(props) {
   const [emergencyContact, setEmergencyContact] = useState("");
   const [profilePicture, setProfilePicture] = useState(null);
   const [billingAddress, setBillingAddress] = useState("");
+  const [status, setStatus] = useState(PENDING);
 
 
   const handleRegistration = (e) => {

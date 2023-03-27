@@ -43,7 +43,7 @@ public class DataInitSessionBean {
             staff1.setUsername("staff1");
             staff1.setPassword("password");
             staff1.setFirstName("firstname");
-            staff1.setLastName("lastname");
+             staff1.setLastName("lastname");
             staffSessionBeanLocal.createStaff(staff1);
         } catch (EntityAlreadyExistsException ex) {
             ex.printStackTrace();

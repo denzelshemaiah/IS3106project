@@ -55,11 +55,11 @@ public class User implements Serializable {
     @Column(length = 8, nullable = false)
     @Size(min = 8)
     private String emergencyContact;
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String profilePicture;
     @Column(nullable = false)
     private String billingAddress;
-    @Column(nullable = false)
+    @Column(nullable = true)
     private UserStatusEnum status;
 
     // relationship with report x 2
