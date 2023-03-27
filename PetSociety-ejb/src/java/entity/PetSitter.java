@@ -57,11 +57,26 @@ public class PetSitter extends User implements Serializable {
     @OneToMany(mappedBy="sitter")
     private List<MeetAndGreetRequest> mgRequests;
     
-    
+    private User user;
 
     public PetSitter() {
     }
 
+    public PetSitter(String serviceAddress, String region, String preference, List<Date> schedule, List<BigDecimal> rates, ServiceEnum service, AuthenticationRequest authenReq, ExperienceForm expForm, SafetyForm safetyForm, List<BookingRequest> bookings, List<MeetAndGreetRequest> mgRequests, User user) {
+        this.serviceAddress = serviceAddress;
+        this.region = region;
+        this.preference = preference;
+        this.schedule = schedule;
+        this.rates = rates;
+        this.service = service;
+        this.authenReq = authenReq;
+        this.expForm = expForm;
+        this.safetyForm = safetyForm;
+        this.bookings = bookings;
+        this.mgRequests = mgRequests;
+        this.user = user;
+    }
+    
     public String getServiceAddress() {
         return serviceAddress;
     }
@@ -160,6 +175,14 @@ public class PetSitter extends User implements Serializable {
 
     public void setSafetyForm(SafetyForm safetyForm) {
         this.safetyForm = safetyForm;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
 }

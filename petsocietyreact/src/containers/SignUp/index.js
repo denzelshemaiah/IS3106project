@@ -4,31 +4,33 @@ import {
   MDBContainer,
   MDBRow,
   MDBCol,
-  MDBCard,
   MDBCardBody,
   MDBInput,
   MDBCheckbox
 }
 from 'mdb-react-ui-kit';
+import { MDBCard } from 'mdbreact';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 
 
 function SignUp() {
   return (
+    <> 
+    
     <MDBContainer fluid className='h-custom'>
 
       <MDBRow className='d-flex justify-content-center align-items-center h-100'>
         <MDBCol col='12' className='m-5'>
 
-          <MDBCard className='card-registration card-registration-2' style={{borderRadius: '15px'}}>
+          <MDBCard>
 
             <MDBCardBody className='p-0'>
 
               <MDBRow>
 
-                <MDBCol md='6' className='p-5 bg-white'>
+                <MDBCol md='6' className='p-5 bg-gray rounded-start'>
 
-                  <h3 className="fw-normal mb-5" style={{color: '#4835d4'}}>General Information</h3>
+                  <h3 className="fw-bold mb-5" style={{color: '#4835d4'}}>General Information</h3>
 
                   <MDBRow>
 
@@ -43,7 +45,7 @@ function SignUp() {
                   </MDBRow>
 
                  
-                  <MDBInput wrapperClass='mb-4' label='Position' size='lg' id='form3' type='text'/>
+                  <MDBInput wrapperClass='mb-4' label='Username' size='lg' id='form3' type='text'/>
 
                   <MDBRow>
 
@@ -60,9 +62,9 @@ function SignUp() {
                 </MDBCol>
 
 
-                <MDBCol md='6' style={{ backgroundColor: 'indigo' }} className='bg-blue p-5'>
+                <MDBCol md='6' className='p-5 rounded-end' style={{ backgroundColor: 'indigo' }}>
 
-                  <h3 className="fw-normal mb-5 text-white" style={{color: '#4835d4'}}>Contact Details</h3>
+                  <h3 className="fw-bold mb-5 text-white" style={{color: '#4835d4'}}>Contact Details</h3>
                   <MDBInput wrapperClass='mb-4' labelClass='text-white' label='Street + Nr' size='lg' id='form5' type='text'/>
                   <MDBInput wrapperClass='mb-4' labelClass='text-white' label='Additional Information' size='lg' id='form6' type='text'/>
 
@@ -106,6 +108,7 @@ function SignUp() {
       </MDBRow>
 
     </MDBContainer>
+    </>
   );
 }
 
