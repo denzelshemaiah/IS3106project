@@ -2,14 +2,17 @@ import React from 'react';
 import "./styles.js";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { CardGroup, Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, Button } from 'reactstrap';
-import { MDBCol, MDBRow, MDBTypography, MDBCard, MDBCardBody, MDBCardTitle, MDBCardText } from 'mdb-react-ui-kit';
+import { MDBCol, MDBRow, MDBTypography, MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBBtn } from 'mdb-react-ui-kit';
 import { Link, Route, Routes } from 'react-router-dom';
 import Footer from '../../components/Footer';
+import ResponsiveNavbar from '../../components/ResponsiveNavbar/index.js';
 
 
 function Services() {
   return (
     <>
+          <ResponsiveNavbar />
+
       <div className="hero-section">
         <MDBTypography tag='div' className='display-3 pt-5 pb-3 text-center'>
           Our Services
@@ -28,10 +31,14 @@ function Services() {
 
         <div className="d-flex justify-content-center pb-5">
           <a href="/#/SignUp">
-            <button className="btn btn-primary mx-2">Register Now!</button>
+          <MDBBtn style={{backgroundColor: '#4B0082', padding: '10px 20px'}}>
+            Register Now!
+            </MDBBtn>        
           </a>
           <a href="#service">
-            <button className="btn btn-secondary mx-2">See More</button>
+          <MDBBtn style={{backgroundColor: '#808080', padding: '10px 20px'}}>
+              See More
+              </MDBBtn>
           </a>
         </div>
       </div>
