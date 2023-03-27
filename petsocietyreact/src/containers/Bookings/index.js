@@ -8,10 +8,11 @@ import RequestModal from "../../components/RequestModals"
 
 
 //page to view all bookings, follows a tab view
-function Bookings() {
+function Bookings(props) {
     const {userId = 0} = useState(0);
     const [chosenTab, setChosenTab] = useState("pending")
     const [bookings, setBookings] = useState([]);
+    const user = props.user;
 
     useEffect(() => {
         reloadData();

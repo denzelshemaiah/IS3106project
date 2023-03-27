@@ -11,20 +11,29 @@ import Help from "./containers/Help";
 import Bookings from "./containers/Bookings"
 import MeetAndGreets from "./containers/MeetAndGreets"
 import MakeBooking from "./containers/MakeBooking"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 
 
 function App() {
+  // test user
+  const user = {
+
+  }
 
   return (
     <>
       <Navbar></Navbar>
       <div className='container'>
         <Routes>
+          {/* public routes */}
+          <Route path="/signIn" element={<SignIn />} />
+          <Route path="/signUp" element={<SignUp />} />
           <Route path="/searchSitter" element={<SearchSitter />} />
           <Route path="/services" element={<Services />} /> 
-          <Route path="/signUp" element={<SignUp />} />
-          <Route path="/signIn" element={<SignIn />} />
           <Route path="/help" element={<Help />} />
+
+          {/* private routes */}
           <Route path="/bookings" element={<Bookings/>} />
           <Route path="/meetandgreets" element={<MeetAndGreets/>} />
           <Route path="/makeBooking" element={<MakeBooking/>} />
