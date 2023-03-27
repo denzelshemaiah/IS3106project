@@ -39,7 +39,7 @@ public class BookingRequest implements Serializable {
     private Date endDate;
     @Column(length = 500)
     private String description;
-    @Column(precision = 2, scale = 6)
+    @Column(precision = 6, scale = 2)
     private BigDecimal cost;
     @Column(nullable = false)
     private RequestStatusEnum status;

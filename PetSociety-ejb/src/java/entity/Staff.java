@@ -32,6 +32,10 @@ public class Staff implements Serializable {
     @Column(nullable = false)
     @Size(min = 6, max = 20)
     private String password;
+    @Column(nullable = false)
+    private String firstName;
+    @Column(nullable = false)
+    private String lastName;
     
     @OneToMany
     private List<Report> reports;
@@ -39,6 +43,22 @@ public class Staff implements Serializable {
     private List<AuthenticationRequest> authenticationReqs;
 
     public Staff() {
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public List<AuthenticationRequest> getAuthenticationReqs() {

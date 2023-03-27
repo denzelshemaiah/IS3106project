@@ -7,6 +7,7 @@ package entity;
 
 import enumeration.UserStatusEnum;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -87,6 +88,10 @@ public class User implements Serializable {
     // child r/s with Sitter
     
     public User() {
+        this.reportsAgainstUser = new ArrayList<>();
+        this.reportsUserMade = new ArrayList<>();
+        this.ratingsUserMade = new ArrayList<>();
+        this.ratingsForUsers = new ArrayList<>();
     }
 
     public Long getUserId() {
