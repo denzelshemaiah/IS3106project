@@ -2,8 +2,8 @@ const SERVER_PREFIX = "http://localhost:8080/PetSociety-war/webresources";
 
 const Api = {
     // create user (in general 1st)
-    createCustomer(data) {
-        return fetch(`${SERVER_PREFIX}/customers`, { headers: {
+    createNewUser(data) {
+        return fetch(`${SERVER_PREFIX}/users`, { headers: {
         Accept: "application/json",
         "Content-Type": "application/json", },
               method: "POST",

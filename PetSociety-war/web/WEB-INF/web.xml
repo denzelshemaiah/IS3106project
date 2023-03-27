@@ -49,4 +49,10 @@
     <welcome-file-list>
         <welcome-file>faces/staffLogin.xhtml</welcome-file>
     </welcome-file-list>
+    <ejb-local-ref>
+        <ejb-ref-name>UserSessionBean</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>session.UserSessionBeanLocal</local>
+        <ejb-link>PetSociety-ejb.jar#UserSessionBean</ejb-link>
+    </ejb-local-ref>
 </web-app>
