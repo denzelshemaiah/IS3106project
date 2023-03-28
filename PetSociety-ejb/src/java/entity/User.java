@@ -7,14 +7,18 @@ package entity;
 
 import enumeration.UserStatusEnum;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Size;
@@ -25,7 +29,8 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
-public class User implements Serializable {
+public class User implements Serializable  {
+
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -54,11 +59,16 @@ public class User implements Serializable {
     @Column(length = 8, nullable = false)
     @Size(min = 8)
     private String emergencyContact;
-    @Column(nullable = false)
-    private String profilePicture;
+    
+    @Column(nullable = true)
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    private byte [] profilePicture;
+    
+    
     @Column(nullable = false)
     private String billingAddress;
-    @Column(nullable = false)
+    @Column(nullable = true)
     private UserStatusEnum status;
 
     // relationship with report x 2
@@ -87,6 +97,10 @@ public class User implements Serializable {
     // child r/s with Sitter
     
     public User() {
+        this.reportsAgainstUser = new ArrayList<>();
+        this.reportsUserMade = new ArrayList<>();
+        this.ratingsUserMade = new ArrayList<>();
+        this.ratingsForUsers = new ArrayList<>();
     }
 
     public Long getUserId() {
@@ -186,13 +200,6 @@ public class User implements Serializable {
         this.emergencyContact = emergencyContact;
     }
 
-    public String getProfilePicture() {
-        return profilePicture;
-    }
-
-    public void setProfilePicture(String profilePicture) {
-        this.profilePicture = profilePicture;
-    }
 
     public String getBillingAddress() {
         return billingAddress;
@@ -256,5 +263,13 @@ public class User implements Serializable {
 
     public void setCc(CreditCard cc) {
         this.cc = cc;
+    }
+
+    public byte[] getProfilePicture() {
+        return profilePicture;
+    }
+    
+    public void setProfilePicture(byte[] profilePicture) {
+        this.profilePicture = profilePicture;
     }
 }

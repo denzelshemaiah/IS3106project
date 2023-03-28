@@ -5,15 +5,15 @@
  */
 package webservices.restful;
 
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
+import entity.User;
+import javax.ejb.EJB;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PUT;
 import javax.enterprise.context.RequestScoped;
+import javax.ws.rs.POST;
 import javax.ws.rs.core.MediaType;
+import session.UserSessionBeanLocal;
 
 /**
  * REST Web Service
@@ -24,6 +24,16 @@ import javax.ws.rs.core.MediaType;
 @RequestScoped
 public class UsersResource {
 
-  
-  
+    @EJB
+    private UserSessionBeanLocal userSessionBean;
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public User createNewUser(User user) {
+
+        userSessionBean.createNewUser(user);
+        return user;
+    }
+
 }
