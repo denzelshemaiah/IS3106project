@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import { Navigate, useParams } from "react-router-dom";
 import {
   MDBBtn,
@@ -32,37 +32,38 @@ function SignUp(props) {
 
   const [status, setStatus] = useState([]);
   
-  async function fetchUserStatusEnum() {
-    try {
-      const data = await getUserStatusEnum();
-      setStatus(data[0]);
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  // async function fetchUserStatusEnum() {
+  //   try {
+  //     const data = await getUserStatusEnum();
+  //     setStatus(data[0]);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
 
-  useEffect(() => {
-    fetchUserStatusEnum();
-  }, []);
+  // useEffect(() => {
+  //   fetchUserStatusEnum();
+  // }, []);
 
-  const handleRegistration = (e) => {
-    Api.createNewUser({
-      userId,
-      firstName,
-      lastName,
-      username,
-      contactNum,
-      email,
-      password,
-      age,
-      emergencyContact,
-      profilePicture,
-      billingAddress,
-      status
-    }).then((data) => {
-      Navigate("/LoggedInHomepage");
-    })
-  }
+
+  // const handleRegistration = (e) => {
+  //   Api.createNewUser({
+  //     userId,
+  //     firstName,
+  //     lastName,
+  //     username,
+  //     contactNum,
+  //     email,
+  //     password,
+  //     age,
+  //     emergencyContact,
+  //     profilePicture,
+  //     billingAddress,
+  //     status
+  //   }).then((data) => {
+  //     Navigate("/LoggedInHomepage");
+  //   })
+  // }
 
 
   return (
@@ -75,7 +76,7 @@ function SignUp(props) {
 
         <MDBRow className='d-flex justify-content-center align-items-center h-100'>
           <MDBCol col='12' className='m-5'>
-            <form onSubmit={handleRegistration}>
+            {/* <form onSubmit={handleRegistration}> */}
               <MDBCard>
 
                 <MDBCardBody className='p-0'>
@@ -245,7 +246,7 @@ function SignUp(props) {
 
                 </MDBCardBody>
               </MDBCard>
-            </form>
+            {/* </form> */}
 
           </MDBCol>
         </MDBRow>

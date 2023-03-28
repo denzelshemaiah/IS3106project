@@ -18,15 +18,53 @@ function MakeBookings(props) {
     const [cost, setCost] = useState(0);
     const [created, setCreated] = useState(moment());
     const [description, setDescription] = useState("");
+    const [visitFreq, setVisitFreq] = useState(0);
     const [endDate, setEndDate] = useState(moment("1990-01-01 00:00:00").toDate());
     const [repeat, setRepeat] = useState("once")
+    const dates = []
 
     useEffect(() => {
-        setService(props.service)
+        setService("walking")
+        setCost(calculateCost)
     }, [service]);
 
-    //options to choose repeats etc
-    let optionButtons = "";
+    const calcNumWeeks = () => {
+        var numWeeks = 0
+            var copyStart = startDate
+            while (copyStart < endDate) {
+                copyStart = copyStart.setDate(copyStart.getDate() + 7)
+                numWeeks += 1
+            }
+        return numWeeks;
+    }
+
+    const calculateCost = () => {
+        //per day (boarding,  daycare)
+        if (service === "boarding" || service === "daycare") {
+            var diffDays = Math.round((endDate - startDate)/(1000 * 60 * 60 * 24));
+            if (repeat === "weekly") {
+                var numWeeks = calcNumWeeks;
+                //SUB IN RATES!
+                return numWeeks * diffDays * 0.00;
+            }
+            // SUB IN RATES!
+            return diffDays * 0.00;
+            // for 
+        } else if (service === "walking") {
+            
+        } else {
+            //drop-in case, basis is per visit
+            var diffDays = Math.round((endDate - startDate)/(1000 * 60 * 60 * 24));
+            //get weekly visits
+            var visits = diffDays * visitFreq
+            if (repeat === "weekly") {
+                var numWeeks = calcNumWeeks;
+                //SUB IN RATES!
+                return numWeeks * visits * 0.00
+            }
+            return diffDays * 0.00
+        }      
+    }
 
     //for the top bar stating service
     let serviceIcon = ""
@@ -55,12 +93,21 @@ function MakeBookings(props) {
         )
     }
 
+    let freqText = ""
+    if(service === "dropin") {
+        freqText = (
+            <>
+                <h5>Daily frequency of visits: {visitFreq}</h5>
+            </>
+        )
+    }
+
     repeatButtons = (
         <>
             <h5 style={{marginBottom : "3vh"}}>How often do you need {serviceText}?</h5>
-            <Button outline color="secondary" className={repeat === "once" ? "active" : ""} style={{width: "45%", margin:"10px"}} onClick={() => setRepeat("once")}> 
+            <Button outline color="secondary" className={repeat === "once" ? "active" : ""} style={{width: "45%", margin:"10px"}}> 
                 <FontAwesomeIcon icon={faCalendarAlt} style={{float: "left", height:"30px", width:"30px"}}/> One Time</Button>{' '}
-            <Button outline color="secondary"  className={repeat === "weekly" ? "active" : ""} style={{width: "45%", margin:"10px"}} onClick={() => setRepeat("weekly")}>
+            <Button outline color="secondary"  className={repeat === "weekly" ? "active" : ""} style={{width: "45%", margin:"10px"}}>
             <FontAwesomeIcon icon={faRepeat} style={{float: "left", height:"30px", width:"30px"}}/>Repeat Weekly</Button>{' '}
         </>
     )
@@ -89,7 +136,7 @@ function MakeBookings(props) {
                 />
             </head>
             <div style={{width: "50vw", margin: "auto"}}>
-                <div style={{display: "block", marginTop:"5vh", marginBottom:"3vh"}}> 
+                <div style={{display: "block", marginTop:"3vh", marginBottom:"3vh"}}> 
                     <h2 id="contact-header"> Contact {sitter} </h2>
                 </div>
 
@@ -133,7 +180,15 @@ function MakeBookings(props) {
                         />
                     </div>
 
-                    <div style={{display: "block", marginBottom:"3vh", marginTop:"5vh"}}>
+                    <div style={{display: "block", marginTop:"3vh"}}>
+                        {freqText}
+                    </div>
+
+                    <div style={{display: "block", marginTop:"3vh"}}>
+                        <h5> The total cost will be: {cost}</h5>
+                    </div>
+
+                    <div style={{display: "block", marginBottom:"3vh", marginTop:"3vh"}}>
                         <h5>
                             Message
                         </h5>
