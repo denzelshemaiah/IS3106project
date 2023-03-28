@@ -11,10 +11,10 @@ import Api from "../../helpers/Api";
 import {Link, useParams, useNavigate} from "react-router-dom";
 
 //page to view all bookings, follows a tab view
-function MakeBookings(props) {
+function MakeBooking(props) {
     const [service, setService] = useState("");
-    const sitterId = props.sitter.Id;
-    const parentId = props.parent.Id;
+    // const sitterId = props.sitter.Id;
+    // const parentId = props.parent.Id;
     const [startDate, setStartDate] = useState(moment().tz('Asia/Singapore').startOf("day").toDate());
     const [cost, setCost] = useState(0);
     const [created, setCreated] = useState(moment());
@@ -24,6 +24,7 @@ function MakeBookings(props) {
     const [repeat, setRepeat] = useState("once")
     const numPets = props.numPets
     const dates = []
+    const navigate = useNavigate();
 
     useEffect(() => {
         setService("walking")
@@ -124,14 +125,14 @@ function MakeBookings(props) {
         form.preventDefault();
         //fetch the Api
         Api.createBooking({
-            id,
             cost,
             created,
             description,
             endDate,
             numPets,
             startDate,
-        }, parentId, sitterId).then((data) => {
+        }) //parentId, sitterId)
+        .then((data) => {
             navigate("/bookings");
         });
     }
@@ -147,7 +148,7 @@ function MakeBookings(props) {
             </head>
             <div style={{width: "50vw", margin: "auto"}}>
                 <div style={{display: "block", marginTop:"3vh", marginBottom:"3vh"}}> 
-                    <h2 id="contact-header"> Contact {sitter} </h2>
+                    <h2 id="contact-header"> Contact </h2>
                 </div>
 
                 <div style={{display: "block"}}>
@@ -203,7 +204,7 @@ function MakeBookings(props) {
                             Message
                         </h5>
                         <FormGroup>
-                            <Label for="exampleText">Share a little about your pet and why they'd have a great time with {sitter}</Label>
+                            <Label for="exampleText">Share a little about your pet and why they'd have a great time with </Label>
                             <Input type="textarea" name="text" id="exampleText" style={{height: "20vh"}} onChange={setDescription}/>
                         </FormGroup>
                     </div>
@@ -217,4 +218,4 @@ function MakeBookings(props) {
     );
 }
 
-export default MakeBookings;
+export default MakeBooking;

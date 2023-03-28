@@ -35,14 +35,10 @@ public class BankAccount implements Serializable {
     @Column(nullable = false)
     @Size(max = 40)
     private String accName;
-    
 
     //relationship with transactions
     @OneToMany(mappedBy = "bankAcc")
     private List<Payment> transactions;
-    //relationship with user
-    @OneToOne(optional = false)
-    private User user;
 
     public BankAccount(String bankAccNum, String bankName, String accName) {
         this.bankAccNum = bankAccNum;
@@ -141,5 +137,4 @@ public class BankAccount implements Serializable {
     public void setAccName(String accName) {
         this.accName = accName;
     }
-    
 }

@@ -30,16 +30,16 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
     @Override
     public Long createNewBooking(BookingRequest b, Long parentId, Long sitterId) {
         PetParent p = em.find(PetParent.class, parentId);
-        PetSitter s = em.find(PetSitter.class, sitterId);
-        if (p == null || s == null) {
+        //PetSitter s = em.find(PetSitter.class, sitterId);
+        if (p == null) {
             //exception?
         } else {
             b.setParent(p);
-            b.setSitter(s);
+            //b.setSitter(s);
             em.persist(b);
             em.flush();
             b.getParent().getBookings().add(b);
-            b.getSitter().getBookings().add(b);
+            //b.getSitter().getBookings().add(b);
         }
         return b.getBookingReqId();
     }

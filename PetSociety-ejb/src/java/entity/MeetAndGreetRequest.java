@@ -117,8 +117,8 @@ public class MeetAndGreetRequest implements Serializable {
     /**
      * @return the status
      */
-    public RequestStatusEnum getStatus() {
-        return status;
+    public String getStatus() {
+        return status.name();
     }
 
     /**

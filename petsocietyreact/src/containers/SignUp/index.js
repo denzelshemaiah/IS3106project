@@ -61,7 +61,6 @@ function SignUp(props) {
 
   const handleRegistration = (e) => {
     Api.createNewUser({
-      userId,
       firstName,
       lastName,
       username,

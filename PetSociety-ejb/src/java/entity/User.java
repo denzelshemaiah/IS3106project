@@ -18,6 +18,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -77,8 +78,9 @@ public class User implements Serializable  {
     @OneToMany(mappedBy = "reporter")
     private List<Report> reportsUserMade;
     
-    // relationship with bank acc
+    // unidirectional relationship with bank acc
     @OneToOne(optional = false)
+    @JoinColumn(name="bankacc_ID")
     private BankAccount bankAcc;
 
     // relationship with rating x 2
@@ -87,11 +89,10 @@ public class User implements Serializable  {
     @OneToMany(mappedBy = "rater")
     private List<Rating> ratingsUserMade;
     
-    // relationship with credit card
-    @OneToOne
+    // unidirectional relationship with credit card
+    @OneToOne(optional = false)
+    @JoinColumn(name="cc_ID")
     private CreditCard cc;
-    
-   
     
     public User() {
         this.reportsAgainstUser = new ArrayList<>();

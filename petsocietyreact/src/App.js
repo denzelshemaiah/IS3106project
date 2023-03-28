@@ -11,14 +11,13 @@ import Help from "./containers/Help";
 import Bookings from "./containers/Bookings"
 import MeetAndGreets from "./containers/MeetAndGreets"
 import MakeBooking from "./containers/MakeBooking"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 
 
 function App() {
   return (
     <>
       <Navbar></Navbar>
+      <NoLoginNavbar></NoLoginNavbar>
       <div className='container'>
         <Routes>
           {/* public routes */}
@@ -32,9 +31,7 @@ function App() {
           {/* private routes */}
           <Route path="/bookings" element={<Bookings />} />
           <Route path="/meetandgreets" element={<MeetAndGreets />} />
-          <Route path="/makeBooking" element={<MakeBooking />} />
-
-          
+          <Route path="/makebooking" element={<MakeBooking />} />
         </Routes>
       </div>
     </>
