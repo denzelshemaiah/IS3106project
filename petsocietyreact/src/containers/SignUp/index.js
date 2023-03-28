@@ -59,7 +59,6 @@ function SignUp(props) {
     fetchUserStatusEnum();
   }, []);
 
-
   const handleRegistration = (e) => {
     Api.createNewUser({
       userId,
