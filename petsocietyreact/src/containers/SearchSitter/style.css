@@ -1,0 +1,47 @@
+.wrapper {
+    color: #26292d
+}
+
+.service-display {
+    outline: 2px solid grey;
+}
+
+.react-datepicker-wrapper, .react-datepicker__input-container { 
+    display: block !important; 
+} 
+
+.react-datepicker-wrapper .react-datepicker__input-container input { 
+    width: 70% 
+}
+
+.btn {
+    text-transform: unset !important;
+}
+
+.btn-purple {
+    background-color: #b29ad8;
+    border-color: #8a64d0;
+    color: #1b1a1a;
+  }
+  
+  .btn-purple:hover {
+    background-color: #b497e1;
+    border-color: #7b59be;
+    color: #fff;
+  }
+
+  .dropdown-item-icon {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 10px;
+  }
+  
+  .dropdown-item-icon-left {
+    margin-right: 10px;
+  }
+  
+  .dropdown-item-icon span {
+    flex-grow: 1;
+    text-align: left;
+  }
