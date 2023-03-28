@@ -64,7 +64,7 @@ public class BankAccount implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (bankAccId != null ? bankAccId.hashCode() : 0);
+        hash += (getBankAccId() != null ? getBankAccId().hashCode() : 0);
         return hash;
     }
 
@@ -75,7 +75,7 @@ public class BankAccount implements Serializable {
             return false;
         }
         BankAccount other = (BankAccount) object;
-        if ((this.bankAccId == null && other.bankAccId != null) || (this.bankAccId != null && !this.bankAccId.equals(other.bankAccId))) {
+        if ((this.getBankAccId() == null && other.getBankAccId() != null) || (this.getBankAccId() != null && !this.bankAccId.equals(other.bankAccId))) {
             return false;
         }
         return true;
@@ -83,7 +83,7 @@ public class BankAccount implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.BankAccount[ id=" + bankAccId + " ]";
+        return "entity.BankAccount[ id=" + getBankAccId() + " ]";
     }
 
     /**
@@ -111,7 +111,7 @@ public class BankAccount implements Serializable {
      * @param bankAccNum the bankAccNum to set
      */
     public void setBankAccNum(String bankAccNum) {
-        this.bankAccNum = bankAccNum;
+        this.setBankAccNum(bankAccNum);
     }
 
     /**
@@ -139,7 +139,18 @@ public class BankAccount implements Serializable {
      * @param accName the accName to set
      */
     public void setAccName(String accName) {
-        this.accName = accName;
+        this.setAccName(accName);
+    }
+
+  
+    
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
     
 }
