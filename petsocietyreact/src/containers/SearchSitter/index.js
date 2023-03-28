@@ -279,7 +279,7 @@ function SearchSitter(props) {
 
                 <div className="mb-3">
                     <label htmlFor="gridCheck" className="form-label">
-                        Rate (per hour):
+                        {selectedItem1 === ("Dog Walker" || "Drop-in Visits") ? "Rate (per hour):" : "Rate (per day):"}
                     </label>
                     <Slider
                         range
@@ -306,6 +306,15 @@ function SearchSitter(props) {
                 <div>
                     {timeOfDayButton}
                 </div>
+
+                <div>
+                    <Button
+                        color="primary"
+                    >
+                        Search
+                    </Button>
+                </div>
+
 
             </div>
         </div>

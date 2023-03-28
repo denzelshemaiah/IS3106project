@@ -31,7 +31,7 @@ function SignUp(props) {
   const [billingAddress, setBillingAddress] = useState("");
 
   const [status, setStatus] = useState([]);
-  
+  /*
   async function fetchUserStatusEnum() {
     try {
       const data = await getUserStatusEnum();
@@ -44,7 +44,7 @@ function SignUp(props) {
   useEffect(() => {
     fetchUserStatusEnum();
   }, []);
-
+*/
   const handleRegistration = (e) => {
     Api.createNewUser({
       userId,
