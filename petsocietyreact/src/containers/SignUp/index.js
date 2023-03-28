@@ -38,7 +38,7 @@ function SignUp(props) {
   const [bankAcc, setBankAcc] = useState(fetchCreateAndAssociateNewBankAccount);
   const [ratingsForUsers, setRatingsForUsers] = useState(null);
   const [ratingsUserMade, setRatingsUserMade] = useState(null);
-  const [cc, setCc] = useState(null);
+  const [cc, setCc] = useState(fetchCreateAndAssociateNewCreditCard);
 
   const navigate = useNavigate();
 
@@ -70,6 +70,16 @@ function SignUp(props) {
       console.error(error);
     }
   }
+
+  // for creditCard
+  async function fetchCreateAndAssociateNewCreditCard() {
+    try {
+      const data = await Api.createAndAssociateNewCreditCard();
+      setCc(data);
+    } catch (error) {
+      console.error(error);
+    }
+  } 
 
 
   // final registration, reading all properties of User
@@ -289,7 +299,7 @@ function SignUp(props) {
 
   // rest of the fields are filled in by user here in order to hopefully avoid constraint violations
   else if (page === "2") {
-    // do handleRegistration here
+    // do form:handleRegistration here
     return (
       <>
         <MDBContainer fluid className='h-custom'>
@@ -298,7 +308,7 @@ function SignUp(props) {
 
             <MDBCol lg='8'>
 
-              <MDBCard className='my-5 rounded-3' style={{ maxWidth: '600px' }}>
+              <MDBCard className='my-5 rounded-3'>
                 <MDBCardImage src='https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img3.webp'
                   className='w-100 rounded-top'
                   alt="Sample photo" />
@@ -315,8 +325,7 @@ function SignUp(props) {
                     label='Bank Account Number'
                     id='inputBankAcc'
                     type='text'
-                    value={bankAcc.bankAccNum}
-                    onChange={(e) => setBankAcc(e.target.value)} />
+                     />
 
                   <MDBRow>
 
@@ -325,8 +334,7 @@ function SignUp(props) {
                         label='Bank Name'
                         id='inputBankName'
                         type='text'
-                        value={bankAcc.bankName}
-                        onChange={(e) => setBankAcc(e.target.value)} />
+                        />
                     </MDBCol>
 
                     <MDBCol md='6'>
@@ -342,14 +350,44 @@ function SignUp(props) {
                   </MDBRow>
 
 
-                <h5>Credit Card Details</h5>
+                  <h5>Credit Card Details</h5>
                   <MDBRow>
-                    <MDBCol md='6'>
-                      <MDBInput wrapperClass='mb-4' label='Registration code' id='form3' type='text' />
+                    <MDBCol md='12'>
+                      <MDBInput wrapperClass='mb-4'
+                        label='Credit Card Number'
+                        id='form3'
+                        type='text' 
+                        value={cc.ccNum}/>
                     </MDBCol>
                   </MDBRow>
 
-                  <MDBBtn color='success' className='mb-4' size='lg'>Submit</MDBBtn>
+                  <MDBRow>
+                    <MDBCol md='5'>
+                      <MDBInput wrapperClass='mb-4'
+                        label='Name on Credit Card'
+                        id='form3'
+                        type='text' />
+                    </MDBCol>
+
+                    <MDBCol md='4'>
+                      <MDBInput wrapperClass='mb-4'
+                        label='Expiry Date'
+                        id='form3'
+                        type='text' />
+                    </MDBCol>
+
+                    <MDBCol md='3'>
+                      <MDBInput wrapperClass='mb-4'
+                        label='CVV'
+                        id='form3'
+                        type='text' />
+                    </MDBCol>
+                  </MDBRow>
+
+                  <MDBBtn color='success'
+                    className='mb-4'
+                    size='lg'>
+                    Submit</MDBBtn>
 
                 </MDBCardBody>
               </MDBCard>

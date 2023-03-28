@@ -5,7 +5,10 @@
  */
 package session;
 
+import entity.CreditCard;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  *
@@ -14,6 +17,18 @@ import javax.ejb.Stateless;
 @Stateless
 public class CreditCardSessionBean implements CreditCardSessionBeanLocal {
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+    @PersistenceContext(unitName = "PetSociety-ejbPU")
+    private EntityManager em;
+
+    @Override
+   public CreditCard createNewCc(CreditCard creditCard) {
+
+        em.persist(creditCard);
+        em.flush();
+        creditCard.getUser().setCc(creditCard);
+
+        return creditCard;
+    }
+
+    
 }

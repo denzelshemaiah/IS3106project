@@ -5,6 +5,7 @@
  */
 package session;
 
+import entity.CreditCard;
 import javax.ejb.Local;
 
 /**
@@ -13,5 +14,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface CreditCardSessionBeanLocal {
+
+    public CreditCard createNewCc(CreditCard creditCard);
     
 }
