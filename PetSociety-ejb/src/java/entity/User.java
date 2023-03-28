@@ -49,7 +49,7 @@ public class User implements Serializable  {
     @Size(min = 8)
     private String contactNum;
     @Column(unique = true, nullable = false)
-    @Size(max = 50)
+    @Size(min = 10)
     private String email;
     @Column(nullable = false)
     @Size(min = 6, max = 20)
@@ -91,10 +91,7 @@ public class User implements Serializable  {
     @OneToOne
     private CreditCard cc;
     
-    // child r/s with Parent
-    
-    
-    // child r/s with Sitter
+   
     
     public User() {
         this.reportsAgainstUser = new ArrayList<>();

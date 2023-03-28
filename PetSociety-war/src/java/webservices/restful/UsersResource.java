@@ -31,7 +31,6 @@ public class UsersResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public User createNewUser(User user) {
-
         userSessionBean.createNewUser(user);
         return user;
     }

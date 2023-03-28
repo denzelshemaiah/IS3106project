@@ -10,6 +10,7 @@ const Api = {
             throw new Error('Failed to fetch user status enum');
         }
         const data = await response.json();
+        console.log("JSON response:", data);
         return data;
     },
 
