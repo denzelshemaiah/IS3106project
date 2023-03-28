@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import './style.css'
 import { Card, CardText, CardBody, Button, Label, Input, Form, FormGroup} from "reactstrap";
-import { faCloudSun, faHouseChimney, faRepeat, faSuitcase, faTaxi } from "@fortawesome/free-solid-svg-icons";
+import { faCloudSun, faHouseChimney, faRepeat, faSuitcase, faPaw } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-regular-svg-icons";
 import moment from 'moment-timezone';
@@ -11,7 +11,7 @@ import Api from "../../helpers/Api";
 
 //page to view all bookings, follows a tab view
 function MakeBookings(props) {
-    const [service, setService] = useState("daycare");
+    const [service, setService] = useState("");
     const sitter = props.sitter
     const parent = props.parent
     const [startDate, setStartDate] = useState(moment().tz('Asia/Singapore').startOf("day").toDate());
@@ -21,6 +21,10 @@ function MakeBookings(props) {
     const [endDate, setEndDate] = useState(moment("1990-01-01 00:00:00").toDate());
     const [repeat, setRepeat] = useState("once")
 
+    useEffect(() => {
+        setService(props.service)
+    }, [service]);
+
     //options to choose repeats etc
     let optionButtons = "";
 
@@ -29,18 +33,18 @@ function MakeBookings(props) {
     let serviceText = ""
     let repeatButtons = ""
 
-    if (service === "taxi") {
-        serviceText = "Pet Taxi"
+    if (service === "walking") {
+        serviceText = "Pet Walking"
         serviceIcon = (
-            <FontAwesomeIcon icon={faTaxi} style={{float: "left", marginRight: "15px", height:"30px", width:"30px"}}/>
+            <FontAwesomeIcon icon={faPaw} style={{float: "left", marginRight: "15px", height:"30px", width:"30px"}}/>
         )
     } else if (service === "daycare") {
-        serviceText = "Doggy Day Care"
+        serviceText = "Day Care"
         serviceIcon = (
             <FontAwesomeIcon icon={faCloudSun} style={{float: "left", marginRight: "15px", height:"30px", width:"30px"}}/>
         )
-    } else if (service === "housesitting") {
-        serviceText = "House Sitting"
+    } else if (service === "dropin") {
+        serviceText = "Drop-in Visits"
         serviceIcon = (
             <FontAwesomeIcon icon={faHouseChimney} style={{float: "left", marginRight: "15px", height:"30px", width:"30px"}}/>
         )
@@ -51,17 +55,15 @@ function MakeBookings(props) {
         )
     }
 
-    if (service === "daycare" || service ==="housesitting" || service==="boarding") {
-        repeatButtons = (
-            <>
-                <h5 style={{marginBottom : "3vh"}}>How often do you need {serviceText}?</h5>
-                <Button outline color="secondary" className={repeat === "once" ? "active" : ""} style={{width: "45%", margin:"10px"}} onClick={() => setRepeat("once")}> 
-                    <FontAwesomeIcon icon={faCalendarAlt} style={{float: "left", height:"30px", width:"30px"}}/> One Time</Button>{' '}
-                <Button outline color="secondary"  className={repeat === "weekly" ? "active" : ""} style={{width: "45%", margin:"10px"}} onClick={() => setRepeat("weekly")}>
-                <FontAwesomeIcon icon={faRepeat} style={{float: "left", height:"30px", width:"30px"}}/>Repeat Weekly</Button>{' '}
-            </>
-        )
-    }
+    repeatButtons = (
+        <>
+            <h5 style={{marginBottom : "3vh"}}>How often do you need {serviceText}?</h5>
+            <Button outline color="secondary" className={repeat === "once" ? "active" : ""} style={{width: "45%", margin:"10px"}} onClick={() => setRepeat("once")}> 
+                <FontAwesomeIcon icon={faCalendarAlt} style={{float: "left", height:"30px", width:"30px"}}/> One Time</Button>{' '}
+            <Button outline color="secondary"  className={repeat === "weekly" ? "active" : ""} style={{width: "45%", margin:"10px"}} onClick={() => setRepeat("weekly")}>
+            <FontAwesomeIcon icon={faRepeat} style={{float: "left", height:"30px", width:"30px"}}/>Repeat Weekly</Button>{' '}
+        </>
+    )
 
     const selectDates = (dates) => {
         const[start, end] = dates
@@ -127,6 +129,7 @@ function MakeBookings(props) {
                             startDate={startDate}
                             endDate={endDate}
                             selectsRange
+                            readOnly="true"
                         />
                     </div>
 
