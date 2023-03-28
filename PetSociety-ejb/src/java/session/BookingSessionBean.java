@@ -7,6 +7,7 @@ package session;
 
 import entity.BookingRequest;
 import entity.PetParent;
+import entity.PetSitter;
 import entity.User;
 import enumeration.RequestStatusEnum;
 import error.NoResultException;
@@ -27,10 +28,14 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
     private EntityManager em;
 
     @Override
-    public Long createNewBooking(BookingRequest b) {
-        if (b.getParent() == null || b.getSitter() == null) {
+    public Long createNewBooking(BookingRequest b, Long parentId, Long sitterId) {
+        PetParent p = em.find(PetParent.class, parentId);
+        PetSitter s = em.find(PetSitter.class, sitterId);
+        if (p == null || s == null) {
             //exception?
         } else {
+            b.setParent(p);
+            b.setSitter(s);
             em.persist(b);
             em.flush();
             b.getParent().getBookings().add(b);

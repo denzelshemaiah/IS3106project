@@ -49,8 +49,8 @@ const Api = {
         })
     },
 
-    createBooking(booking) {
-        return fetch(`{SERVER_PREFIX}/bookings`, {
+    createBooking(booking, parentId, sitterId) {
+        return fetch(`${SERVER_PREFIX}/bookings/parent/${parentId}/${sitterId}`, {
             headers: {
                 Accept: "application/json",
                 "Content-type": "application/json",

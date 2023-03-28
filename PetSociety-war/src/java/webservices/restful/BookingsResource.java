@@ -7,7 +7,9 @@ package webservices.restful;
 
 import java.util.List;
 import entity.BookingRequest;
+import enumeration.RequestStatusEnum;
 import error.NoResultException;
+import java.util.Date;
 import javax.ejb.EJB;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -83,4 +85,15 @@ public class BookingsResource {
             .type(MediaType.APPLICATION_JSON).build();
         }
     }
+    
+    @POST
+    @Path("/parent/{parentId}/{sitterId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public BookingRequest createCustomer(BookingRequest b, Long parentId, Long sitterId) {
+        b.setCreated(new Date());
+        b.setStatus(RequestStatusEnum.PENDING);
+        bookingSession.createNewBooking(b, parentId, sitterId);
+        return b;
+    } //end createBooking
 }

@@ -8,12 +8,13 @@ import { faCalendarAlt } from "@fortawesome/free-regular-svg-icons";
 import moment from 'moment-timezone';
 import "react-datepicker/dist/react-datepicker.css";
 import Api from "../../helpers/Api";
+import {Link, useParams, useNavigate} from "react-router-dom";
 
 //page to view all bookings, follows a tab view
 function MakeBookings(props) {
     const [service, setService] = useState("");
-    const sitter = props.sitter
-    const parent = props.parent
+    const sitterId = props.sitter.Id;
+    const parentId = props.parent.Id;
     const [startDate, setStartDate] = useState(moment().tz('Asia/Singapore').startOf("day").toDate());
     const [cost, setCost] = useState(0);
     const [created, setCreated] = useState(moment());
@@ -21,10 +22,38 @@ function MakeBookings(props) {
     const [visitFreq, setVisitFreq] = useState(0);
     const [endDate, setEndDate] = useState(moment("1990-01-01 00:00:00").toDate());
     const [repeat, setRepeat] = useState("once")
+    const numPets = props.numPets
     const dates = []
 
     useEffect(() => {
         setService("walking")
+        const calculateCost = () => {
+            //per day (boarding,  daycare)
+            if (service === "boarding" || service === "daycare") {
+                var diffDays = Math.round((endDate - startDate)/(1000 * 60 * 60 * 24));
+                if (repeat === "weekly") {
+                    var numWeeks = calcNumWeeks;
+                    //SUB IN RATES!
+                    return numWeeks * diffDays * 0.00;
+                }
+                // SUB IN RATES!
+                return diffDays * 0.00;
+                // for 
+            } else if (service === "walking") {
+                
+            } else {
+                //drop-in case, basis is per visit
+                diffDays = Math.round((endDate - startDate)/(1000 * 60 * 60 * 24));
+                //get weekly visits
+                var visits = diffDays * visitFreq
+                if (repeat === "weekly") {
+                    var numWeeks = calcNumWeeks;
+                    //SUB IN RATES!
+                    return numWeeks * visits * 0.00
+                }
+                return diffDays * 0.00
+            }      
+        }
         setCost(calculateCost)
     }, [service]);
 
@@ -38,33 +67,6 @@ function MakeBookings(props) {
         return numWeeks;
     }
 
-    const calculateCost = () => {
-        //per day (boarding,  daycare)
-        if (service === "boarding" || service === "daycare") {
-            var diffDays = Math.round((endDate - startDate)/(1000 * 60 * 60 * 24));
-            if (repeat === "weekly") {
-                var numWeeks = calcNumWeeks;
-                //SUB IN RATES!
-                return numWeeks * diffDays * 0.00;
-            }
-            // SUB IN RATES!
-            return diffDays * 0.00;
-            // for 
-        } else if (service === "walking") {
-            
-        } else {
-            //drop-in case, basis is per visit
-            var diffDays = Math.round((endDate - startDate)/(1000 * 60 * 60 * 24));
-            //get weekly visits
-            var visits = diffDays * visitFreq
-            if (repeat === "weekly") {
-                var numWeeks = calcNumWeeks;
-                //SUB IN RATES!
-                return numWeeks * visits * 0.00
-            }
-            return diffDays * 0.00
-        }      
-    }
 
     //for the top bar stating service
     let serviceIcon = ""
@@ -122,8 +124,16 @@ function MakeBookings(props) {
         form.preventDefault();
         //fetch the Api
         Api.createBooking({
-            //call API func here
-        })
+            id,
+            cost,
+            created,
+            description,
+            endDate,
+            numPets,
+            startDate,
+        }, parentId, sitterId).then((data) => {
+            navigate("/bookings");
+        });
     }
 
 
