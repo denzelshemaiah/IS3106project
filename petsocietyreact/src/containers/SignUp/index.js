@@ -29,7 +29,21 @@ function SignUp(props) {
   const [emergencyContact, setEmergencyContact] = useState("");
   const [profilePicture, setProfilePicture] = useState(null);
   const [billingAddress, setBillingAddress] = useState("");
-  const [status, setStatus] = useState(PENDING);
+
+  const [status, setStatus] = useState([]);
+  
+  async function fetchUserStatusEnum() {
+    try {
+      const data = await getUserStatusEnum();
+      setStatus(data[0]);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchUserStatusEnum();
+  }, []);
 
 
   const handleRegistration = (e) => {
@@ -44,7 +58,8 @@ function SignUp(props) {
       age,
       emergencyContact,
       profilePicture,
-      billingAddress
+      billingAddress,
+      status
     }).then((data) => {
       Navigate("/LoggedInHomepage");
     })
@@ -129,7 +144,9 @@ function SignUp(props) {
                           <label className="form-label" htmlFor="customFile">Profile Picture</label>
                           <input type="file"
                             className="form-control"
-                            id="customFile" />
+                            id="customFile"
+                            value={profilePicture}
+                            onChange={(e) => setProfilePicture(e.target.value)} />
                         </MDBCol>
                       </MDBRow>
 
@@ -193,31 +210,34 @@ function SignUp(props) {
                         </MDBCol>
 
                         <MDBCol md='7'>
-                          <MDBInput wrapperClass='mb-4' 
-                          labelClass='text-white' 
-                          label='Emergency Contact'
-                          size='lg' 
-                          id='inputEmergencyContact' 
-                          type='text' 
-                          value={emergencyContact}
-                          onChange={ (e) => setEmergencyContact(e.target.value)} />
+                          <MDBInput wrapperClass='mb-4'
+                            labelClass='text-white'
+                            label='Emergency Contact'
+                            size='lg'
+                            id='inputEmergencyContact'
+                            type='text'
+                            value={emergencyContact}
+                            onChange={(e) => setEmergencyContact(e.target.value)} />
                         </MDBCol>
                       </MDBRow>
 
 
-                      <MDBInput wrapperClass='mb-4' 
-                      labelClass='text-white' 
-                      label='Billing Address' 
-                      size='lg' 
-                      id='inputBillingAddress' 
-                      type='text' 
-                      value={billingAddress}
-                      onChange={ (e) => setBillingAddress(e.target.value)} />
+                      <MDBInput wrapperClass='mb-4'
+                        labelClass='text-white'
+                        label='Billing Address'
+                        size='lg'
+                        id='inputBillingAddress'
+                        type='text'
+                        value={billingAddress}
+                        onChange={(e) => setBillingAddress(e.target.value)} />
 
 
                       <MDBCheckbox name='flexCheck' id='flexCheckDefault' labelClass='text-white mb-4' label='I do accept the Terms and Conditions of PetSociety.' />
 
-                      <MDBBtn color='light' size='lg' type="submit">
+                      <MDBBtn color='light'
+                        size='lg'
+                        type="submit"
+                        onClick={(e) => setStatus(e.target.value)}>
                         Register
                       </MDBBtn>
 
