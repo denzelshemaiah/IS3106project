@@ -14,6 +14,29 @@ const Api = {
         return data;
     },
 
+    // setting bankAccountNumber and creating it in association with a user
+    createAndAssociateNewBankAccount(data) {
+        return fetch(`${SERVER_PREFIX}/bankAccount`, {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            method: "POST",
+            body: JSON.stringify(data),
+        }); 
+    },
+
+    // setting and creating CreditCard in assoc with a user
+    createAndAssociateNewCreditCard(data) {
+        return fetch(`${SERVER_PREFIX}/creditCard`, {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            method: "POST",
+            body: JSON.stringify(data),
+        }); 
+    },
 
     createNewUser(data) {
         return fetch(`${SERVER_PREFIX}/users`, {

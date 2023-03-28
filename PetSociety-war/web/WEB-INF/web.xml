@@ -59,4 +59,10 @@
         <local>session.UserSessionBeanLocal</local>
         <ejb-link>PetSociety-ejb.jar#UserSessionBean</ejb-link>
     </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>CreditCardSessionBean</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>session.CreditCardSessionBeanLocal</local>
+        <ejb-link>PetSociety-ejb.jar#CreditCardSessionBean</ejb-link>
+    </ejb-local-ref>
 </web-app>
