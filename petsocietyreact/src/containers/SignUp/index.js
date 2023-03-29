@@ -20,8 +20,8 @@ import Api from "../../helpers/Api";
 function SignUp(props) {
 
   const { page } = useParams();
-  // params
-  const [userId] = useState();
+
+  // for user, its attributes
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
@@ -32,22 +32,9 @@ function SignUp(props) {
   const [emergencyContact, setEmergencyContact] = useState("");
   const [profilePicture, setProfilePicture] = useState(null);
   const [billingAddress, setBillingAddress] = useState("");
-  const [status, setStatus] = useState([]);
-  const [reportsAgainstUser, setReportsAgainstUser] = useState(null);
-  const [reportsUserMade, setReportsUserMade] = useState(null);
-  const [bankAcc, setBankAcc] = useState(fetchCreateAndAssociateNewBankAccount);
-  const [ratingsForUsers, setRatingsForUsers] = useState(null);
-  const [ratingsUserMade, setRatingsUserMade] = useState(null);
-  const [cc, setCc] = useState(fetchCreateAndAssociateNewCreditCard);
-
-  const navigate = useNavigate();
-
-  const userRegistrationStep2 = (e) => {
-    setStatus(e.target.value);
-    navigate('/SignUp/2');
-  };
 
   // for userstatusenum
+  const [status, setStatus] = useState([]);
   async function fetchUserStatusEnum() {
     try {
       const data = await Api.getUserStatusEnum();
@@ -56,12 +43,35 @@ function SignUp(props) {
       console.error(error);
     }
   }
+  useEffect(() => {
+    fetchUserStatusEnum();
+  }, []);
 
-  // useEffect(() => {
-  //   fetchUserStatusEnum();
-  // }, []);
+  const user = {
+    firstName: firstName,
+    lastName: lastName,
+    username: username,
+    contactNum: contactNum,
+    email: email,
+    password: password,
+    age: age,
+    emergencyContact: emergencyContact,
+    profilePicture: profilePicture,
+    billingAddress: billingAddress,
+    status: status
+  }
 
+   // creating just user without its associated stuff first
+  const handleRegistrationOfUser = (e) => {
+    Api.createNewUser(user)
+    .then((data) => {
+      Navigate("//SignUp/2");
+    })
+  }
+
+  // relationships
   // for bankAcc
+  const [bankAcc, setBankAcc] = useState(fetchCreateAndAssociateNewBankAccount);
   async function fetchCreateAndAssociateNewBankAccount() {
     try {
       const data = await Api.createAndAssociateNewBankAccount();
@@ -71,42 +81,28 @@ function SignUp(props) {
     }
   }
 
-  // for creditCard
-  async function fetchCreateAndAssociateNewCreditCard() {
-    try {
-      const data = await Api.createAndAssociateNewCreditCard();
-      setCc(data);
-    } catch (error) {
-      console.error(error);
-    }
-  } 
+  // for cc
+  const[ccNum, setCcNum] = useState("");
+  const[expDate, setExpDate] = useState("");
+  const[ccName, setCcName] = useState("");
+  const[cvv, setCvv] = useState("");
+
+  const cc = {
+    ccNum: ccNum,
+    ccName: ccName,
+    cvv: cvv,
+    expDate: expDate
+  };
+  
 
 
-  // final registration, reading all properties of User
-  const handleRegistration = (e) => {
-    Api.createNewUser({
-      firstName,
-      lastName,
-      username,
-      contactNum,
-      email,
-      password,
-      age,
-      emergencyContact,
-      profilePicture,
-      billingAddress,
-      status,
-      reportsAgainstUser,
-      reportsUserMade,
-      bankAcc,
-      ratingsForUsers,
-      ratingsUserMade,
-      cc
-    }).then((data) => {
-      Navigate("/LoggedInHomepage");
-    })
-  }
 
+  const [reportsAgainstUser, setReportsAgainstUser] = useState(null);
+  const [reportsUserMade, setReportsUserMade] = useState(null);
+  const [ratingsForUsers, setRatingsForUsers] = useState(null);
+  const [ratingsUserMade, setRatingsUserMade] = useState(null); 
+
+  //creating final user with all fields
   if (page === "1") {
     return (
       <>
@@ -114,6 +110,7 @@ function SignUp(props) {
           Sign Up
         </MDBTypography>
 
+<form onSubmit={handleRegistrationOfUser}>
         <MDBContainer fluid className='h-custom'>
 
           <MDBRow className='d-flex justify-content-center align-items-center h-100'>
@@ -277,8 +274,7 @@ function SignUp(props) {
 
                       <MDBBtn color='light'
                         size='lg'
-                        type="submit"
-                        onClick={userRegistrationStep2}>
+                        type="submit">
                         Next
                       </MDBBtn>
 
@@ -292,6 +288,7 @@ function SignUp(props) {
           </MDBRow>
 
         </MDBContainer>
+        </form>
       </>
     );
   }
@@ -324,7 +321,9 @@ function SignUp(props) {
                     label='Bank Account Number'
                     id='inputBankAcc'
                     type='text'
-                     />
+                    value={bankAcc.bankAccNum}
+                    onChange={(e) => e.target.value}
+                  />
 
                   <MDBRow>
 
@@ -333,7 +332,7 @@ function SignUp(props) {
                         label='Bank Name'
                         id='inputBankName'
                         type='text'
-                        />
+                      />
                     </MDBCol>
 
                     <MDBCol md='6'>
@@ -354,9 +353,10 @@ function SignUp(props) {
                     <MDBCol md='12'>
                       <MDBInput wrapperClass='mb-4'
                         label='Credit Card Number'
-                        id='form3'
-                        type='text' 
-                        value={cc.ccNum}/>
+                        id='inputCcNum'
+                        type='text'
+                        value={ccNum}
+                        onChange={(e) => setCcNum(e.target.value)} />
                     </MDBCol>
                   </MDBRow>
 
@@ -364,22 +364,28 @@ function SignUp(props) {
                     <MDBCol md='5'>
                       <MDBInput wrapperClass='mb-4'
                         label='Name on Credit Card'
-                        id='form3'
-                        type='text' />
+                        id='inputCcName'
+                        type='text'
+                        value={ccName} 
+                        onChange={(e) => setCcName(e.target.value)} />
                     </MDBCol>
 
                     <MDBCol md='4'>
                       <MDBInput wrapperClass='mb-4'
                         label='Expiry Date'
-                        id='form3'
-                        type='text' />
+                        id='inputExpDate'
+                        type='text'
+                        value={expDate}
+                        onChange={(e) => setExpDate(e.target.value)} />
                     </MDBCol>
 
                     <MDBCol md='3'>
                       <MDBInput wrapperClass='mb-4'
                         label='CVV'
-                        id='form3'
-                        type='text' />
+                        id='inputCvv'
+                        type='text' 
+                        value={cvv}
+                        onChange={(e) => setCvv(e.target.value)}/>
                     </MDBCol>
                   </MDBRow>
 
