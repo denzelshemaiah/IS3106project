@@ -14,6 +14,17 @@ const Api = {
         return data;
     },
 
+    createNewUser(data) {
+        return fetch(`${SERVER_PREFIX}/users`, {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            method: "POST",
+            body: JSON.stringify(data),
+        });
+    },
+    
     // setting bankAccountNumber and creating it in association with a user
     createAndAssociateNewBankAccount(data) {
         return fetch(`${SERVER_PREFIX}/bankAccount`, {
@@ -36,18 +47,7 @@ const Api = {
             method: "POST",
             body: JSON.stringify(data),
         }); 
-    },
-
-    createNewUser(data) {
-        return fetch(`${SERVER_PREFIX}/users`, {
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            method: "POST",
-            body: JSON.stringify(data),
-        });
-    },
+    }, 
 
     //view all bookings
     //retrieve the ID of the user and the user object from the web resources

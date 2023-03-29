@@ -63,9 +63,10 @@ function SignUp(props) {
 
    // creating just user without its associated stuff first
   const handleRegistrationOfUser = (e) => {
+    e.preventDefault();
     Api.createNewUser(user)
     .then((data) => {
-      Navigate("//SignUp/2");
+      Navigate("/SignUp/2");
     })
   }
 

@@ -98,6 +98,21 @@ public class User implements Serializable  {
         this.ratingsForUsers = new ArrayList<>();
     }
 
+    public User(String firstName, String lastName, String username, String contactNum, String email, String password, int age, String emergencyContact, byte[] profilePicture, String billingAddress, UserStatusEnum status) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.contactNum = contactNum;
+        this.email = email;
+        this.password = password;
+        this.age = age;
+        this.emergencyContact = emergencyContact;
+        this.profilePicture = profilePicture;
+        this.billingAddress = billingAddress;
+        this.status = status;
+    }
+
+    
     public Long getUserId() {
         return userId;
     }
