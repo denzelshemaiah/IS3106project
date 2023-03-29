@@ -16,6 +16,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -62,16 +64,16 @@ public class DataInitSessionBean {
     }
 
     private void dataInit() {
-//        try {
-////            Staff staff1 = new Staff();
-////            staff1.setUsername("staff1");
-////            staff1.setPassword("password");
-////            staff1.setFirstName("firstname");
-////             staff1.setLastName("lastname");
-////            staffSessionBeanLocal.createStaff(staff1);
-//        } catch (EntityAlreadyExistsException ex) {
-//            ex.printStackTrace();
-//        }
+        Staff staff1 = new Staff();
+        staff1.setFirstName("staff1");
+        staff1.setLastName("s1");
+        staff1.setUsername("staff1");
+        staff1.setPassword("password");
+        try {
+            staffSessionBeanLocal.createStaff(staff1);
+        } catch (EntityAlreadyExistsException ex) {
+            Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if (userSessionBean.retrieveAllUsers().isEmpty()) {
             //create new user, bank acc and cred card
             CreditCard cc = new CreditCard();

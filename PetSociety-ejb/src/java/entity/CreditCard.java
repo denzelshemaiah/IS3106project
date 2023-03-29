@@ -110,7 +110,7 @@ public class CreditCard implements Serializable {
      * @param ccNum the ccNum to set
      */
     public void setCcNum(String ccNum) {
-        this.setCcNum(ccNum);
+        this.ccNum = ccNum;
     }
 
     /**
