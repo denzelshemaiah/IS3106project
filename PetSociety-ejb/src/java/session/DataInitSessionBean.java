@@ -24,7 +24,7 @@ import javax.ejb.Startup;
 public class DataInitSessionBean {
 
     @EJB(name = "StaffSessionBeanLocal")
-    private StaffSessionBeanLocal staffSessionBeanLocal;
+    private StaffSessionBeanLocal staffSessionBeanLocal; 
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
