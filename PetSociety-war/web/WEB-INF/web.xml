@@ -59,7 +59,7 @@
         <mime-type>application/vnd.ms-fontobject</mime-type>
     </mime-mapping>
     <welcome-file-list>
-        <welcome-file>staffLogin.xhtml</welcome-file>
+        <!-- <welcome-file>staffLogin.xhtml</welcome-file> -->
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
     <ejb-local-ref>

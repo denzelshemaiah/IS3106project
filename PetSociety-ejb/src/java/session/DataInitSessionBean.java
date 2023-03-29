@@ -95,7 +95,7 @@ public class DataInitSessionBean {
         acc.setBankName("UOB");
         acc.setTransactions(new ArrayList<>());
 
-        bankAccountSessionBean.addNewBankAccount(acc);
+        bankAccountSessionBean.addNewBankAcc(acc);
         creditCardSessionBean.addNewCreditCard(cc);
 
         PetParent p = new PetParent();
