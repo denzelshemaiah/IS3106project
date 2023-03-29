@@ -107,7 +107,7 @@ public class BankAccount implements Serializable {
      * @param bankAccNum the bankAccNum to set
      */
     public void setBankAccNum(String bankAccNum) {
-        this.setBankAccNum(bankAccNum);
+        this.bankAccNum = bankAccNum;
     }
 
     /**
@@ -135,6 +135,6 @@ public class BankAccount implements Serializable {
      * @param accName the accName to set
      */
     public void setAccName(String accName) {
-        this.setAccName(accName);
+        this.accName = accName;
     }
 }

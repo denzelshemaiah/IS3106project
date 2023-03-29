@@ -58,4 +58,8 @@ public class RedirectManagedBean implements Serializable {
     public String viewUser() {
         return "viewUser.xhtml?faces-redirect=true";
     }
+    
+    public String disableUser() {
+        return "disableUser.xhtml?faces-redirect=true";
+    }
 }

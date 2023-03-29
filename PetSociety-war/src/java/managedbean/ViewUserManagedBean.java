@@ -14,6 +14,7 @@ import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.persistence.EntityNotFoundException;
 import session.UserSessionBeanLocal;
 
 /**
@@ -35,25 +36,35 @@ public class ViewUserManagedBean implements Serializable {
     public ViewUserManagedBean() {
     }
 
-    public void disableUser() {
+    public String disableUser() {
         try {
             int disableDuration = Integer.parseInt(disabledDuration.trim());
-
             if (disableDuration <= 0) {
                 FacesContext context = FacesContext.getCurrentInstance();
                 context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Note: ", "You have to pass a number more than 0 for disable duration"));
-                return;
+                return "";
             }
-            // userSessionBeanLocal.disableUser(user.userId, disableDuration);
+            userSessionBeanLocal.disableUser(user.getUserId(), disableDuration);
         } catch (NumberFormatException ex) {
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Note: ", "You have to pass a number more than 0 for disable duration"));
-            return;
+            return "";
+        } catch (EntityNotFoundException ex) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error! ", "User cannot be retrieved from database."));
+            return "viewUser.xhtml?faces-redirect=true";
         }
+        return "viewUser.xhtml?faces-redirect=true";
     }
 
-    public void enableUser() {
-        // userSessionBeanLocal.enableUser(user.userId);
+    public String enableUser() {
+        try {
+            userSessionBeanLocal.enableUser(user.getUserId());
+        } catch (EntityNotFoundException ex) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error! ", "User cannot be retrieved from database."));
+        }
+        return "viewUser.xhtml?faces-redirect=true"; //refresh page
     }
 
     public boolean canDisable() {

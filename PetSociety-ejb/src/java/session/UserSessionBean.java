@@ -6,6 +6,7 @@
 package session;
 
 import entity.User;
+import enumeration.UserStatusEnum;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -66,5 +67,25 @@ public class UserSessionBean implements UserSessionBeanLocal {
         Query q = em.createQuery("SELECT u FROM User u WHERE u.contactNum LIKE ?1");
         q.setParameter(1, contactNum);
         return q.getResultList();
+    }
+
+    @Override
+    public void disableUser(Long userId, int duration) throws EntityNotFoundException {
+        User user = em.find(User.class, userId);
+        if (user == null) {
+            throw new EntityNotFoundException("No user found with this userId");
+        }
+        user.setDaysDisabled(duration);
+        user.setStatus(UserStatusEnum.DISABLED);
+    }
+
+    @Override
+    public void enableUser(Long userId) throws EntityNotFoundException {
+        User user = em.find(User.class, userId);
+        if (user == null) {
+            throw new EntityNotFoundException("No user found with this userId");
+        }
+        user.setDaysDisabled(0);
+        user.setStatus(UserStatusEnum.APPROVED);
     }
 }
