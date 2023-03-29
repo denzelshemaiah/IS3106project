@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import BookingListing from "../../components/BookingListing";
 import Api from "../../helpers/Api";
-import { Button } from "bootstrap";
+import { Button } from "react-bootstrap";
 import RequestModal from "../../components/RequestModals"
 
 
@@ -10,8 +10,14 @@ import RequestModal from "../../components/RequestModals"
 function Bookings(props) {
     const {userId = 0} = useState(0);
     const [chosenTab, setChosenTab] = useState("pending")
-    const [bookings, setBookings] = useState([]);
-    const user = props.user;
+    const [bookings, setBookings] = useState([{"bookingReqId": 1, "cost": 10.00, "created": "2023-03-23T00:00:00+08:00", "description": "HELLOOOOOOO", "endDate": "2023-03-30T00:00:00+08:00", "numPets": 1, "startDate": "2023-03-23T00:00:00+08:00", "status":"pending"}]);
+    const user = {"role": "sitter"}
+
+    const sitter = () => {
+        if (user.role === "sitter") {
+            return true;
+        }
+    }
 
     useEffect(() => {
         reloadData();
@@ -42,6 +48,30 @@ function Bookings(props) {
         setBookings(newArray);
       };
 
+    const editButton = (booking) => {
+        if (!sitter) {
+            <div style={{width:"110px", float:"right"}}>
+                <RequestModal buttonLabel="Edit" booking={booking} userId= {userId} updateState={updateState}/>
+                {' '}
+            </div>
+        } else {
+            <div style={{width:"110px", float:"right"}}>
+                <Button onClick={handleReject} style={{backgroundColor: "red"}}>Reject</Button>
+            </div>
+        }
+    }
+
+    let cancelButton = ""
+
+    cancelButton = (booking) => {
+        if (!sitter) {
+            <div style={{width:"110px", float:"right"}}>
+                <RequestModal buttonLabel="Cancel" booking={booking} updateState={updateState}/>
+                {' '}
+            </div>
+        }
+    }
+
     // converts the bookings array to UI form
     const result = bookings.map((booking) => {
         if (chosenTab === "pending") {
@@ -51,10 +81,7 @@ function Bookings(props) {
                         <h5>Request from name</h5>
                         Request dates<br/>
                         <p>Desription of request</p>
-                        <div style={{width:"110px", float:"right"}}>
-                            <RequestModal buttonLabel="Edit" booking={booking} userId= {userId} updateState={updateState}/>
-                            {' '}
-                        </div>
+                        {editButton(booking)}
                     </li>
                 </>
             )
@@ -65,10 +92,7 @@ function Bookings(props) {
                         <h5>Request from name</h5>
                         Request dates<br/>
                         <p>Desription of request</p>
-                        <div style={{width:"110px", float:"right"}}>
-                            <RequestModal buttonLabel="Cancel" booking={booking} updateState={updateState}/>
-                            {' '}
-                        </div>
+                        {cancelButton(booking)}
                     </li>
                 </>
             )
@@ -81,6 +105,9 @@ function Bookings(props) {
                         Request dates<br/>
                         <p>Desription of request</p>
                         {' '}
+                        <div style={{display:"block"}}>
+                            <Button style={{backgroundColor: "#9d82ff", float:"right"}} onClick={redirectRatings}> Rate </Button>
+                        </div>
                     </li>
                 </>
             )
@@ -89,6 +116,14 @@ function Bookings(props) {
 
     function renderList(selectedTab) {
         setChosenTab(selectedTab);
+    }
+
+    function handleReject() {
+        //call API
+    }
+    
+    function redirectRatings() {
+
     }
 
     return (

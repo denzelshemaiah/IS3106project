@@ -2,13 +2,52 @@ const SERVER_PREFIX = "http://localhost:8080/PetSociety-war/webresources";
 
 const Api = {
     // create user (in general 1st)
+
+    // just to get the status enum... needs an api call...
+    async getUserStatusEnum() {
+        const response = await fetch(`${SERVER_PREFIX}/userStatusEnum`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch user status enum');
+        }
+        const data = await response.json();
+        console.log("JSON response:", data);
+        return data;
+    },
+
+    // setting bankAccountNumber and creating it in association with a user
+    createAndAssociateNewBankAccount(data) {
+        return fetch(`${SERVER_PREFIX}/bankAccount`, {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            method: "POST",
+            body: JSON.stringify(data),
+        }); 
+    },
+
+    // setting and creating CreditCard in assoc with a user
+    createAndAssociateNewCreditCard(data) {
+        return fetch(`${SERVER_PREFIX}/creditCard`, {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            method: "POST",
+            body: JSON.stringify(data),
+        }); 
+    },
+
     createNewUser(data) {
-        return fetch(`${SERVER_PREFIX}/users`, { headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json", },
-              method: "POST",
-        body: JSON.stringify(data), });
-        },
+        return fetch(`${SERVER_PREFIX}/users`, {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            method: "POST",
+            body: JSON.stringify(data),
+        });
+    },
 
     //view all bookings
     //retrieve the ID of the user and the user object from the web resources
@@ -23,7 +62,7 @@ const Api = {
                 "Content-Type": "application/json",
             },
             method: "PUT",
-            body:  JSON.stringify(form),
+            body: JSON.stringify(form),
         })
     },
 
@@ -33,8 +72,8 @@ const Api = {
         })
     },
 
-    createBooking(booking) {
-        return fetch(`{SERVER_PREFIX}/bookings`, {
+    createBooking(booking, parentId, sitterId) {
+        return fetch(`${SERVER_PREFIX}/bookings/parent/${parentId}/${sitterId}`, {
             headers: {
                 Accept: "application/json",
                 "Content-type": "application/json",

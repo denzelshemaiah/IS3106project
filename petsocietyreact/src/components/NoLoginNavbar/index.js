@@ -17,7 +17,7 @@ function NoLoginNavbar() {
       </ul>
 
       <ul class="nav navbar-nav ml-auto">
-        <li class="right"><Link to="/signUp">Sign Up</Link></li>
+        <li class="right"><Link to="/signUp/1">Sign Up</Link></li>
         <li class="right"><Link to="/signIn">Sign In</Link></li>
         <li class="right"><Link to="/help">Help</Link></li>
       </ul>

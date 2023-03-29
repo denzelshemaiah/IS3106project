@@ -17,7 +17,7 @@ function Navbar() {
           <li><Link to="/bookings">Bookings</Link></li>
           <li><Link to="/meetandgreets">Meet and Greets</Link></li>
           <li><Link to="/services">Our Services</Link></li>
-          <li><Link to="/makeBooking">Make A Booking</Link></li>
+          <li><Link to="/makebooking">Make A Booking</Link></li>
         </ul>
         
         <ul class="nav navbar-nav ml-auto">
