@@ -27,8 +27,7 @@ public class UserSessionBean implements UserSessionBeanLocal {
     @Override
     public User createNewUser(User user) {
         em.persist(user);
-        em.flush();
-        
+        em.flush();        
         return user;
     }
 
@@ -40,6 +39,8 @@ public class UserSessionBean implements UserSessionBeanLocal {
         }
         return user;
     }
+    
+    // need to add update user
 
     @Override
     public List<User> retrieveAllUsers() {

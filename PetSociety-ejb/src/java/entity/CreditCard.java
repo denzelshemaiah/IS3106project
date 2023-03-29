@@ -15,6 +15,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 /**
@@ -35,20 +38,16 @@ public class CreditCard implements Serializable {
     @Size(max = 40)
     private String ccName;
     @Column(nullable = false)
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date expDate;
     @Column(nullable = false)
-    @Size(min = 3, max = 4)
+    @Min(001)
+    @Max(999)
     private Integer cvv;
-    @Column(nullable = false)
-    private Boolean defaultCard; 
    
     //relationship with transactions
     @OneToOne
     private List<Payment> payments;
-    
-    //relationship with users
-    @OneToOne
-    private User user;
 
     public CreditCard() {
     }
@@ -64,7 +63,7 @@ public class CreditCard implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (ccId != null ? ccId.hashCode() : 0);
+        hash += (getCcId() != null ? getCcId().hashCode() : 0);
         return hash;
     }
 
@@ -75,7 +74,7 @@ public class CreditCard implements Serializable {
             return false;
         }
         CreditCard other = (CreditCard) object;
-        if ((this.ccId == null && other.ccId != null) || (this.ccId != null && !this.ccId.equals(other.ccId))) {
+        if ((this.getCcId() == null && other.getCcId() != null) || (this.getCcId() != null && !this.ccId.equals(other.ccId))) {
             return false;
         }
         return true;
@@ -83,7 +82,7 @@ public class CreditCard implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.CreditCard[ id=" + ccId + " ]";
+        return "entity.CreditCard[ id=" + getCcId() + " ]";
     }
 
     /**
@@ -111,7 +110,7 @@ public class CreditCard implements Serializable {
      * @param ccNum the ccNum to set
      */
     public void setCcNum(String ccNum) {
-        this.ccNum = ccNum;
+        this.setCcNum(ccNum);
     }
 
     /**
@@ -125,7 +124,7 @@ public class CreditCard implements Serializable {
      * @param ccName the ccName to set
      */
     public void setCcName(String ccName) {
-        this.ccName = ccName;
+        this.setCcName(ccName);
     }
 
     /**
@@ -153,28 +152,8 @@ public class CreditCard implements Serializable {
      * @param cvv the cvv to set
      */
     public void setCvv(Integer cvv) {
-        this.cvv = cvv;
+        this.setCvv(cvv);
     }
 
-    /**
-     * @return the defaultCard
-     */
-    public Boolean getDefaultCard() {
-        return defaultCard;
-    }
-
-    /**
-     * @param defaultCard the defaultCard to set
-     */
-    public void setDefaultCard(Boolean defaultCard) {
-        this.defaultCard = defaultCard;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
+   
 }

@@ -55,9 +55,10 @@ public class BookingRequest implements Serializable {
     //relationships
     @ManyToOne
     private PetParent parent;
-    @ManyToOne
+    //REMEMBER TO CHANGE THIS!!! JUST FOR TESTING!!!!!!
+    @ManyToOne(optional=true)
     private PetSitter sitter;
-    @OneToOne
+    @OneToOne(optional=true)
     private Payment payment;
     @OneToOne(optional=true)
     private Rating rating;
@@ -158,8 +159,8 @@ public class BookingRequest implements Serializable {
     /**
      * @return the status
      */
-    public RequestStatusEnum getStatus() {
-        return status;
+    public String getStatus() {
+        return status.name();
     }
 
     /**
