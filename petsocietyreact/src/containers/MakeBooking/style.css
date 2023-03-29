@@ -17,3 +17,7 @@
 .btn {
     text-transform: unset !important;
 }
+
+.btn .active {
+    background-color:"#9d82ff"
+}

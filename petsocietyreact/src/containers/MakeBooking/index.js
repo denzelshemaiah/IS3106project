@@ -8,25 +8,66 @@ import { faCalendarAlt } from "@fortawesome/free-regular-svg-icons";
 import moment from 'moment-timezone';
 import "react-datepicker/dist/react-datepicker.css";
 import Api from "../../helpers/Api";
+import {Link, useParams, useNavigate} from "react-router-dom";
 
 //page to view all bookings, follows a tab view
-function MakeBookings(props) {
+function MakeBooking(props) {
     const [service, setService] = useState("");
-    const sitter = props.sitter
-    const parent = props.parent
+    // const sitterId = props.sitter.Id;
+    // const parentId = props.parent.Id;
     const [startDate, setStartDate] = useState(moment().tz('Asia/Singapore').startOf("day").toDate());
     const [cost, setCost] = useState(0);
     const [created, setCreated] = useState(moment());
     const [description, setDescription] = useState("");
+    const [visitFreq, setVisitFreq] = useState(0);
     const [endDate, setEndDate] = useState(moment("1990-01-01 00:00:00").toDate());
     const [repeat, setRepeat] = useState("once")
+    const numPets = props.numPets
+    const dates = []
+    const navigate = useNavigate();
 
     useEffect(() => {
-        setService(props.service)
+        setService("walking")
+        const calculateCost = () => {
+            //per day (boarding,  daycare)
+            if (service === "boarding" || service === "daycare") {
+                var diffDays = Math.round((endDate - startDate)/(1000 * 60 * 60 * 24));
+                if (repeat === "weekly") {
+                    var numWeeks = calcNumWeeks;
+                    //SUB IN RATES!
+                    return numWeeks * diffDays * 0.00;
+                }
+                // SUB IN RATES!
+                return diffDays * 0.00;
+                // for 
+            } else if (service === "walking") {
+                
+            } else {
+                //drop-in case, basis is per visit
+                diffDays = Math.round((endDate - startDate)/(1000 * 60 * 60 * 24));
+                //get weekly visits
+                var visits = diffDays * visitFreq
+                if (repeat === "weekly") {
+                    var numWeeks = calcNumWeeks;
+                    //SUB IN RATES!
+                    return numWeeks * visits * 0.00
+                }
+                return diffDays * 0.00
+            }      
+        }
+        setCost(calculateCost)
     }, [service]);
 
-    //options to choose repeats etc
-    let optionButtons = "";
+    const calcNumWeeks = () => {
+        var numWeeks = 0
+            var copyStart = startDate
+            while (copyStart < endDate) {
+                copyStart = copyStart.setDate(copyStart.getDate() + 7)
+                numWeeks += 1
+            }
+        return numWeeks;
+    }
+
 
     //for the top bar stating service
     let serviceIcon = ""
@@ -55,12 +96,21 @@ function MakeBookings(props) {
         )
     }
 
+    let freqText = ""
+    if(service === "dropin") {
+        freqText = (
+            <>
+                <h5>Daily frequency of visits: {visitFreq}</h5>
+            </>
+        )
+    }
+
     repeatButtons = (
         <>
             <h5 style={{marginBottom : "3vh"}}>How often do you need {serviceText}?</h5>
-            <Button outline color="secondary" className={repeat === "once" ? "active" : ""} style={{width: "45%", margin:"10px"}} onClick={() => setRepeat("once")}> 
+            <Button outline color="secondary" className={repeat === "once" ? "active" : ""} style={{width: "45%", margin:"10px"}}> 
                 <FontAwesomeIcon icon={faCalendarAlt} style={{float: "left", height:"30px", width:"30px"}}/> One Time</Button>{' '}
-            <Button outline color="secondary"  className={repeat === "weekly" ? "active" : ""} style={{width: "45%", margin:"10px"}} onClick={() => setRepeat("weekly")}>
+            <Button outline color="secondary"  className={repeat === "weekly" ? "active" : ""} style={{width: "45%", margin:"10px"}}>
             <FontAwesomeIcon icon={faRepeat} style={{float: "left", height:"30px", width:"30px"}}/>Repeat Weekly</Button>{' '}
         </>
     )
@@ -75,8 +125,16 @@ function MakeBookings(props) {
         form.preventDefault();
         //fetch the Api
         Api.createBooking({
-            //call API func here
-        })
+            cost,
+            created,
+            description,
+            endDate,
+            numPets,
+            startDate,
+        }) //parentId, sitterId)
+        .then((data) => {
+            navigate("/bookings");
+        });
     }
 
 
@@ -89,8 +147,8 @@ function MakeBookings(props) {
                 />
             </head>
             <div style={{width: "50vw", margin: "auto"}}>
-                <div style={{display: "block", marginTop:"5vh", marginBottom:"3vh"}}> 
-                    <h2 id="contact-header"> Contact {sitter} </h2>
+                <div style={{display: "block", marginTop:"3vh", marginBottom:"3vh"}}> 
+                    <h2 id="contact-header"> Contact </h2>
                 </div>
 
                 <div style={{display: "block"}}>
@@ -133,12 +191,20 @@ function MakeBookings(props) {
                         />
                     </div>
 
-                    <div style={{display: "block", marginBottom:"3vh", marginTop:"5vh"}}>
+                    <div style={{display: "block", marginTop:"3vh"}}>
+                        {freqText}
+                    </div>
+
+                    <div style={{display: "block", marginTop:"3vh"}}>
+                        <h5> The total cost will be: {cost}</h5>
+                    </div>
+
+                    <div style={{display: "block", marginBottom:"3vh", marginTop:"3vh"}}>
                         <h5>
                             Message
                         </h5>
                         <FormGroup>
-                            <Label for="exampleText">Share a little about your pet and why they'd have a great time with {sitter}</Label>
+                            <Label for="exampleText">Share a little about your pet and why they'd have a great time with </Label>
                             <Input type="textarea" name="text" id="exampleText" style={{height: "20vh"}} onChange={setDescription}/>
                         </FormGroup>
                     </div>
@@ -152,4 +218,4 @@ function MakeBookings(props) {
     );
 }
 
-export default MakeBookings;
+export default MakeBooking;

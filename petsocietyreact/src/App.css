@@ -1,4 +1,8 @@
 @charset "UTF-8";
+.nav-pills .nav-itme .active {
+  background-color: #6610f2;
+}
+
 .nav-pills .nav-item .nav-link {
   background-color: transparent;
   color: #6610f2;
@@ -3506,7 +3510,7 @@ textarea.form-control-lg {
 .nav-pills {
   --bs-nav-pills-border-radius: 0.375rem;
   --bs-nav-pills-link-active-color: #fff;
-  --bs-nav-pills-link-active-bg: #6610f2;
+  --bs-nav-pills-link-active-bg: #0d6efd;
 }
 .nav-pills .nav-link {
   background: none;

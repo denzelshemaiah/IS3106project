@@ -5,8 +5,9 @@
  */
 package webservices.restful;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import entity.MeetAndGreetRequest;
+import java.util.Date;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -15,6 +16,7 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.core.MediaType;
@@ -31,5 +33,11 @@ public class MeetAndGreetResource {
     @EJB
     private MeetAndGreetSessionBeanLocal meetAndGreetSession;
     
-    
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<MeetAndGreetRequest> getAllMeetAndGreets() {
+        
+        return meetAndGreetSession.getAllRequests();
+    }
 }

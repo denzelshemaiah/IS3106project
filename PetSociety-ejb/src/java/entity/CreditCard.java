@@ -15,6 +15,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 /**
@@ -37,18 +39,13 @@ public class CreditCard implements Serializable {
     @Column(nullable = false)
     private Date expDate;
     @Column(nullable = false)
-    @Size(min = 3, max = 4)
+    @Min(001)
+    @Max(999)
     private Integer cvv;
-    @Column(nullable = false)
-    private Boolean defaultCard; 
    
     //relationship with transactions
     @OneToOne
     private List<Payment> payments;
-    
-    //relationship with users
-    @OneToOne
-    private User user;
 
     public CreditCard() {
     }
@@ -154,27 +151,5 @@ public class CreditCard implements Serializable {
      */
     public void setCvv(Integer cvv) {
         this.cvv = cvv;
-    }
-
-    /**
-     * @return the defaultCard
-     */
-    public Boolean getDefaultCard() {
-        return defaultCard;
-    }
-
-    /**
-     * @param defaultCard the defaultCard to set
-     */
-    public void setDefaultCard(Boolean defaultCard) {
-        this.defaultCard = defaultCard;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 }

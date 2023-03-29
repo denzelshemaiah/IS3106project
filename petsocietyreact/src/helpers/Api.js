@@ -10,9 +10,33 @@ const Api = {
             throw new Error('Failed to fetch user status enum');
         }
         const data = await response.json();
+        console.log("JSON response:", data);
         return data;
     },
 
+    // setting bankAccountNumber and creating it in association with a user
+    createAndAssociateNewBankAccount(data) {
+        return fetch(`${SERVER_PREFIX}/bankAccount`, {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            method: "POST",
+            body: JSON.stringify(data),
+        }); 
+    },
+
+    // setting and creating CreditCard in assoc with a user
+    createAndAssociateNewCreditCard(data) {
+        return fetch(`${SERVER_PREFIX}/creditCard`, {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            method: "POST",
+            body: JSON.stringify(data),
+        }); 
+    },
 
     createNewUser(data) {
         return fetch(`${SERVER_PREFIX}/users`, {
@@ -48,8 +72,8 @@ const Api = {
         })
     },
 
-    createBooking(booking) {
-        return fetch(`{SERVER_PREFIX}/bookings`, {
+    createBooking(booking, parentId, sitterId) {
+        return fetch(`${SERVER_PREFIX}/bookings/parent/${parentId}/${sitterId}`, {
             headers: {
                 Accept: "application/json",
                 "Content-type": "application/json",
