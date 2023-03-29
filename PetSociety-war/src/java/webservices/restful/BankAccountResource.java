@@ -5,41 +5,37 @@
  */
 package webservices.restful;
 
-import entity.User;
-import java.util.List;
+import entity.BankAccount;
 import javax.ejb.EJB;
-import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.Path;
-import javax.enterprise.context.RequestScoped;
+import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PUT;
+import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.POST;
 import javax.ws.rs.core.MediaType;
-import session.UserSessionBeanLocal;
+import session.BankAccSessionBeanLocal;
 
 /**
  * REST Web Service
  *
  * @author Andrea
  */
-@Path("users")
+@Path("bankAccount")
 @RequestScoped
-public class UsersResource {
+public class BankAccountResource {
 
     @EJB
-    private UserSessionBeanLocal userSessionBean;
+    private BankAccSessionBeanLocal bankAccountSessionBean;
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public User createNewUser(User user) {
-        userSessionBean.createNewUser(user);
-        return user;
-    }
-    
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<User> getAllUsers() {
-        return userSessionBean.retrieveAllUsers();
+    public BankAccount createNewBankAccount(BankAccount bankAccount) {
+        bankAccountSessionBean.createNewBankAcc(bankAccount);
+        return bankAccount;
     }
 }
