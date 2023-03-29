@@ -15,6 +15,6 @@ import javax.ejb.Local;
 @Local
 public interface BankAccSessionBeanLocal {
 
-    public BankAccount createNewBankAcc(BankAccount bankAccount);
+    public BankAccount addNewBankAcc(BankAccount bankAccount);
     
 }
