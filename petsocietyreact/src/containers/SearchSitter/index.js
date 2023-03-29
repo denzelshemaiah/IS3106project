@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import './style.css'
-import { Card, CardText, CardBody, Button, Label, Input, Form, FormGroup, 
-    Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup} from "reactstrap";
+import { Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup} from "reactstrap";
 import { faCloudSun, faHouseChimney, faRepeat, faSuitcase, faDog } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-regular-svg-icons";
@@ -309,8 +308,7 @@ function SearchSitter(props) {
 
                 <div>
                     <Button
-                        color="primary"
-                    >
+                        color="primary">
                         Search
                     </Button>
                 </div>

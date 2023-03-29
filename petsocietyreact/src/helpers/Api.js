@@ -58,6 +58,12 @@ const Api = {
             body: JSON.stringify(booking),
         });
     },
+
+    //view all sitters
+    //retrieve the ID of the user and the user object from the web resources
+    getAllPetSitters(userId) {
+        return fetch(`${SERVER_PREFIX}/petSitter/${userId}`)
+    },
 };
 
 export default Api;
