@@ -26,10 +26,9 @@ public class UserSessionBean implements UserSessionBeanLocal {
      
     // create (aka registration)
     @Override
-    public User createNewUser(User user) {
+    public void createNewUser(User user) {
         em.persist(user);
-        em.flush();        
-        return user;
+               
     }
 
     @Override

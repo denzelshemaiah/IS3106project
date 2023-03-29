@@ -17,7 +17,7 @@ import javax.persistence.EntityNotFoundException;
 @Local
 public interface UserSessionBeanLocal {
 
-    public User createNewUser(User user);
+    public void createNewUser(User user);
 
     User getUser(Long userId) throws EntityNotFoundException;
 
