@@ -68,6 +68,8 @@ public class User implements Serializable  {
     private String billingAddress;
     @Column(nullable = true)
     private UserStatusEnum status;
+    @Column()
+    private int daysDisabled;
 
     // relationship with report x 2
     @OneToMany(mappedBy = "reported")
@@ -96,6 +98,7 @@ public class User implements Serializable  {
         this.reportsUserMade = new ArrayList<>();
         this.ratingsUserMade = new ArrayList<>();
         this.ratingsForUsers = new ArrayList<>();
+        this.daysDisabled = 0;
     }
 
     public Long getUserId() {
@@ -266,5 +269,13 @@ public class User implements Serializable  {
     
     public void setProfilePicture(byte[] profilePicture) {
         this.profilePicture = profilePicture;
+    }
+
+    public int getDaysDisabled() {
+        return daysDisabled;
+    }
+
+    public void setDaysDisabled(int daysDisabled) {
+        this.daysDisabled = daysDisabled;
     }
 }
