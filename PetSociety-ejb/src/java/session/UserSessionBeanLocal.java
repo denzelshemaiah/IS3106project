@@ -28,5 +28,9 @@ public interface UserSessionBeanLocal {
     List<User> searchUsersByEmail(String email);
 
     List<User> searchUsersByContactNum(String contactNum);
+
+    void disableUser(Long userId, int duration) throws EntityNotFoundException;
+
+    void enableUser(Long userId) throws EntityNotFoundException;
     
 }
