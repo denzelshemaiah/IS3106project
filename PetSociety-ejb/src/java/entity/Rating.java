@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -84,6 +85,7 @@ public class Rating implements Serializable {
     /**
      * @return the req
      */
+    @JsonbTransient
     public BookingRequest getReq() {
         return req;
     }
@@ -98,6 +100,7 @@ public class Rating implements Serializable {
     /**
      * @return the rater
      */
+    @JsonbTransient
     public User getRater() {
         return rater;
     }
@@ -112,6 +115,7 @@ public class Rating implements Serializable {
     /**
      * @return the rated
      */
+    @JsonbTransient
     public User getRated() {
         return rated;
     }
