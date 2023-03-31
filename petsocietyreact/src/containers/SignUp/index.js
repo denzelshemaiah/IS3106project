@@ -32,6 +32,8 @@ function SignUp(props) {
   const [emergencyContact, setEmergencyContact] = useState("");
   const [profilePicture, setProfilePicture] = useState(null);
   const [billingAddress, setBillingAddress] = useState("");
+  const [bankAcc, setBankAcc] = useState(null);
+
 
   // for userstatusenum
   const [status, setStatus] = useState([]);
@@ -58,7 +60,8 @@ function SignUp(props) {
     emergencyContact: emergencyContact,
     profilePicture: profilePicture,
     billingAddress: billingAddress,
-    status: status
+    status: status,
+    bankAcc: bankAcc
   }
 
    // creating just user without its associated stuff first
@@ -72,7 +75,8 @@ function SignUp(props) {
 
   // relationships
   // for bankAcc
-  const [bankAcc, setBankAcc] = useState(fetchCreateAndAssociateNewBankAccount);
+  const [bankAccNum, setBankAccNum] = useState("");
+  const 
   async function fetchCreateAndAssociateNewBankAccount() {
     try {
       const data = await Api.createAndAssociateNewBankAccount();
@@ -95,8 +99,21 @@ function SignUp(props) {
     expDate: expDate
   };
   
+  // creating cc
+  const handleCreationOfCc = (e) => {
+    e.preventDefault;
+    Api.createAndAssociateNewCreditCard(cc)
+    .then((data) => {
+      Navigate("/LoggedInHomepage");
+    })
 
+  }
 
+// handle money details
+const handleMoney = (e) => {
+  handleCreationOfCc;
+
+}
 
   const [reportsAgainstUser, setReportsAgainstUser] = useState(null);
   const [reportsUserMade, setReportsUserMade] = useState(null);
@@ -390,7 +407,7 @@ function SignUp(props) {
                     </MDBCol>
                   </MDBRow>
 
-                  <MDBBtn color='success'
+                  <MDBBtn color='success' // handleMoney
                     className='mb-4'
                     size='lg'>
                     Submit</MDBBtn>
