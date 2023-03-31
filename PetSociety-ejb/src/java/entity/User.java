@@ -71,7 +71,7 @@ public class User implements Serializable  {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private UserStatusEnum status;
-    @Column()
+    @Column(nullable = false)
     private int daysDisabled;
 
     // relationship with report x 2
@@ -116,6 +116,7 @@ public class User implements Serializable  {
         this.profilePicture = profilePicture;
         this.billingAddress = billingAddress;
         this.status = status;
+        this.daysDisabled = 0;
     }
 
     
