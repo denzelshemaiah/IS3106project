@@ -5,8 +5,13 @@
  */
 package session;
 
+import entity.BankAccount;
+import entity.BookingRequest;
+import entity.CreditCard;
+import entity.Payment;
 import entity.User;
 import enumeration.UserStatusEnum;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
@@ -27,6 +32,8 @@ import javax.persistence.PersistenceContext;
 @Startup
 public class TimerSessionBean {
 
+    @EJB
+    private BookingSessionBeanLocal bookingSessionBean;
     @EJB
     private UserSessionBeanLocal userSessionBean;
     @PersistenceContext(unitName = "PetSociety-ejbPU")
@@ -51,6 +58,22 @@ public class TimerSessionBean {
             if (daysDisabled == 0) {
                 u.setStatus(UserStatusEnum.APPROVED);
             }
+        }
+    }
+    
+    @Schedule(hour = "00")
+    public void payment() {
+        List<BookingRequest> bookings = bookingSessionBean.getCurrentBookings(new Date());
+        for (BookingRequest b:bookings) {
+            CreditCard cc = b.getParent().getCc();
+            BankAccount bankAcc = b.getSitter().getBankAcc();
+            Payment payment = new Payment();
+            payment.setAmount(b.getCost());
+            payment.setBankAcc(bankAcc);
+            payment.setCredCard(cc);
+            payment.setCreated(new Date());
+            payment.setBooking(b);
+            em.persist(payment);
         }
     }
 }

@@ -9,6 +9,7 @@ import entity.BookingRequest;
 import error.NoAccessException;
 import error.NoResultException;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -26,4 +27,6 @@ public interface BookingSessionBeanLocal {
     public BigDecimal calculatePenalty(Long bookingId) throws NoAccessException;
     public void cancelBooking(Long userId, Long bookingId) throws NoResultException, NoAccessException;
     public void acceptBooking(Long userId, Long bookingId) throws NoResultException, NoAccessException;
+
+    List<BookingRequest> getCurrentBookings(Date date);
 }

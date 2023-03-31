@@ -13,6 +13,7 @@ import enumeration.RequestStatusEnum;
 import error.NoAccessException;
 import error.NoResultException;
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -54,7 +55,7 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
         User u = em.find(User.class, userId);
         Query q;
         RequestStatusEnum statusEnum;
-        
+
         if (status.equals("pending")) {
             statusEnum = RequestStatusEnum.PENDING;
         } else if (status.equals("upcoming")) {
@@ -65,7 +66,7 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
             // archived tab
             statusEnum = RequestStatusEnum.ARCHIVED;
         }
-                
+
         if (u instanceof PetParent) {
             //if user is a parent
             q = em.createQuery("SELECT b FROM BookingRequest b WHERE b.parent.userId LIKE :parentId AND b.status = :enum")
@@ -79,7 +80,7 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
         }
         return q.getResultList();
     }
-    
+
     @Override
     public void updateBooking(BookingRequest b) throws NoResultException {
         if (b.getBookingReqId() == null) {
@@ -88,7 +89,7 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
             em.merge(b);
         }
     }
-    
+
     @Override
     //need to check status, should be pending or upcoming
     public void cancelBooking(Long bookingId) throws NoResultException {
@@ -103,12 +104,12 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
             em.remove(b);
         }
     }
-    
+
     @Override
     public void rejectBooking(Long userId, Long bookingId) throws NoResultException, NoAccessException {
         User u = em.find(User.class, userId);
         BookingRequest b = em.find(BookingRequest.class, bookingId);
-        
+
         if (u == null) {
             throw new NoResultException("User could not be found!");
         } else if (b == null) {
@@ -120,24 +121,24 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
             em.merge(b);
         }
     }
-    
+
     @Override
     public BigDecimal calculatePenalty(Long bookingId) throws NoAccessException {
         BookingRequest b = em.find(BookingRequest.class, bookingId);
         Date bookingStart = b.getStartDate();
         Date now = new Date();
         int result = bookingStart.compareTo(now);
-        
+
         if (result < 0) {
             throw new NoAccessException("Booking has already started and cannot be cancelled!");
         } else {
             long startInMs = bookingStart.getTime();
             long nowInMs = now.getTime();
-            
+
             long timeDiff = Math.abs(startInMs - nowInMs);
-            int daysDiff = (int)TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
-            
-            if(daysDiff <= 3) {
+            int daysDiff = (int) TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
+
+            if (daysDiff <= 3) {
                 //must charge penalty
                 BigDecimal cost = b.getCost();
                 //75% charged
@@ -147,16 +148,16 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
             }
         }
     }
-    
+
     @Override
     public void cancelBooking(Long userId, Long bookingId) throws NoResultException, NoAccessException {
         User u = em.find(User.class, userId);
         BookingRequest b = em.find(BookingRequest.class, bookingId);
         Date bookingStart = b.getStartDate();
         Date current = new Date();
-        
+
         int result = bookingStart.compareTo(current);
-        
+
         if (u == null) {
             throw new NoResultException("User could not be found!");
         } else if (b == null) {
@@ -170,16 +171,16 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
             b.setStatus(RequestStatusEnum.ARCHIVED);
         }
     }
-    
+
     @Override
     public void acceptBooking(Long userId, Long bookingId) throws NoResultException, NoAccessException {
         User u = em.find(User.class, userId);
         BookingRequest b = em.find(BookingRequest.class, bookingId);
         Date bookingStart = b.getStartDate();
         Date current = new Date();
-        
+
         int result = bookingStart.compareTo(current);
-        
+
         if (u == null) {
             throw new NoResultException("User could not be found!");
         } else if (b == null) {
@@ -193,5 +194,20 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
             b.setStatus(RequestStatusEnum.ACCEPTED);
             em.merge(b);
         }
+    }
+
+    @Override
+    public List<BookingRequest> getCurrentBookings(Date date) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.DATE, 1);
+        Date endOfDay = c.getTime();
+        Query q = em.createQuery("SELECT b FROM BookingRequest b WHERE b.status = :enum "
+                + "AND b.startDate >= :date "
+                + "AND b.startDate < :endOfDate");
+        q.setParameter("enum", RequestStatusEnum.ACCEPTED);
+        q.setParameter("date", date);
+        q.setParameter("endOfDate", endOfDay);
+        return q.getResultList();
     }
 }
