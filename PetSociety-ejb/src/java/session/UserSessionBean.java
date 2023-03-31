@@ -88,4 +88,11 @@ public class UserSessionBean implements UserSessionBeanLocal {
         user.setDaysDisabled(0);
         user.setStatus(UserStatusEnum.APPROVED);
     }
+
+    @Override
+    public List<User> retrieveAllDisabledUsers() {
+        Query q = em.createQuery("SELECT u FROM User u WHERE u.status = :enum");
+        q.setParameter("enum", UserStatusEnum.DISABLED);
+        return q.getResultList();
+    }
 }

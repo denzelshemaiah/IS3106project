@@ -32,5 +32,7 @@ public interface UserSessionBeanLocal {
     void disableUser(Long userId, int duration) throws EntityNotFoundException;
 
     void enableUser(Long userId) throws EntityNotFoundException;
+
+    List<User> retrieveAllDisabledUsers();
     
 }

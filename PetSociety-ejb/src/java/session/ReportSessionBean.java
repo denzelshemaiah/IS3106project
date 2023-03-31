@@ -105,6 +105,8 @@ public class ReportSessionBean implements ReportSessionBeanLocal {
         }
         User reported = em.find(User.class, report.getReported().getUserId());
         reported.setStatus(UserStatusEnum.DISABLED);
+        int daysDisabled = reported.getDaysDisabled();
+        reported.setDaysDisabled(daysDisabled + 5); // each time user gets an approved report, their account will be disabled for 5 more days
         report.setSettled(true);
         report.setValid(true);
     }
