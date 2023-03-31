@@ -32,6 +32,9 @@ function SignUp(props) {
   const [emergencyContact, setEmergencyContact] = useState("");
   const [profilePicture, setProfilePicture] = useState(null);
   const [billingAddress, setBillingAddress] = useState("");
+  const [bankAcc, setBankAcc] = useState(null);
+  const [cc, SetCc] = useState(null);
+
 
   // for userstatusenum
   const [status, setStatus] = useState([]);
@@ -58,7 +61,8 @@ function SignUp(props) {
     emergencyContact: emergencyContact,
     profilePicture: profilePicture,
     billingAddress: billingAddress,
-    status: status
+    status: status,
+    bankAcc: bankAcc
   }
 
    // creating just user without its associated stuff first
@@ -72,14 +76,22 @@ function SignUp(props) {
 
   // relationships
   // for bankAcc
-  const [bankAcc, setBankAcc] = useState(fetchCreateAndAssociateNewBankAccount);
-  async function fetchCreateAndAssociateNewBankAccount() {
-    try {
-      const data = await Api.createAndAssociateNewBankAccount();
-      setBankAcc(data);
-    } catch (error) {
-      console.error(error);
-    }
+  const [bankAccNum, setBankAccNum] = useState("");
+  const [bankName, setBankName] = useState("");
+  const [accName, setAccName] = useState("");
+
+  const bankAcc = {
+    bankAccNum = bankAccNum,
+    bankName = bankName,
+    accName = accName
+  }
+
+  const handleCreationOfBankAcc = (e) => {
+    e.preventDefault;
+    Api.createAndAssociateNewBankAccount(bankAcc)
+    .then((data) => {
+      Navigate("/LoggedInHomepage");
+    })
   }
 
   // for cc
@@ -95,8 +107,21 @@ function SignUp(props) {
     expDate: expDate
   };
   
+  // creating cc
+  const handleCreationOfCc = (e) => {
+    e.preventDefault;
+    Api.createAndAssociateNewCreditCard(cc)
+    .then((data) => {
+      Navigate("/LoggedInHomepage");
+    })
+  }
 
+// handle money details
+const handleMoney = (e) => {
+  handleCreationOfCc;
+  handleCreationOfBankAcc;
 
+}
 
   const [reportsAgainstUser, setReportsAgainstUser] = useState(null);
   const [reportsUserMade, setReportsUserMade] = useState(null);
@@ -299,6 +324,7 @@ function SignUp(props) {
     // do form:handleRegistration here
     return (
       <>
+      <form onSubmit={handleMoney}>
         <MDBContainer fluid className='h-custom'>
 
           <MDBRow className='d-flex justify-content-center align-items-center h-100'>
@@ -322,8 +348,8 @@ function SignUp(props) {
                     label='Bank Account Number'
                     id='inputBankAcc'
                     type='text'
-                    value={bankAcc.bankAccNum}
-                    onChange={(e) => e.target.value}
+                    value={bankAccNum}
+                    onChange={(e) => setBankAccNum(e.target.value)}
                   />
 
                   <MDBRow>
@@ -333,6 +359,8 @@ function SignUp(props) {
                         label='Bank Name'
                         id='inputBankName'
                         type='text'
+                        value={bankName}
+                        onChange={(e) => setBankName(e.target.value)}
                       />
                     </MDBCol>
 
@@ -341,7 +369,7 @@ function SignUp(props) {
                         label='Account on Name'
                         id='inputAccName'
                         type='text'
-                        value={bankAcc.accName}
+                        value={accName}
                         onChange={(e) => setBankAcc(e.target.value)} />
                     </MDBCol>
 
@@ -390,9 +418,10 @@ function SignUp(props) {
                     </MDBCol>
                   </MDBRow>
 
-                  <MDBBtn color='success'
+                  <MDBBtn color='success' 
                     className='mb-4'
-                    size='lg'>
+                    size='lg'
+                    type="submit">
                     Submit</MDBBtn>
 
                 </MDBCardBody>
@@ -402,6 +431,7 @@ function SignUp(props) {
           </MDBRow>
 
         </MDBContainer>
+        </form>
       </>
     );
   }
