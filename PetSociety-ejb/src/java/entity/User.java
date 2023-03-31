@@ -12,6 +12,8 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -66,7 +68,8 @@ public class User implements Serializable  {
     private byte [] profilePicture;
     @Column(nullable = false)
     private String billingAddress;
-    @Column(nullable = true)
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private UserStatusEnum status;
     @Column()
     private int daysDisabled;
