@@ -33,6 +33,7 @@ function SignUp(props) {
   const [profilePicture, setProfilePicture] = useState(null);
   const [billingAddress, setBillingAddress] = useState("");
   const [bankAcc, setBankAcc] = useState(null);
+  const [cc, SetCc] = useState(null);
 
 
   // for userstatusenum
@@ -76,14 +77,21 @@ function SignUp(props) {
   // relationships
   // for bankAcc
   const [bankAccNum, setBankAccNum] = useState("");
-  const 
-  async function fetchCreateAndAssociateNewBankAccount() {
-    try {
-      const data = await Api.createAndAssociateNewBankAccount();
-      setBankAcc(data);
-    } catch (error) {
-      console.error(error);
-    }
+  const [bankName, setBankName] = useState("");
+  const [accName, setAccName] = useState("");
+
+  const bankAcc = {
+    bankAccNum = bankAccNum,
+    bankName = bankName,
+    accName = accName
+  }
+
+  const handleCreationOfBankAcc = (e) => {
+    e.preventDefault;
+    Api.createAndAssociateNewBankAccount(bankAcc)
+    .then((data) => {
+      Navigate("/LoggedInHomepage");
+    })
   }
 
   // for cc
@@ -106,12 +114,12 @@ function SignUp(props) {
     .then((data) => {
       Navigate("/LoggedInHomepage");
     })
-
   }
 
 // handle money details
 const handleMoney = (e) => {
   handleCreationOfCc;
+  handleCreationOfBankAcc;
 
 }
 
@@ -316,6 +324,7 @@ const handleMoney = (e) => {
     // do form:handleRegistration here
     return (
       <>
+      <form onSubmit={handleMoney}>
         <MDBContainer fluid className='h-custom'>
 
           <MDBRow className='d-flex justify-content-center align-items-center h-100'>
@@ -339,8 +348,8 @@ const handleMoney = (e) => {
                     label='Bank Account Number'
                     id='inputBankAcc'
                     type='text'
-                    value={bankAcc.bankAccNum}
-                    onChange={(e) => e.target.value}
+                    value={bankAccNum}
+                    onChange={(e) => setBankAccNum(e.target.value)}
                   />
 
                   <MDBRow>
@@ -350,6 +359,8 @@ const handleMoney = (e) => {
                         label='Bank Name'
                         id='inputBankName'
                         type='text'
+                        value={bankName}
+                        onChange={(e) => setBankName(e.target.value)}
                       />
                     </MDBCol>
 
@@ -358,7 +369,7 @@ const handleMoney = (e) => {
                         label='Account on Name'
                         id='inputAccName'
                         type='text'
-                        value={bankAcc.accName}
+                        value={accName}
                         onChange={(e) => setBankAcc(e.target.value)} />
                     </MDBCol>
 
@@ -407,9 +418,10 @@ const handleMoney = (e) => {
                     </MDBCol>
                   </MDBRow>
 
-                  <MDBBtn color='success' // handleMoney
+                  <MDBBtn color='success' 
                     className='mb-4'
-                    size='lg'>
+                    size='lg'
+                    type="submit">
                     Submit</MDBBtn>
 
                 </MDBCardBody>
@@ -419,6 +431,7 @@ const handleMoney = (e) => {
           </MDBRow>
 
         </MDBContainer>
+        </form>
       </>
     );
   }
