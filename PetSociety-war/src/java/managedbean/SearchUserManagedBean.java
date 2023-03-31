@@ -31,7 +31,7 @@ public class SearchUserManagedBean implements Serializable {
     private String param = null;
     private List<User> searchRes;
     private int numRes;
-    //private User selectedUser;
+    private User selectedUser;
 
     /**
      * Creates a new instance of SearchUserManagedBean
@@ -105,5 +105,13 @@ public class SearchUserManagedBean implements Serializable {
 
     public void setNumRes(int numRes) {
         this.numRes = numRes;
+    }
+
+    public User getSelectedUser() {
+        return selectedUser;
+    }
+
+    public void setSelectedUser(User selectedUser) {
+        this.selectedUser = selectedUser;
     }
 }

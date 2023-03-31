@@ -6,12 +6,17 @@
 package managedbean;
 
 import entity.PetParent;
+import entity.PetSitter;
+import entity.Rating;
+import entity.Report;
 import entity.User;
 import enumeration.UserStatusEnum;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.List;
 import javax.ejb.EJB;
+import javax.faces.annotation.ManagedProperty;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityNotFoundException;
@@ -27,13 +32,56 @@ public class ViewUserManagedBean implements Serializable {
 
     @EJB(name = "UserSessionBeanLocal")
     private UserSessionBeanLocal userSessionBeanLocal;
+    private String userIdStr;
+    //@ManagedProperty("#{param.objUser}")
     private User user;
     private String disabledDuration;
+    private String userStatus;
+    private boolean canEnable;
+    private boolean canDisable;
+    private String userType;
 
     /**
      * Creates a new instance of ViewUserManagedBean
      */
     public ViewUserManagedBean() {
+    }
+    
+    public String generateUserDetails() {
+        //Long userId = Long.parseLong(userIdStr);
+        //user = userSessionBeanLocal.getUser(userId);
+        user = userSessionBeanLocal.getUser(user.getUserId());
+        System.out.println("viewing user: " + user);
+        UserStatusEnum status = user.getStatus();
+        if (status == UserStatusEnum.DISABLED) {
+            this.userStatus = "Disabled";
+        } else if (status == UserStatusEnum.APPROVED) {
+            this.userStatus = "Approved";
+        } else if (status == UserStatusEnum.PENDING) {
+            this.userStatus = "Pending";
+        } else {
+            this.userStatus = "not set";
+        }
+        // returns opposite booleans to set disabled for disable button
+        if (status == UserStatusEnum.APPROVED) {
+            this.canDisable = false;
+        } else {
+            this.canDisable = true; // cannot disable a pending account
+        }
+        // returns opposite booleans to set disabled for enable button
+        if (status == UserStatusEnum.DISABLED) {
+            this.canEnable = false;
+        } else {
+            this.canEnable = true; // cannot enable a pending account
+        }
+        
+        if (user instanceof PetParent) {
+            this.userType = "PetParent";
+        } else if (user instanceof PetSitter) {
+            this.userType = "PetSitter";
+        }
+        
+        return "viewUser.xhtml?faces-redirect=true";
     }
 
     public String disableUser() {
@@ -52,9 +100,11 @@ public class ViewUserManagedBean implements Serializable {
         } catch (EntityNotFoundException ex) {
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error! ", "User cannot be retrieved from database."));
-            return "viewUser.xhtml?faces-redirect=true";
+            generateUserDetails();
+            return "disabledUnsuccessful.xhtml?faces-redirect=true";
         }
-        return "viewUser.xhtml?faces-redirect=true";
+        generateUserDetails();
+        return "disabledSuccessful.xhtml?faces-redirect=true";
     }
 
     public String enableUser() {
@@ -64,39 +114,13 @@ public class ViewUserManagedBean implements Serializable {
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error! ", "User cannot be retrieved from database."));
         }
-        return "viewUser.xhtml?faces-redirect=true"; //refresh page
+        generateUserDetails();
+        return "enableSuccessful.xhtml?faces-redirect=true"; //refresh page
     }
 
-    public boolean canDisable() {
-        if (user == null) {
-            return true;
-        } // tesing only,, remove 
-        // returns opposite booleans to set disabled for disable button
-        UserStatusEnum status = user.getStatus();
-        if (status == UserStatusEnum.APPROVED) {
-            return false;
-        } else {
-            return true; // cannot disable a pending account
-        }
-    }
-
-    public boolean canEnable() {
-        if (user == null) {
-            return true;
-        } // testing only,, remove
-        // returns opposite booleans to set disabled for enable button
-        UserStatusEnum status = user.getStatus();
-        if (status == UserStatusEnum.DISABLED) {
-            return false;
-        } else {
-            return true; // cannot enable a pending account
-        }
-    }
-
-    public String getUserStatus() {
-        if (user == null) {
-            return "";
-        } // testing only,, remove
+    public String retrieveUserStatus() {
+        System.out.println(user);
+        System.out.println(user.getStatus());
         UserStatusEnum status = user.getStatus();
         if (status == UserStatusEnum.DISABLED) {
             return "Disabled";
@@ -109,20 +133,9 @@ public class ViewUserManagedBean implements Serializable {
         }
     }
 
-    public String getUserType() {
-        if (user == null) {
-            return "null";
-        } // testing only,, remove
-        if (user instanceof PetParent) {
-            return "PetParent";
-        } else {
-            return "PetSitter";
-        }
-    }
-
     public String back() {
-        this.user = null;
-        this.disabledDuration = null;
+        //this.user = null;
+        //this.disabledDuration = null;
         return "searchUsers.xhtml?faces-redirect=true";
     }
 
@@ -132,6 +145,8 @@ public class ViewUserManagedBean implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+        System.out.println("User is set: " + this.user);
+        generateUserDetails();
     }
 
     public String getDisabledDuration() {
@@ -140,5 +155,45 @@ public class ViewUserManagedBean implements Serializable {
 
     public void setDisabledDuration(String disabledDuration) {
         this.disabledDuration = disabledDuration;
+    }
+
+    public String getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(String userStatus) {
+        this.userStatus = userStatus;
+    }
+
+    public boolean isCanEnable() {
+        return canEnable;
+    }
+
+    public void setCanEnable(boolean canEnable) {
+        this.canEnable = canEnable;
+    }
+
+    public boolean isCanDisable() {
+        return canDisable;
+    }
+
+    public void setCanDisable(boolean canDisable) {
+        this.canDisable = canDisable;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+    public String getUserIdStr() {
+        return userIdStr;
+    }
+
+    public void setUserIdStr(String userIdStr) {
+        this.userIdStr = userIdStr;
     }
 }
