@@ -9,6 +9,7 @@ import entity.CreditCard;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,5 +29,11 @@ public class CreditCardSessionBean implements CreditCardSessionBeanLocal {
         em.flush();
         // cc.getUser().setCc(cc);
         return cc;
+    }
+    
+    @Override
+    public CreditCard getCreditCard() {
+        Query q = em.createQuery("SELECT cc FROM CreditCard cc");
+        return (CreditCard) q.getResultList().get(0);
     }
 }

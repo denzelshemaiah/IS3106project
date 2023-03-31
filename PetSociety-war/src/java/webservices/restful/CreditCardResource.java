@@ -32,12 +32,17 @@ public class CreditCardResource {
   @EJB
     private CreditCardSessionBeanLocal creditCardSessionBeanLocal;
 
-  @POST
+    @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public CreditCard createNewBankAccount(CreditCard creditCard) {
         creditCardSessionBeanLocal.addNewCreditCard(creditCard);
         return creditCard;
     }
-
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public CreditCard getCreditCard() {
+        return creditCardSessionBeanLocal.getCreditCard();
+    }
 }

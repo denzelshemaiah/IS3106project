@@ -47,8 +47,7 @@ public class DataInitSessionBean {
     private CreditCardSessionBeanLocal creditCardSessionBean;
 
     @EJB
-    private BankAccSessionBeanLocal bankAccountSessionBean;
-    
+    private BankAccountSessionBeanLocal bankAccountSessionBean;
 
     @EJB(name = "StaffSessionBeanLocal")
     private StaffSessionBeanLocal staffSessionBeanLocal;
@@ -95,7 +94,7 @@ public class DataInitSessionBean {
         acc.setBankName("UOB");
         acc.setTransactions(new ArrayList<>());
 
-        bankAccountSessionBean.addNewBankAcc(acc);
+        bankAccountSessionBean.addNewBankAccount(acc);
         creditCardSessionBean.addNewCreditCard(cc);
 
         PetParent p = new PetParent();

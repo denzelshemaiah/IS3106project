@@ -14,5 +14,6 @@ import javax.ejb.Local;
  */
 @Local
 public interface CreditCardSessionBeanLocal {
-    public CreditCard addNewCreditCard(CreditCard cc);
+    public Long addNewCreditCard(CreditCard cc);
+    public CreditCard getCreditCard();
 }

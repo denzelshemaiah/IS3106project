@@ -8,6 +8,7 @@ package entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -113,6 +114,7 @@ public class Payment implements Serializable {
     /**
      * @return the booking
      */
+    @JsonbTransient
     public BookingRequest getBooking() {
         return booking;
     }
@@ -127,6 +129,7 @@ public class Payment implements Serializable {
     /**
      * @return the bankAcc
      */
+    @JsonbTransient
     public BankAccount getBankAcc() {
         return bankAcc;
     }
@@ -141,6 +144,7 @@ public class Payment implements Serializable {
     /**
      * @return the credCard
      */
+    @JsonbTransient
     public CreditCard getCredCard() {
         return credCard;
     }

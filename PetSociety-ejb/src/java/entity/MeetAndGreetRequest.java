@@ -8,6 +8,7 @@ package entity;
 import enumeration.RequestStatusEnum;
 import java.io.Serializable;
 import java.util.Date;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -145,6 +146,7 @@ public class MeetAndGreetRequest implements Serializable {
     /**
      * @return the parent
      */
+    @JsonbTransient
     public PetParent getParent() {
         return parent;
     }
@@ -159,6 +161,7 @@ public class MeetAndGreetRequest implements Serializable {
     /**
      * @return the sitter
      */
+    @JsonbTransient
     public PetSitter getSitter() {
         return sitter;
     }
