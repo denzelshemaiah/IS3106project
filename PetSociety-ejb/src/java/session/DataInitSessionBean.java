@@ -12,6 +12,7 @@ import entity.PetParent;
 import entity.Staff;
 import entity.User;
 import enumeration.RequestStatusEnum;
+import enumeration.UserStatusEnum;
 import error.EntityAlreadyExistsException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -108,6 +109,7 @@ public class DataInitSessionBean {
         p.setFirstName("first");
         p.setLastName("last");
         p.setUsername("username");
+        p.setStatus(UserStatusEnum.APPROVED);
         p.setRatingsForUsers(new ArrayList<>());
         p.setRatingsUserMade(new ArrayList<>());
         p.setReportsAgainstUser(new ArrayList<>());
