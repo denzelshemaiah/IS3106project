@@ -60,13 +60,10 @@ public class User implements Serializable  {
     @Column(length = 8, nullable = false)
     @Size(min = 8)
     private String emergencyContact;
-    
     @Column(nullable = true)
     @Lob
     @Basic(fetch = FetchType.LAZY)
     private byte [] profilePicture;
-    
-    
     @Column(nullable = false)
     private String billingAddress;
     @Column(nullable = true)
