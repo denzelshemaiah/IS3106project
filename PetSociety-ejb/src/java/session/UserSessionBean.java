@@ -51,21 +51,21 @@ public class UserSessionBean implements UserSessionBeanLocal {
     @Override
     public List<User> searchUsersByUsername(String username) {
         Query q = em.createQuery("SELECT u FROM User u WHERE u.username LIKE ?1");
-        q.setParameter(1, username);
+        q.setParameter(1, "%" + username + "%");
         return q.getResultList();
     }
 
     @Override
     public List<User> searchUsersByEmail(String email) {
         Query q = em.createQuery("SELECT u FROM User u WHERE u.email LIKE ?1");
-        q.setParameter(1, email);
+        q.setParameter(1, "%" + email + "%");
         return q.getResultList();
     }
 
     @Override
     public List<User> searchUsersByContactNum(String contactNum) {
         Query q = em.createQuery("SELECT u FROM User u WHERE u.contactNum LIKE ?1");
-        q.setParameter(1, contactNum);
+        q.setParameter(1, "%" + contactNum + "%");
         return q.getResultList();
     }
 
@@ -87,5 +87,12 @@ public class UserSessionBean implements UserSessionBeanLocal {
         }
         user.setDaysDisabled(0);
         user.setStatus(UserStatusEnum.APPROVED);
+    }
+
+    @Override
+    public List<User> retrieveAllDisabledUsers() {
+        Query q = em.createQuery("SELECT u FROM User u WHERE u.status = :enum");
+        q.setParameter("enum", UserStatusEnum.DISABLED);
+        return q.getResultList();
     }
 }

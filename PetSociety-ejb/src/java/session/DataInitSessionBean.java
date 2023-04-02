@@ -12,6 +12,7 @@ import entity.PetParent;
 import entity.Staff;
 import entity.User;
 import enumeration.RequestStatusEnum;
+import enumeration.UserStatusEnum;
 import error.EntityAlreadyExistsException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class DataInitSessionBean {
     private CreditCardSessionBeanLocal creditCardSessionBean;
 
     @EJB
-    private BankAccountSessionBeanLocal bankAccountSessionBean;
+    private BankAccSessionBeanLocal bankAccountSessionBean;
 
     @EJB(name = "StaffSessionBeanLocal")
     private StaffSessionBeanLocal staffSessionBeanLocal;
@@ -94,7 +95,7 @@ public class DataInitSessionBean {
         acc.setBankName("UOB");
         acc.setTransactions(new ArrayList<>());
 
-        bankAccountSessionBean.addNewBankAccount(acc);
+        bankAccountSessionBean.addNewBankAcc(acc);
         creditCardSessionBean.addNewCreditCard(cc);
 
         PetParent p = new PetParent();
@@ -108,6 +109,7 @@ public class DataInitSessionBean {
         p.setFirstName("first");
         p.setLastName("last");
         p.setUsername("username");
+        p.setStatus(UserStatusEnum.APPROVED);
         p.setRatingsForUsers(new ArrayList<>());
         p.setRatingsUserMade(new ArrayList<>());
         p.setReportsAgainstUser(new ArrayList<>());

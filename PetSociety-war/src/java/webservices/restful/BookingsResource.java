@@ -8,6 +8,7 @@ package webservices.restful;
 import java.util.List;
 import entity.BookingRequest;
 import enumeration.RequestStatusEnum;
+import error.NoAccessException;
 import error.NoResultException;
 import java.util.Date;
 import javax.ejb.EJB;
@@ -45,7 +46,7 @@ public class BookingsResource {
     @Produces(MediaType.APPLICATION_JSON)
     public List<BookingRequest> getBookings(@PathParam("status") String status, @PathParam("id") Long userId) {
         List<BookingRequest> bookings = bookingSession.getBookings(status, userId); 
-        System.out.println(bookings);
+        System.out.println("booking reloaded" + bookings);
         return bookings;
     }
     
@@ -57,6 +58,9 @@ public class BookingsResource {
         b.setBookingReqId(bookingId);
         try {
             bookingSession.updateBooking(b);
+            System.out.println("Booking start: " + b.getStartDate());
+            System.out.println("Booking end: " + b.getEndDate());
+            System.out.println(b.getEndDate());
             return Response.status(204).build();
         } catch (NoResultException e) {
             JsonObject exception = Json.createObjectBuilder()
@@ -68,14 +72,48 @@ public class BookingsResource {
     }
     
     @DELETE
-    @Path("/cancel/{bookingId}")
+    @Path("/cancel/{parentId}/{bookingId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response cancelBooking(@PathParam("bookingId") Long bookingId) {
+    public Response cancelBooking(@PathParam("parentId") Long parentId, @PathParam("bookingId") Long bookingId) {
         try {
-            bookingSession.cancelBooking(bookingId);
+            bookingSession.cancelBooking(parentId, bookingId);
             return Response.status(204).build();
-        } catch (NoResultException e) {
+        } catch (NoResultException | NoAccessException e) {
+            JsonObject exception = Json.createObjectBuilder()
+            .add("error", "Not found")
+            .build();
+            return Response.status(404).entity(exception)
+            .type(MediaType.APPLICATION_JSON).build();
+        }
+    }
+    
+    @PUT
+    @Path("/accept/{sitterId}/{bookingId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response acceptBooking(@PathParam("bookingId") Long bookingId, @PathParam("sitterId") Long sitterId) {
+        try {
+            bookingSession.acceptBooking(sitterId, bookingId);
+            return Response.status(204).build();
+        } catch (NoResultException | NoAccessException e) {
+            JsonObject exception = Json.createObjectBuilder()
+            .add("error", "Not found")
+            .build();
+            return Response.status(404).entity(exception)
+            .type(MediaType.APPLICATION_JSON).build();
+        }
+    }
+    
+    @PUT
+    @Path("/reject/{sitterId}/{bookingId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response rejectBooking(@PathParam("bookingId") Long bookingId, @PathParam("sitterId") Long sitterId) {
+        try {
+            bookingSession.rejectBooking(sitterId, bookingId);
+            return Response.status(204).build();
+        } catch (NoResultException | NoAccessException e) {
             JsonObject exception = Json.createObjectBuilder()
             .add("error", "Not found")
             .build();
@@ -85,13 +123,12 @@ public class BookingsResource {
     }
     
     @POST
-    @Path("/parent/{parentId}/{sitterId}")
+    @Path("/create/{parentId}/{sitterId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public BookingRequest createCustomer(BookingRequest b, @PathParam("parentId") Long parentId, @PathParam("sitterId") Long sitterId) {
-        b.setCreated(new Date());
-        b.setStatus(RequestStatusEnum.PENDING);
+    public BookingRequest createBooking (@PathParam("parentId") Long parentId, @PathParam("sitterId") Long sitterId,
+            BookingRequest b) {
         bookingSession.createNewBooking(b, parentId, sitterId);
         return b;
-    } //end createBooking
+    } 
 }

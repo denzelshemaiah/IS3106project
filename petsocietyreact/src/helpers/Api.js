@@ -54,9 +54,10 @@ const Api = {
     getAllBookings(status, userId) {
         return fetch(`${SERVER_PREFIX}/bookings/${status}/${userId}`)
     },
-
-    updateBooking(userId, form) {
-        return fetch(`${SERVER_PREFIX}/bookings/${form.bookingReqId}/${userId}`, {
+    
+    //update the booking values
+    updateBooking(form) {
+        return fetch(`${SERVER_PREFIX}/bookings/${form.bookingReqId}`, {
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
@@ -65,13 +66,13 @@ const Api = {
             body: JSON.stringify(form),
         })
     },
-
-    cancelBooking(bookingId) {
-        return fetch(`${SERVER_PREFIX}/bookings/cancel/${bookingId}}`, {
+    //cancel this booking, move 2 archive
+    cancelBooking(parentId, bookingId) {
+        return fetch(`${SERVER_PREFIX}/bookings/cancel/${parentId}/${bookingId}`, {
             method: "DELETE",
         })
     },
-
+    //create new booking
     createBooking(booking, parentId, sitterId) {
         return fetch(`${SERVER_PREFIX}/bookings/parent/${parentId}/${sitterId}`, {
             headers: {
@@ -82,6 +83,18 @@ const Api = {
             body: JSON.stringify(booking),
         });
     },
+    //accept a booking
+    acceptBooking(sitterId, bookingId) {
+        return fetch(`${SERVER_PREFIX}/bookings/accept/${sitterId}/${bookingId}`, {
+            method:"PUT"
+        })
+    },
+    //reject a booking
+    rejectBooking(sitterId, bookingId) {
+        return fetch(`${SERVER_PREFIX}/bookings/reject/${sitterId}/${bookingId}`, {
+            method:"PUT"
+        })
+    }
 };
 
 export default Api;

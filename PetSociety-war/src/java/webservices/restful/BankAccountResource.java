@@ -35,7 +35,7 @@ public class BankAccountResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public BankAccount createNewBankAccount(BankAccount bankAccount) {
-        bankAccountSessionBean.createNewBankAcc(bankAccount);
+        bankAccountSessionBean.addNewBankAcc(bankAccount);
         return bankAccount;
     }
 }

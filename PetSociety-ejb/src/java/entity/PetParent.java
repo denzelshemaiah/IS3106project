@@ -7,6 +7,7 @@ package entity;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
@@ -67,6 +68,7 @@ public class PetParent extends User implements Serializable {
     /**
      * @return the mgRequests
      */
+    @JsonbTransient
     public List<MeetAndGreetRequest> getMgRequests() {
         return mgRequests;
     }
@@ -81,6 +83,7 @@ public class PetParent extends User implements Serializable {
     /**
      * @return the bookings
      */
+    @JsonbTransient
     public List<BookingRequest> getBookings() {
         return bookings;
     }

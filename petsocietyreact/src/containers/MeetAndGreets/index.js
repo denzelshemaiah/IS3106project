@@ -7,13 +7,34 @@ function MeetAndGreets() {
     //initialise all the necessary constants
     const {userId = 0} = useParams();
     const [chosenTab, setChosenTab] = useState("pending")
-    const [bookings, setBookings] = useState([]);
+    const [Requests, setRequests] = useState([]);
+    const user = {"role": "parent"};
+
+    useEffect(() => {
+        reloadData();
+    }, [chosenTab]);
+
+    //gets all the mg data for this user
+    const reloadData = () => {
+        Api.getAllMeets(chosenTab, userId)
+        .then((res) => res.json())
+        .then((mgs) => {
+            for (const mg of mgs) {
+                const {mgReqId, cost, created, description, endDate, numPets, startDate, status} = mg;
+
+                mg.created = created.substring(0, created.length - 5);
+                mg.startDate = startDate.substring(0, created.length - 15);
+                mg.endDate = endDate.substring(0, endDate.length - 15);
+            }
+            setRequests(mgs);
+        });
+    }
     
     return (
         <>
             <div class="card mt-5 shadow rounded">
                 <div class="card-header">
-                    <ul class="nav nav-pills" id="tabs" role="tablist">
+                    <ul class="nav nav-pills nav-fill" id="tabs" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pending" role="tab" aria-controls="pending" type="button" aria-selected="true">Pending Requests</button>
                         </li>
@@ -32,16 +53,23 @@ function MeetAndGreets() {
                 <div class="card-body">
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="pending-tab">
-                            show pending m&g requests
+                            <ul className="list-group">
+                                filler
+                            </ul>
                         </div>
                         <div class="tab-pane fade" id="upcoming" role="tabpanel" aria-labelledby="upcoming-tab">
-                            show upcoming m&g bookings
-                        </div>
+                            <ul className="list-group">
+                                filler
+                            </ul>                        </div>
                         <div class="tab-pane fade" id="rejected" role="tabpanel" aria-labelledby="rejected-tab">
-                            show rejected m&g requests 
+                            <ul className="list-group">
+                                filler
+                            </ul> 
                         </div>
                         <div class="tab-pane fade" id="archived" role="tabpanel" aria-labelledby="archived-tab">
-                            show archived bookings 
+                            <ul className="list-group">
+                                filler
+                            </ul>
                         </div>
                     </div>
                 </div>

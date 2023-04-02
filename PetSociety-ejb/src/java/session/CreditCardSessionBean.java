@@ -24,11 +24,11 @@ public class CreditCardSessionBean implements CreditCardSessionBeanLocal {
     private EntityManager em;
     
     @Override
-    public Long addNewCreditCard(CreditCard cc) {
+    public CreditCard addNewCreditCard(CreditCard cc) {
         em.persist(cc);
         em.flush();
-        
-        return cc.getCcId();
+        // cc.getUser().setCc(cc);
+        return cc;
     }
     
     @Override

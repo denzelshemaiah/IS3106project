@@ -9,7 +9,6 @@ import enumeration.RequestStatusEnum;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -21,7 +20,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -52,6 +50,9 @@ public class BookingRequest implements Serializable {
     private Date created;
     @Column(nullable = false)
     private int numPets;
+    @Column(nullable = true)
+    // 1,2 or 3 for drop-in
+    private int visitFreq;
     
     //relationships
     @ManyToOne
@@ -202,7 +203,6 @@ public class BookingRequest implements Serializable {
     /**
      * @return the parent
      */
-    @JsonbTransient
     public PetParent getParent() {
         return parent;
     }
@@ -218,7 +218,6 @@ public class BookingRequest implements Serializable {
     /**
      * @return the sitter
      */
-    @JsonbTransient
     public PetSitter getSitter() {
         return sitter;
     }
@@ -238,6 +237,7 @@ public class BookingRequest implements Serializable {
     }
 
     /**
+     * @param payment
      */
     public void setPayment(Payment payment) {
         this.payment = payment;
@@ -255,6 +255,20 @@ public class BookingRequest implements Serializable {
      */
     public void setRating(Rating rating) {
         this.rating = rating;
+    }
+
+    /**
+     * @return the numFreq
+     */
+    public int getVisitFreq() {
+        return visitFreq;
+    }
+
+    /**
+     * @param visitFreq the visitFreq to set
+     */
+    public void setVisitFreq(int visitFreq) {
+        this.visitFreq = visitFreq;
     }
     
 }

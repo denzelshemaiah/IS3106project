@@ -26,8 +26,7 @@ function App() {
  
           <Route path="/searchSitter" element={<SearchSitter />} />
           <Route path="/services" element={<Services />} />
-          <Route path="/help" element={<Help />} />
-
+          
           {/* private routes */}
           <Route path="/bookings" element={<Bookings />} />
           <Route path="/meetandgreets" element={<MeetAndGreets />} />
