@@ -1,14 +1,30 @@
-import React, { useState, useEffect  } from "react";
+import React, { useState, useEffect, createContext } from "react";
 import { Button, CardTitle, CardSubtitle, ListGroupItem, ListGroup, CardText, Card, CardBody, CardGroup, CardImg} from "reactstrap";
 //import Api from "../../helpers/Api";
 import './styles.css';
 import Rating from 'react-rating-stars-component';
+import { Link } from "react-router-dom";
 
-// Note: the empty deps array [] means
-    // this useEffect will run once
-    function SearchResults() {
-        const [error, setError] = useState(null);
-        const [isLoaded, setIsLoaded] = useState(true);
+
+// function search(sitters) {
+//     const searchParam = Object.keys(sitters[0]);
+//     const { formData } = useContext(SearchContext);
+
+//     return sitters.filter((sitter) => {
+//         return searchParam.some((newItem) => {
+//             return (
+//                 sitter[newItem]
+//                     .toString()
+//                     .toLowerCase()
+//                     .indexOf(formData.toLowerCase()) > -1
+//             );
+//         });
+//     });
+// }
+
+    function SearchResults() {         
+        // const { sitters, error, isLoaded } = useContext(SearchContext);
+        // const filteredSitters = search(sitters);
         //data init for testing the card
         const [sitters, setSitters] = useState([{"userId": 1, 
         "firstName": "Sarah", 
@@ -27,6 +43,17 @@ import Rating from 'react-rating-stars-component';
         "comments": "excellent",
         "region":"east"}]);
 
+        // const [sitters, setSitters] = useState([]);
+        const [searchParam, setSearchParam] = useState(["serviceType", "petType", "location", "startDate", "endDate", "petSize", "rate", "repeat", "full-time", "numOfTimes"]);
+        
+        // //     set daycare search parameters
+        // const [daycareSearchParam, setDaycareSearchParam] = useState(["service", "petEnum", "location", "startDate", "endDate", "size", "rate", "full-time"]);
+        // //     set dropin search parameters
+        // const [dropinSearchParam, setDropinSearchParam] = useState(["service", "petEnum", "location", "startDate", "endDate", "size", "rate", "numTimes", "timeOfDay"]);
+        // //     set boarding search parameters
+        // const [boardingSearchParam, setBoardingSearchParam] = useState(["service", "petEnum", "location", "startDate", "endDate", "size", "rate"]);
+        // //     set walker search parameters
+        // const [walkerSearchParam, setWalkerSearchParam] = useState(["service", "petEnum", "location", "startDate", "endDate", "size", "rate", "numTimes", "timeOfDay"]);
 
 /*
         useEffect(() => {
@@ -46,12 +73,15 @@ import Rating from 'react-rating-stars-component';
                     }
                 );
         }, []);
+        */
 
+/*
         if (error) { 
             return <>{error.message}</>;
         } else if (!isLoaded) {
             return <>loading...</>;
         } else { */
+
     return (
         /* here we map over the sitter and display each sitter as a card  */
         <div className="wrapper">
@@ -93,7 +123,9 @@ import Rating from 'react-rating-stars-component';
                                         </CardText>
                                     </CardBody>
                                     <div className="button-wrapper">
-                                        <Button>Book Sitter</Button>
+                                        <Link to="/makebooking">
+                                            <Button>Book Sitter</Button>
+                                        </Link>
                                     </div>
                                 </Card>
                             </CardGroup>
@@ -118,7 +150,7 @@ import Rating from 'react-rating-stars-component';
             </style>
         </div>
     );
-}
-// }
+        
+ }
 
 export default SearchResults;

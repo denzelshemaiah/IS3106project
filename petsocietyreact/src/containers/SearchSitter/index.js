@@ -14,7 +14,6 @@ import SearchResults from "../../components/SearchResults";
 
 function SearchSitter(props) {
 
-    const [searchQuery, setSearchQuery] = useState("");
     const [showResults, setShowResults] = useState(false);
 
     const handleSearch = (event) => {
@@ -23,7 +22,7 @@ function SearchSitter(props) {
     };
 
     const handleInputChange = (event) => {
-        const { name, value, type, checked } = event.target;
+        const { name, value, type } = event.target;
         if (type === "checkbox" && name === "petType") {
           setFormData((prevState) => {
             const petType = prevState.petType.includes(value)
@@ -66,18 +65,11 @@ function SearchSitter(props) {
         },
         petSize: "",
         rate: [0, 500],
+        repeat: "",
         fulltime: false,
         numOfTimes: null,
-        timeOfDay: ""
+        // timeOfDay: ""
       });
-    //     set daycare search parameters
-    const [daycareSearchParam, setDaycareSearchParam] = useState(["service", "petEnum", "location", "startDate", "endDate", "size", "rate", "full-time"]);
-    //     set dropin search parameters
-    const [dropinSearchParam, setDropinSearchParam] = useState(["service", "petEnum", "location", "startDate", "endDate", "size", "rate", "numTimes", "timeOfDay"]);
-    //     set boarding search parameters
-    const [boardingSearchParam, setBoardingSearchParam] = useState(["service", "petEnum", "location", "startDate", "endDate", "size", "rate"]);
-    //     set walker search parameters
-    const [walkerSearchParam, setWalkerSearchParam] = useState(["service", "petEnum", "location", "startDate", "endDate", "size", "rate", "numTimes", "timeOfDay"]);
     
 
     const [startDate, setStartDate] = useState(moment().tz('Asia/Singapore').startOf("day").toDate());
@@ -141,22 +133,44 @@ function SearchSitter(props) {
       };
     let numOfTimesButton = ""
 
-
-    //indicate if the time 
-    const [selectedTime, setSelectedTime] = useState([]);
-    const handleTimeSelection = (selected) => {
-        const index = selectedTime.indexOf(selected);
-        if (index < 0) {
-          setSelectedTime([...selectedTime, selected]);
-        } else {
-          setSelectedTime(selectedTime.filter((time) => time !== selected));
-        }
+    const [repeat, setRepeat] = useState("once");
+    const handleRepeatSelection = (selectedRepeat) => {
+        setRepeat(selectedWeight);
         setFormData((prevState) => ({
-            ...prevState,
-            timeOfDay: selectedTime
-          }));
+          ...prevState,
+          repeat: selectedRepeat
+        }));
       };
-    let timeOfDayButton = ""
+    //for repeated service
+    let repeatButtons = ""
+    if (selectedItem1 === "DayCare" || selectedItem1 ==="Drop-in Visits" || selectedItem1==="Dog Walker") {
+        repeatButtons = (
+            <>
+                <label style={{marginBottom : "3vh"}}>How often do you need {selectedItem1}?</label>
+                <Button outline color="secondary" className={repeat === "once" ? "active" : ""} style={{width: "40%", margin:"5px 10px 10px 10px", color:"black"}} onClick={() => handleRepeatSelection("once")}> 
+                    <FontAwesomeIcon icon={faCalendarAlt} style={{float: "left", height:"25px", width:"25px"}}/> One Time</Button>{' '}
+                <Button outline color="secondary"  className={repeat === "weekly" ? "active" : ""} style={{width: "40%", margin:"5px 10px 10px 10px", color:"black"}} onClick={() => handleRepeatSelection("weekly")}>
+                <FontAwesomeIcon icon={faRepeat} style={{float: "left", height:"25px", width:"25px"}}/>Repeat Weekly</Button>{' '}
+            </>
+        )
+    }
+
+
+    // //indicate if the time 
+    // const [selectedTime, setSelectedTime] = useState([]);
+    // const handleTimeSelection = (selected) => {
+    //     const index = selectedTime.indexOf(selected);
+    //     if (index < 0) {
+    //       setSelectedTime([...selectedTime, selected]);
+    //     } else {
+    //       setSelectedTime(selectedTime.filter((time) => time !== selected));
+    //     }
+    //     setFormData((prevState) => ({
+    //         ...prevState,
+    //         timeOfDay: selectedTime
+    //       }));
+    //   };
+    // let timeOfDayButton = ""
 
     let fulltimeButton = "";
     if (selectedItem1 === "DayCare") {
@@ -192,49 +206,49 @@ function SearchSitter(props) {
                         2
                     </Button>
                     <Button
-                        color={selectedNum === '3+' ? 'yellow' : 'purple'}
+                        color={selectedNum === '3' ? 'yellow' : 'purple'}
                         style={{ whiteSpace: 'nowrap' }}
-                        onClick={() => handleNumOfTimesSelection('3+')}>
-                        3+
+                        onClick={() => handleNumOfTimesSelection('3')}>
+                        3
                     </Button>
                 </ButtonGroup>
             </>
         )
     }
 
-    if (selectedItem1 === "Dog Walker" || selectedItem1 === "Drop-in Visits") {
-        timeOfDayButton = (
-            <>
-                <label htmlFor="gridCheck" className="form-label">
-                    Which time of the day do you need?
-                </label>
-                <ButtonGroup>
-                    <Button
-                        color={selectedTime === '6am-11am' ? 'yellow' : 'purple'}
-                        style={{ whiteSpace: 'nowrap' }}
-                        onClick={() => handleTimeSelection("6am-11am")}
-                        active={selectedTime.includes("6am-11am")}>
-                        6am-11am
-                    </Button>
-                    <Button
-                        color={selectedTime === '11am-3pm' ? 'yellow' : 'purple'}
-                        style={{ whiteSpace: 'nowrap' }}
-                        onClick={() => handleTimeSelection("11am-3pm")}
-                        active={selectedTime.includes("11am-3pm")}>
-                        11am-3pm
-                    </Button>
-                    <Button
-                        color={selectedTime === '3pm-10pm' ? 'yellow' : 'purple'}
-                        style={{ whiteSpace: 'nowrap' }}
-                        onClick={() => handleTimeSelection("3pm-10pm")}
-                        active={selectedTime.includes("3pm-10pm")}>
-                        3pm-10pm
-                    </Button>
-                </ButtonGroup>
-                <p>Selected: {selectedTime.join(", ")}</p>
-            </>
-        );
-    }
+    // if (selectedItem1 === "Dog Walker" || selectedItem1 === "Drop-in Visits") {
+    //     timeOfDayButton = (
+    //         <>
+    //             <label htmlFor="gridCheck" className="form-label">
+    //                 Which time of the day do you need?
+    //             </label>
+    //             <ButtonGroup>
+    //                 <Button
+    //                     color={selectedTime === '6am-11am' ? 'yellow' : 'purple'}
+    //                     style={{ whiteSpace: 'nowrap' }}
+    //                     onClick={() => handleTimeSelection("6am-11am")}
+    //                     active={selectedTime.includes("6am-11am")}>
+    //                     6am-11am
+    //                 </Button>
+    //                 <Button
+    //                     color={selectedTime === '11am-3pm' ? 'yellow' : 'purple'}
+    //                     style={{ whiteSpace: 'nowrap' }}
+    //                     onClick={() => handleTimeSelection("11am-3pm")}
+    //                     active={selectedTime.includes("11am-3pm")}>
+    //                     11am-3pm
+    //                 </Button>
+    //                 <Button
+    //                     color={selectedTime === '3pm-10pm' ? 'yellow' : 'purple'}
+    //                     style={{ whiteSpace: 'nowrap' }}
+    //                     onClick={() => handleTimeSelection("3pm-10pm")}
+    //                     active={selectedTime.includes("3pm-10pm")}>
+    //                     3pm-10pm
+    //                 </Button>
+    //             </ButtonGroup>
+    //             <p>Selected: {selectedTime.join(", ")}</p>
+    //         </>
+    //     );
+    // }
 
 
     return (
@@ -391,6 +405,10 @@ function SearchSitter(props) {
                                     </div>
 
                                     <div>
+                                        {repeatButtons}
+                                    </div>
+
+                                    <div>
                                         {fulltimeButton}
                                     </div>
 
@@ -398,9 +416,9 @@ function SearchSitter(props) {
                                         {numOfTimesButton}
                                     </div>
 
-                                    <div>
+                                    {/* <div>
                                         {timeOfDayButton}
-                                    </div>
+                                    </div> */}
 
                                     <div>
                                         <Button
@@ -413,12 +431,12 @@ function SearchSitter(props) {
                             </div>
                         </form>
                     </div>
+                    </div>
+                    <div className="col-md-6">
+                            {showResults && <SearchResults searchQuery={formData} style={{ overflow: "auto" }} />}
+                        {/* <SearchResults searchQuery={formData} style={{ float: "right", overflow: "auto" }} /> */}
+                    </div>
                 </div>
-                <div className="col-md-6">
-                {/* {showResults && <SearchResults searchQuery={searchQuery} style={{float:"right", overflow:"auto"}} />} */}
-                <SearchResults searchQuery={searchQuery} style={{float:"right", overflow:"auto"}} />
-                </div>
-            </div>
         </div>
         </>
     );
