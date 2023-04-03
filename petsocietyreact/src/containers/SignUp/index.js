@@ -18,7 +18,7 @@ import Api from "../../helpers/Api";
 
 
 function SignUp(props) {
-
+  const navigate = useNavigate();
   const { page } = useParams();
 
   // for user, its attributes
@@ -32,9 +32,6 @@ function SignUp(props) {
   const [emergencyContact, setEmergencyContact] = useState("");
   const [profilePicture, setProfilePicture] = useState(null);
   const [billingAddress, setBillingAddress] = useState("");
-  const [bankAcc, setBankAcc] = useState(null);
-  const [cc, SetCc] = useState(null);
-
 
   // for userstatusenum
   const [status, setStatus] = useState([]);
@@ -50,27 +47,52 @@ function SignUp(props) {
     fetchUserStatusEnum();
   }, []);
 
-  const user = {
-    firstName: firstName,
-    lastName: lastName,
-    username: username,
-    contactNum: contactNum,
-    email: email,
-    password: password,
-    age: age,
-    emergencyContact: emergencyContact,
-    profilePicture: profilePicture,
-    billingAddress: billingAddress,
-    status: status,
-    bankAcc: bankAcc
+  const routeChange = () =>{ 
+    let path = `/SignUp/2`; 
+    navigate(path);
   }
 
+  let bankAcc = {};
+  let cc = {};
+  let user = {}
    // creating just user without its associated stuff first
   const handleRegistrationOfUser = (e) => {
     e.preventDefault();
+
+    bankAcc = {
+      bankAccNum: bankAccNum,
+      bankName: bankName,
+      accName: accName,
+    }
+    console.log(bankAcc);
+
+    cc = {
+      ccNum : ccNum,
+      expDate: expDate,
+      ccName: ccName,
+      cvv: cvv,
+    }
+
+    console.log(cc);
+
+    user = {
+      firstName: firstName,
+      lastName: lastName,
+      username: username,
+      contactNum: contactNum,
+      email: email,
+      password: password,
+      age: age,
+      emergencyContact: emergencyContact,
+      profilePicture: profilePicture,
+      billingAddress: billingAddress,
+      status: status,
+      bankAcc: bankAcc,
+      cc: cc,
+    }
     Api.createNewUser(user)
     .then((data) => {
-      Navigate("/SignUp/2");
+      navigate("/LoggedInHomepage");
     })
   }
 
@@ -80,14 +102,8 @@ function SignUp(props) {
   const [bankName, setBankName] = useState("");
   const [accName, setAccName] = useState("");
 
-  const bankAcc = {
-    bankAccNum = bankAccNum,
-    bankName = bankName,
-    accName = accName
-  }
-
   const handleCreationOfBankAcc = (e) => {
-    e.preventDefault;
+    e.preventDefault();
     Api.createAndAssociateNewBankAccount(bankAcc)
     .then((data) => {
       Navigate("/LoggedInHomepage");
@@ -99,17 +115,10 @@ function SignUp(props) {
   const[expDate, setExpDate] = useState("");
   const[ccName, setCcName] = useState("");
   const[cvv, setCvv] = useState("");
-
-  const cc = {
-    ccNum: ccNum,
-    ccName: ccName,
-    cvv: cvv,
-    expDate: expDate
-  };
   
   // creating cc
   const handleCreationOfCc = (e) => {
-    e.preventDefault;
+    e.preventDefault();
     Api.createAndAssociateNewCreditCard(cc)
     .then((data) => {
       Navigate("/LoggedInHomepage");
@@ -118,9 +127,8 @@ function SignUp(props) {
 
 // handle money details
 const handleMoney = (e) => {
-  handleCreationOfCc;
-  handleCreationOfBankAcc;
-
+  handleCreationOfCc();
+  handleCreationOfBankAcc();
 }
 
   const [reportsAgainstUser, setReportsAgainstUser] = useState(null);
@@ -136,7 +144,6 @@ const handleMoney = (e) => {
           Sign Up
         </MDBTypography>
 
-<form onSubmit={handleRegistrationOfUser}>
         <MDBContainer fluid className='h-custom'>
 
           <MDBRow className='d-flex justify-content-center align-items-center h-100'>
@@ -269,7 +276,6 @@ const handleMoney = (e) => {
                             labelClass='text-white'
                             label='Code +'
                             size='lg'
-                            id='form9'
                             type='text' />
                         </MDBCol>
 
@@ -300,7 +306,9 @@ const handleMoney = (e) => {
 
                       <MDBBtn color='light'
                         size='lg'
-                        type="submit">
+                        type="submit"
+                        onClick={routeChange}
+                        >
                         Next
                       </MDBBtn>
 
@@ -314,7 +322,6 @@ const handleMoney = (e) => {
           </MDBRow>
 
         </MDBContainer>
-        </form>
       </>
     );
   }
@@ -324,7 +331,7 @@ const handleMoney = (e) => {
     // do form:handleRegistration here
     return (
       <>
-      <form onSubmit={handleMoney}>
+      <form onSubmit={handleRegistrationOfUser}>
         <MDBContainer fluid className='h-custom'>
 
           <MDBRow className='d-flex justify-content-center align-items-center h-100'>
@@ -366,11 +373,11 @@ const handleMoney = (e) => {
 
                     <MDBCol md='6'>
                       <MDBInput wrapperClass='mb-4'
-                        label='Account on Name'
+                        label='Name on Account'
                         id='inputAccName'
                         type='text'
                         value={accName}
-                        onChange={(e) => setBankAcc(e.target.value)} />
+                        onChange={(e) => setAccName(e.target.value)} />
                     </MDBCol>
 
 
@@ -426,10 +433,8 @@ const handleMoney = (e) => {
 
                 </MDBCardBody>
               </MDBCard>
-
             </MDBCol>
           </MDBRow>
-
         </MDBContainer>
         </form>
       </>

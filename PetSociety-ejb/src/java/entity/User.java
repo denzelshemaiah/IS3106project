@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -81,7 +82,7 @@ public class User implements Serializable  {
     private List<Report> reportsUserMade;
     
     // unidirectional relationship with bank acc
-    @OneToOne(optional = false)
+    @OneToOne(optional = false, cascade=CascadeType.PERSIST)
     @JoinColumn(name="bankacc_ID")
     private BankAccount bankAcc;
 
@@ -92,7 +93,7 @@ public class User implements Serializable  {
     private List<Rating> ratingsUserMade;
     
     // unidirectional relationship with credit card
-    @OneToOne(optional = false)
+    @OneToOne(optional = false, cascade=CascadeType.PERSIST)
     @JoinColumn(name="cc_ID")
     private CreditCard cc;
     

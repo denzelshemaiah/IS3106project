@@ -38,8 +38,7 @@ public class CreditCard implements Serializable {
     @Size(max = 40)
     private String ccName;
     @Column(nullable = false)
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date expDate;
+    private String expDate;
     @Column(nullable = false)
     @Min(001)
     @Max(999)
@@ -130,14 +129,14 @@ public class CreditCard implements Serializable {
     /**
      * @return the expDate
      */
-    public Date getExpDate() {
+    public String getExpDate() {
         return expDate;
     }
 
     /**
      * @param expDate the expDate to set
      */
-    public void setExpDate(Date expDate) {
+    public void setExpDate(String expDate) {
         this.expDate = expDate;
     }
 

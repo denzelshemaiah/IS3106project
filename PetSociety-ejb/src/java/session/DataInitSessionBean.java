@@ -86,7 +86,7 @@ public class DataInitSessionBean {
         cc.setCcName("first");
         cc.setCcNum("1234567891012134");
         cc.setCvv(123);
-        cc.setExpDate(new Date());
+        cc.setExpDate("03/2026");
         cc.setPayments(new ArrayList<>());
 
         BankAccount acc = new BankAccount();

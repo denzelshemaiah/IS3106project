@@ -25,8 +25,6 @@ public class BankAccSessionBean implements BankAccSessionBeanLocal {
 
         em.persist(bankAccount);
         em.flush();
-
-        // bankAccount.getUser().setBankAcc(bankAccount);
         return bankAccount;
     }
 }

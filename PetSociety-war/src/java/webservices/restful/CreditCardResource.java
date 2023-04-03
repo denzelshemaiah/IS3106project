@@ -35,7 +35,7 @@ public class CreditCardResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public CreditCard createNewBankAccount(CreditCard creditCard) {
+    public CreditCard createNewCreditCard(CreditCard creditCard) {
         creditCardSessionBeanLocal.addNewCreditCard(creditCard);
         return creditCard;
     }
