@@ -9,6 +9,7 @@ import enumeration.RequestStatusEnum;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -20,6 +21,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -32,22 +34,21 @@ public class BookingRequest implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bookingReqId;
-    //need to capture time as well for pet taxi
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
     private Date startDate;
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = true)
+    @Temporal(TemporalType.DATE)
     private Date endDate;
     @Column(length = 500)
     private String description;
-    @Column(precision = 6, scale = 2)
+    @Column(nullable = false)
     private BigDecimal cost;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private RequestStatusEnum status;
-    @Temporal(TemporalType.DATE)
     @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
     private Date created;
     @Column(nullable = false)
     private int numPets;
@@ -150,7 +151,7 @@ public class BookingRequest implements Serializable {
     }
 
     /**
-     * @param cost the cost to set
+     * @param cost the cost to set 
      */
     public void setCost(BigDecimal cost) {
         this.cost = cost;
@@ -201,6 +202,7 @@ public class BookingRequest implements Serializable {
     /**
      * @return the parent
      */
+    @JsonbTransient
     public PetParent getParent() {
         return parent;
     }
@@ -208,6 +210,7 @@ public class BookingRequest implements Serializable {
     /**
      * @param parent the parent to set
      */
+    
     public void setParent(PetParent parent) {
         this.parent = parent;
     }
@@ -215,6 +218,7 @@ public class BookingRequest implements Serializable {
     /**
      * @return the sitter
      */
+    @JsonbTransient
     public PetSitter getSitter() {
         return sitter;
     }

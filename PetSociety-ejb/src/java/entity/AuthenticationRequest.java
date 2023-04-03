@@ -8,6 +8,7 @@ package entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -44,7 +45,8 @@ public class AuthenticationRequest implements Serializable {
 
     public AuthenticationRequest() {
     }
-
+    
+    @JsonbTransient
     public Staff getStaff() {
         return staff;
     }
@@ -52,7 +54,8 @@ public class AuthenticationRequest implements Serializable {
     public void setStaff(Staff staff) {
         this.staff = staff;
     }
-
+    
+    @JsonbTransient
     public PetSitter getSitter() {
         return sitter;
     }

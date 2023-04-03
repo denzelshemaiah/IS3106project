@@ -127,3 +127,32 @@
 .button-footer {
     padding: 20px;
 }
+
+.manage-users-header {
+    font-size: 40px;
+    padding-top: 20px;
+    padding-left: 50px;
+}
+
+.search-param-menu {
+    width: 8in;
+    padding: 15px;
+}
+
+.search-users-res {
+    width: 99%;
+}
+
+.disable-button {
+    background-color: red;
+}
+
+.user-details-card {
+    background-color: white;
+    width: 9.3in;
+    padding: 15px;
+}
+
+.header-user-detail {
+    font-size: 30px;
+}

@@ -12,6 +12,8 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -66,8 +68,11 @@ public class User implements Serializable  {
     private byte [] profilePicture;
     @Column(nullable = false)
     private String billingAddress;
-    @Column(nullable = true)
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private UserStatusEnum status;
+    @Column(nullable = false)
+    private int daysDisabled;
 
     // relationship with report x 2
     @OneToMany(mappedBy = "reported")
@@ -96,8 +101,25 @@ public class User implements Serializable  {
         this.reportsUserMade = new ArrayList<>();
         this.ratingsUserMade = new ArrayList<>();
         this.ratingsForUsers = new ArrayList<>();
+        this.daysDisabled = 0;
     }
 
+    public User(String firstName, String lastName, String username, String contactNum, String email, String password, int age, String emergencyContact, byte[] profilePicture, String billingAddress, UserStatusEnum status) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.contactNum = contactNum;
+        this.email = email;
+        this.password = password;
+        this.age = age;
+        this.emergencyContact = emergencyContact;
+        this.profilePicture = profilePicture;
+        this.billingAddress = billingAddress;
+        this.status = status;
+        this.daysDisabled = 0;
+    }
+
+    
     public Long getUserId() {
         return userId;
     }
@@ -266,5 +288,13 @@ public class User implements Serializable  {
     
     public void setProfilePicture(byte[] profilePicture) {
         this.profilePicture = profilePicture;
+    }
+
+    public int getDaysDisabled() {
+        return daysDisabled;
+    }
+
+    public void setDaysDisabled(int daysDisabled) {
+        this.daysDisabled = daysDisabled;
     }
 }

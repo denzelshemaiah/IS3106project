@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -42,7 +43,8 @@ public class Report implements Serializable {
 
     public Report() {
     }
-
+    
+    @JsonbTransient
     public Staff getStaff() {
         return staff;
     }
@@ -50,7 +52,8 @@ public class Report implements Serializable {
     public void setStaff(Staff staff) {
         this.staff = staff;
     }
-
+    
+    @JsonbTransient
     public User getReporter() {
         return reporter;
     }
@@ -58,7 +61,8 @@ public class Report implements Serializable {
     public void setReporter(User reporter) {
         this.reporter = reporter;
     }
-
+    
+    @JsonbTransient
     public User getReported() {
         return reported;
     }

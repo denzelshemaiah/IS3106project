@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./layout/sessionTimeoutTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="title">
+        Session Expired
+    </ui:define>
+
+    <ui:define name="head">
+        <h:outputStylesheet name="css/cssLayout.css"/>
+        <h:outputStylesheet name="css/default.css"/>
+    </ui:define>
+
+    <ui:define name="top">
+        top
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="jumbotron jumbotron-fluid" align="center">
+            <h1 class="session-timeout">Your session has expired</h1>
+            <p class="lead" style="font-size: 28px">Please login again.</p>
+            <a class="btn btn-primary" role="button" href="#{redirectManagedBean.login()}">OK</a>
+        </div>
+    </ui:define>
+
+    <ui:define name="bottom">
+        
+    </ui:define>
+
+</ui:composition>

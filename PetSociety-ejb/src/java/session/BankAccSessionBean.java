@@ -21,11 +21,12 @@ public class BankAccSessionBean implements BankAccSessionBeanLocal {
     private EntityManager em;
 
     @Override
-    public BankAccount createNewBankAcc(BankAccount bankAccount) {
+    public BankAccount addNewBankAcc(BankAccount bankAccount) {
 
         em.persist(bankAccount);
         em.flush();
 
+        // bankAccount.getUser().setBankAcc(bankAccount);
         return bankAccount;
     }
 }

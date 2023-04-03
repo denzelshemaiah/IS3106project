@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <h:head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <meta name="description" content=""/>
+        <meta name="author" content=""/>
+
+        <title><ui:insert name="title">Staff Template</ui:insert></title>
+
+        <!-- Bootstrap core CSS -->
+        <h:outputStylesheet name="bootstrap-3.3.7-dist/css/bootstrap.min.css"/> <!-- use bootstrap css instead of jsf one -->
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <ui:insert name="head"/>
+    </h:head>
+
+    <h:body>
+
+        <div id="top">
+            <nav class="navbar navbar-inverse navbar-fixed-top">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand">
+                            <img src='../img/dog_logo.jpg' width="30" class="d-inline-block align-top" alt=""/>
+                            PetSociety
+                        </a>
+                    </div>
+                    <div id="navbar" class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a type="button" href="#{redirectManagedBean.homepage()}" class="btn btn-link" role="button">Home</a></li>
+                            <li><a type="button" href="#{redirectManagedBean.authenReqs()}" class="btn btn-link" role="button">Authentication Requests</a></li>
+                            <li><a type="button" href="#{redirectManagedBean.reports()}" class="btn btn-link" role="button">Reports</a></li>
+                            <li><a type="button" href="#{redirectManagedBean.staff()}" class="btn btn-link" role="button">Add Staff</a></li>
+                            <li><a type="button" href="#{redirectManagedBean.users()}" class="btn btn-link" role="button">Manage Users</a></li>
+                            <li><a type="button" href="#{authenticationManagedBean.logout()}" class="btn btn-link" role="button">Logout</a></li>
+                        </ul>
+                    </div><!--/.nav-collapse -->
+                </div>
+            </nav>
+        </div>
+        <br/>
+
+        <div id="content" class="center_content">
+            <ui:insert name="content">Content</ui:insert>
+        </div>
+
+        <div id="bottom">
+            <ui:insert name="bottom">Bottom</ui:insert>
+        </div>
+
+        <!-- Bootstrap core JavaScript
+    ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <h:outputScript name="bootstrap-3.3.7-dist/js/bootstrap.min.js"/>
+    </h:body>
+
+</html>

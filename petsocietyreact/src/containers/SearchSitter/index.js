@@ -433,8 +433,8 @@ function SearchSitter(props) {
                     </div>
                     </div>
                     <div className="col-md-6">
-                            {showResults && <SearchResults searchQuery={formData} style={{ overflow: "auto" }} />}
-                        {/* <SearchResults searchQuery={formData} style={{ float: "right", overflow: "auto" }} /> */}
+                            {/* {showResults && <SearchResults searchQuery={formData} style={{ overflow: "auto" }} />} */}
+                        <SearchResults searchQuery={formData} style={{ float: "right", overflow: "auto" }} />
                     </div>
                 </div>
         </div>

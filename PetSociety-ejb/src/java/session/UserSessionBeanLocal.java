@@ -17,7 +17,7 @@ import javax.persistence.EntityNotFoundException;
 @Local
 public interface UserSessionBeanLocal {
 
-    public User createNewUser(User user);
+    public void createNewUser(User user);
 
     User getUser(Long userId) throws EntityNotFoundException;
 
@@ -28,5 +28,11 @@ public interface UserSessionBeanLocal {
     List<User> searchUsersByEmail(String email);
 
     List<User> searchUsersByContactNum(String contactNum);
+
+    void disableUser(Long userId, int duration) throws EntityNotFoundException;
+
+    void enableUser(Long userId) throws EntityNotFoundException;
+
+    List<User> retrieveAllDisabledUsers();
     
 }

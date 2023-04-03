@@ -11,6 +11,7 @@ import enumeration.RequestStatusEnum;
 import error.NoResultException;
 import java.util.Date;
 import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.ws.rs.Consumes;
@@ -21,7 +22,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -33,6 +33,7 @@ import session.BookingSessionBeanLocal;
  * @author cally
  */
 @Path("bookings")
+@RequestScoped
 public class BookingsResource {
 
     @EJB
@@ -42,13 +43,10 @@ public class BookingsResource {
     @GET
     @Path("/{status}/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getBookings(@PathParam("status") String status, @PathParam("id") Long userId) {
+    public List<BookingRequest> getBookings(@PathParam("status") String status, @PathParam("id") Long userId) {
         List<BookingRequest> bookings = bookingSession.getBookings(status, userId); 
         System.out.println(bookings);
-        GenericEntity<List<BookingRequest>> entity = new GenericEntity<List<BookingRequest>>(bookings){};
-        return Response.status(200).entity(
-            entity
-        ).build();
+        return bookings;
     }
     
     @PUT
