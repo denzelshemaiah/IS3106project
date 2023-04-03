@@ -61,7 +61,10 @@ function SignUp(props) {
 
   const handleCreationOfBankAcc = (e) => {
     e.preventDefault();
-    Api.createAndAssociateNewBankAccount(bankAcc);
+    Api.createAndAssociateNewBankAccount(bankAcc)
+      .then((data) => {
+        navigate("/LoggedInHomepage")
+      })
   }
 
   // cc
@@ -76,7 +79,10 @@ function SignUp(props) {
   // creating cc
   const handleCreationOfCc = (e) => {
     e.preventDefault();
-    Api.createAndAssociateNewCreditCard(cc);
+    Api.createAndAssociateNewCreditCard(cc)
+      .then((data) => {
+        navigate("/LoggedInHomepage")
+      })
   }
 
   cc = {
@@ -164,8 +170,9 @@ function SignUp(props) {
 
   // handle money details
   const handleCompleteUserCreation = (e) => {
-    handleCreationOfCc();
-    handleCreationOfBankAcc();
+    e.preventDefault();
+    handleCreationOfCc(e);
+    handleCreationOfBankAcc(e);
     navigate(`/SignUp/3`);
   }
 
@@ -174,17 +181,17 @@ function SignUp(props) {
   const handleCreationOfParent = (e) => {
     e.preventDefault();
     Api.createNewParent(user, petParent)
-    .then((data) => {
-      navigate("/LoggedInHomepage")
-    })
+      .then((data) => {
+        navigate("/LoggedInHomepage")
+      })
   };
 
   const handleCreationOfSitter = (e) => {
     e.preventDefault();
     Api.createNewSitter(user, petSitter)
-    .then((data) => {
-      navigate("/LoggedInHomepage")
-    })
+      .then((data) => {
+        navigate("/LoggedInHomepage")
+      })
   };
 
 
@@ -574,9 +581,9 @@ function SignUp(props) {
       <>
         <h1>test2</h1>
       //put below in a method:
-      <button onClick={handleCreationOfSitter}>
+        <button onClick={handleCreationOfSitter}>
           Submit
-        </button> 
+        </button>
       // redirect 2 sitter homepage
       </>
     )
