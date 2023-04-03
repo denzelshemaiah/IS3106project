@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Navigate, useParams, useNavigate } from "react-router-dom";
 import {
   MDBBtn,
@@ -32,20 +32,7 @@ function SignUp(props) {
   const [emergencyContact, setEmergencyContact] = useState("");
   const [profilePicture, setProfilePicture] = useState(null);
   const [billingAddress, setBillingAddress] = useState("");
-
-  // for userstatusenum
-  const [status, setStatus] = useState([]);
-  async function fetchUserStatusEnum() {
-    try {
-      const data = await Api.getUserStatusEnum();
-      setStatus(data[0]);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-  useEffect(() => {
-    fetchUserStatusEnum();
-  }, []);
+  // removed status as it is now set in the backend
 
   const routeChange = () =>{ 
     let path = `/SignUp/2`; 
@@ -85,8 +72,7 @@ function SignUp(props) {
       age: age,
       emergencyContact: emergencyContact,
       profilePicture: profilePicture,
-      billingAddress: billingAddress,
-      status: status,
+      billingAddress: billingAddress, 
       bankAcc: bankAcc,
       cc: cc,
     }
@@ -199,7 +185,7 @@ const handleMoney = (e) => {
                             label='Age'
                             size='lg'
                             id='inputAge'
-                            type='text'
+                            type='number'
                             value={age}
                             onChange={(e) => setAge(e.target.value)} />
                         </MDBCol>

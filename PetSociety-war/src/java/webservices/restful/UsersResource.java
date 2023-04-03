@@ -6,6 +6,7 @@
 package webservices.restful;
 
 import entity.User;
+import enumeration.UserStatusEnum;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ws.rs.Produces;
@@ -33,10 +34,11 @@ public class UsersResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public User createNewUser(User user) {
+        user.setStatus(UserStatusEnum.PENDING);
         userSessionBean.createNewUser(user);
         return user;
     }
-    
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<User> getAllUsers() {
