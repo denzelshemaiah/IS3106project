@@ -44,4 +44,10 @@ public class UsersResource {
     public List<User> getAllUsers() {
         return userSessionBean.retrieveAllUsers();
     }
+    
+    // update user to pass back
+    
+    // create petparent type user
+    
+    // create petsitter type user
 }
