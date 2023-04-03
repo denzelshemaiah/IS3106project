@@ -6,6 +6,7 @@
 package session;
 
 import entity.User;
+import error.UserNotFoundException;
 import java.util.List;
 import javax.ejb.Local;
 import javax.persistence.EntityNotFoundException;
@@ -34,5 +35,7 @@ public interface UserSessionBeanLocal {
     void enableUser(Long userId) throws EntityNotFoundException;
 
     List<User> retrieveAllDisabledUsers();
+
+    public void updateUser(User user) throws UserNotFoundException;
     
 }

@@ -7,6 +7,7 @@ package session;
 
 import entity.User;
 import enumeration.UserStatusEnum;
+import error.UserNotFoundException;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -41,6 +42,16 @@ public class UserSessionBean implements UserSessionBeanLocal {
     }
     
     // need to add update user
+    @Override
+    public void updateUser(User user) throws UserNotFoundException {
+        User oldUser = getUser(user.getUserId());
+        
+        oldUser.setFirstName(user.getFirstName());
+        oldUser.setLastName(user.getLastName());
+        oldUser.setContactNum(user.getContactNum());
+        oldUser.setEmail(user.getEmail());
+        oldUser.setPassword(user.getPassword());
+    }
 
     @Override
     public List<User> retrieveAllUsers() {

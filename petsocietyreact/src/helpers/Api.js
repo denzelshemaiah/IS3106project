@@ -39,8 +39,8 @@ const Api = {
     },
 
     // fetch updated new user back to FE to select PP/PS
-    retrieveUpdatedUser(data) {
-
+    getUser(userId) {
+        return fetch(`${SERVER_PREFIX}/users/${userId}`);
     },
 
     //view all bookings

@@ -6,6 +6,7 @@
 package session;
 
 import entity.PetParent;
+import entity.User;
 import error.NoResultException;
 import error.ParentNotFoundException;
 import java.util.List;
@@ -25,8 +26,9 @@ public class PetParentSessionBean implements PetParentSessionBeanLocal {
     private EntityManager em;
 
     // create (aka registration)
+    // passing user in so as to convert unstatused user to a role
     @Override
-    public PetParent createNewParent(PetParent parent) {
+    public PetParent createNewParent(User user, PetParent parent) {
         em.persist(parent);
         em.flush();
         
@@ -56,7 +58,7 @@ public class PetParentSessionBean implements PetParentSessionBeanLocal {
      
     // update
     @Override
-    public void updateMember(PetParent parent) throws ParentNotFoundException {
+    public void updateParent(PetParent parent) throws ParentNotFoundException {
         PetParent oldParent = retrieveParentByParentId(parent.getUserId());
         
         // from user

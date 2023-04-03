@@ -118,7 +118,7 @@ public class DataInitSessionBean {
         p.setCc(cc);
         p.setBankAcc(acc);
 
-        petParentSessionBean.createNewParent(p);
+        // petParentSessionBean.createNewParent(p);
 
         if (p.getBookings().isEmpty()) {
             //create new booking

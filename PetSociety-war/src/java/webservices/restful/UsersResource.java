@@ -5,6 +5,7 @@
  */
 package webservices.restful;
 
+import entity.PetParent;
 import entity.User;
 import enumeration.UserStatusEnum;
 import java.util.List;
@@ -16,6 +17,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.core.MediaType;
+import session.PetParentSessionBeanLocal;
 import session.UserSessionBeanLocal;
 
 /**
@@ -29,6 +31,9 @@ public class UsersResource {
 
     @EJB
     private UserSessionBeanLocal userSessionBean;
+    
+    @EJB
+    private PetParentSessionBeanLocal petParentSessionBeanLocal;
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -44,10 +49,18 @@ public class UsersResource {
     public List<User> getAllUsers() {
         return userSessionBean.retrieveAllUsers();
     }
-    
-    // update user to pass back
+   
     
     // create petparent type user
+    // shall we do validation of roles by checking user >> dtype? 
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public User createNewPetParent(User user, PetParent petParent) {
+        petParentSessionBeanLocal.createNewParent(user, petParent);
+        return user;
+    }
+    
     
     // create petsitter type user
 }

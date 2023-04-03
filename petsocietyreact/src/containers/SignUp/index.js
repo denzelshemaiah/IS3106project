@@ -128,7 +128,7 @@ function SignUp(props) {
   const [ratingsUserMade, setRatingsUserMade] = useState(null);
 
   // retrieve updated user here
-  const updatedUser = Api.retrieveUpdatedUser(user);
+  const updatedUser = Api.getUser(user);
 
   //creating final user with all fields
   if (page === "1") {
