@@ -16,7 +16,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -27,28 +29,30 @@ import javax.xml.bind.annotation.XmlTransient;
 public class PetParent extends User implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     //relationships
     @OneToMany(mappedBy = "parent")
     private List<Search> searches;
-    
+
     @OneToMany(mappedBy = "parent")
     private List<MeetAndGreetRequest> mgRequests;
-    
+
     @OneToMany(mappedBy = "parent")
     private List<BookingRequest> bookings;
-    
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     public PetParent() {
     }
-    
+
     public PetParent(User user, List<Search> searches, List<MeetAndGreetRequest> mgRequests, List<BookingRequest> bookings) {
         this.user = user;
         this.searches = searches;
         this.mgRequests = mgRequests;
         this.bookings = bookings;
-        
+
     }
 
     /**
@@ -102,5 +106,5 @@ public class PetParent extends User implements Serializable {
     public void setUser(User user) {
         this.user = user;
     }
-    
+
 }

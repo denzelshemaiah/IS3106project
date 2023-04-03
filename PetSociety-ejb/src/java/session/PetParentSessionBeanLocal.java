@@ -19,7 +19,7 @@ import javax.ejb.Local;
 @Local
 public interface PetParentSessionBeanLocal {
 
-    public PetParent createNewParent(User user, PetParent parent);
+    public PetParent createNewParent(PetParent parent);
 
     public PetParent retrieveParentByParentId(Long parentId) throws ParentNotFoundException;
 

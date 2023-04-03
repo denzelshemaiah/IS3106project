@@ -25,10 +25,8 @@ public class PetParentSessionBean implements PetParentSessionBeanLocal {
     @PersistenceContext(unitName = "PetSociety-ejbPU")
     private EntityManager em;
 
-    // create (aka registration)
-    // passing user in so as to convert unstatused user to a role
     @Override
-    public PetParent createNewParent(User user, PetParent parent) {
+    public PetParent createNewParent(PetParent parent) {
         em.persist(parent);
         em.flush();
         

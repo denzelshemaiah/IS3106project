@@ -6,6 +6,7 @@
 package webservices.restful;
 
 import entity.PetParent;
+import entity.PetSitter;
 import entity.User;
 import enumeration.UserStatusEnum;
 import java.util.List;
@@ -31,16 +32,36 @@ public class UsersResource {
 
     @EJB
     private UserSessionBeanLocal userSessionBean;
-    
+
     @EJB
     private PetParentSessionBeanLocal petParentSessionBeanLocal;
 
-    @POST
+    /*@POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public User createNewUser(User user) {
         user.setStatus(UserStatusEnum.PENDING);
         userSessionBean.createNewUser(user);
+        return user;
+    } */
+    
+    // create petparent type user
+    @POST
+    @Path("/petparent")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public User createNewPetParent(User user, PetParent petParent) {
+        userSessionBean.createNewParent(user, petParent);
+        return user;
+    }
+
+    // create petsitter type user
+    @POST
+    @Path("/petsitters")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public User createNewPetSitter(User user, PetSitter petSitter) {
+        userSessionBean.createNewSitter(user, petSitter);
         return user;
     }
 
@@ -49,18 +70,5 @@ public class UsersResource {
     public List<User> getAllUsers() {
         return userSessionBean.retrieveAllUsers();
     }
-   
-    
-    // create petparent type user
-    // shall we do validation of roles by checking user >> dtype? 
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public User createNewPetParent(User user, PetParent petParent) {
-        petParentSessionBeanLocal.createNewParent(user, petParent);
-        return user;
-    }
-    
-    
-    // create petsitter type user
+
 }

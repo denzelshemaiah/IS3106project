@@ -21,6 +21,11 @@ function SignUp(props) {
   const navigate = useNavigate();
   const { page } = useParams();
 
+  const redirect2 = () => {
+    let path = `/SignUp/2`;
+    navigate(path);
+  }
+
   // for user, its attributes
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -34,15 +39,34 @@ function SignUp(props) {
   const [billingAddress, setBillingAddress] = useState("");
   // removed status as it is now set in the backend
 
-  const redirect2 = () => {
-    let path = `/SignUp/2`;
-    navigate(path);
-  }
+  // pet parent attributes
+  const [searches, setSearches] = useState([]);
+  const [mgRequests, setMgRequests] = useState([]);
+  const [bookings, setBookings] = useState([]);
+
+  // pet sitter attributes
 
   let bankAcc = {};
   let cc = {};
-  let user = {}
+
   // creating just user without its associated stuff first
+  let user = {};
+
+  const petParent = {
+    user, 
+    petParentAttributes : {
+      searches : searches,
+      mgRequests : mgRequests,
+      bookings : bookings
+    }
+  };
+
+
+
+
+
+  // new plan: never creating user until we get the roles. so we must still have user in fe and separate
+  // pp and ps entities in order to pass to new BE
   const handleRegistrationOfUser = (e) => {
     e.preventDefault();
 
@@ -76,10 +100,10 @@ function SignUp(props) {
       bankAcc: bankAcc,
       cc: cc,
     }
-    Api.createNewUser(user)
-      .then((data) => {
-        navigate("/LoggedInHomepage");
-      })
+    /* Api.createNewUser(user)
+       .then((data) => {
+         navigate("/LoggedInHomepage");
+       }) */
   }
 
   // relationships
@@ -127,10 +151,8 @@ function SignUp(props) {
   const [ratingsForUsers, setRatingsForUsers] = useState(null);
   const [ratingsUserMade, setRatingsUserMade] = useState(null);
 
-  // retrieve updated user here
-  const updatedUser = Api.getUser(user);
 
-  //creating final user with all fields
+  // just storing user attributes first and setting values in FRONTEND USER only
   if (page === "1") {
     return (
       <>
@@ -444,7 +466,7 @@ function SignUp(props) {
             <div class="row d-flex justify-content-center">
               <div class="col-lg-10">
                 <h1 class="my-5 display-3 fw-bold ls-tight">
-                  <span>Welcome, {updatedUser}!</span>
+                  <span>Welcome Onboard!</span>
                   <br></br>
                   <span class="text-primary">Who do you want to be?</span>
                 </h1>
@@ -452,17 +474,17 @@ function SignUp(props) {
                   <MDBCol>
                     <div class="row">
                       <div class="col">
-                      <a href="/#/SignUp/1">
-                        <button class="btn btn-primary w-100"
-                          style={{ backgroundColor: '#4B0082', padding: '20px 20px' }}>
-                            <img src="https://cdn-icons-png.flaticon.com/512/3775/3775548.png" 
-                            alt="Image" 
-                            width="250" 
-                            height="250"
-                            style={{padding: '10px'}}>
+                        <a href="/#/SignUp/1">
+                          <button class="btn btn-primary w-100"
+                            style={{ backgroundColor: '#4B0082', padding: '20px 20px' }}>
+                            <img src="https://cdn-icons-png.flaticon.com/512/3775/3775548.png"
+                              alt="Image"
+                              width="250"
+                              height="250"
+                              style={{ padding: '10px' }}>
                             </img>
-                          <h2>I want to be a PetParent</h2>
-                        </button>
+                            <h2>I want to be a PetParent</h2>
+                          </button>
                         </a>
                       </div>
                     </div>
@@ -473,20 +495,18 @@ function SignUp(props) {
                       <div class="col">
                         <button class="btn btn-primary w-100"
                           style={{ backgroundColor: '#F3F5F4', padding: '20px 40px' }}>
-                            <img src="https://static.thenounproject.com/png/1138226-200.png" 
-                            alt="Image" 
-                            width="250" 
+                          <img src="https://static.thenounproject.com/png/1138226-200.png"
+                            alt="Image"
+                            width="250"
                             height="250"
-                            style={{padding: '10px'}}>
-                            </img>
-                          <h2 style={{color: 'black'}}>I want to be a PetSitter</h2>
+                            style={{ padding: '10px' }}>
+                          </img>
+                          <h2 style={{ color: 'black' }}>I want to be a PetSitter</h2>
                         </button>
                       </div>
                     </div>
                   </MDBCol>
                 </MDBRow>
-
-
               </div>
             </div>
           </div>
@@ -494,6 +514,11 @@ function SignUp(props) {
       </>
     )
   }
+
+  // fill in petParent attributes here
+
+
+  // fill in petSitter attributes here
 
 
 }

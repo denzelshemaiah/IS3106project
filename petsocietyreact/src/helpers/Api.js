@@ -2,8 +2,8 @@ const SERVER_PREFIX = "http://localhost:8080/PetSociety-war/webresources";
 
 const Api = {
     // create user (in general 1st)
-
-    createNewUser(data) {
+    // making this function obsolete as now i will only create petparent or petsitter
+    /*createNewUser(data) {
         return fetch(`${SERVER_PREFIX}/users`, {
             headers: {
                 Accept: "application/json",
@@ -12,7 +12,31 @@ const Api = {
             method: "POST",
             body: JSON.stringify(data),
         });
+    }, */
+
+    // creation of petParent
+    createNewParent(data) {
+        return fetch(`${SERVER_PREFIX}/users/petparent`, {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            method: "POST",
+            body: JSON.stringify(data),
+        });
     },
+
+    // creation of petSitter
+    createNewSitter(data) {
+        return fetch(`${SERVER_PREFIX}/users/petsitter`, {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            method: "POST",
+            body: JSON.stringify(data),
+        });
+    }, 
 
     // setting bankAccountNumber and creating it in association with a user
     createAndAssociateNewBankAccount(data) {
@@ -36,11 +60,6 @@ const Api = {
             method: "POST",
             body: JSON.stringify(data),
         });
-    },
-
-    // fetch updated new user back to FE to select PP/PS
-    getUser(userId) {
-        return fetch(`${SERVER_PREFIX}/users/${userId}`);
     },
 
     //view all bookings
