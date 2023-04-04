@@ -33,7 +33,6 @@ public class ApplicationConfig extends javax.ws.rs.core.Application {
         resources.add(webservices.restful.CORSFilter.class);
         resources.add(webservices.restful.CreditCardResource.class);
         resources.add(webservices.restful.MeetAndGreetResource.class);
-        resources.add(webservices.restful.UserStatusEnumResource.class);
         resources.add(webservices.restful.UsersResource.class);
     }
 }

@@ -35,9 +35,10 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
     private EntityManager em;
 
     @Override
-    public void createNewBooking(BookingRequest b, Long parentId, Long sitterId, String repeatBasis, List<Integer> days) {
+    public void createNewBooking(BookingRequest b, Long parentId, Long sitterId, String repeatBasis) {
         PetParent p = em.find(PetParent.class, parentId);
         PetSitter s = em.find(PetSitter.class, sitterId);
+        List<Integer> days = b.getRepeatDays();
         if (p == null || s == null) {
             //exception?
         } else {

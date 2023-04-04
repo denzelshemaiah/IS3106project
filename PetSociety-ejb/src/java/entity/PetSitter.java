@@ -15,6 +15,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Size;
@@ -45,7 +46,7 @@ public class PetSitter extends User implements Serializable {
     private BigDecimal rate;
     @Column(nullable = false)
     private ServiceEnum service;
-    
+
     //relationships
     @OneToOne(optional = true)
     private AuthenticationRequest authenReq;
@@ -53,11 +54,13 @@ public class PetSitter extends User implements Serializable {
     private ExperienceForm expForm;
     @OneToOne(optional = true)
     private SafetyForm safetyForm;
-    @OneToMany(mappedBy="sitter")
+    @OneToMany(mappedBy = "sitter")
     private List<BookingRequest> bookings;
-    @OneToMany(mappedBy="sitter")
+    @OneToMany(mappedBy = "sitter")
     private List<MeetAndGreetRequest> mgRequests;
-    
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     public PetSitter() {
@@ -77,7 +80,7 @@ public class PetSitter extends User implements Serializable {
         this.mgRequests = mgRequests;
         this.user = user;
     }
-    
+
     public String getServiceAddress() {
         return serviceAddress;
     }

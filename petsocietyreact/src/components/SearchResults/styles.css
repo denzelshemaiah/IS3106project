@@ -1,0 +1,22 @@
+ul {
+    list-style: none;
+  }
+
+  .card-grid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    gap: 1rem;
+  }
+
+  .button-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: auto;
+    width: 100%;
+  }
+  
+  .button-wrapper button {
+    font-size: 16px;
+    padding: 12px 24px;
+  }

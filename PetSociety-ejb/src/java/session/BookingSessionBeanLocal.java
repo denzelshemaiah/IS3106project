@@ -19,7 +19,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface BookingSessionBeanLocal {
-    public void createNewBooking(BookingRequest b, Long parentId, Long sitterId, String repeatBasis, List<Integer> days);
+    public void createNewBooking(BookingRequest b, Long parentId, Long sitterId, String repeatBasis);
     public List<BookingRequest> getBookings(String status, Long userId);
     public void updateBooking(BookingRequest b) throws NoResultException;
     public void rejectBooking(Long userId, Long bookingId) throws NoResultException, NoAccessException;

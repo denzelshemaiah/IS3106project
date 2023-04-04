@@ -6,6 +6,7 @@
 package session;
 
 import entity.PetParent;
+import entity.User;
 import error.NoResultException;
 import error.ParentNotFoundException;
 import java.util.List;
@@ -24,7 +25,7 @@ public interface PetParentSessionBeanLocal {
 
     public List<PetParent> retrieveAllParents();
 
-    public void updateMember(PetParent parent) throws ParentNotFoundException;
+    public void updateParent(PetParent parent) throws ParentNotFoundException;
 
     public void deleteParent(Long parentId) throws NoResultException, ParentNotFoundException;
     

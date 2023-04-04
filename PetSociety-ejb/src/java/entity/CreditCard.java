@@ -109,7 +109,7 @@ public class CreditCard implements Serializable {
      * @param ccNum the ccNum to set
      */
     public void setCcNum(String ccNum) {
-        this.ccNum = ccNum;
+        this.setCcNum(ccNum);
     }
 
     /**
@@ -123,7 +123,7 @@ public class CreditCard implements Serializable {
      * @param ccName the ccName to set
      */
     public void setCcName(String ccName) {
-        this.ccName = ccName;
+        this.setCcName(ccName);
     }
 
     /**
@@ -151,7 +151,7 @@ public class CreditCard implements Serializable {
      * @param cvv the cvv to set
      */
     public void setCvv(Integer cvv) {
-        this.cvv = cvv;
+        this.setCvv(cvv);
     }
 
    

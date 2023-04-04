@@ -5,7 +5,10 @@
  */
 package session;
 
+import entity.PetParent;
+import entity.PetSitter;
 import entity.User;
+import error.UserNotFoundException;
 import java.util.List;
 import javax.ejb.Local;
 import javax.persistence.EntityNotFoundException;
@@ -34,5 +37,15 @@ public interface UserSessionBeanLocal {
     void enableUser(Long userId) throws EntityNotFoundException;
 
     List<User> retrieveAllDisabledUsers();
+
+    public void updateUser(User user) throws UserNotFoundException;
+
+    public void createNewSitter(User user, PetSitter petSitter);
+
+    public void createNewParent(User user, PetParent petParent);
+
+    public User getPetParent(Long userId) throws EntityNotFoundException;
+
+    public User getPetSitter(Long userId) throws EntityNotFoundException;
     
 }
