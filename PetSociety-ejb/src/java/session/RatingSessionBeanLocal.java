@@ -15,6 +15,6 @@ import javax.ejb.Local;
 @Local
 public interface RatingSessionBeanLocal {
 
-    public Long createNewRating(Rating rating);
+    public Long createNewRating(Rating rating, Long raterId, Long ratedId);
     
 }
