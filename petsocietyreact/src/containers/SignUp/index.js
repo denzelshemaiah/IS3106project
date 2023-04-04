@@ -15,6 +15,7 @@ import {
 import { MDBCard } from 'mdbreact';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import Api from "../../helpers/Api";
+import moment from 'moment-timezone';
 
 
 function SignUp(props) {
