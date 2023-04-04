@@ -26,11 +26,7 @@ function SignUp(props) {
     navigate(path);
   }
 
-  // user attributes
-  let user = {};
-  let bankAcc = {};
-  let cc = {};
-
+  // for user, its attributes
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
@@ -41,33 +37,90 @@ function SignUp(props) {
   const [emergencyContact, setEmergencyContact] = useState("");
   const [profilePicture, setProfilePicture] = useState(null);
   const [billingAddress, setBillingAddress] = useState("");
-  // (removed status as it is now set in the backend)
-  const [reportsAgainstUser, setReportsAgainstUser] = useState(null);
-  const [reportsUserMade, setReportsUserMade] = useState(null);
-  const [ratingsForUsers, setRatingsForUsers] = useState(null);
-  const [ratingsUserMade, setRatingsUserMade] = useState(null);
+  // removed status as it is now set in the backend
 
-  // relationships of user:
-  // bankAcc
+  // pet parent attributes
+  const [searches, setSearches] = useState([]);
+  const [mgRequests, setMgRequests] = useState([]);
+  const [bookings, setBookings] = useState([]);
+
+  // pet sitter attributes
+
+  let bankAcc = {};
+  let cc = {};
+
+  // creating just user without its associated stuff first
+  let user = {};
+
+  const petParent = {
+    user, 
+    petParentAttributes : {
+      searches : searches,
+      mgRequests : mgRequests,
+      bookings : bookings
+    }
+  };
+
+
+
+
+
+  // new plan: never creating user until we get the roles. so we must still have user in fe and separate
+  // pp and ps entities in order to pass to new BE
+  const handleRegistrationOfUser = (e) => {
+    e.preventDefault();
+
+    bankAcc = {
+      bankAccNum: bankAccNum,
+      bankName: bankName,
+      accName: accName,
+    }
+    console.log(bankAcc);
+
+    cc = {
+      ccNum: ccNum,
+      expDate: expDate,
+      ccName: ccName,
+      cvv: cvv,
+    }
+
+    console.log(cc);
+
+    user = {
+      firstName: firstName,
+      lastName: lastName,
+      username: username,
+      contactNum: contactNum,
+      email: email,
+      password: password,
+      age: age,
+      emergencyContact: emergencyContact,
+      profilePicture: profilePicture,
+      billingAddress: billingAddress,
+      bankAcc: bankAcc,
+      cc: cc,
+    }
+    /* Api.createNewUser(user)
+       .then((data) => {
+         navigate("/LoggedInHomepage");
+       }) */
+  }
+
+  // relationships
+  // for bankAcc
   const [bankAccNum, setBankAccNum] = useState("");
   const [bankName, setBankName] = useState("");
   const [accName, setAccName] = useState("");
-
-  bankAcc = {
-    bankAccNum: bankAccNum,
-    bankName: bankName,
-    accName: accName,
-  }
 
   const handleCreationOfBankAcc = (e) => {
     e.preventDefault();
     Api.createAndAssociateNewBankAccount(bankAcc)
       .then((data) => {
-        navigate("/LoggedInHomepage")
+        Navigate("/LoggedInHomepage");
       })
   }
 
-  // cc
+  // for cc
   const [ccNum, setCcNum] = useState("");
   const [expDate, setExpDate] = useState("");
   const [ccName, setCcName] = useState("");
@@ -81,122 +134,22 @@ function SignUp(props) {
     e.preventDefault();
     Api.createAndAssociateNewCreditCard(cc)
       .then((data) => {
-        navigate("/LoggedInHomepage")
+        Navigate("/LoggedInHomepage");
       })
   }
-
-  cc = {
-    ccNum: ccNum,
-    expDate: expDate,
-    ccName: ccName,
-    cvv: cvv,
-  }
-
-  // creating final user with its related fields:
-  user = {
-    firstName: firstName,
-    lastName: lastName,
-    username: username,
-    contactNum: contactNum,
-    email: email,
-    password: password,
-    age: age,
-    emergencyContact: emergencyContact,
-    profilePicture: profilePicture,
-    billingAddress: billingAddress,
-    bankAcc: bankAcc,
-    cc: cc,
-  }
-
-  // pet parent attributes
-  let petParent = {};
-  const [searches, setSearches] = useState([]);
-  const [mgRequests, setMgRequests] = useState([]);
-  const [bookings, setBookings] = useState([]);
-
-  petParent = {
-    user,
-    petParentAttributes: {
-      searches: searches,
-      mgRequests: mgRequests,
-      bookings: bookings
-    }
-  };
-
-  // pet sitter attributes
-  let petSitter = {};
-  let authenticationRequest = {};
-  let experienceForm = {};
-  let safetyForm = {};
-  //let bookings = {};
-  //let mgRequests = {};
-
-
-  const [serviceAddress, setServiceAddress] = useState("");
-  const [region, setRegion] = useState("");
-  const [preference, setPreference] = useState("");
-  const [schedule, setSchedule] = useState([]);
-  const [rates, setRates] = useState([]);
-  // setting serviceenum as string, and converting to enum later in the BE
-  const [service, setService] = useState("");
-
-  // relationships of petsitter:
-  // please fill in the respective attributes here
-  // authenreq
-  authenticationRequest = {}
-
-  // experienceform
-  experienceForm = {}
-
-  // safetyform
-  safetyForm = {}
-
-  petSitter = {
-    user,
-    petSitterAttributes: {
-      serviceAddress: serviceAddress,
-      region: region,
-      preference: preference,
-      schedule: schedule,
-      rates: rates,
-      service: service,
-      authenticationRequest: authenticationRequest,
-      experienceForm: experienceForm,
-      safetyForm: safetyForm,
-      bookings: bookings,
-      mgRequests: mgRequests
-    }
-  }
-  useEffect(() => {
-    fetchUserStatusEnum();
-  }, []);
 
   // handle money details
   const handleCompleteUserCreation = (e) => {
-    e.preventDefault();
-    handleCreationOfCc(e);
-    handleCreationOfBankAcc(e);
+    handleRegistrationOfUser();
+    handleCreationOfCc();
+    handleCreationOfBankAcc();
     navigate(`/SignUp/3`);
   }
 
-  // new plan: never creating user until we get the roles. so we must still have user in fe and separate
-  // pp and ps entities in order to pass to new BE
-  const handleCreationOfParent = (e) => {
-    e.preventDefault();
-    Api.createNewParent(user, petParent)
-      .then((data) => {
-        navigate("/LoggedInHomepage")
-      })
-  };
-
-  const handleCreationOfSitter = (e) => {
-    e.preventDefault();
-    Api.createNewSitter(user, petSitter)
-      .then((data) => {
-        navigate("/LoggedInHomepage")
-      })
-  };
-
+  const [reportsAgainstUser, setReportsAgainstUser] = useState(null);
+  const [reportsUserMade, setReportsUserMade] = useState(null);
+  const [ratingsForUsers, setRatingsForUsers] = useState(null);
+  const [ratingsUserMade, setRatingsUserMade] = useState(null);
 
 
   // just storing user attributes first and setting values in FRONTEND USER only
@@ -207,7 +160,6 @@ function SignUp(props) {
           Sign Up
         </MDBTypography>
 
-<form onSubmit={handleRegistrationOfUser}>
         <MDBContainer fluid className='h-custom'>
 
           <MDBRow className='d-flex justify-content-center align-items-center h-100'>
@@ -386,7 +338,6 @@ function SignUp(props) {
           </MDBRow>
 
         </MDBContainer>
-        </form>
       </>
     );
   }
@@ -523,7 +474,7 @@ function SignUp(props) {
                   <MDBCol>
                     <div class="row">
                       <div class="col">
-                        <a href="/#/SignUp/4">
+                        <a href="/#/SignUp/1">
                           <button class="btn btn-primary w-100"
                             style={{ backgroundColor: '#4B0082', padding: '20px 20px' }}>
                             <img src="https://cdn-icons-png.flaticon.com/512/3775/3775548.png"
@@ -542,18 +493,16 @@ function SignUp(props) {
                   <MDBCol>
                     <div class="row">
                       <div class="col">
-                        <a href="/#/SignUp/5">
-                          <button class="btn btn-primary w-100"
-                            style={{ backgroundColor: '#F3F5F4', padding: '20px 40px' }}>
-                            <img src="https://static.thenounproject.com/png/1138226-200.png"
-                              alt="Image"
-                              width="250"
-                              height="250"
-                              style={{ padding: '10px' }}>
-                            </img>
-                            <h2 style={{ color: 'black' }}>I want to be a PetSitter</h2>
-                          </button>
-                        </a>
+                        <button class="btn btn-primary w-100"
+                          style={{ backgroundColor: '#F3F5F4', padding: '20px 40px' }}>
+                          <img src="https://static.thenounproject.com/png/1138226-200.png"
+                            alt="Image"
+                            width="250"
+                            height="250"
+                            style={{ padding: '10px' }}>
+                          </img>
+                          <h2 style={{ color: 'black' }}>I want to be a PetSitter</h2>
+                        </button>
                       </div>
                     </div>
                   </MDBCol>
@@ -566,33 +515,12 @@ function SignUp(props) {
     )
   }
 
-  // fill in petParent attributes here in this page
-  else if (page === "4") {
-    return (
-      <>
-        <h1>test</h1>
-      //put below in a method:
-        //redirect 2 petparent homepage
-        <button onClick={handleCreationOfParent}>
-          Submit
-        </button>
-      </>
-    )
-  }
+  // fill in petParent attributes here
 
-  // fill in petSitter attributes here in this page
-  else if (page === "5") {
-    return (
-      <>
-        <h1>test2</h1>
-      //put below in a method:
-        <button onClick={handleCreationOfSitter}>
-          Submit
-        </button>
-      // redirect 2 sitter homepage
-      </>
-    )
-  }
+
+  // fill in petSitter attributes here
+
+
 }
 
 export default SignUp;

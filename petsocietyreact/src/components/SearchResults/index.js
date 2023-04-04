@@ -1,7 +1,7 @@
 import React, { useState, useEffect, createContext } from "react";
 import { Button, CardTitle, CardSubtitle, ListGroupItem, ListGroup, CardText, Card, CardBody, CardGroup, CardImg} from "reactstrap";
 //import Api from "../../helpers/Api";
-import './styles.css';
+import './style.css';
 import Rating from 'react-rating-stars-component';
 import { Link } from "react-router-dom";
 
@@ -22,7 +22,7 @@ import { Link } from "react-router-dom";
 //     });
 // }
 
-    function SearchResults() {         
+function SearchResults(props) {         
         // const { sitters, error, isLoaded } = useContext(SearchContext);
         // const filteredSitters = search(sitters);
         //data init for testing the card
@@ -81,76 +81,75 @@ import { Link } from "react-router-dom";
         } else if (!isLoaded) {
             return <>loading...</>;
         } else { */
-
-    return (
-        /* here we map over the sitter and display each sitter as a card  */
-        <div className="wrapper">
-            <ul className="card-grid">
-                {sitters.map((sitter) => (
-                    <li>
-                        <article className="card" key={sitter.userId}>
-                            <CardGroup>
-                                <Card style={{ width: '22rem' }}>
-                                    <CardImg
-                                        alt="Sample"
-                                        src="https://picsum.photos/300/200"
-                                    />
-                                    <CardBody>
-                                        <CardTitle tag="h5">
-                                            {sitter.firstName} {sitter.lastName}
-                                        </CardTitle>
-                                        <div>
-                                        <Rating
-                                            count={5}
-                                            size={24}
-                                            activeColor="#ffd700"
-                                            value={sitter.rating}
-                                            edit={false}
+        return (
+            /* here we map over the sitter and display each sitter as a card  */
+            <div className="wrapper">
+                <ul className="card-grid">
+                    {sitters.map((sitter) => (
+                        <li>
+                            <article className="card" key={sitter.userId}>
+                                <CardGroup>
+                                    <Card style={{ width: '22rem' }}>
+                                        <CardImg
+                                            alt="Sample"
+                                            src="https://picsum.photos/300/200"
                                         />
+                                        <CardBody>
+                                            <CardTitle tag="h5">
+                                                {sitter.firstName} {sitter.lastName}
+                                            </CardTitle>
+                                            <div>
+                                            <Rating
+                                                count={5}
+                                                size={24}
+                                                activeColor="#ffd700"
+                                                value={sitter.rating}
+                                                edit={false}
+                                            />
+                                            </div>
+                                            <CardText>
+                                                <ListGroup flush>
+                                                    <ListGroupItem>
+                                                        "{sitter.comments}"
+                                                    </ListGroupItem>
+                                                    <ListGroupItem>
+                                                        {sitter.rate}
+                                                    </ListGroupItem>
+                                                    <ListGroupItem>
+                                                        {sitter.region}
+                                                    </ListGroupItem>
+                                                </ListGroup>
+                                            </CardText>
+                                        </CardBody>
+                                        <div className="button-wrapper">
+                                            <Link to="/makebooking">
+                                                <Button>Book Sitter</Button>
+                                            </Link>
                                         </div>
-                                        <CardText>
-                                            <ListGroup flush>
-                                                <ListGroupItem>
-                                                    "{sitter.comments}"
-                                                </ListGroupItem>
-                                                <ListGroupItem>
-                                                    {sitter.rate}
-                                                </ListGroupItem>
-                                                <ListGroupItem>
-                                                    {sitter.region}
-                                                </ListGroupItem>
-                                            </ListGroup>
-                                        </CardText>
-                                    </CardBody>
-                                    <div className="button-wrapper">
-                                        <Link to="/makebooking">
-                                            <Button>Book Sitter</Button>
-                                        </Link>
-                                    </div>
-                                </Card>
-                            </CardGroup>
-                        </article>
-                    </li>
-                ))}
-            </ul>
-            <style>
-                {`
-          .card-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-          }
-          .button-wrapper {
-            display: flex;
-            justify-content: center;
-            margin-top: auto;
-            width: 100%;
-          }
-        `}
-            </style>
-        </div>
-    );
-        
- }
-
-export default SearchResults;
+                                    </Card>
+                                </CardGroup>
+                            </article>
+                        </li>
+                    ))}
+                </ul>
+                <style>
+                    {`
+              .card-grid {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+              }
+              .button-wrapper {
+                display: flex;
+                justify-content: center;
+                margin-top: auto;
+                width: 100%;
+              }
+            `}
+                </style>
+            </div>
+        );
+            
+     }
+    
+    export default SearchResults;
