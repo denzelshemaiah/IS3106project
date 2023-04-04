@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/PetSociety-war/static/css/main.e7095519.css",
-    "main.js": "/PetSociety-war/static/js/main.70589a5a.js",
+    "main.css": "/PetSociety-war/static/css/main.c450a58d.css",
+    "main.js": "/PetSociety-war/static/js/main.3eb6edb1.js",
     "static/js/787.bfc8a029.chunk.js": "/PetSociety-war/static/js/787.bfc8a029.chunk.js",
     "static/media/dog_logo.png": "/PetSociety-war/static/media/dog_logo.1bcf95cc869c0ebc2405.png",
     "index.html": "/PetSociety-war/index.html",
-    "main.e7095519.css.map": "/PetSociety-war/static/css/main.e7095519.css.map",
-    "main.70589a5a.js.map": "/PetSociety-war/static/js/main.70589a5a.js.map",
+    "main.c450a58d.css.map": "/PetSociety-war/static/css/main.c450a58d.css.map",
+    "main.3eb6edb1.js.map": "/PetSociety-war/static/js/main.3eb6edb1.js.map",
     "787.bfc8a029.chunk.js.map": "/PetSociety-war/static/js/787.bfc8a029.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e7095519.css",
-    "static/js/main.70589a5a.js"
+    "static/css/main.c450a58d.css",
+    "static/js/main.3eb6edb1.js"
   ]
 }

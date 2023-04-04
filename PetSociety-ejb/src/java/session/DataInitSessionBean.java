@@ -118,7 +118,7 @@ public class DataInitSessionBean {
         p.setCc(cc);
         p.setBankAcc(acc);
 
-        // petParentSessionBean.createNewParent(p);
+        petParentSessionBean.createNewParent(p);
 
         if (p.getBookings().isEmpty()) {
             //create new booking
@@ -132,7 +132,7 @@ public class DataInitSessionBean {
             b.setStartDate(new Date());
             b.setStatus(RequestStatusEnum.PENDING);
             //ok nvm i rl that thrs no sitter yet T-T
-//            bookingSessionBean.createNewBooking(b, p.getUserId(), new Long(3));
+            bookingSessionBean.createNewBooking(b, p.getUserId(), new Long(3), "once");
         }
     }
 }

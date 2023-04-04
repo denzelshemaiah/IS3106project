@@ -209,7 +209,6 @@ public class BookingRequest implements Serializable {
     /**
      * @return the parent
      */
-    @JsonbTransient
     public PetParent getParent() {
         return parent;
     }

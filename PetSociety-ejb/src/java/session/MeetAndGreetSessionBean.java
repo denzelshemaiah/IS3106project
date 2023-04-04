@@ -6,6 +6,9 @@
 package session;
 
 import entity.MeetAndGreetRequest;
+import entity.PetParent;
+import entity.User;
+import enumeration.RequestStatusEnum;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -36,8 +39,33 @@ public class MeetAndGreetSessionBean implements MeetAndGreetSessionBeanLocal {
     }
     
     @Override
-    public List<MeetAndGreetRequest> getAllRequests() {
-        Query q = em.createQuery("SELECT m FROM MeetAndGreetRequest m");
+    public List<MeetAndGreetRequest> getRequests(String status, Long userId) {
+        User u = em.find(User.class, userId);
+        Query q;
+        RequestStatusEnum statusEnum;
+
+        if (status.equals("pending")) {
+            statusEnum = RequestStatusEnum.PENDING;
+        } else if (status.equals("upcoming")) {
+            statusEnum = RequestStatusEnum.ACCEPTED;
+        } else if (status.equals("rejected")) {
+            statusEnum = RequestStatusEnum.REJECTED;
+        } else {
+            // archived tab
+            statusEnum = RequestStatusEnum.ARCHIVED;
+        }
+
+        if (u instanceof PetParent) {
+            //if user is a parent
+            q = em.createQuery("SELECT mg FROM MeetAndGreetRequest mg WHERE mg.parent.userId LIKE :parentId AND mg.status = :enum")
+                    .setParameter("parentId", userId)
+                    .setParameter("enum", statusEnum);
+            //check status of required bookings
+        } else {
+            q = em.createQuery("SELECT mg FROM MeetAndGreetRequest mg WHERE mg.sitter.userId LIKE :sitterId AND mg.status = :enum")
+                    .setParameter("sitterId", userId)
+                    .setParameter("enum", statusEnum);
+        }
         return q.getResultList();
     }
 }

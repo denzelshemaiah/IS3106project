@@ -62,6 +62,7 @@ const Api = {
         });
     },
 
+    //BOOKINGSSSS
     //view all bookings
     //retrieve the ID of the user and the user object from the web resources
     getAllBookings(status, userId) {
@@ -107,6 +108,11 @@ const Api = {
         return fetch(`${SERVER_PREFIX}/bookings/reject/${sitterId}/${bookingId}`, {
             method: "PUT"
         })
+    },
+
+    //MEET AND GREETSSS
+    getAllMeets(status, userId) {
+        return fetch(`${SERVER_PREFIX}/meetandgreets/${status}/${userId}`)
     }
 };
 

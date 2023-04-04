@@ -37,9 +37,9 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
     @Override
     public void createNewBooking(BookingRequest b, Long parentId, Long sitterId, String repeatBasis) {
         PetParent p = em.find(PetParent.class, parentId);
-        PetSitter s = em.find(PetSitter.class, sitterId);
+        //PetSitter s = em.find(PetSitter.class, sitterId);
         List<Integer> days = b.getRepeatDays();
-        if (p == null || s == null) {
+        if (p == null ) {//|| s == null) {
             //exception?
         } else {
             if (repeatBasis.equals("weekly")) {
@@ -69,19 +69,19 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
                         newB.setFreq(b.getFreq());
                         newB.setNumPets(b.getNumPets());
                         newB.setParent(p);
-                        newB.setSitter(s);
+//                        newB.setSitter(s);
                         newB.setStartDate(newStart);
                         //default pending
                         newB.setStatus(RequestStatusEnum.PENDING);
                         //calculate cost for this cycle
-                        if (s.getService().equals(ServiceEnum.DROP_IN) || s.getService().equals(ServiceEnum.WALKING)) {
-                            newB.setCost(s.getRate().multiply(BigDecimal.valueOf(b.getFreq())).multiply(BigDecimal.valueOf(days.size())));
-                        } else {
-                            newB.setCost(s.getRate().multiply(BigDecimal.valueOf(days.size())));
-                        }
+//                        if (s.getService().equals(ServiceEnum.DROP_IN) || s.getService().equals(ServiceEnum.WALKING)) {
+//                            newB.setCost(s.getRate().multiply(BigDecimal.valueOf(b.getFreq())).multiply(BigDecimal.valueOf(days.size())));
+//                        } else {
+//                            newB.setCost(s.getRate().multiply(BigDecimal.valueOf(days.size())));
+//                        }
                         //set relations for this new booking
                         p.getBookings().add(newB);
-                        s.getBookings().add(newB);
+                       // s.getBookings().add(newB);
                         em.persist(newB);
                         em.flush();
                     }
@@ -100,11 +100,11 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
                 long daysDiff = TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
                 
                 p.getBookings().add(b);
-                s.getBookings().add(b);
+//                s.getBookings().add(b);
                 b.setParent(p);
                 b.setStatus(RequestStatusEnum.PENDING);
-                b.setCost(s.getRate().multiply(BigDecimal.valueOf(daysDiff)));
-                b.setSitter(s);
+//                b.setCost(s.getRate().multiply(BigDecimal.valueOf(daysDiff)));
+//                b.setSitter(s);
                 em.persist(b);
                 em.flush();
             }
@@ -221,6 +221,7 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
         Date current = new Date();
 
         int result = bookingStart.compareTo(current);
+        BigDecimal penalty = calculatePenalty(bookingId);
 
         if (u == null) {
             throw new NoResultException("User could not be found!");
@@ -231,6 +232,21 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
         } else {
             if (result < 0) {
                 throw new NoAccessException("Booking has already started and cannot be cancelled!");
+            }
+            //cancelled within 3 days!
+            Date startDate = b.getStartDate();
+            Date endDate = b.getEndDate();
+
+            long dateBeforeInMs = startDate.getTime();
+            long dateAfterInMs = endDate.getTime();
+
+            long timeDiff = Math.abs(dateAfterInMs - dateBeforeInMs);
+
+            long daysDiff = TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
+            
+            if (daysDiff <= 3) {
+                //must charge the penalty!
+                b.setCost(penalty);
             }
             b.setStatus(RequestStatusEnum.ARCHIVED);
         }
@@ -249,8 +265,8 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
             throw new NoResultException("User could not be found!");
         } else if (b == null) {
             throw new NoResultException("Booking could not be found!");
-        } else if (u instanceof PetParent) {
-            throw new NoAccessException("Only Pet Sitters can accept booking!");
+//        } else if (u instanceof PetParent) {
+//            throw new NoAccessException("Only Pet Sitters can accept booking!");
         } else {
             if (result < 0) {
                 throw new NoAccessException("Booking has already started and cannot be accepted!");
