@@ -86,7 +86,7 @@ public class PetSitterSessionBean implements PetSitterSessionBeanLocal {
         oldSitter.setRegion(sitter.getRegion());
         oldSitter.setPreference(sitter.getPreference());
         oldSitter.setSchedule(sitter.getSchedule());
-        oldSitter.setRates(sitter.getRates());
+        oldSitter.setRate(sitter.getRate());
         oldSitter.setService(sitter.getService());
         
         oldSitter.setAuthenReq(sitter.getAuthenReq());
