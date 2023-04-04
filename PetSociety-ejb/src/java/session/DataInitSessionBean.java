@@ -9,9 +9,11 @@ import entity.BankAccount;
 import entity.BookingRequest;
 import entity.CreditCard;
 import entity.PetParent;
+import entity.PetSitter;
 import entity.Staff;
 import entity.User;
 import enumeration.RequestStatusEnum;
+import enumeration.ServiceEnum;
 import enumeration.UserStatusEnum;
 import error.EntityAlreadyExistsException;
 import java.math.BigDecimal;
@@ -34,6 +36,9 @@ import javax.ejb.Startup;
 @LocalBean
 @Startup
 public class DataInitSessionBean {
+
+    @EJB
+    private PetSitterSessionBeanLocal petSitterSessionBean;
 
     @EJB
     private UserSessionBeanLocal userSessionBean;
@@ -118,7 +123,39 @@ public class DataInitSessionBean {
         p.setCc(cc);
         p.setBankAcc(acc);
 
-        // petParentSessionBean.createNewParent(p);
+        petParentSessionBean.createNewParent(p);
+        
+        PetSitter s = new PetSitter();
+        s.setAge(21);
+        s.setBillingAddress("123 Orange Lane");
+        s.setServiceAddress("123 Orange Lane");
+        s.setRegion("central");
+        s.setRate(new BigDecimal(20));
+        s.setFirstName("first");
+        s.setLastName("last");
+        s.setService(ServiceEnum.BOARDING);
+        s.setEmail("petsitter1@mail.com");
+        s.setUsername("petsitter");
+        s.setPassword("password");
+        s.setContactNum("12345678");
+        s.setEmergencyContact("87654321");
+        s.setPreference("preference");
+        s.setStatus(UserStatusEnum.PENDING);
+        BankAccount acc1 = new BankAccount();
+        acc1.setAccName("sitteracc1");
+        acc1.setBankAccNum("88888888");
+        acc1.setBankName("DBS");
+        bankAccountSessionBean.addNewBankAcc(acc1);
+        s.setBankAcc(acc1);
+        CreditCard cc1 = new CreditCard();
+        cc1.setCcName("SitterCard1");
+        cc1.setCcNum("1616161616161616");
+        cc1.setCvv(123);
+        cc1.setExpDate("12/28");
+        creditCardSessionBean.addNewCreditCard(cc1);
+        s.setCc(cc1);
+        // assuming schedule is empty (no unavail dates)
+        petSitterSessionBean.createNewSitter(s);
 
         if (p.getBookings().isEmpty()) {
             //create new booking
@@ -129,10 +166,10 @@ public class DataInitSessionBean {
             b.setEndDate(new Date());
             b.setNumPets(2);
             b.setParent(p);
+            b.setSitter(s);
             b.setStartDate(new Date());
             b.setStatus(RequestStatusEnum.PENDING);
-            //ok nvm i rl that thrs no sitter yet T-T
-            bookingSessionBean.createNewBooking(b, p.getUserId(), new Long(3));
+            bookingSessionBean.createNewBooking(b, p.getUserId(), s.getUserId());
         }
     }
 }
