@@ -42,7 +42,7 @@ public class PetSitter extends User implements Serializable {
     @Column(nullable = false)
     private List<Date> schedule;
     @Column(nullable = false)
-    private List<BigDecimal> rates;
+    private BigDecimal rate;
     @Column(nullable = false)
     private ServiceEnum service;
     
@@ -63,12 +63,12 @@ public class PetSitter extends User implements Serializable {
     public PetSitter() {
     }
 
-    public PetSitter(String serviceAddress, String region, String preference, List<Date> schedule, List<BigDecimal> rates, ServiceEnum service, AuthenticationRequest authenReq, ExperienceForm expForm, SafetyForm safetyForm, List<BookingRequest> bookings, List<MeetAndGreetRequest> mgRequests, User user) {
+    public PetSitter(String serviceAddress, String region, String preference, List<Date> schedule, BigDecimal rate, ServiceEnum service, AuthenticationRequest authenReq, ExperienceForm expForm, SafetyForm safetyForm, List<BookingRequest> bookings, List<MeetAndGreetRequest> mgRequests, User user) {
         this.serviceAddress = serviceAddress;
         this.region = region;
         this.preference = preference;
         this.schedule = schedule;
-        this.rates = rates;
+        this.rate = rate;
         this.service = service;
         this.authenReq = authenReq;
         this.expForm = expForm;
@@ -110,12 +110,12 @@ public class PetSitter extends User implements Serializable {
         this.schedule = schedule;
     }
 
-    public List<BigDecimal> getRates() {
-        return rates;
+    public BigDecimal getRate() {
+        return rate;
     }
 
-    public void setRates(List<BigDecimal> rates) {
-        this.rates = rates;
+    public void setRate(BigDecimal rate) {
+        this.rate = rate;
     }
 
     public ServiceEnum getService() {

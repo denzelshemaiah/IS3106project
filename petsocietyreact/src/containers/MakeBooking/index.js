@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import './style.css'
-import { Card, CardText, CardBody, Button, Label, Input, Form, FormGroup} from "reactstrap";
+import { Card, CardText, CardBody, Button, Label, Input, Form, FormGroup, ButtonGroup} from "reactstrap";
 import { faCloudSun, faHouseChimney, faRepeat, faSuitcase, faPaw } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-regular-svg-icons";
@@ -17,7 +17,7 @@ function MakeBooking(props) {
     const [cost, setCost] = useState(0);
     const [created, setCreated] = useState(moment());
     const [description, setDescription] = useState("");
-    const [freq, setFreq] = useState(0);
+    const [freq, setFreq] = useState('1');
     const [endDate, setEndDate] = useState(moment("1990-01-01 00:00:00").toDate());
     const [repeat, setRepeat] = useState("once")
     const numPets = props.numPets
@@ -67,11 +67,34 @@ function MakeBooking(props) {
     let serviceIcon = ""
     let serviceText = ""
     let repeatButtons = ""
+    let numOfTimesButton = ""
 
     if (service === "walking") {
         serviceText = "Pet Walking"
         serviceIcon = (
             <FontAwesomeIcon icon={faPaw} style={{float: "left", marginRight: "15px", height:"30px", width:"30px"}}/>
+        )
+        numOfTimesButton = (
+            <>  
+                <h5>Number of walks per day: </h5>
+                <ButtonGroup>
+                    <Button
+                        color={freq === '1' ? 'yellow' : 'purple'}
+                        style={{ whiteSpace: 'nowrap' }}>
+                            1
+                    </Button>
+                    <Button
+                        color={freq === '2' ? 'yellow' : 'purple'}
+                        style={{ whiteSpace: 'nowrap' }}>
+                            2
+                    </Button>
+                    <Button
+                        color={freq === '3' ? 'yellow' : 'purple'}
+                        style={{ whiteSpace: 'nowrap' }}>
+                            3
+                    </Button>
+                </ButtonGroup>
+            </>
         )
     } else if (service === "daycare") {
         serviceText = "Day Care"
@@ -82,6 +105,28 @@ function MakeBooking(props) {
         serviceText = "Drop-in Visits"
         serviceIcon = (
             <FontAwesomeIcon icon={faHouseChimney} style={{float: "left", marginRight: "15px", height:"30px", width:"30px"}}/>
+        )
+        numOfTimesButton = (
+            <>  
+                <h5>Number of visits per day: </h5>
+                <ButtonGroup>
+                    <Button
+                        className={freq === '1' ? 'active' : ''}
+                        style={{ whiteSpace: 'nowrap' }}>
+                            1
+                    </Button>
+                    <Button
+                        className={freq === '2' ? 'active' : ''}
+                        style={{ whiteSpace: 'nowrap' }}>
+                            2
+                    </Button>
+                    <Button
+                        className={freq === '3' ? 'active' : ''}
+                        style={{ whiteSpace: 'nowrap' }}>
+                            3
+                    </Button>
+                </ButtonGroup>
+            </>
         )
     } else if (service === "boarding") {
         serviceText = "Boarding"
@@ -115,16 +160,21 @@ function MakeBooking(props) {
         setEndDate(end);
     }
 
-    const addAllBookings = () => {
-        var copyStart = startDate;
-
-    }
+    let booking = {};
 
     const createBookingSubmit = (form) => {
-        form.preventDefault();
+        booking = {
+            cost : cost,
+            created : created,
+            description : description,
+            endDate : endDate,
+            numPets : numPets,
+            startDate : startDate,
+            freq : freq,
+        }
         
         //fetch the Api
-        Api.createBooking(bookings, parentId, sitterId)
+        Api.createBooking(bookings, parentId, sitterId, repeat)
         .then((data) => {
             navigate("/bookings");
         });
@@ -185,7 +235,7 @@ function MakeBooking(props) {
                     </div>
 
                     <div style={{display: "block", marginTop:"3vh"}}>
-                        {freqText}
+                        {numOfTimesButton}
                     </div>
 
                     <div style={{display: "block", marginTop:"3vh"}}>

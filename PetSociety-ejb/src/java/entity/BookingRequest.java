@@ -51,8 +51,8 @@ public class BookingRequest implements Serializable {
     @Column(nullable = false)
     private int numPets;
     @Column(nullable = true)
-    // 1,2 or 3 for drop-in
-    private int visitFreq;
+    // 1,2 or 3 for drop-in/ walk
+    private int freq;
     
     //relationships
     @ManyToOne
@@ -258,17 +258,17 @@ public class BookingRequest implements Serializable {
     }
 
     /**
-     * @return the numFreq
+     * @return the freq
      */
-    public int getVisitFreq() {
-        return visitFreq;
+    public int getFreq() {
+        return freq;
     }
 
     /**
-     * @param visitFreq the visitFreq to set
+     * @param freq the freq to set
      */
-    public void setVisitFreq(int visitFreq) {
-        this.visitFreq = visitFreq;
+    public void setFreq(int freq) {
+        this.freq = freq;
     }
     
 }

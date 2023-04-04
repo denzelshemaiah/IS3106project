@@ -132,7 +132,7 @@ public class DataInitSessionBean {
             b.setStartDate(new Date());
             b.setStatus(RequestStatusEnum.PENDING);
             //ok nvm i rl that thrs no sitter yet T-T
-            bookingSessionBean.createNewBooking(b, p.getUserId(), new Long(3));
+//            bookingSessionBean.createNewBooking(b, p.getUserId(), new Long(3));
         }
     }
 }

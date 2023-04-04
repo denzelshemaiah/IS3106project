@@ -10,9 +10,11 @@ import entity.PetParent;
 import entity.PetSitter;
 import entity.User;
 import enumeration.RequestStatusEnum;
+import enumeration.ServiceEnum;
 import error.NoAccessException;
 import error.NoResultException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -33,21 +35,93 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
     private EntityManager em;
 
     @Override
-    public Long createNewBooking(BookingRequest b, Long parentId, Long sitterId) {
+    public void createNewBooking(BookingRequest b, Long parentId, Long sitterId, String repeatBasis, List<Integer> days) {
         PetParent p = em.find(PetParent.class, parentId);
-        //PetSitter s = em.find(PetSitter.class, sitterId);
-        if (p == null) {
+        PetSitter s = em.find(PetSitter.class, sitterId);
+        if (p == null || s == null) {
             //exception?
         } else {
-            p.getBookings().add(b);
-            b.setParent(p);
-            //b.setSitter(s);
-            em.persist(b);
-            em.flush();
-            b.getParent().getBookings().add(b);
-            //b.getSitter().getBookings().add(b);
+            if (repeatBasis.equals("weekly")) {
+                Date startDate = b.getStartDate();
+                Date endDate = b.getEndDate();
+                
+                Calendar start = Calendar.getInstance();
+                start.setTime(startDate);
+                
+                Calendar end = Calendar.getInstance();
+                end.setTime(endDate);
+                
+                while (start.compareTo(end) < 0) {
+                    int day = start.get(Calendar.DAY_OF_WEEK);
+                    //starting day, make a new booking with this as start day!!!
+                    if (day == days.get(0)) {
+                        Date newStart = start.getTime();
+                        int diffDays = days.get(days.size() - 1);
+                        start.add(Calendar.DATE, diffDays);
+                        //end of repeat cycle
+                        Date newEnd = start.getTime();
+                        //create a new booking for this cycle
+                        BookingRequest newB = new BookingRequest();
+                        newB.setCreated(new Date());
+                        newB.setDescription(b.getDescription());
+                        newB.setEndDate(newEnd);
+                        newB.setFreq(b.getFreq());
+                        newB.setNumPets(b.getNumPets());
+                        newB.setParent(p);
+                        newB.setSitter(s);
+                        newB.setStartDate(newStart);
+                        //default pending
+                        newB.setStatus(RequestStatusEnum.PENDING);
+                        //calculate cost for this cycle
+                        if (s.getService().equals(ServiceEnum.DROP_IN) || s.getService().equals(ServiceEnum.WALKING)) {
+                            newB.setCost(s.getRate().multiply(BigDecimal.valueOf(b.getFreq())).multiply(BigDecimal.valueOf(days.size())));
+                        } else {
+                            newB.setCost(s.getRate().multiply(BigDecimal.valueOf(days.size())));
+                        }
+                        //set relations for this new booking
+                        p.getBookings().add(newB);
+                        s.getBookings().add(newB);
+                        em.persist(newB);
+                        em.flush();
+                    }
+                    //keep adding 1 day
+                    start.add(Calendar.DATE, 1);
+                }
+            } else if (repeatBasis.equals("once")) {
+                Date start = b.getStartDate();
+                Date end = b.getEndDate();
+                
+                long dateStartInMs = start.getTime();
+                long dateEndInMs = end.getTime();
+                
+                long timeDiff = Math.abs(dateEndInMs - dateStartInMs);
+                
+                long daysDiff = TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
+                
+                p.getBookings().add(b);
+                s.getBookings().add(b);
+                b.setParent(p);
+                b.setStatus(RequestStatusEnum.PENDING);
+                b.setCost(s.getRate().multiply(BigDecimal.valueOf(daysDiff)));
+                b.setSitter(s);
+                em.persist(b);
+                em.flush();
+            }
         }
-        return b.getBookingReqId();
+    }
+    
+    public int calcNumWeeks(BookingRequest b) {
+        Date startDate = b.getStartDate();
+        Date endDate = b.getEndDate();
+        int numWeeks = 0;
+
+        
+        while (startDate.before(endDate)) {
+            numWeeks += 1;
+            startDate = new Date(startDate.getTime() + (86400 * 7 * 1000));
+        }
+        
+        return numWeeks;
     }
 
     @Override
