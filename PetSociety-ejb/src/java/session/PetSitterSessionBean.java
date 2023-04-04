@@ -27,10 +27,8 @@ public class PetSitterSessionBean implements PetSitterSessionBeanLocal {
    // create
     @Override
     public Long createNewSitter(PetSitter sitter) {
-    
         em.persist(sitter);
         em.flush();
-
         return sitter.getUserId();
     }
 

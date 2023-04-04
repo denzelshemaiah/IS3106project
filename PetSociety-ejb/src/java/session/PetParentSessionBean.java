@@ -6,6 +6,7 @@
 package session;
 
 import entity.PetParent;
+import entity.User;
 import error.NoResultException;
 import error.ParentNotFoundException;
 import java.util.List;
@@ -24,7 +25,6 @@ public class PetParentSessionBean implements PetParentSessionBeanLocal {
     @PersistenceContext(unitName = "PetSociety-ejbPU")
     private EntityManager em;
 
-    // create (aka registration)
     @Override
     public PetParent createNewParent(PetParent parent) {
         em.persist(parent);
@@ -56,7 +56,7 @@ public class PetParentSessionBean implements PetParentSessionBeanLocal {
      
     // update
     @Override
-    public void updateMember(PetParent parent) throws ParentNotFoundException {
+    public void updateParent(PetParent parent) throws ParentNotFoundException {
         PetParent oldParent = retrieveParentByParentId(parent.getUserId());
         
         // from user

@@ -9,6 +9,7 @@ import 'bootstrap';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
       <>
+      <script src="http://localhost:8097"></script>
         <React.StrictMode>
           <HashRouter>
             <App />

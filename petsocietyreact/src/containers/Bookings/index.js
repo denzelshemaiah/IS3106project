@@ -1,23 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import BookingListing from "../../components/BookingListing";
 import Api from "../../helpers/Api";
 import { Button } from "react-bootstrap";
 import RequestModal from "../../components/RequestModals"
-
+import moment from 'moment-timezone';
 
 //page to view all bookings, follows a tab view
 function Bookings(props) {
-    const {userId = 0} = useState(0);
+    const {userId = 1} = useState(1);
     const [chosenTab, setChosenTab] = useState("pending")
-    const [bookings, setBookings] = useState([{"bookingReqId": 1, "cost": 10.00, "created": "2023-03-23T00:00:00+08:00", "description": "HELLOOOOOOO", "endDate": "2023-03-30T00:00:00+08:00", "numPets": 1, "startDate": "2023-03-23T00:00:00+08:00", "status":"pending"}]);
+    const [bookings, setBookings] = useState([]);
     const user = {"role": "sitter"}
-
-    const sitter = () => {
-        if (user.role === "sitter") {
-            return true;
-        }
-    }
 
     useEffect(() => {
         reloadData();
@@ -29,10 +21,11 @@ function Bookings(props) {
         .then((res) => res.json())
         .then((bookings) => {
             for (const booking of bookings) {
-                const {bookingReqId, cost, created, description, endDate, numPets, startDate, status} = booking;
+                const {bookingReqId, cost, created, description, endDate, numPets, parent, startDate, status, visitFreq} = booking;
 
-                booking.created = created.substring(0, created.length - 5);
-                booking.endDate = endDate.substring(0, endDate.length - 5);
+                booking.formatCreated = created.substring(0, created.length - 5)
+                booking.formatStartDate = startDate.split("T")[0]
+                booking.formatEndDate = endDate.split("T")[0];
             }
             setBookings(bookings);
         });
@@ -46,25 +39,25 @@ function Bookings(props) {
           ...bookings.slice(itemIndex + 1)
         ];
         setBookings(newArray);
-      };
+    };
 
-    const editButton = (booking) => {
-        if (!sitter) {
-            <div style={{width:"110px", float:"right"}}>
-                <RequestModal buttonLabel="Edit" booking={booking} userId= {userId} updateState={updateState}/>
+    function editButton(booking) {
+        if (user.role === "parent") {
+            return <div style={{width:"110px", float:"right"}}>
+                <RequestModal buttonLabel="Edit" booking={booking} updateState={updateState} reloadData={reloadData}/>
                 {' '}
             </div>
-        } else {
-            <div style={{width:"110px", float:"right"}}>
-                <Button onClick={handleReject} style={{backgroundColor: "red"}}>Reject</Button>
+        } else if (user.role === "sitter") {
+            return <div style={{width:"200px", float:"right"}}>
+                <RequestModal buttonLabel="Reject" booking={booking} updateState={updateState} reloadData={reloadData}/>
+                {' '}
+                <RequestModal buttonLabel="Accept" booking={booking} updateState={updateState} reloadData={reloadData}/>
             </div>
         }
     }
 
-    let cancelButton = ""
-
-    cancelButton = (booking) => {
-        if (!sitter) {
+    function cancelButton(booking) {
+        if (user.role === "parent") {
             <div style={{width:"110px", float:"right"}}>
                 <RequestModal buttonLabel="Cancel" booking={booking} updateState={updateState}/>
                 {' '}
@@ -74,21 +67,34 @@ function Bookings(props) {
 
     // converts the bookings array to UI form
     const result = bookings.map((booking) => {
-        if (chosenTab === "pending") {
+        console.log(booking)
+        if (chosenTab === "pending" && user.role === "parent") {
             return (
                 <>  
-                    <li class="list-group-item" key={booking.bookingReqId}>
-                        <h5>Request from name</h5>
-                        Request dates<br/>
-                        <p>Desription of request</p>
+                    <li className="list-group-item" key={booking.bookingReqId} style={{padding:"10px"}}>
+                        <h5>{booking.parent.firstName} {booking.parent.lastName}</h5>
+                        Request Dates: {booking.formatStartDate} to {booking.formatEndDate}<br/>
+                        <p>{booking.description}</p>
                         {editButton(booking)}
                     </li>
                 </>
             )
-        } else if (chosenTab === "upcoming") {
+        } else if (chosenTab === "pending" && user.role === "sitter") {
+            // can only reject here
+            return (
+                <>  
+                    <li className="list-group-item" key={booking.bookingReqId} style={{padding:"10px"}}>
+                        <h5>{booking.parent.firstName} {booking.parent.lastName}</h5>
+                        Request Dates: {booking.formatStartDate} to {booking.formatEndDate}<br/>
+                        <p>{booking.description}</p>
+                        {editButton(booking)}
+                    </li>
+                </>
+            )
+        } else if (chosenTab === "upcoming" && user.role === "parent") {
             return (
                 <>
-                    <li class="list-group-item" key={booking.bookingReqId}>
+                    <li className="list-group-item" key={booking.bookingReqId}>
                         <h5>Request from name</h5>
                         Request dates<br/>
                         <p>Desription of request</p>
@@ -150,25 +156,25 @@ function Bookings(props) {
                     </ul>
                 </div>
 
-                <div class="card-body">
-                    <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="pending-tab">
-                            <ul class="list-group">
+                <div className="card-body">
+                    <div className="tab-content" id="myTabContent">
+                        <div className="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="pending-tab">
+                            <ul className="list-group">
                                 {result}
                             </ul>
                         </div>
-                        <div class="tab-pane fade" id="upcoming" role="tabpanel" aria-labelledby="upcoming-tab">
-                            <ul class="list-group">
+                        <div className="tab-pane fade" id="upcoming" role="tabpanel" aria-labelledby="upcoming-tab">
+                            <ul className="list-group">
                                 {result}
                             </ul>
                         </div>
-                        <div class="tab-pane fade" id="rejected" role="tabpanel" aria-labelledby="rejected-tab">
-                            <ul class="list-group">
+                        <div className="tab-pane fade" id="rejected" role="tabpanel" aria-labelledby="rejected-tab">
+                            <ul className="list-group">
                                 {result}
                             </ul>
                         </div>
-                        <div class="tab-pane fade" id="archived" role="tabpanel" aria-labelledby="archived-tab">
-                            <ul class="list-group">
+                        <div className="tab-pane fade" id="archived" role="tabpanel" aria-labelledby="archived-tab">
+                            <ul className="list-group">
                                 {result}
                             </ul>
                         </div>

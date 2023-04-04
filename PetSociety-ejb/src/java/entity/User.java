@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -81,7 +82,7 @@ public class User implements Serializable  {
     private List<Report> reportsUserMade;
     
     // unidirectional relationship with bank acc
-    @OneToOne(optional = false)
+    @OneToOne(optional = false, cascade=CascadeType.PERSIST)
     @JoinColumn(name="bankacc_ID")
     private BankAccount bankAcc;
 
@@ -92,9 +93,16 @@ public class User implements Serializable  {
     private List<Rating> ratingsUserMade;
     
     // unidirectional relationship with credit card
-    @OneToOne(optional = false)
+    @OneToOne(optional = false, cascade=CascadeType.PERSIST)
     @JoinColumn(name="cc_ID")
     private CreditCard cc;
+    
+    // getting PetParent and PetSitter
+    @OneToOne(mappedBy = "user")
+    private PetParent petParent;
+    
+    @OneToOne(mappedBy = "user")
+    private PetSitter petSitter;
     
     public User() {
         this.reportsAgainstUser = new ArrayList<>();
@@ -296,5 +304,21 @@ public class User implements Serializable  {
 
     public void setDaysDisabled(int daysDisabled) {
         this.daysDisabled = daysDisabled;
+    }
+
+    public PetParent getPetParent() {
+        return petParent;
+    }
+
+    public void setPetParent(PetParent petParent) {
+        this.petParent = petParent;
+    }
+
+    public PetSitter getPetSitter() {
+        return petSitter;
+    }
+
+    public void setPetSitter(PetSitter petSitter) {
+        this.petSitter = petSitter;
     }
 }

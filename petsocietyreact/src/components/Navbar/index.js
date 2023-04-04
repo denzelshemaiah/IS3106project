@@ -5,14 +5,14 @@ import { Link } from "react-router-dom";
  
 function Navbar() { 
   return ( 
-    <nav class="navbar navbar-expand-lg">
-      <a href="/" class="navbar-brand"> 
-        <img src={logo} class="logo"/>
+    <nav className="navbar navbar-expand-lg">
+      <a href="/" className="navbar-brand"> 
+        <img src={logo} className="logo"/>
         PetSociety 
       </a>
       
-      <div class="wrapper">
-        <ul class="nav navbar-nav mr-auto">
+      <div className="wrapper">
+        <ul className="nav navbar-nav mr-auto">
           <li><Link to="/searchSitter">Search Sitter</Link></li>
           <li><Link to="/bookings">Bookings</Link></li>
           <li><Link to="/meetandgreets">Meet and Greets</Link></li>
@@ -20,9 +20,9 @@ function Navbar() {
           <li><Link to="/makebooking">Make A Booking</Link></li>
         </ul>
         
-        <ul class="nav navbar-nav ml-auto">
-          <li class="right"><Link to="/help">Help</Link></li>
-          <li class="right"><Link to="/logout">Logout</Link></li>
+        <ul className="nav navbar-nav ml-auto">
+          <li className="right"><Link to="/help">Help</Link></li>
+          <li className="right"><Link to="/logout">Logout</Link></li>
         </ul>
       </div>
     </nav> 

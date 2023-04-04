@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, Form, Input} from "reactstrap";
 import EditForm from '../EditRequestForm';
 import Api from "../../helpers/Api";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPaw } from "@fortawesome/free-solid-svg-icons";
 
 function RequestModal(props) {
 
     const [modal, setModal] = useState(false);
     const label = props.buttonLabel;
-    const [booking, setBooking] = useState("");
+    const [booking, setBooking] = useState(props.booking);
 
     useEffect(() => {
         if (props.booking) {
@@ -19,21 +21,8 @@ function RequestModal(props) {
       setModal(!modal);
     };
 
-    let editForm = ""
-
-    if (label === "Edit") {
-        editForm = (
-            <EditForm
-                addItemToState={props.addItemToState}
-                updateState={props.updateState}
-                toggle={toggle}
-                booking={props.booking}
-            />
-        )
-    }
-
     const closeBtn = (
-        <button className="close" class="btn btn-lg" onClick={toggle}>
+        <button className="close" class="btn" onClick={toggle}>
           &times;
         </button>
     );
@@ -51,10 +40,10 @@ function RequestModal(props) {
             {label}
           </Button>
         ); title="Edit booking";
-    } else {
+    } else if (label === "Cancel") {
         button = (
             <Button
-              color="warning"
+              color="danger"
               onClick={toggle}
               style={{ float: "left", marginRight: "10px" }}
             >
@@ -62,29 +51,76 @@ function RequestModal(props) {
             </Button>
           );
           title = "Cancel booking";
-    }
+    } else if (label === "Accept") {
+      button = (
+        <Button
+          color="success"
+          onClick={toggle}
+          style={{ float: "left", marginRight: "10px" }}
+        >
+          {label}
+        </Button>
+      ); title="Accept this booking?"
+    } else if (label === "Reject") {
+      button = (
+          <Button
+            color="danger"
+            onClick={toggle}
+            style={{ float: "left", marginRight: "10px" }}
+          >
+            {label}
+          </Button>
+        );
+        title = "Reject this booking?";
+  }
     
-    const submitFormDelete = (e) => {
+    const submitFormCancel = (e) => {
       e.preventDefault();
-      Api.deleteBooking(booking.bookingReqId)
+      //change this to current user's Id
+      Api.cancelBooking(booking.parent.userId, booking.bookingReqId)
+      props.toggle();
+    }
+
+    const submitFormAccept = (e) => {
+      e.preventDefault();
+      //change this to current user's Id
+      Api.acceptBooking(booking.parent.userId, booking.bookingReqId)
+      props.toggle();
+    }
+
+    const submitFormReject = (e) => {
+      e.preventDefault();
+      //change this to current user's id
+      Api.acceptBooking(booking.parent.userId, booking.bookingReqId)
       props.toggle();
     }
 
     //edit this
-    const calculatePenalty = (e) => {
-      return 0;
+    const calculatePenalty = (booking) => {
+      return 0.75 * booking.cost;
     }
 
-    let cancelConfirm = "";
-
-    if (label === "Cancel") {
-        cancelConfirm = ((
+    let modalBody = ""
+    if (label === "Edit") {
+      modalBody = (
+          <EditForm
+              addItemToState={props.addItemToState}
+              updateState={props.updateState}
+              toggle={toggle}
+              booking={props.booking}
+              reloadData={props.reloadData}
+          />
+      )
+    } else if (label === "Cancel") {
+        modalBody = ((
           <div id="cancelModal">
-            <Form onSubmit={submitFormDelete}>
+            <Form onSubmit={submitFormCancel}>
               <p>
                 Do you want to cancel this booking?
-                You would have to pay: ${calculatePenalty(booking)}
-                <Input type="text" value={booking.bookingId}/>
+              </p>
+              <p>
+              You would have to pay: ${calculatePenalty(booking)}
+              <Input type="text" value={booking.bookingId}/>
               </p>
               <Button 
                 color="danger" 
@@ -96,7 +132,49 @@ function RequestModal(props) {
             </Form>
           </div>
         ))
-        }
+      } else if (label === "Accept") {
+        modalBody = ((
+          <div id="acceptModal">
+            <Form onSubmit={submitFormAccept}>
+              <p>
+                Duration: {booking.formatStartDate} to {booking.formatEndDate} <br/>
+                Description: {booking.description} <br/>
+                Parent : {booking.parent.firstName} {booking.parent.lastName} <br/>
+                Number of pets: {booking.numPets} <br/>
+                You could earn: ${booking.cost}!
+              </p>
+              <Button 
+                color="success" 
+                type="submit"
+                style={{float: "right"}}
+                >
+                Confirm
+              </Button>
+            </Form>
+          </div>
+        ))
+      } else if (label === "Reject") {
+        modalBody = ((
+          <div id="rejectModal">
+            <Form onSubmit={submitFormReject}>
+              <p>
+                Duration: {booking.formatStartDate} to {booking.formatEndDate} <br/>
+                Description: {booking.description} <br/>
+                Parent : {booking.parent.firstName} {booking.parent.lastName} <br/>
+                Number of pets: {booking.numPets} <br/>
+                You could earn: ${booking.cost}!
+              </p>
+              <Button 
+                color="danger" 
+                type="submit"
+                style={{float: "right"}}
+                >
+                Confirm
+              </Button>
+            </Form>
+          </div>
+        ))
+      }
 
     return (
         <>
@@ -109,11 +187,10 @@ function RequestModal(props) {
         centered={true}
         >
             <ModalHeader toggle={toggle} close={closeBtn}>
-                {title}
+                {title} <FontAwesomeIcon icon={faPaw} style={{float: "left", marginRight: "15px", height:"30px", width:"30px"}}/>
             </ModalHeader>
             <ModalBody>
-                {editForm}
-                {cancelConfirm}
+                {modalBody}
             </ModalBody>
         </Modal>
         </>

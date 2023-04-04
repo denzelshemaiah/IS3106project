@@ -6,6 +6,7 @@
 package webservices.restful;
 
 import entity.BankAccount;
+import java.util.ArrayList;
 import javax.ejb.EJB;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -35,6 +36,7 @@ public class BankAccountResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public BankAccount createNewBankAccount(BankAccount bankAccount) {
+        bankAccount.setTransactions(new ArrayList<>());
         bankAccountSessionBean.addNewBankAcc(bankAccount);
         return bankAccount;
     }

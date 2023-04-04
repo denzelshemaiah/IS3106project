@@ -5,8 +5,11 @@
  */
 package session;
 
+import entity.PetParent;
+import entity.PetSitter;
 import entity.User;
 import enumeration.UserStatusEnum;
+import error.UserNotFoundException;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -23,13 +26,30 @@ public class UserSessionBean implements UserSessionBeanLocal {
 
     @PersistenceContext(unitName = "PetSociety-ejbPU")
     private EntityManager em;
-     
+
     // create (aka registration)
     @Override
     public void createNewUser(User user) {
-        em.persist(user);
-               
+        em.persist(user);          
     }
+    
+    // registering their roles 
+    // (note to self: need to create indiv petparent and petsitter attributes first before passing it in here)
+    @Override
+    public void createNewParent(User user, PetParent petParent) {
+        createNewUser(user);
+        petParent.setUser(user);
+        em.persist(petParent);
+    }
+    
+    @Override
+    public void createNewSitter(User user, PetSitter petSitter) {
+        createNewUser(user);
+        petSitter.setUser(user);
+        em.persist(petSitter);
+    }
+    
+    
 
     @Override
     public User getUser(Long userId) throws EntityNotFoundException {
@@ -40,7 +60,40 @@ public class UserSessionBean implements UserSessionBeanLocal {
         return user;
     }
     
+    // getPetParent
+    @Override
+    public User getPetParent(Long userId) throws EntityNotFoundException {
+        PetParent petParent = em.find(PetParent.class, userId);
+        if (petParent == null) {
+            throw new EntityNotFoundException("No pet parent found with this UserId");
+        }
+        return petParent;
+    }
+    
+    // getPetSitter
+    @Override
+    public User getPetSitter(Long userId) throws EntityNotFoundException {
+        PetSitter petSitter = em.find(PetSitter.class, userId);
+        if (petSitter == null) {
+            throw new EntityNotFoundException("No pet sitter found with this UserId");
+        }
+        return petSitter;
+    }
+    
+    
+    
+    
     // need to add update user
+    @Override
+    public void updateUser(User user) throws UserNotFoundException {
+        User oldUser = getUser(user.getUserId());
+
+        oldUser.setFirstName(user.getFirstName());
+        oldUser.setLastName(user.getLastName());
+        oldUser.setContactNum(user.getContactNum());
+        oldUser.setEmail(user.getEmail());
+        oldUser.setPassword(user.getPassword());
+    }
 
     @Override
     public List<User> retrieveAllUsers() {

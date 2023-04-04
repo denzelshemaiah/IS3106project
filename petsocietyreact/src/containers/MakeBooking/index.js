@@ -13,49 +13,44 @@ import {Link, useParams, useNavigate} from "react-router-dom";
 //page to view all bookings, follows a tab view
 function MakeBooking(props) {
     const [service, setService] = useState("");
-    // const sitterId = props.sitter.Id;
-    // const parentId = props.parent.Id;
     const [startDate, setStartDate] = useState(moment().tz('Asia/Singapore').startOf("day").toDate());
     const [cost, setCost] = useState(0);
     const [created, setCreated] = useState(moment());
     const [description, setDescription] = useState("");
-    const [visitFreq, setVisitFreq] = useState(0);
+    const [freq, setFreq] = useState(0);
     const [endDate, setEndDate] = useState(moment("1990-01-01 00:00:00").toDate());
     const [repeat, setRepeat] = useState("once")
     const numPets = props.numPets
-    const dates = []
+    const [bookings, setBookings] = useState([]);
     const navigate = useNavigate();
+    const [rate, setRate] = useState(props.rate);
+    const [parentId, setParentId] = useState(0);
+    const [sitterId, setSitterId] = useState(0);
 
     useEffect(() => {
         setService("walking")
-        const calculateCost = () => {
+        const calculateTotalCost = () => {
             //per day (boarding,  daycare)
             if (service === "boarding" || service === "daycare") {
                 var diffDays = Math.round((endDate - startDate)/(1000 * 60 * 60 * 24));
                 if (repeat === "weekly") {
                     var numWeeks = calcNumWeeks;
-                    //SUB IN RATES!
-                    return numWeeks * diffDays * 0.00;
+                    return numWeeks * diffDays * rate;
                 }
-                // SUB IN RATES!
-                return diffDays * 0.00;
-                // for 
-            } else if (service === "walking") {
-                
-            } else {
-                //drop-in case, basis is per visit
+                return diffDays * rate;
+            } else if (service === "walking" || service === "dropin") {
+                //drop-in case, basis is per visit or walking, basis is per walk
                 diffDays = Math.round((endDate - startDate)/(1000 * 60 * 60 * 24));
                 //get weekly visits
-                var visits = diffDays * visitFreq
+                var visits = diffDays * freq
                 if (repeat === "weekly") {
                     var numWeeks = calcNumWeeks;
-                    //SUB IN RATES!
-                    return numWeeks * visits * 0.00
+                    return numWeeks * visits * rate;
                 }
-                return diffDays * 0.00
+                return diffDays * rate;
             }      
         }
-        setCost(calculateCost)
+        setCost(calculateTotalCost)
     }, [service]);
 
     const calcNumWeeks = () => {
@@ -67,7 +62,6 @@ function MakeBooking(props) {
             }
         return numWeeks;
     }
-
 
     //for the top bar stating service
     let serviceIcon = ""
@@ -97,10 +91,10 @@ function MakeBooking(props) {
     }
 
     let freqText = ""
-    if(service === "dropin") {
+    if(service === "dropin" || service === "walking") {
         freqText = (
             <>
-                <h5>Daily frequency of visits: {visitFreq}</h5>
+                <h5>Daily frequency: {freq}</h5>
             </>
         )
     }
@@ -121,17 +115,16 @@ function MakeBooking(props) {
         setEndDate(end);
     }
 
+    const addAllBookings = () => {
+        var copyStart = startDate;
+
+    }
+
     const createBookingSubmit = (form) => {
         form.preventDefault();
+        
         //fetch the Api
-        Api.createBooking({
-            cost,
-            created,
-            description,
-            endDate,
-            numPets,
-            startDate,
-        }) //parentId, sitterId)
+        Api.createBooking(bookings, parentId, sitterId)
         .then((data) => {
             navigate("/bookings");
         });

@@ -86,22 +86,11 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
         if (b.getBookingReqId() == null) {
             throw new NoResultException("No booking can be found!");
         } else {
-            em.merge(b);
-        }
-    }
-
-    @Override
-    //need to check status, should be pending or upcoming
-    public void cancelBooking(Long bookingId) throws NoResultException {
-        BookingRequest b = em.find(BookingRequest.class, bookingId);
-        if (b == null) {
-            throw new NoResultException("No booking can be found!");
-        } else {
-            //remove relationships with other entities
-            b.getParent().getBookings().remove(b);
-            b.getSitter().getBookings().remove(b);
-            //remove from db
-            em.remove(b);
+            BookingRequest old = em.find(BookingRequest.class, b.getBookingReqId());
+            old.setDescription(b.getDescription());
+            old.setStartDate(b.getStartDate());
+            old.setEndDate(b.getEndDate());
+            em.merge(old);
         }
     }
 

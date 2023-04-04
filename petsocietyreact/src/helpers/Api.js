@@ -2,17 +2,41 @@ const SERVER_PREFIX = "http://localhost:8080/PetSociety-war/webresources";
 
 const Api = {
     // create user (in general 1st)
+    // making this function obsolete as now i will only create petparent or petsitter
+    /*createNewUser(data) {
+        return fetch(`${SERVER_PREFIX}/users`, {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            method: "POST",
+            body: JSON.stringify(data),
+        });
+    }, */
 
-    // just to get the status enum... needs an api call...
-    async getUserStatusEnum() {
-        const response = await fetch(`${SERVER_PREFIX}/userStatusEnum`);
-        if (!response.ok) {
-            throw new Error('Failed to fetch user status enum');
-        }
-        const data = await response.json();
-        console.log("JSON response:", data);
-        return data;
+    // creation of petParent
+    createNewParent(data) {
+        return fetch(`${SERVER_PREFIX}/users/petparent`, {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            method: "POST",
+            body: JSON.stringify(data),
+        });
     },
+
+    // creation of petSitter
+    createNewSitter(data) {
+        return fetch(`${SERVER_PREFIX}/users/petsitter`, {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            method: "POST",
+            body: JSON.stringify(data),
+        });
+    }, 
 
     // setting bankAccountNumber and creating it in association with a user
     createAndAssociateNewBankAccount(data) {
@@ -23,23 +47,12 @@ const Api = {
             },
             method: "POST",
             body: JSON.stringify(data),
-        }); 
+        });
     },
 
     // setting and creating CreditCard in assoc with a user
     createAndAssociateNewCreditCard(data) {
         return fetch(`${SERVER_PREFIX}/creditCard`, {
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            method: "POST",
-            body: JSON.stringify(data),
-        }); 
-    },
-
-    createNewUser(data) {
-        return fetch(`${SERVER_PREFIX}/users`, {
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
@@ -55,8 +68,9 @@ const Api = {
         return fetch(`${SERVER_PREFIX}/bookings/${status}/${userId}`)
     },
 
-    updateBooking(userId, form) {
-        return fetch(`${SERVER_PREFIX}/bookings/${form.bookingReqId}/${userId}`, {
+    //update the booking values
+    updateBooking(form) {
+        return fetch(`${SERVER_PREFIX}/bookings/${form.bookingReqId}`, {
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
@@ -65,13 +79,13 @@ const Api = {
             body: JSON.stringify(form),
         })
     },
-
-    cancelBooking(bookingId) {
-        return fetch(`${SERVER_PREFIX}/bookings/cancel/${bookingId}}`, {
+    //cancel this booking, move 2 archive
+    cancelBooking(parentId, bookingId) {
+        return fetch(`${SERVER_PREFIX}/bookings/cancel/${parentId}/${bookingId}`, {
             method: "DELETE",
         })
     },
-
+    //create new booking
     createBooking(booking, parentId, sitterId) {
         return fetch(`${SERVER_PREFIX}/bookings/parent/${parentId}/${sitterId}`, {
             headers: {
@@ -82,12 +96,18 @@ const Api = {
             body: JSON.stringify(booking),
         });
     },
-
-    //view all sitters
-    //retrieve the ID of the user and the user object from the web resources
-    getAllPetSitters(userId) {
-        return fetch(`${SERVER_PREFIX}/petSitter/${userId}`)
+    //accept a booking
+    acceptBooking(sitterId, bookingId) {
+        return fetch(`${SERVER_PREFIX}/bookings/accept/${sitterId}/${bookingId}`, {
+            method: "PUT"
+        })
     },
+    //reject a booking
+    rejectBooking(sitterId, bookingId) {
+        return fetch(`${SERVER_PREFIX}/bookings/reject/${sitterId}/${bookingId}`, {
+            method: "PUT"
+        })
+    }
 };
 
 export default Api;
