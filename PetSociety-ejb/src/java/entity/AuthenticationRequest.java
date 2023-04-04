@@ -33,7 +33,7 @@ public class AuthenticationRequest implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date createdDate;
     @Column(nullable = false)
-    private List<String> documents;
+    private byte[] documents;
     @Column(nullable = false)
     private Boolean resolved;
     
@@ -111,26 +111,20 @@ public class AuthenticationRequest implements Serializable {
         this.createdDate = createdDate;
     }
 
-    /**
-     * @return the documents
-     */
-    public List<String> getDocuments() {
-        return documents;
-    }
-
-    /**
-     * @param documents the documents to set
-     */
-    public void setDocuments(List<String> documents) {
-        this.documents = documents;
-    }
-
     public Boolean getResolved() {
         return resolved;
     }
 
     public void setResolved(Boolean resolved) {
         this.resolved = resolved;
+    }
+
+    public byte[] getDocuments() {
+        return documents;
+    }
+
+    public void setDocuments(byte[] documents) {
+        this.documents = documents;
     }
     
 }
