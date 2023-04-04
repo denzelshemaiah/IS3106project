@@ -169,7 +169,7 @@ public class DataInitSessionBean {
             b.setSitter(s);
             b.setStartDate(new Date());
             b.setStatus(RequestStatusEnum.PENDING);
-            bookingSessionBean.createNewBooking(b, p.getUserId(), s.getUserId());
+            bookingSessionBean.createNewBooking(b, p.getUserId(), s.getUserId(), "once");
         }
     }
 }
