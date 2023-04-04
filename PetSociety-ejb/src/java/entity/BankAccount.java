@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -44,9 +45,11 @@ public class BankAccount implements Serializable {
         this.bankAccNum = bankAccNum;
         this.bankName = bankName;
         this.accName = accName;
+        this.transactions = new ArrayList<>();
     }
 
     public BankAccount() {
+        this.transactions = new ArrayList<>();
     }
 
     public Long getBankAccId() {
