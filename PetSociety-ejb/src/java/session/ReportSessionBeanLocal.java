@@ -17,7 +17,7 @@ import javax.persistence.EntityNotFoundException;
 @Local
 public interface ReportSessionBeanLocal {
 
-    Long createReport(Report report);
+    Long createReport(Report report, Long reportedId, Long reporterId);
 
     void markReportAsResolved(Long reportId);
 
