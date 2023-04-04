@@ -33,7 +33,7 @@ public class AuthenticationRequest implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date createdDate;
     @Column(nullable = false)
-    private byte[] documents;
+    private byte[] document;
     @Column(nullable = false)
     private Boolean resolved;
     
@@ -44,6 +44,7 @@ public class AuthenticationRequest implements Serializable {
     private Staff staff;
 
     public AuthenticationRequest() {
+        this.resolved = false;
     }
     
     @JsonbTransient
@@ -119,12 +120,12 @@ public class AuthenticationRequest implements Serializable {
         this.resolved = resolved;
     }
 
-    public byte[] getDocuments() {
-        return documents;
+    public byte[] getDocument() {
+        return document;
     }
 
-    public void setDocuments(byte[] documents) {
-        this.documents = documents;
+    public void setDocument(byte[] document) {
+        this.document = document;
     }
     
 }
