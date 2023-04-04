@@ -8,6 +8,7 @@ package entity;
 import enumeration.ServiceEnum;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
@@ -64,6 +65,9 @@ public class PetSitter extends User implements Serializable {
     private User user;
 
     public PetSitter() {
+        this.bookings = new ArrayList<>();
+        this.mgRequests = new ArrayList<>();
+        this.schedule = new ArrayList<>();
     }
 
     public PetSitter(String serviceAddress, String region, String preference, List<Date> schedule, BigDecimal rate, ServiceEnum service, AuthenticationRequest authenReq, ExperienceForm expForm, SafetyForm safetyForm, List<BookingRequest> bookings, List<MeetAndGreetRequest> mgRequests, User user) {

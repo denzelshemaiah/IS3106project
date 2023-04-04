@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navigate, useParams, useNavigate } from "react-router-dom";
 import {
   MDBBtn,
@@ -167,9 +167,9 @@ function SignUp(props) {
       mgRequests: mgRequests
     }
   }
-  useEffect(() => {
+  /*useEffect(() => {
     fetchUserStatusEnum();
-  }, []);
+  }, []); */
 
   // handle money details
   const handleCompleteUserCreation = (e) => {
@@ -207,185 +207,185 @@ function SignUp(props) {
           Sign Up
         </MDBTypography>
 
-<form onSubmit={handleRegistrationOfUser}>
-        <MDBContainer fluid className='h-custom'>
+        <form onSubmit={handleCompleteUserCreation}>
+          <MDBContainer fluid className='h-custom'>
 
-          <MDBRow className='d-flex justify-content-center align-items-center h-100'>
-            <MDBCol col='12' className='m-5'>
-              <MDBCard>
+            <MDBRow className='d-flex justify-content-center align-items-center h-100'>
+              <MDBCol col='12' className='m-5'>
+                <MDBCard>
 
-                <MDBCardBody className='p-0'>
+                  <MDBCardBody className='p-0'>
 
-                  <MDBRow>
+                    <MDBRow>
 
-                    <MDBCol md='6' className='p-5 bg-gray rounded-start'>
+                      <MDBCol md='6' className='p-5 bg-gray rounded-start'>
 
-                      <h3 className="fw-bold mb-5" style={{ color: '#4835d4' }}>General Information</h3>
+                        <h3 className="fw-bold mb-5" style={{ color: '#4835d4' }}>General Information</h3>
 
-                      <MDBRow>
+                        <MDBRow>
 
-                        <MDBCol md='6'>
-                          <MDBInput wrapperClass='mb-4'
-                            label='First Name'
-                            size='lg'
-                            id='inputFirstName'
-                            type='text'
-                            value={firstName}
-                            onChange={(e) => setFirstName(e.target.value)} />
-                        </MDBCol>
+                          <MDBCol md='6'>
+                            <MDBInput wrapperClass='mb-4'
+                              label='First Name'
+                              size='lg'
+                              id='inputFirstName'
+                              type='text'
+                              value={firstName}
+                              onChange={(e) => setFirstName(e.target.value)} />
+                          </MDBCol>
 
-                        <MDBCol md='6'>
-                          <MDBInput wrapperClass='mb-4'
-                            label='Last Name'
-                            size='lg'
-                            id='inputLastName'
-                            type='text'
-                            value={lastName}
-                            onChange={(e) => setLastName(e.target.value)} />
-                        </MDBCol>
+                          <MDBCol md='6'>
+                            <MDBInput wrapperClass='mb-4'
+                              label='Last Name'
+                              size='lg'
+                              id='inputLastName'
+                              type='text'
+                              value={lastName}
+                              onChange={(e) => setLastName(e.target.value)} />
+                          </MDBCol>
 
-                      </MDBRow>
-
-
-                      <MDBInput wrapperClass='mb-4'
-                        label='Username'
-                        size='lg'
-                        id='inputUsername'
-                        type='text'
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)} />
+                        </MDBRow>
 
 
-                      <MDBRow>
-
-                        <MDBCol md='3'>
-                          <MDBInput wrapperClass='mb-3'
-                            label='Age'
-                            size='lg'
-                            id='inputAge'
-                            type='number'
-                            value={age}
-                            onChange={(e) => setAge(e.target.value)} />
-                        </MDBCol>
-
-                        <MDBCol md='6'>
-
-                        </MDBCol>
-
-                      </MDBRow>
-
-                      <MDBRow>
-                        <MDBCol md='12'>
-                          <label className="form-label" htmlFor="customFile">Profile Picture</label>
-                          <input type="file"
-                            className="form-control"
-                            id="customFile"
-                            value={profilePicture}
-                            onChange={(e) => setProfilePicture(e.target.value)} />
-                        </MDBCol>
-                      </MDBRow>
-
-                    </MDBCol>
+                        <MDBInput wrapperClass='mb-4'
+                          label='Username'
+                          size='lg'
+                          id='inputUsername'
+                          type='text'
+                          value={username}
+                          onChange={(e) => setUsername(e.target.value)} />
 
 
-                    <MDBCol md='6' className='p-5 rounded-end' style={{ backgroundColor: '#4835d4' }}>
+                        <MDBRow>
 
-                      <h3 className="fw-bold mb-5 text-white" style={{ color: '#4835d4' }}>Contact Details</h3>
-                      <MDBInput wrapperClass='mb-4'
-                        labelClass='text-white'
-                        label='Email'
-                        size='lg'
-                        id='inputEmail'
-                        type='text'
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)} />
+                          <MDBCol md='3'>
+                            <MDBInput wrapperClass='mb-3'
+                              label='Age'
+                              size='lg'
+                              id='inputAge'
+                              type='number'
+                              value={age}
+                              onChange={(e) => setAge(e.target.value)} />
+                          </MDBCol>
 
-                      <MDBInput wrapperClass='mb-4'
-                        labelClass='text-white'
-                        label='Password'
-                        size='lg'
-                        id='inputPassword'
-                        type='password'
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)} />
+                          <MDBCol md='6'>
 
+                          </MDBCol>
 
-                      <MDBRow>
+                        </MDBRow>
 
-                        <MDBCol md='5'>
-                          <MDBInput wrapperClass='mb-4'
-                            labelClass='text-white'
-                            label='Code +'
-                            size='lg'
-                            id='form9'
-                            type='text' />
-                        </MDBCol>
+                        <MDBRow>
+                          <MDBCol md='12'>
+                            <label className="form-label" htmlFor="customFile">Profile Picture</label>
+                            <input type="file"
+                              className="form-control"
+                              id="customFile"
+                              value={profilePicture}
+                              onChange={(e) => setProfilePicture(e.target.value)} />
+                          </MDBCol>
+                        </MDBRow>
 
-                        <MDBCol md='7'>
-                          <MDBInput wrapperClass='mb-4'
-                            labelClass='text-white'
-                            label='Phone Number'
-                            size='lg'
-                            id='inputContactNum'
-                            type='text'
-                            value={contactNum}
-                            onChange={(e) => setContactNum(e.target.value)} />
-                        </MDBCol>
-                      </MDBRow>
-
-                      <MDBRow>
-
-                        <MDBCol md='5'>
-                          <MDBInput wrapperClass='mb-4'
-                            labelClass='text-white'
-                            label='Code +'
-                            size='lg'
-                            type='text' />
-                        </MDBCol>
-
-                        <MDBCol md='7'>
-                          <MDBInput wrapperClass='mb-4'
-                            labelClass='text-white'
-                            label='Emergency Contact'
-                            size='lg'
-                            id='inputEmergencyContact'
-                            type='text'
-                            value={emergencyContact}
-                            onChange={(e) => setEmergencyContact(e.target.value)} />
-                        </MDBCol>
-                      </MDBRow>
+                      </MDBCol>
 
 
-                      <MDBInput wrapperClass='mb-4'
-                        labelClass='text-white'
-                        label='Billing Address'
-                        size='lg'
-                        id='inputBillingAddress'
-                        type='text'
-                        value={billingAddress}
-                        onChange={(e) => setBillingAddress(e.target.value)} />
+                      <MDBCol md='6' className='p-5 rounded-end' style={{ backgroundColor: '#4835d4' }}>
+
+                        <h3 className="fw-bold mb-5 text-white" style={{ color: '#4835d4' }}>Contact Details</h3>
+                        <MDBInput wrapperClass='mb-4'
+                          labelClass='text-white'
+                          label='Email'
+                          size='lg'
+                          id='inputEmail'
+                          type='text'
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)} />
+
+                        <MDBInput wrapperClass='mb-4'
+                          labelClass='text-white'
+                          label='Password'
+                          size='lg'
+                          id='inputPassword'
+                          type='password'
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)} />
 
 
-                      <MDBCheckbox name='flexCheck' id='flexCheckDefault' labelClass='text-white mb-4' label='I do accept the Terms and Conditions of PetSociety.' />
+                        <MDBRow>
 
-                      <MDBBtn color='light'
-                        size='lg'
-                        type="submit"
-                        onClick={redirect2}
-                      >
-                        Next
-                      </MDBBtn>
+                          <MDBCol md='5'>
+                            <MDBInput wrapperClass='mb-4'
+                              labelClass='text-white'
+                              label='Code +'
+                              size='lg'
+                              id='form9'
+                              type='text' />
+                          </MDBCol>
 
-                    </MDBCol>
-                  </MDBRow>
+                          <MDBCol md='7'>
+                            <MDBInput wrapperClass='mb-4'
+                              labelClass='text-white'
+                              label='Phone Number'
+                              size='lg'
+                              id='inputContactNum'
+                              type='text'
+                              value={contactNum}
+                              onChange={(e) => setContactNum(e.target.value)} />
+                          </MDBCol>
+                        </MDBRow>
 
-                </MDBCardBody>
-              </MDBCard>
+                        <MDBRow>
 
-            </MDBCol>
-          </MDBRow>
+                          <MDBCol md='5'>
+                            <MDBInput wrapperClass='mb-4'
+                              labelClass='text-white'
+                              label='Code +'
+                              size='lg'
+                              type='text' />
+                          </MDBCol>
 
-        </MDBContainer>
+                          <MDBCol md='7'>
+                            <MDBInput wrapperClass='mb-4'
+                              labelClass='text-white'
+                              label='Emergency Contact'
+                              size='lg'
+                              id='inputEmergencyContact'
+                              type='text'
+                              value={emergencyContact}
+                              onChange={(e) => setEmergencyContact(e.target.value)} />
+                          </MDBCol>
+                        </MDBRow>
+
+
+                        <MDBInput wrapperClass='mb-4'
+                          labelClass='text-white'
+                          label='Billing Address'
+                          size='lg'
+                          id='inputBillingAddress'
+                          type='text'
+                          value={billingAddress}
+                          onChange={(e) => setBillingAddress(e.target.value)} />
+
+
+                        <MDBCheckbox name='flexCheck' id='flexCheckDefault' labelClass='text-white mb-4' label='I do accept the Terms and Conditions of PetSociety.' />
+
+                        <MDBBtn color='light'
+                          size='lg'
+                          type="submit"
+                          onClick={redirect2}
+                        >
+                          Next
+                        </MDBBtn>
+
+                      </MDBCol>
+                    </MDBRow>
+
+                  </MDBCardBody>
+                </MDBCard>
+
+              </MDBCol>
+            </MDBRow>
+
+          </MDBContainer>
         </form>
       </>
     );
@@ -403,9 +403,11 @@ function SignUp(props) {
               <MDBCol lg='8'>
 
                 <MDBCard className='my-5 rounded-3'>
-                  <MDBCardImage src='https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img3.webp'
+                  <MDBCardImage src='https://images.unsplash.com/photo-1668036065203-4f1b08f1fcf1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'
                     className='w-100 rounded-top'
-                    alt="Sample photo" />
+                    alt="dogscenery"
+                    height="500"
+                     />
 
                   <MDBCardBody className='px-5'>
 
