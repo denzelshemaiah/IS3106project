@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Navigate, useParams, useNavigate } from "react-router-dom";
 import {
   MDBBtn,
@@ -18,10 +18,19 @@ import Api from "../../helpers/Api";
 
 
 function SignUp(props) {
-
+  const navigate = useNavigate();
   const { page } = useParams();
 
-  // for user, its attributes
+  const redirect2 = () => {
+    let path = `/SignUp/2`;
+    navigate(path);
+  }
+
+  // user attributes
+  let user = {};
+  let bankAcc = {};
+  let cc = {};
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
@@ -32,22 +41,59 @@ function SignUp(props) {
   const [emergencyContact, setEmergencyContact] = useState("");
   const [profilePicture, setProfilePicture] = useState(null);
   const [billingAddress, setBillingAddress] = useState("");
+  // (removed status as it is now set in the backend)
+  const [reportsAgainstUser, setReportsAgainstUser] = useState(null);
+  const [reportsUserMade, setReportsUserMade] = useState(null);
+  const [ratingsForUsers, setRatingsForUsers] = useState(null);
+  const [ratingsUserMade, setRatingsUserMade] = useState(null);
 
-  // for userstatusenum
-  const [status, setStatus] = useState([]);
-  async function fetchUserStatusEnum() {
-    try {
-      const data = await Api.getUserStatusEnum();
-      setStatus(data[0]);
-    } catch (error) {
-      console.error(error);
-    }
+  // relationships of user:
+  // bankAcc
+  const [bankAccNum, setBankAccNum] = useState("");
+  const [bankName, setBankName] = useState("");
+  const [accName, setAccName] = useState("");
+
+  bankAcc = {
+    bankAccNum: bankAccNum,
+    bankName: bankName,
+    accName: accName,
   }
-  useEffect(() => {
-    fetchUserStatusEnum();
-  }, []);
 
-  const user = {
+  const handleCreationOfBankAcc = (e) => {
+    e.preventDefault();
+    Api.createAndAssociateNewBankAccount(bankAcc)
+      .then((data) => {
+        navigate("/LoggedInHomepage")
+      })
+  }
+
+  // cc
+  const [ccNum, setCcNum] = useState("");
+  const [expDate, setExpDate] = useState("");
+  const [ccName, setCcName] = useState("");
+  const [cvv, setCvv] = useState("");
+
+  const now = new Date;
+  const until = new Date(now.getFullYear() + 10, now.getMonth());
+
+  // creating cc
+  const handleCreationOfCc = (e) => {
+    e.preventDefault();
+    Api.createAndAssociateNewCreditCard(cc)
+      .then((data) => {
+        navigate("/LoggedInHomepage")
+      })
+  }
+
+  cc = {
+    ccNum: ccNum,
+    expDate: expDate,
+    ccName: ccName,
+    cvv: cvv,
+  }
+
+  // creating final user with its related fields:
+  user = {
     firstName: firstName,
     lastName: lastName,
     username: username,
@@ -58,51 +104,102 @@ function SignUp(props) {
     emergencyContact: emergencyContact,
     profilePicture: profilePicture,
     billingAddress: billingAddress,
-    status: status
+    bankAcc: bankAcc,
+    cc: cc,
   }
 
-   // creating just user without its associated stuff first
-  const handleRegistrationOfUser = (e) => {
-    Api.createNewUser(user)
-    .then((data) => {
-      Navigate("//SignUp/2");
-    })
-  }
+  // pet parent attributes
+  let petParent = {};
+  const [searches, setSearches] = useState([]);
+  const [mgRequests, setMgRequests] = useState([]);
+  const [bookings, setBookings] = useState([]);
 
-  // relationships
-  // for bankAcc
-  const [bankAcc, setBankAcc] = useState(fetchCreateAndAssociateNewBankAccount);
-  async function fetchCreateAndAssociateNewBankAccount() {
-    try {
-      const data = await Api.createAndAssociateNewBankAccount();
-      setBankAcc(data);
-    } catch (error) {
-      console.error(error);
+  petParent = {
+    user,
+    petParentAttributes: {
+      searches: searches,
+      mgRequests: mgRequests,
+      bookings: bookings
+    }
+  };
+
+  // pet sitter attributes
+  let petSitter = {};
+  let authenticationRequest = {};
+  let experienceForm = {};
+  let safetyForm = {};
+  //let bookings = {};
+  //let mgRequests = {};
+
+
+  const [serviceAddress, setServiceAddress] = useState("");
+  const [region, setRegion] = useState("");
+  const [preference, setPreference] = useState("");
+  const [schedule, setSchedule] = useState([]);
+  const [rates, setRates] = useState([]);
+  // setting serviceenum as string, and converting to enum later in the BE
+  const [service, setService] = useState("");
+
+  // relationships of petsitter:
+  // please fill in the respective attributes here
+  // authenreq
+  authenticationRequest = {}
+
+  // experienceform
+  experienceForm = {}
+
+  // safetyform
+  safetyForm = {}
+
+  petSitter = {
+    user,
+    petSitterAttributes: {
+      serviceAddress: serviceAddress,
+      region: region,
+      preference: preference,
+      schedule: schedule,
+      rates: rates,
+      service: service,
+      authenticationRequest: authenticationRequest,
+      experienceForm: experienceForm,
+      safetyForm: safetyForm,
+      bookings: bookings,
+      mgRequests: mgRequests
     }
   }
+  useEffect(() => {
+    fetchUserStatusEnum();
+  }, []);
 
-  // for cc
-  const[ccNum, setCcNum] = useState("");
-  const[expDate, setExpDate] = useState("");
-  const[ccName, setCcName] = useState("");
-  const[cvv, setCvv] = useState("");
+  // handle money details
+  const handleCompleteUserCreation = (e) => {
+    e.preventDefault();
+    handleCreationOfCc(e);
+    handleCreationOfBankAcc(e);
+    navigate(`/SignUp/3`);
+  }
 
-  const cc = {
-    ccNum: ccNum,
-    ccName: ccName,
-    cvv: cvv,
-    expDate: expDate
+  // new plan: never creating user until we get the roles. so we must still have user in fe and separate
+  // pp and ps entities in order to pass to new BE
+  const handleCreationOfParent = (e) => {
+    e.preventDefault();
+    Api.createNewParent(user, petParent)
+      .then((data) => {
+        navigate("/LoggedInHomepage")
+      })
   };
-  
+
+  const handleCreationOfSitter = (e) => {
+    e.preventDefault();
+    Api.createNewSitter(user, petSitter)
+      .then((data) => {
+        navigate("/LoggedInHomepage")
+      })
+  };
 
 
 
-  const [reportsAgainstUser, setReportsAgainstUser] = useState(null);
-  const [reportsUserMade, setReportsUserMade] = useState(null);
-  const [ratingsForUsers, setRatingsForUsers] = useState(null);
-  const [ratingsUserMade, setRatingsUserMade] = useState(null); 
-
-  //creating final user with all fields
+  // just storing user attributes first and setting values in FRONTEND USER only
   if (page === "1") {
     return (
       <>
@@ -166,7 +263,7 @@ function SignUp(props) {
                             label='Age'
                             size='lg'
                             id='inputAge'
-                            type='text'
+                            type='number'
                             value={age}
                             onChange={(e) => setAge(e.target.value)} />
                         </MDBCol>
@@ -243,7 +340,6 @@ function SignUp(props) {
                             labelClass='text-white'
                             label='Code +'
                             size='lg'
-                            id='form9'
                             type='text' />
                         </MDBCol>
 
@@ -274,7 +370,9 @@ function SignUp(props) {
 
                       <MDBBtn color='light'
                         size='lg'
-                        type="submit">
+                        type="submit"
+                        onClick={redirect2}
+                      >
                         Next
                       </MDBBtn>
 
@@ -293,119 +391,208 @@ function SignUp(props) {
     );
   }
 
-  // rest of the fields are filled in by user here in order to hopefully avoid constraint violations
+  // UI: cc and bankacc details 
   else if (page === "2") {
-    // do form:handleRegistration here
     return (
       <>
-        <MDBContainer fluid className='h-custom'>
+        <form onSubmit={handleCompleteUserCreation}>
+          <MDBContainer fluid className='h-custom'>
 
-          <MDBRow className='d-flex justify-content-center align-items-center h-100'>
+            <MDBRow className='d-flex justify-content-center align-items-center h-100'>
 
-            <MDBCol lg='8'>
+              <MDBCol lg='8'>
 
-              <MDBCard className='my-5 rounded-3'>
-                <MDBCardImage src='https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img3.webp'
-                  className='w-100 rounded-top'
-                  alt="Sample photo" />
+                <MDBCard className='my-5 rounded-3'>
+                  <MDBCardImage src='https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img3.webp'
+                    className='w-100 rounded-top'
+                    alt="Sample photo" />
 
-                <MDBCardBody className='px-5'>
+                  <MDBCardBody className='px-5'>
 
-                  <h3 className="mb-4 pb-2 pb-md-0 mb-md-3 px-md-2">Welcome To PetSociety!</h3>
-                  <p class="card-text">
-                    <small class="text-muted">One more step before you're done!</small>
-                  </p>
+                    <h3 className="mb-4 pb-2 pb-md-0 mb-md-3 px-md-2">Welcome To PetSociety!</h3>
+                    <p class="card-text">
+                      <small class="text-muted">One more step before you're done!</small>
+                    </p>
 
-                  <h5>Bank Account Details</h5>
-                  <MDBInput wrapperClass='mb-4'
-                    label='Bank Account Number'
-                    id='inputBankAcc'
-                    type='text'
-                    value={bankAcc.bankAccNum}
-                    onChange={(e) => e.target.value}
-                  />
+                    <h5>Bank Account Details</h5>
+                    <MDBInput wrapperClass='mb-4'
+                      label='Bank Account Number'
+                      id='inputBankAcc'
+                      type='text'
+                      value={bankAccNum}
+                      onChange={(e) => setBankAccNum(e.target.value)}
+                    />
 
-                  <MDBRow>
+                    <MDBRow>
 
-                    <MDBCol md='6'>
-                      <MDBInput wrapperClass='mb-4'
-                        label='Bank Name'
-                        id='inputBankName'
-                        type='text'
-                      />
-                    </MDBCol>
+                      <MDBCol md='6'>
+                        <MDBInput wrapperClass='mb-4'
+                          label='Bank Name'
+                          id='inputBankName'
+                          type='text'
+                          value={bankName}
+                          onChange={(e) => setBankName(e.target.value)}
+                        />
+                      </MDBCol>
 
-                    <MDBCol md='6'>
-                      <MDBInput wrapperClass='mb-4'
-                        label='Account on Name'
-                        id='inputAccName'
-                        type='text'
-                        value={bankAcc.accName}
-                        onChange={(e) => setBankAcc(e.target.value)} />
-                    </MDBCol>
+                      <MDBCol md='6'>
+                        <MDBInput wrapperClass='mb-4'
+                          label='Name on Account'
+                          id='inputAccName'
+                          type='text'
+                          value={accName}
+                          onChange={(e) => setAccName(e.target.value)} />
+                      </MDBCol>
 
 
-                  </MDBRow>
+                    </MDBRow>
 
 
-                  <h5>Credit Card Details</h5>
-                  <MDBRow>
-                    <MDBCol md='12'>
-                      <MDBInput wrapperClass='mb-4'
-                        label='Credit Card Number'
-                        id='inputCcNum'
-                        type='text'
-                        value={ccNum}
-                        onChange={(e) => setCcNum(e.target.value)} />
-                    </MDBCol>
-                  </MDBRow>
+                    <h5>Credit Card Details</h5>
+                    <MDBRow>
+                      <MDBCol md='12'>
+                        <MDBInput wrapperClass='mb-4'
+                          label='Credit Card Number'
+                          id='inputCcNum'
+                          type='text'
+                          value={ccNum}
+                          onChange={(e) => setCcNum(e.target.value)} />
+                      </MDBCol>
+                    </MDBRow>
 
-                  <MDBRow>
-                    <MDBCol md='5'>
-                      <MDBInput wrapperClass='mb-4'
-                        label='Name on Credit Card'
-                        id='inputCcName'
-                        type='text'
-                        value={ccName} 
-                        onChange={(e) => setCcName(e.target.value)} />
-                    </MDBCol>
+                    <MDBRow>
+                      <MDBCol md='5'>
+                        <MDBInput wrapperClass='mb-4'
+                          label='Name on Credit Card'
+                          id='inputCcName'
+                          type='text'
+                          value={ccName}
+                          onChange={(e) => setCcName(e.target.value)} />
+                      </MDBCol>
 
-                    <MDBCol md='4'>
-                      <MDBInput wrapperClass='mb-4'
-                        label='Expiry Date'
-                        id='inputExpDate'
-                        type='text'
-                        value={expDate}
-                        onChange={(e) => setExpDate(e.target.value)} />
-                    </MDBCol>
+                      <MDBCol md='4'>
+                        <MDBInput wrapperClass='mb-4'
+                          label='Expiry (MMYYYY)'
+                          id='inputExpDate'
+                          type='text'
+                          maxLength='6'
+                          value={expDate}
+                          onChange={(e) => setExpDate(e.target.value)} />
 
-                    <MDBCol md='3'>
-                      <MDBInput wrapperClass='mb-4'
-                        label='CVV'
-                        id='inputCvv'
-                        type='text' 
-                        value={cvv}
-                        onChange={(e) => setCvv(e.target.value)}/>
-                    </MDBCol>
-                  </MDBRow>
+                      </MDBCol>
 
-                  <MDBBtn color='success'
-                    className='mb-4'
-                    size='lg'>
-                    Submit</MDBBtn>
+                      <MDBCol md='3'>
+                        <MDBInput wrapperClass='mb-4'
+                          label='CVV'
+                          id='inputCvv'
+                          type='text'
+                          value={cvv}
+                          onChange={(e) => setCvv(e.target.value)} />
+                      </MDBCol>
+                    </MDBRow>
 
-                </MDBCardBody>
-              </MDBCard>
+                    <MDBBtn color='success'
+                      className='mb-4'
+                      size='lg'
+                      type="submit">
+                      Submit</MDBBtn>
 
-            </MDBCol>
-          </MDBRow>
-
-        </MDBContainer>
+                  </MDBCardBody>
+                </MDBCard>
+              </MDBCol>
+            </MDBRow>
+          </MDBContainer>
+        </form>
       </>
     );
   }
 
+  else if (page === "3") {
+    return (
+      <>
+        <div class="py-5 text-center">
+          <div class="container pb-md-5">
+            <div class="row d-flex justify-content-center">
+              <div class="col-lg-10">
+                <h1 class="my-5 display-3 fw-bold ls-tight">
+                  <span>Welcome Onboard!</span>
+                  <br></br>
+                  <span class="text-primary">Who do you want to be?</span>
+                </h1>
+                <MDBRow>
+                  <MDBCol>
+                    <div class="row">
+                      <div class="col">
+                        <a href="/#/SignUp/4">
+                          <button class="btn btn-primary w-100"
+                            style={{ backgroundColor: '#4B0082', padding: '20px 20px' }}>
+                            <img src="https://cdn-icons-png.flaticon.com/512/3775/3775548.png"
+                              alt="Image"
+                              width="250"
+                              height="250"
+                              style={{ padding: '10px' }}>
+                            </img>
+                            <h2>I want to be a PetParent</h2>
+                          </button>
+                        </a>
+                      </div>
+                    </div>
+                  </MDBCol>
 
+                  <MDBCol>
+                    <div class="row">
+                      <div class="col">
+                        <a href="/#/SignUp/5">
+                          <button class="btn btn-primary w-100"
+                            style={{ backgroundColor: '#F3F5F4', padding: '20px 40px' }}>
+                            <img src="https://static.thenounproject.com/png/1138226-200.png"
+                              alt="Image"
+                              width="250"
+                              height="250"
+                              style={{ padding: '10px' }}>
+                            </img>
+                            <h2 style={{ color: 'black' }}>I want to be a PetSitter</h2>
+                          </button>
+                        </a>
+                      </div>
+                    </div>
+                  </MDBCol>
+                </MDBRow>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    )
+  }
+
+  // fill in petParent attributes here in this page
+  else if (page === "4") {
+    return (
+      <>
+        <h1>test</h1>
+      //put below in a method:
+        //redirect 2 petparent homepage
+        <button onClick={handleCreationOfParent}>
+          Submit
+        </button>
+      </>
+    )
+  }
+
+  // fill in petSitter attributes here in this page
+  else if (page === "5") {
+    return (
+      <>
+        <h1>test2</h1>
+      //put below in a method:
+        <button onClick={handleCreationOfSitter}>
+          Submit
+        </button>
+      // redirect 2 sitter homepage
+      </>
+    )
+  }
 }
 
 export default SignUp;
