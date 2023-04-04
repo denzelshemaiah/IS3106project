@@ -30,9 +30,9 @@ public class Report implements Serializable {
     @Size(min = 50, max = 1000)
     private String reportDescription;
     @Column(nullable = false)
-    private boolean settled = false; // sets default to false
+    private boolean settled;
     @Column(nullable = true)
-    private boolean valid;
+    private Boolean valid;
     
     @ManyToOne(optional = false)
     private User reporter;
@@ -42,6 +42,9 @@ public class Report implements Serializable {
     private Staff staff;
 
     public Report() {
+        this.settled = false;
+        this.staff = null;
+        this.valid = null;
     }
     
     @JsonbTransient
@@ -116,7 +119,7 @@ public class Report implements Serializable {
         return settled;
     }
 
-    public void setSettled(boolean settled) {
+    public void setSettled(Boolean settled) {
         this.settled = settled;
     }
 
@@ -124,7 +127,7 @@ public class Report implements Serializable {
         return valid;
     }
 
-    public void setValid(boolean valid) {
+    public void setValid(Boolean valid) {
         this.valid = valid;
     }
 }

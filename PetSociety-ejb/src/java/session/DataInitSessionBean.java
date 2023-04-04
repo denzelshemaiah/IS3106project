@@ -5,17 +5,25 @@
  */
 package session;
 
+import entity.AuthenticationRequest;
 import entity.BankAccount;
 import entity.BookingRequest;
 import entity.CreditCard;
 import entity.PetParent;
 import entity.PetSitter;
+import entity.Rating;
+import entity.Report;
 import entity.Staff;
 import entity.User;
 import enumeration.RequestStatusEnum;
 import enumeration.ServiceEnum;
 import enumeration.UserStatusEnum;
 import error.EntityAlreadyExistsException;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,6 +44,15 @@ import javax.ejb.Startup;
 @LocalBean
 @Startup
 public class DataInitSessionBean {
+
+    @EJB
+    private RatingSessionBeanLocal ratingSessionBean;
+
+    @EJB
+    private ReportSessionBeanLocal reportSessionBean;
+
+    @EJB
+    private AuthenticationReqSessionBeanLocal authenticationReqSessionBean;
 
     @EJB
     private PetSitterSessionBeanLocal petSitterSessionBean;
@@ -124,7 +141,7 @@ public class DataInitSessionBean {
         p.setBankAcc(acc);
 
         petParentSessionBean.createNewParent(p);
-        
+
         PetSitter s = new PetSitter();
         s.setAge(21);
         s.setBillingAddress("123 Orange Lane");
@@ -157,6 +174,33 @@ public class DataInitSessionBean {
         // assuming schedule is empty (no unavail dates)
         petSitterSessionBean.createNewSitter(s);
 
+        AuthenticationRequest aReq = new AuthenticationRequest();
+        aReq.setCreatedDate(new Date());
+        aReq.setResolved(Boolean.FALSE);
+        aReq.setSitter(s);
+        try {
+            File file = new File("test.pdf");
+            FileInputStream fis = new FileInputStream(file);
+            byte[] data = new byte[(int) file.length()];
+            try {
+                fis.read(data);
+            } catch (IOException ex) {
+                Logger.getLogger(DataInitSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            data = bos.toByteArray();
+            aReq.setDocument(data);
+            authenticationReqSessionBean.createAuthenticationReq(aReq, s.getUserId());
+        } catch (FileNotFoundException ex) {
+            System.out.println("test pdf cannot be converted to bytes!");
+        }
+
+        Report report = new Report();
+        report.setReportDescription("This is a test report. Test test test test test test test test test test");
+        report.setReported(s);
+        report.setReporter(p);
+        reportSessionBean.createReport(report, s.getUserId(), p.getUserId());
+
         if (p.getBookings().isEmpty()) {
             //create new booking
             BookingRequest b = new BookingRequest();
@@ -170,6 +214,14 @@ public class DataInitSessionBean {
             b.setStartDate(new Date());
             b.setStatus(RequestStatusEnum.PENDING);
             bookingSessionBean.createNewBooking(b, p.getUserId(), s.getUserId(), "once");
+
+            Rating rating = new Rating();
+            rating.setRated(s);
+            rating.setRater(p);
+            rating.setComment("This is a test rating.");
+            rating.setReq(b);
+            rating.setStars(3);
+            ratingSessionBean.createNewRating(rating, p.getUserId(), s.getUserId());
         }
     }
 }
