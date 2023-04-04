@@ -59,14 +59,22 @@ public class ViewReportManagedBean implements Serializable {
         } else {
             reportedType = "PetSitter";
         }
+        this.reportsAgainstReported = "";
         List<Report> rAgainstReported = reported.getReportsAgainstUser();
+        if (rAgainstReported.isEmpty()) {
+            reportsAgainstReported = "-NONE-";
+        }
         for (Report r:rAgainstReported) {
             String curr = "{";
             curr += r.getReportDescription();
             curr += "}\n";
             reportsAgainstReported += curr;
         }
+        this.reportedRatings = "";
         List<Rating> reportedRatingsList = reported.getRatingsForUsers();
+        if (reportedRatingsList.isEmpty()) {
+            reportedRatings = "-NONE-";
+        }
         for (Rating r:reportedRatingsList) {
             String curr = "{";
             curr += r.getStars();
@@ -81,14 +89,22 @@ public class ViewReportManagedBean implements Serializable {
         } else {
             reporterType = "PetParent";
         }
+        this.reportsByReporter = "";
         List<Report> rReporterMade = reporter.getReportsUserMade();
+        if (rReporterMade.isEmpty()) {
+            reportsByReporter = "-NONE-";
+        }
         for (Report r:rReporterMade) {
             String curr = "{";
             curr += r.getReportDescription();
             curr += "}\n";
             reportsByReporter += curr;
         }
+        this.reporterRatings = "";
         List<Rating> reporterRatingsList = reporter.getRatingsForUsers();
+        if (reporterRatingsList.isEmpty()) {
+            reporterRatings = "-NONE-";
+        }
         for (Rating r:reporterRatingsList) {
             String curr = "{";
             curr += r.getStars();

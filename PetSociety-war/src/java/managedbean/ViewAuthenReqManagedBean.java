@@ -41,7 +41,7 @@ public class ViewAuthenReqManagedBean implements Serializable {
 
     public void findAuthenReq() {
         this.authenReq = authenticationReqSessionBeanLocal.findAuthenReqById(authenId);
-        byte[] docBytes = authenReq.getDocuments();
+        byte[] docBytes = authenReq.getDocument();
         String filepath = "";
         File file = new File(filepath);
         try {
