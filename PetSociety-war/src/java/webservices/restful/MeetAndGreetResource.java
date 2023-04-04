@@ -19,6 +19,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import session.MeetAndGreetSessionBeanLocal;
 
@@ -31,13 +32,14 @@ import session.MeetAndGreetSessionBeanLocal;
 public class MeetAndGreetResource {
 
     @EJB
-    private MeetAndGreetSessionBeanLocal meetAndGreetSession;
+    private MeetAndGreetSessionBeanLocal mgSession;
     
     @GET
+    @Path("/{status}/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public List<MeetAndGreetRequest> getAllMeetAndGreets() {
-        
-        return meetAndGreetSession.getAllRequests();
+    public List<MeetAndGreetRequest> getAllMeetAndGreets(@PathParam("status") String status, @PathParam("id") Long userId) {
+        List<MeetAndGreetRequest> requests = mgSession.getRequests(status, userId); 
+        return requests;
     }
 }

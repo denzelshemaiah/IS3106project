@@ -33,8 +33,8 @@ function Services() {
               <div class="row">
                 <div class="col">
                   <MDBBtn class="btn btn-primary w-100"
-                  style={{ backgroundColor: '#4B0082', padding: '10px 20px' }}>
-                    Register Now!
+                  style={{ backgroundColor: '#4B0082', padding: '15px 20px' }}>
+                   Register Now!
                     </MDBBtn>
                 </div>
               </div>
@@ -46,7 +46,7 @@ function Services() {
             <div class="row">
                 <div class="col">
                   <MDBBtn class="btn btn-primary w-100"
-                  style={{ backgroundColor: '#808080', padding: '10px 20px' }}>
+                  style={{ backgroundColor: '#808080', padding: '15px 20px' }}>
                     See More
                     </MDBBtn>
                 </div>
@@ -62,7 +62,11 @@ function Services() {
           <MDBRow className="row-cols-1 row-cols-md-2 g-4 py-4">
             <MDBCol>
               <div class="card mb-3">
-                <img src="https://www.caninecountryclubaz.com/wp-content/uploads/2019/03/shutterstock_140724097-min-1024x683.jpg" class="card-img-top" alt="dogboarding" />
+                <img src="https://www.caninecountryclubaz.com/wp-content/uploads/2019/03/shutterstock_140724097-min-1024x683.jpg" 
+                class="card-img-top" 
+                alt="dogboarding" 
+                width="250"
+                height="360"/>
                 <div class="card-body">
                   <h5 class="card-title">DOG BOARDING</h5>
                   <p class="card-text">
@@ -80,7 +84,11 @@ function Services() {
 
             <MDBCol>
               <div class="card mb-3">
-                <img src="https://zumvet.com/blog/wp-content/uploads/2023/02/female-owner-and-dog-in-a-pet-taxi.v1.jpg" class="card-img-top" alt="pettaxi" />
+                <img src="https://zumvet.com/blog/wp-content/uploads/2023/02/female-owner-and-dog-in-a-pet-taxi.v1.jpg" 
+                class="card-img-top" 
+                alt="pettaxi"
+                width="250"
+                height="360" />
                 <div class="card-body">
                   <h5 class="card-title">PET TAXI</h5>
                   <p class="card-text">
@@ -97,7 +105,11 @@ function Services() {
             </MDBCol>
             <MDBCol>
               <div class="card mb-3">
-                <img src="https://www.houndstownfranchise.com/wp-content/uploads/2019/12/Pittsburgh-Pups-960x675.jpg" class="card-img-top" alt="doggydaycare" />
+                <img src="https://www.houndstownfranchise.com/wp-content/uploads/2019/12/Pittsburgh-Pups-960x675.jpg"
+                 class="card-img-top" 
+                 alt="doggydaycare"
+                 width="250"
+                height="360" />
                 <div class="card-body">
                   <h5 class="card-title">DAYCARE</h5>
                   <p class="card-text">
@@ -115,7 +127,11 @@ function Services() {
 
             <MDBCol>
               <div class="card mb-3">
-                <img src="https://images.squarespace-cdn.com/content/v1/54e7a1a6e4b08db9da801ded/7f2dae36-5650-4b84-b184-684f46fe68aa/98.jpg" class="card-img-top" alt="checkin" />
+                <img src="https://images.squarespace-cdn.com/content/v1/54e7a1a6e4b08db9da801ded/7f2dae36-5650-4b84-b184-684f46fe68aa/98.jpg" 
+                class="card-img-top" 
+                alt="checkin"
+                width="250"
+                height="360" />
                 <div class="card-body">
                   <h5 class="card-title">DROP IN</h5>
                   <p class="card-text">

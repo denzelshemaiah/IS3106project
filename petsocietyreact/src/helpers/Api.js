@@ -62,6 +62,7 @@ const Api = {
         });
     },
 
+    //BOOKINGSSSS
     //view all bookings
     //retrieve the ID of the user and the user object from the web resources
     getAllBookings(status, userId) {
@@ -86,8 +87,8 @@ const Api = {
         })
     },
     //create new booking
-    createBooking(booking, parentId, sitterId) {
-        return fetch(`${SERVER_PREFIX}/bookings/parent/${parentId}/${sitterId}`, {
+    createBooking(booking, parentId, sitterId, repeat) {
+        return fetch(`${SERVER_PREFIX}/bookings/create/${parentId}/${sitterId}/repeat?=${repeat}`, {
             headers: {
                 Accept: "application/json",
                 "Content-type": "application/json",
@@ -107,6 +108,11 @@ const Api = {
         return fetch(`${SERVER_PREFIX}/bookings/reject/${sitterId}/${bookingId}`, {
             method: "PUT"
         })
+    },
+
+    //MEET AND GREETSSS
+    getAllMeets(status, userId) {
+        return fetch(`${SERVER_PREFIX}/meetandgreets/${status}/${userId}`)
     }
 };
 
