@@ -113,7 +113,7 @@ function Bookings(props) {
                 <>  
                 {/*  CHANGE TO SITTER ! */}
                     <li className="list-group-item" key={booking.bookingReqId} style={{padding:"10px"}}>
-                        <h5>{booking.parent.firstName} {booking.parent.lastName}</h5>
+                        <h5>{booking.sitter.firstName} {booking.sitter.lastName}</h5>
                         Request Dates: {booking.formatStartDate} to {booking.formatEndDate}<br/>
                         <p>{booking.description}</p>
                         {repeatText(booking)}
@@ -141,7 +141,7 @@ function Bookings(props) {
             return (
                 <>
                     <li className="list-group-item" key={booking.bookingReqId}>
-                        <h5>{booking.parent.firstName} {booking.parent.lastName}</h5>
+                        <h5>{booking.sitter.firstName} {booking.sitter.lastName}</h5>
                         Request dates: {booking.formatStartDate} to {booking.formatEndDate}<br/>
                         <p>{booking.description}</p>
                         {repeatText(booking)}
@@ -168,7 +168,7 @@ function Bookings(props) {
                 return (
                     <>  
                         <li class="list-group-item" key={booking.bookingReqId}>
-                            <h5>{booking.parent.firstName} {booking.parent.lastName}</h5>
+                            <h5>{booking.sitter.firstName} {booking.sitter.lastName}</h5>
                             Request Dates: {booking.formatStartDate} to {booking.formatEndDate}<br/>
                             <p>{booking.description}</p>
                             {' '}
@@ -187,7 +187,6 @@ function Bookings(props) {
                             <p>{booking.description}</p>
                             {repeatText(booking)}
                             {' '}
-                            {rateButton(booking)}
                         </li>
                     </>
                 )
