@@ -199,6 +199,7 @@ public class DataInitSessionBean {
         report.setReportDescription("This is a test report. Test test test test test test test test test test");
         report.setReported(s);
         report.setReporter(p);
+        report.setValid(true);
         reportSessionBean.createReport(report, s.getUserId(), p.getUserId());
 
         if (p.getBookings().isEmpty()) {

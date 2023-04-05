@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Api from "../../helpers/Api";
-import { Button } from "react-bootstrap";
+import { Button, Badge } from "react-bootstrap";
 import RequestModal from "../../components/RequestModals"
 import moment from 'moment-timezone';
 import NoRequestsPage from "../../components/NoRequestsPage";
@@ -10,7 +10,7 @@ function Bookings(props) {
     const {userId = 1} = useState(1);
     const [chosenTab, setChosenTab] = useState("pending")
     const [bookings, setBookings] = useState([]);
-    const user = {"role": "parent"}
+    const user = {role : "parent"}
 
     useEffect(() => {
         reloadData();
@@ -73,10 +73,35 @@ function Bookings(props) {
 
     function rateButton(booking) {
         //only parents can rate sitters
-        if (booking.rating === {} && user.role === "parent") {
+        if (!booking.rating && user.role === "parent") {
             return <div style={{display:"block"}}>
                 <Button style={{backgroundColor: "#9d82ff", float:"right"}} onClick={redirectRatings}> Rate </Button>
             </div>
+        }
+    }
+
+    function repeatText(booking) {
+        if (booking.repeatDay) {
+            var repeatArray = booking.repeatDay;
+            var daysArray = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
+            var daysStr = "";
+            repeatArray.forEach((day) => {
+                daysStr += ", " + daysArray[day];
+            });
+            //booking will be repeated on certain days of wk
+            return <p>Repeat Days: {daysStr.substring(2)}</p>
+        }
+    }
+
+    function badge(booking) {
+        if (booking.status === "PENDING") {
+            return <Badge color="warning" pill>Pending</Badge>
+        } else if (booking.status === "ACCEPTED") {
+            return <Badge color="success" pill>Accepted</Badge>
+        } else if (booking.status === "REJECTED") {
+            return <Badge color="danger" pill>Rejected</Badge>
+        } else {
+            return <Badge color="dark" pill>Archived</Badge>
         }
     }
 
@@ -86,12 +111,15 @@ function Bookings(props) {
         if (chosenTab === "pending" && user.role === "parent") {
             return (
                 <>  
+                {/*  CHANGE TO SITTER ! */}
                     <li className="list-group-item" key={booking.bookingReqId} style={{padding:"10px"}}>
                         <h5>{booking.parent.firstName} {booking.parent.lastName}</h5>
                         Request Dates: {booking.formatStartDate} to {booking.formatEndDate}<br/>
                         <p>{booking.description}</p>
+                        {repeatText(booking)}
                         {editButton(booking)}
                         {cancelButton(booking)}
+                        {badge(booking)}
                     </li>
                 </>
             )
@@ -103,7 +131,9 @@ function Bookings(props) {
                         <h5>{booking.parent.firstName} {booking.parent.lastName}</h5>
                         Request Dates: {booking.formatStartDate} to {booking.formatEndDate}<br/>
                         <p>{booking.description}</p>
+                        {repeatText(booking)}
                         {editButton(booking)}
+                        {badge(booking)}
                     </li>
                 </>
             )
@@ -111,10 +141,12 @@ function Bookings(props) {
             return (
                 <>
                     <li className="list-group-item" key={booking.bookingReqId}>
-                        <h5>Request from name</h5>
-                        Request dates<br/>
-                        <p>Desription of request</p>
+                        <h5>{booking.parent.firstName} {booking.parent.lastName}</h5>
+                        Request dates: {booking.formatStartDate} to {booking.formatEndDate}<br/>
+                        <p>{booking.description}</p>
+                        {repeatText(booking)}
                         {cancelButton(booking)}
+                        {badge(booking)}
                     </li>
                 </>
             )
@@ -125,22 +157,41 @@ function Bookings(props) {
                         <h5>{booking.parent.firstName} {booking.parent.lastName}</h5>
                         Request Dates: {booking.formatStartDate} to {booking.formatEndDate}<br/>
                         <p>{booking.description}</p>
+                        {repeatText(booking)}
+                        {badge(booking)}
                     </li>
                 </>
             )
         }
         else {
-            return (
-                <>  
-                    <li class="list-group-item" key={booking.bookingReqId}>
-                        <h5>Request from name</h5>
-                        Request dates<br/>
-                        <p>Desription of request</p>
-                        {' '}
-                        {rateButton(booking)}
-                    </li>
-                </>
-            )
+            if (user.role === "parent") {
+                return (
+                    <>  
+                        <li class="list-group-item" key={booking.bookingReqId}>
+                            <h5>{booking.parent.firstName} {booking.parent.lastName}</h5>
+                            Request Dates: {booking.formatStartDate} to {booking.formatEndDate}<br/>
+                            <p>{booking.description}</p>
+                            {' '}
+                            {rateButton(booking)}
+                            {badge(booking)}
+                        </li>
+                    </>
+                )
+            } else {
+                //case of sitter
+                return (
+                    <>  
+                        <li class="list-group-item" key={booking.bookingReqId}>
+                            <h5>{booking.parent.firstName} {booking.parent.lastName}</h5>
+                            Request Dates: {booking.formatStartDate} to {booking.formatEndDate}<br/>
+                            <p>{booking.description}</p>
+                            {repeatText(booking)}
+                            {' '}
+                            {rateButton(booking)}
+                        </li>
+                    </>
+                )
+            }
         }
     })
 

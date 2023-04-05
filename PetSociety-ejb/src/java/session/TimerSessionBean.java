@@ -10,7 +10,9 @@ import entity.BookingRequest;
 import entity.CreditCard;
 import entity.Payment;
 import entity.User;
+import enumeration.RequestStatusEnum;
 import enumeration.UserStatusEnum;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
@@ -76,4 +78,35 @@ public class TimerSessionBean {
             em.persist(payment);
         }
     }
+    
+    //update status of all bookings
+    @Schedule(hour = "00") 
+    public void updateStatuses() {
+        List<BookingRequest> bookings = bookingSessionBean.getPendingBookings();
+        Calendar c = Calendar.getInstance();
+        Date current = new Date();
+        c.setTime(current);
+        for (BookingRequest b : bookings) {
+            Date start = b.getStartDate();
+            Calendar cStart = Calendar.getInstance();
+            cStart.setTime(start);
+            if (c.compareTo(cStart) >= 0) {
+                // if current date is greater than or equal to the start date, automatically archive it
+                b.setStatus(RequestStatusEnum.ARCHIVED);
+            }
+        }
+        
+        //get upcoming bookings that have already passed
+        List<BookingRequest> upcoming = bookingSessionBean.getCurrentBookings(current);
+        for (BookingRequest b : bookings) {
+            Date end = b.getEndDate();
+            Calendar cStart = Calendar.getInstance();
+            cStart.setTime(end);
+            if (c.compareTo(cStart) < 0) {
+                // if current date is earlier than the end date, automatically archive it
+                b.setStatus(RequestStatusEnum.ARCHIVED);
+            }
+        }
+    }
+    
 }

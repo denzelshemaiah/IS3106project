@@ -290,4 +290,17 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
         q.setParameter("endOfDate", endOfDay);
         return q.getResultList();
     }
+    
+    @Override
+    public List<BookingRequest> getPendingBookings() {
+        Query q = em.createQuery("SELECT b FROM BookingRequest b WHERE b.status = :enum")
+                .setParameter("enum", RequestStatusEnum.PENDING);
+        return q.getResultList();
+    }
+    
+    public List<BookingRequest> getAcceptedBookings() {
+        Query q = em.createQuery("SELECT b FROM BookingRequest b WHERE b.status = :enum")
+                .setParameter("enum", RequestStatusEnum.ACCEPTED);
+        return q.getResultList();
+    }
 }

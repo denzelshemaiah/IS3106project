@@ -55,7 +55,8 @@ import { Link } from "react-router-dom";
         // //     set walker search parameters
         // const [walkerSearchParam, setWalkerSearchParam] = useState(["service", "petEnum", "location", "startDate", "endDate", "size", "rate", "numTimes", "timeOfDay"]);
 
-/*
+        const [startDate, setStartDate] = useState("");
+/*      
         useEffect(() => {
             Api.getAllPetSitters(userId) 
                 .then((res) => res.json())
@@ -123,7 +124,11 @@ import { Link } from "react-router-dom";
                                         </CardText>
                                     </CardBody>
                                     <div className="button-wrapper">
-                                        <Link to="/makebooking">
+                                        <Link to={{
+                                            pathname:"/makebooking",
+                                            sitter: sitter,
+                                            startDate: startDate,
+                                        }}>
                                             <Button>Book Sitter</Button>
                                         </Link>
                                     </div>

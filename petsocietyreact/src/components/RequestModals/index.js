@@ -10,7 +10,7 @@ function RequestModal(props) {
     const [modal, setModal] = useState(false);
     const label = props.buttonLabel;
     const [booking, setBooking] = useState(props.booking);
-    const type = props.type;
+    const reloadData = props.reloadData;
 
     useEffect(() => {
         if (props.booking) {
@@ -86,14 +86,16 @@ function RequestModal(props) {
       e.preventDefault();
       //change this to current user's Id
       Api.acceptBooking(booking.parent.userId, booking.bookingReqId)
-      toggle();
+      .then(toggle())
+      .then({reloadData})
     }
 
     const submitFormReject = (e) => {
       e.preventDefault();
       //change this to current user's id
       Api.rejectBooking(booking.parent.userId, booking.bookingReqId)
-      toggle();
+      .then(toggle())
+      .then({reloadData})
     }
 
     //edit this

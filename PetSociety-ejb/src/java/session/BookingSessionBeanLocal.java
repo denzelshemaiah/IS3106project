@@ -26,6 +26,8 @@ public interface BookingSessionBeanLocal {
     public BigDecimal calculatePenalty(Long bookingId) throws NoAccessException;
     public void cancelBooking(Long userId, Long bookingId) throws NoResultException, NoAccessException;
     public void acceptBooking(Long userId, Long bookingId) throws NoResultException, NoAccessException;
-
+    
+    List<BookingRequest> getPendingBookings();
+    List<BookingRequest> getAcceptedBookings();
     List<BookingRequest> getCurrentBookings(Date date);
 }

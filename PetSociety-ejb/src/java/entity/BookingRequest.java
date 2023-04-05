@@ -224,7 +224,6 @@ public class BookingRequest implements Serializable {
     /**
      * @return the sitter
      */
-    @JsonbTransient
     public PetSitter getSitter() {
         return sitter;
     }
