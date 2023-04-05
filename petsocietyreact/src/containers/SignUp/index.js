@@ -15,6 +15,7 @@ import {
 import { MDBCard } from 'mdbreact';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import Api from "../../helpers/Api";
+import moment from 'moment-timezone';
 
 
 function SignUp(props) {
@@ -128,9 +129,6 @@ function SignUp(props) {
   let authenticationRequest = {};
   let experienceForm = {};
   let safetyForm = {};
-  //let bookings = {};
-  //let mgRequests = {};
-
 
   const [serviceAddress, setServiceAddress] = useState("");
   const [region, setRegion] = useState("");
@@ -141,15 +139,42 @@ function SignUp(props) {
   const [service, setService] = useState("");
 
   // relationships of petsitter:
-  // please fill in the respective attributes here
   // authenreq
-  authenticationRequest = {}
+  const [createdDate, setCreatedDate] = useState(moment().toDate());
+  const [userId, setUserId] = useState(0);
+  const [documents, setDocuments] = useState(null);
+  
+  authenticationRequest = {
+      createdDate: createdDate,
+      petSitter: userId,
+      documents: documents,
+  }
 
+  //const handleCreationOfAuthenticationRequest
+  
   // experienceform
-  experienceForm = {}
-
+  const [yearsOfExperience, setYearsOfExperience] = useState("");
+  const [headline, setHeadLine] = useState("");
+  const [experience, setExperience] = useState("");
+  
+  experienceForm = {
+      yearsOfExperience: yearsOfExperience,
+      headline: headline,
+      experience: experience,
+  }
+  //const handleCreationOfExperienceForm
+  
   // safetyform
-  safetyForm = {}
+  const [q1, setQ1] = useState("");
+  const [q2, setQ2] = useState("");
+  const [q3, setQ3] = useState("");
+  
+  safetyForm = {
+      q1: q1,
+      q2: q2,
+      q3: q3,
+  }
+  //const handleCreationOfSafetyForm
 
   petSitter = {
     user,
