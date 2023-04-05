@@ -16,6 +16,8 @@ import { MDBCard } from 'mdbreact';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import Api from "../../helpers/Api";
 import moment from 'moment-timezone';
+import './style.css';
+import { DropdownButton, Dropdown, Form } from 'react-bootstrap';
 
 
 function SignUp(props) {
@@ -134,7 +136,7 @@ function SignUp(props) {
   const [region, setRegion] = useState("");
   const [preference, setPreference] = useState("");
   const [schedule, setSchedule] = useState([]);
-  const [rates, setRates] = useState([]);
+  const [rate, setRate] = useState([]);
   // setting serviceenum as string, and converting to enum later in the BE
   const [service, setService] = useState("");
 
@@ -183,7 +185,7 @@ function SignUp(props) {
       region: region,
       preference: preference,
       schedule: schedule,
-      rates: rates,
+      rate: rate,
       service: service,
       authenticationRequest: authenticationRequest,
       experienceForm: experienceForm,
@@ -617,6 +619,70 @@ function SignUp(props) {
           Submit
         </button>
       // redirect 2 sitter homepage
+      
+      <div className="row pt-3 pb-5 mx-auto">
+          <div className="col-md-2"></div>
+          <div className="col-md-8">
+            <div className="w-100 text-center">
+            <h3>A few more steps to go!</h3>
+              <h4>What service do you want to provide as a Pet Sitter?</h4>
+            </div>
+          </div>
+          <div className="col-md-2"></div>
+        </div>
+         
+         <form onSubmit={handleCompleteUserCreation}>
+          <MDBContainer fluid className='h-custom'>
+
+            <MDBRow className='d-flex justify-content-center align-items-center h-100'>
+              <MDBCol col='12' className='m-5'>
+                <MDBCard>
+
+                  <MDBCardBody className='p-0'>
+
+                    <MDBRow>
+                        <div className="mb-1">
+                          <label htmlFor="gridCheck" className="form-label">
+                              I want to provide
+                          </label>
+                        </div>
+                        
+                        <div className="mb-6">
+                            <DropdownButton id="dropdown-basic-button" title="Service" variant="light">
+                                <Dropdown.Item href="#action-1">Daycare</Dropdown.Item>
+                                <Dropdown.Item href="#action-2">Boarding</Dropdown.Item>
+                                <Dropdown.Item href="#action-3">Drop-in Visits</Dropdown.Item>
+                                <Dropdown.Item href="#action-3">Dog Walker</Dropdown.Item>
+                            </DropdownButton>
+                        </div>
+
+                        <MDBRow>
+                        <div className="mb-1">
+                              <label htmlFor="gridCheck" className="form-label">
+                                     Pet Preference 
+                              </label>
+                        </div>
+
+                        <Form>
+                            <Form.Group controlId="formBasicCheckbox">
+                              <Form.Check type="checkbox" label="Dogs and Cats" checked={false} />
+                              <Form.Check type="checkbox" label="Dogs only" checked={false} />
+                              <Form.Check type="checkbox" label="Cats only" checked={false} />
+                            </Form.Group>
+                        </Form>
+
+                        </MDBRow>
+                        
+                    </MDBRow>
+
+                  </MDBCardBody>
+                </MDBCard>
+
+              </MDBCol>
+            </MDBRow>
+
+          </MDBContainer>
+        </form>
       </>
     )
   }
