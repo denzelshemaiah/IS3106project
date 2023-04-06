@@ -161,11 +161,11 @@ function SignUp(props) {
     cc: cc,
   }
 
-  // pet parent attributes
-  //let petParent = {};
-  // const [searches, setSearches] = useState([]);
-  // const [mgRequests, setMgRequests] = useState([]);
-  // const [bookings, setBookings] = useState([]);
+  pet parent attributes
+  let petParent = {};
+  const [searches, setSearches] = useState([]);
+  const [mgRequests, setMgRequests] = useState([]);
+  const [bookings, setBookings] = useState([]);
 
   petParent = {
     user,
