@@ -113,7 +113,52 @@ const Api = {
     //MEET AND GREETSSS
     getAllMeets(status, userId) {
         return fetch(`${SERVER_PREFIX}/meetandgreets/${status}/${userId}`)
-    }
+    },
+
+    //update the meet and greet values
+    updateMg(form) {
+        return fetch(`${SERVER_PREFIX}/meetandgreets/${form.mgReqId}`, {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            method: "PUT",
+            body: JSON.stringify(form),
+        })
+    },
+
+    //cancel this meet and greet, move 2 archive
+    cancelMg(parentId, mgReqId) {
+        return fetch(`${SERVER_PREFIX}/meetandgreets/cancel/${parentId}/${mgReqId}`, {
+            method: "DELETE",
+        })
+    },
+
+    //create new meet and greet
+    createMg(mg) {
+        return fetch(`${SERVER_PREFIX}/meetandgreets/create`, {
+            headers: {
+                Accept: "application/json",
+                "Content-type": "application/json",
+            },
+            method: "POST",
+            body: JSON.stringify(mg),
+        });
+    },
+
+    //accept a meet and greet
+    acceptMg(sitterId, mgReqId) {
+        return fetch(`${SERVER_PREFIX}/meetandgreets/accept/${sitterId}/${mgReqId}`, {
+            method: "PUT"
+        })
+    },
+
+    //reject a meet and greet
+    rejectBooking(sitterId, mgReqId) {
+        return fetch(`${SERVER_PREFIX}/meetandgreets/reject/${sitterId}/${mgReqId}`, {
+            method: "PUT"
+        })
+    },
 };
 
 export default Api;

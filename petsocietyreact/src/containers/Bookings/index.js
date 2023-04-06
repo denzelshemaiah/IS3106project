@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Api from "../../helpers/Api";
 import { Button, Badge } from "react-bootstrap";
-import RequestModal from "../../components/RequestModals"
+import RequestModal from "../../components/BookingModals"
 import moment from 'moment-timezone';
 import NoRequestsPage from "../../components/NoRequestsPage";
 

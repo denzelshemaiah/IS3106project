@@ -6,6 +6,8 @@
 package session;
 
 import entity.MeetAndGreetRequest;
+import error.NoAccessException;
+import error.NoResultException;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -19,4 +21,12 @@ public interface MeetAndGreetSessionBeanLocal {
     public Long createNewMeetAndGreet(MeetAndGreetRequest m);
 
     public List<MeetAndGreetRequest> getRequests(String status, Long userId);
+    
+    public void updateRequest(MeetAndGreetRequest mg) throws NoResultException;
+    
+    public void cancelRequest(Long userId, Long mgReqId) throws NoResultException, NoAccessException;
+    
+    public void rejectRequest(Long userId, Long mgReqId) throws NoResultException, NoAccessException;
+    
+    public void acceptRequest (Long userId, Long mgReqId) throws NoResultException, NoAccessException;
 }

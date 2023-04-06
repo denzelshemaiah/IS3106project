@@ -158,10 +158,10 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
 
     @Override
     public void updateBooking(BookingRequest b) throws NoResultException {
-        if (b.getBookingReqId() == null) {
+        BookingRequest old = em.find(BookingRequest.class, b.getBookingReqId());
+        if (old == null) {
             throw new NoResultException("No booking can be found!");
         } else {
-            BookingRequest old = em.find(BookingRequest.class, b.getBookingReqId());
             old.setDescription(b.getDescription());
             old.setStartDate(b.getStartDate());
             old.setEndDate(b.getEndDate());
@@ -265,8 +265,8 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
             throw new NoResultException("User could not be found!");
         } else if (b == null) {
             throw new NoResultException("Booking could not be found!");
-//        } else if (u instanceof PetParent) {
-//            throw new NoAccessException("Only Pet Sitters can accept booking!");
+        } else if (u instanceof PetParent) {
+            throw new NoAccessException("Only Pet Sitters can accept booking!");
         } else {
             if (result < 0) {
                 throw new NoAccessException("Booking has already started and cannot be accepted!");
@@ -298,6 +298,7 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
         return q.getResultList();
     }
     
+    @Override
     public List<BookingRequest> getAcceptedBookings() {
         Query q = em.createQuery("SELECT b FROM BookingRequest b WHERE b.status = :enum")
                 .setParameter("enum", RequestStatusEnum.ACCEPTED);

@@ -7,8 +7,12 @@ package session;
 
 import entity.MeetAndGreetRequest;
 import entity.PetParent;
+import entity.PetSitter;
 import entity.User;
 import enumeration.RequestStatusEnum;
+import error.NoAccessException;
+import error.NoResultException;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -67,5 +71,74 @@ public class MeetAndGreetSessionBean implements MeetAndGreetSessionBeanLocal {
                     .setParameter("enum", statusEnum);
         }
         return q.getResultList();
+    }
+    
+    @Override
+    public void updateRequest (MeetAndGreetRequest mg) throws NoResultException {
+        MeetAndGreetRequest old = em.find(MeetAndGreetRequest.class, mg.getMgReqId());
+        if (mg.getMgReqId() == null) {
+            throw new NoResultException("No booking can be found!");
+        } else {
+            old.setMgDesc(mg.getMgDesc());
+            old.setMgDate(mg.getMgDate());
+            em.merge(old);
+        }
+    }
+    
+    @Override
+    public void rejectRequest(Long userId, Long mgReqId) throws NoResultException, NoAccessException {
+        User u = em.find(User.class, userId);
+        MeetAndGreetRequest mg = em.find(MeetAndGreetRequest.class, mgReqId);
+
+        if (u == null) {
+            throw new NoResultException("User could not be found!");
+        } else if (mg == null) {
+            throw new NoResultException("Meet And Greet Request could not be found!");
+        } else if (u instanceof PetParent) {
+            throw new NoAccessException("Only Pet Sitters can reject bookings!");
+        } else {
+            mg.setStatus(RequestStatusEnum.REJECTED);
+            em.merge(mg);
+        }
+    }
+    
+    @Override
+    public void cancelRequest(Long userId, Long mgReqId) throws NoResultException, NoAccessException {
+        User u = em.find(User.class, userId);
+        MeetAndGreetRequest mg = em.find(MeetAndGreetRequest.class, mgReqId);
+
+        if (u == null) {
+            throw new NoResultException("User could not be found!");
+        } else if (mg == null) {
+            throw new NoResultException("Meet and greet request could not be found!");
+        } else if (u instanceof PetSitter) {
+            throw new NoAccessException("Only Pet Parents can cancel bookings!");
+        } else {
+            mg.setStatus(RequestStatusEnum.ARCHIVED);
+        }
+    }
+    
+    @Override
+    public void acceptRequest (Long userId, Long mgReqId) throws NoResultException, NoAccessException {
+        User u = em.find(User.class, userId);
+        MeetAndGreetRequest mg = em.find(MeetAndGreetRequest.class, mgReqId);
+        Date bookingStart = mg.getMgDate();
+        Date current = new Date();
+
+        int result = bookingStart.compareTo(current);
+
+        if (u == null) {
+            throw new NoResultException("User could not be found!");
+        } else if (mg == null) {
+            throw new NoResultException("Meet and greet request could not be found!");
+        } else if (u instanceof PetParent) {
+            throw new NoAccessException("Only Pet Sitters can accept meet and greet requests!");
+        } else {
+            if (result < 0) {
+                throw new NoAccessException("Meet and greet has already started and cannot be accepted!");
+            }
+            mg.setStatus(RequestStatusEnum.ACCEPTED);
+            em.merge(mg);
+        }
     }
 }

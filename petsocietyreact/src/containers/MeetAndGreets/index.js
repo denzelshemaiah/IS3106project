@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import Api from "../../helpers/Api";
 import NoRequestsPage from "../../components/NoRequestsPage";
 import { Button } from "react-bootstrap";
-import RequestModal from "../../components/RequestModals"
+import RequestModal from "../../components/BookingModals"
 
 
 
@@ -20,6 +20,14 @@ function MeetAndGreets() {
 
     function renderList(selectedTab) {
         setChosenTab(selectedTab);
+    }
+
+    function otherParty(request) {
+        if (user.role === "parent") {
+            return request.sitter;
+        } else {
+            return request.parent;
+        }
     }
 
     //gets all the mg data for this user
@@ -55,7 +63,7 @@ function MeetAndGreets() {
                 </>
             )
         } else if (chosenTab === "pending" && user.role === "sitter") {
-            // can only reject here
+            // can only accept/reject here
             return (
                 <>  
                     <li className="list-group-item" key={request.bookingReqId} style={{padding:"10px"}}>
@@ -66,16 +74,19 @@ function MeetAndGreets() {
                 </>
             )
         } else if (chosenTab === "upcoming" && user.role === "parent") {
+            //no action, only cancel?
             return (
                 <>
                     <li className="list-group-item" key={request.mgReqId}>
-                        <h5>Request from name</h5>
-                        Request dates<br/>
-                        <p>Desription of request</p>
+                        <h5>{request.sitter.firstName} {request.sitter.lastName}</h5>                        
+                        Request Dates: {request.formatDate}<br/>
+                        <p>{request.mgDesc}</p>
+                        <Button color="danger">Cancel</Button>
                     </li>
                 </>
             )
         } else if (chosenTab === "upcoming" && user.role === "sitter") {
+            //no action
             return ( 
                 <>
                     <li className="list-group-item" key={request.mgReqId} style={{padding:"10px"}}>
@@ -85,12 +96,24 @@ function MeetAndGreets() {
                     </li>
                 </>
             )
+        } else if (chosenTab === "rejected" && user.role === "parent") {
+            //can edit here, request will go back to pending status
+            return (
+                <>
+                    <li className="list-group-item" key={request.mgReqId}>
+                        <h5>{request.sitter.firstName} {request.sitter.lastName}</h5>                        
+                        Request Dates: {request.formatDate}<br/>
+                        <p>{request.mgDesc}</p>
+                        <Button color="warning">Edit</Button>
+                    </li>
+                </>
+            )
         }
         else {
             return (
                 <>  
                     <li class="list-group-item" key={request.mgReqId}>
-                        <h5>Request from name</h5>
+                        <h5>{otherParty(request).firstName} {otherParty(request).lastName}</h5>
                         Request dates<br/>
                         <p>Desription of request</p>
                         {' '}
