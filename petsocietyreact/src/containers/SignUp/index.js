@@ -16,6 +16,8 @@ import { MDBCard } from 'mdbreact';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import Api from "../../helpers/Api";
 import moment from 'moment-timezone';
+import './style.css';
+import { DropdownButton, Dropdown, Form } from 'react-bootstrap';
 
 
 function SignUp(props) {
@@ -27,11 +29,7 @@ function SignUp(props) {
     navigate(path);
   }
 
-  // user attributes
-  let user = {};
-  let bankAcc = {};
-  let cc = {};
-
+  // for user, its attributes
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
@@ -42,33 +40,90 @@ function SignUp(props) {
   const [emergencyContact, setEmergencyContact] = useState("");
   const [profilePicture, setProfilePicture] = useState(null);
   const [billingAddress, setBillingAddress] = useState("");
-  // (removed status as it is now set in the backend)
-  const [reportsAgainstUser, setReportsAgainstUser] = useState(null);
-  const [reportsUserMade, setReportsUserMade] = useState(null);
-  const [ratingsForUsers, setRatingsForUsers] = useState(null);
-  const [ratingsUserMade, setRatingsUserMade] = useState(null);
+  // removed status as it is now set in the backend
 
-  // relationships of user:
-  // bankAcc
+  // pet parent attributes
+  const [searches, setSearches] = useState([]);
+  const [mgRequests, setMgRequests] = useState([]);
+  const [bookings, setBookings] = useState([]);
+
+  // pet sitter attributes
+
+  let bankAcc = {};
+  let cc = {};
+
+  // creating just user without its associated stuff first
+  let user = {};
+
+  const petParent = {
+    user, 
+    petParentAttributes : {
+      searches : searches,
+      mgRequests : mgRequests,
+      bookings : bookings
+    }
+  };
+
+
+
+
+
+  // new plan: never creating user until we get the roles. so we must still have user in fe and separate
+  // pp and ps entities in order to pass to new BE
+  const handleRegistrationOfUser = (e) => {
+    e.preventDefault();
+
+    bankAcc = {
+      bankAccNum: bankAccNum,
+      bankName: bankName,
+      accName: accName,
+    }
+    console.log(bankAcc);
+
+    cc = {
+      ccNum: ccNum,
+      expDate: expDate,
+      ccName: ccName,
+      cvv: cvv,
+    }
+
+    console.log(cc);
+
+    user = {
+      firstName: firstName,
+      lastName: lastName,
+      username: username,
+      contactNum: contactNum,
+      email: email,
+      password: password,
+      age: age,
+      emergencyContact: emergencyContact,
+      profilePicture: profilePicture,
+      billingAddress: billingAddress,
+      bankAcc: bankAcc,
+      cc: cc,
+    }
+    /* Api.createNewUser(user)
+       .then((data) => {
+         navigate("/LoggedInHomepage");
+       }) */
+  }
+
+  // relationships
+  // for bankAcc
   const [bankAccNum, setBankAccNum] = useState("");
   const [bankName, setBankName] = useState("");
   const [accName, setAccName] = useState("");
-
-  bankAcc = {
-    bankAccNum: bankAccNum,
-    bankName: bankName,
-    accName: accName,
-  }
 
   const handleCreationOfBankAcc = (e) => {
     e.preventDefault();
     Api.createAndAssociateNewBankAccount(bankAcc)
       .then((data) => {
-        navigate("/LoggedInHomepage")
+        Navigate("/LoggedInHomepage");
       })
   }
 
-  // cc
+  // for cc
   const [ccNum, setCcNum] = useState("");
   const [expDate, setExpDate] = useState("");
   const [ccName, setCcName] = useState("");
@@ -82,7 +137,7 @@ function SignUp(props) {
     e.preventDefault();
     Api.createAndAssociateNewCreditCard(cc)
       .then((data) => {
-        navigate("/LoggedInHomepage")
+        Navigate("/LoggedInHomepage");
       })
   }
 
@@ -109,7 +164,7 @@ function SignUp(props) {
     cc: cc,
   }
 
-  // pet parent attributes
+  //pet parent attributes
   let petParent = {};
   const [searches, setSearches] = useState([]);
   const [mgRequests, setMgRequests] = useState([]);
@@ -134,7 +189,7 @@ function SignUp(props) {
   const [region, setRegion] = useState("");
   const [preference, setPreference] = useState("");
   const [schedule, setSchedule] = useState([]);
-  const [rates, setRates] = useState([]);
+  const [rate, setRate] = useState([]);
   // setting serviceenum as string, and converting to enum later in the BE
   const [service, setService] = useState("");
 
@@ -183,7 +238,7 @@ function SignUp(props) {
       region: region,
       preference: preference,
       schedule: schedule,
-      rates: rates,
+      rate: rate,
       service: service,
       authenticationRequest: authenticationRequest,
       experienceForm: experienceForm,
@@ -198,30 +253,16 @@ function SignUp(props) {
 
   // handle money details
   const handleCompleteUserCreation = (e) => {
-    e.preventDefault();
-    handleCreationOfCc(e);
-    handleCreationOfBankAcc(e);
+    handleRegistrationOfUser();
+    handleCreationOfCc();
+    handleCreationOfBankAcc();
     navigate(`/SignUp/3`);
   }
 
-  // new plan: never creating user until we get the roles. so we must still have user in fe and separate
-  // pp and ps entities in order to pass to new BE
-  const handleCreationOfParent = (e) => {
-    e.preventDefault();
-    Api.createNewParent(user, petParent)
-      .then((data) => {
-        navigate("/LoggedInHomepage")
-      })
-  };
-
-  const handleCreationOfSitter = (e) => {
-    e.preventDefault();
-    Api.createNewSitter(user, petSitter)
-      .then((data) => {
-        navigate("/LoggedInHomepage")
-      })
-  };
-
+  const [reportsAgainstUser, setReportsAgainstUser] = useState(null);
+  const [reportsUserMade, setReportsUserMade] = useState(null);
+  const [ratingsForUsers, setRatingsForUsers] = useState(null);
+  const [ratingsUserMade, setRatingsUserMade] = useState(null);
 
 
   // just storing user attributes first and setting values in FRONTEND USER only
@@ -550,7 +591,7 @@ function SignUp(props) {
                   <MDBCol>
                     <div class="row">
                       <div class="col">
-                        <a href="/#/SignUp/4">
+                        <a href="/#/SignUp/1">
                           <button class="btn btn-primary w-100"
                             style={{ backgroundColor: '#4B0082', padding: '20px 20px' }}>
                             <img src="https://cdn-icons-png.flaticon.com/512/3775/3775548.png"
@@ -569,18 +610,16 @@ function SignUp(props) {
                   <MDBCol>
                     <div class="row">
                       <div class="col">
-                        <a href="/#/SignUp/5">
-                          <button class="btn btn-primary w-100"
-                            style={{ backgroundColor: '#F3F5F4', padding: '20px 40px' }}>
-                            <img src="https://static.thenounproject.com/png/1138226-200.png"
-                              alt="Image"
-                              width="250"
-                              height="250"
-                              style={{ padding: '10px' }}>
-                            </img>
-                            <h2 style={{ color: 'black' }}>I want to be a PetSitter</h2>
-                          </button>
-                        </a>
+                        <button class="btn btn-primary w-100"
+                          style={{ backgroundColor: '#F3F5F4', padding: '20px 40px' }}>
+                          <img src="https://static.thenounproject.com/png/1138226-200.png"
+                            alt="Image"
+                            width="250"
+                            height="250"
+                            style={{ padding: '10px' }}>
+                          </img>
+                          <h2 style={{ color: 'black' }}>I want to be a PetSitter</h2>
+                        </button>
                       </div>
                     </div>
                   </MDBCol>
@@ -593,19 +632,7 @@ function SignUp(props) {
     )
   }
 
-  // fill in petParent attributes here in this page
-  else if (page === "4") {
-    return (
-      <>
-        <h1>test</h1>
-      //put below in a method:
-        //redirect 2 petparent homepage
-        <button onClick={handleCreationOfParent}>
-          Submit
-        </button>
-      </>
-    )
-  }
+  // fill in petParent attributes here
 
   // fill in petSitter attributes here in this page
   else if (page === "5") {
@@ -617,6 +644,70 @@ function SignUp(props) {
           Submit
         </button>
       // redirect 2 sitter homepage
+      
+      <div className="row pt-3 pb-5 mx-auto">
+          <div className="col-md-2"></div>
+          <div className="col-md-8">
+            <div className="w-100 text-center">
+            <h3>A few more steps to go!</h3>
+              <h4>What service do you want to provide as a Pet Sitter?</h4>
+            </div>
+          </div>
+          <div className="col-md-2"></div>
+        </div>
+         
+         <form onSubmit={handleCompleteUserCreation}>
+          <MDBContainer fluid className='h-custom'>
+
+            <MDBRow className='d-flex justify-content-center align-items-center h-100'>
+              <MDBCol col='12' className='m-5'>
+                <MDBCard>
+
+                  <MDBCardBody className='p-0'>
+
+                    <MDBRow>
+                        <div className="mb-1">
+                          <label htmlFor="gridCheck" className="form-label">
+                              I want to provide
+                          </label>
+                        </div>
+                        
+                        <div className="mb-6">
+                            <DropdownButton id="dropdown-basic-button" title="Service" variant="light">
+                                <Dropdown.Item href="#action-1">Daycare</Dropdown.Item>
+                                <Dropdown.Item href="#action-2">Boarding</Dropdown.Item>
+                                <Dropdown.Item href="#action-3">Drop-in Visits</Dropdown.Item>
+                                <Dropdown.Item href="#action-3">Dog Walker</Dropdown.Item>
+                            </DropdownButton>
+                        </div>
+
+                        <MDBRow>
+                        <div className="mb-1">
+                              <label htmlFor="gridCheck" className="form-label">
+                                     Pet Preference 
+                              </label>
+                        </div>
+
+                        <Form>
+                            <Form.Group controlId="formBasicCheckbox">
+                              <Form.Check type="checkbox" label="Dogs and Cats" checked={false} />
+                              <Form.Check type="checkbox" label="Dogs only" checked={false} />
+                              <Form.Check type="checkbox" label="Cats only" checked={false} />
+                            </Form.Group>
+                        </Form>
+
+                        </MDBRow>
+                        
+                    </MDBRow>
+
+                  </MDBCardBody>
+                </MDBCard>
+
+              </MDBCol>
+            </MDBRow>
+
+          </MDBContainer>
+        </form>
       </>
     )
   }

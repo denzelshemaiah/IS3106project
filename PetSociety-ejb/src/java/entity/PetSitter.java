@@ -163,15 +163,15 @@ public class PetSitter extends User implements Serializable {
     public void setMgRequests(List<MeetAndGreetRequest> mgRequests) {
         this.mgRequests = mgRequests;
     }
-    
+
     public AuthenticationRequest getAuthenReq() {
         return authenReq;
     }
-    
+
     public void setAuthenReq(AuthenticationRequest authenReq) {
         this.authenReq = authenReq;
     }
-    
+
     public ExperienceForm getExpForm() {
         return expForm;
     }
@@ -179,7 +179,7 @@ public class PetSitter extends User implements Serializable {
     public void setExpForm(ExperienceForm expForm) {
         this.expForm = expForm;
     }
-    
+
     public SafetyForm getSafetyForm() {
         return safetyForm;
     }
@@ -187,7 +187,7 @@ public class PetSitter extends User implements Serializable {
     public void setSafetyForm(SafetyForm safetyForm) {
         this.safetyForm = safetyForm;
     }
-    
+
     public User getUser() {
         return user;
     }
