@@ -51,6 +51,11 @@ function EditForm(props) {
         }
     }
 
+    const maxDate = () => {
+        var currentDate = new moment();
+        return currentDate.add(31, "d").tz("Asia/Singapore").toDate();
+    }
+
     const submitFormEdit = (e) => {
         e.preventDefault();
         //fetch the Api
@@ -86,6 +91,7 @@ function EditForm(props) {
                 <Label for="startDate"> Start Date: </Label>
                 <DatePicker
                     name="startDate"
+                    minDate={new moment().tz("Asia/Singapore").toDate()}
                     selected={startDate}
                     onChange={(date) => setStartDate(date)}
                     selectsStart
@@ -103,6 +109,7 @@ function EditForm(props) {
                     startDate={startDate}
                     endDate={endDate}
                     minDate={startDate}
+                    maxDate={maxDate()}
                 />
             </FormGroup>
             <FormGroup>

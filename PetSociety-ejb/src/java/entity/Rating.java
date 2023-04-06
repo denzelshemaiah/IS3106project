@@ -28,7 +28,6 @@ public class Rating implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ratingId;
     @Column(nullable = false)
-    @Size(max = 5)
     private Integer stars;
     @Column(nullable = false)
     @Size(max = 100)

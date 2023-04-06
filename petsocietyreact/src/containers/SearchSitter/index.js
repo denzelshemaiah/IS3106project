@@ -270,7 +270,7 @@ function SearchSitter(props) {
                     className="col-md-5"
                     style={{ display: 'block', backgroundColor: '#6c757d', float: "right", marginLeft: "-42px" }}>
 
-                    <div style={{ height: "600px", overflow: "auto" }}>
+                    <div style={{ height: "100vh", overflow: "auto", marginTop: "3vh"}}>
                         <form className="bg-light p-4 custom-form" onSubmit={handleSearch}>
                             <div className="mb-3">
 

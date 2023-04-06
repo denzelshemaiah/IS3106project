@@ -15,6 +15,9 @@ import {
 import { MDBCard } from 'mdbreact';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import Api from "../../helpers/Api";
+import moment from 'moment-timezone';
+import './style.css';
+import { DropdownButton, Dropdown, Form } from 'react-bootstrap';
 
 
 function SignUp(props) {
@@ -161,7 +164,7 @@ function SignUp(props) {
     cc: cc,
   }
 
-  pet parent attributes
+  //pet parent attributes
   let petParent = {};
   const [searches, setSearches] = useState([]);
   const [mgRequests, setMgRequests] = useState([]);
@@ -181,28 +184,52 @@ function SignUp(props) {
   let authenticationRequest = {};
   let experienceForm = {};
   let safetyForm = {};
-  //let bookings = {};
-  //let mgRequests = {};
-
 
   const [serviceAddress, setServiceAddress] = useState("");
   const [region, setRegion] = useState("");
   const [preference, setPreference] = useState("");
   const [schedule, setSchedule] = useState([]);
-  const [rates, setRates] = useState([]);
+  const [rate, setRate] = useState([]);
   // setting serviceenum as string, and converting to enum later in the BE
   const [service, setService] = useState("");
 
   // relationships of petsitter:
-  // please fill in the respective attributes here
   // authenreq
-  authenticationRequest = {}
+  const [createdDate, setCreatedDate] = useState(moment().toDate());
+  const [userId, setUserId] = useState(0);
+  const [documents, setDocuments] = useState(null);
+  
+  authenticationRequest = {
+      createdDate: createdDate,
+      petSitter: userId,
+      documents: documents,
+  }
 
+  //const handleCreationOfAuthenticationRequest
+  
   // experienceform
-  experienceForm = {}
-
+  const [yearsOfExperience, setYearsOfExperience] = useState("");
+  const [headline, setHeadLine] = useState("");
+  const [experience, setExperience] = useState("");
+  
+  experienceForm = {
+      yearsOfExperience: yearsOfExperience,
+      headline: headline,
+      experience: experience,
+  }
+  //const handleCreationOfExperienceForm
+  
   // safetyform
-  safetyForm = {}
+  const [q1, setQ1] = useState("");
+  const [q2, setQ2] = useState("");
+  const [q3, setQ3] = useState("");
+  
+  safetyForm = {
+      q1: q1,
+      q2: q2,
+      q3: q3,
+  }
+  //const handleCreationOfSafetyForm
 
   petSitter = {
     user,
@@ -211,7 +238,7 @@ function SignUp(props) {
       region: region,
       preference: preference,
       schedule: schedule,
-      rates: rates,
+      rate: rate,
       service: service,
       authenticationRequest: authenticationRequest,
       experienceForm: experienceForm,
@@ -607,10 +634,83 @@ function SignUp(props) {
 
   // fill in petParent attributes here
 
+  // fill in petSitter attributes here in this page
+  else if (page === "5") {
+    return (
+      <>
+        <h1>test2</h1>
+      //put below in a method:
+        <button onClick={handleCreationOfSitter}>
+          Submit
+        </button>
+      // redirect 2 sitter homepage
+      
+      <div className="row pt-3 pb-5 mx-auto">
+          <div className="col-md-2"></div>
+          <div className="col-md-8">
+            <div className="w-100 text-center">
+            <h3>A few more steps to go!</h3>
+              <h4>What service do you want to provide as a Pet Sitter?</h4>
+            </div>
+          </div>
+          <div className="col-md-2"></div>
+        </div>
+         
+         <form onSubmit={handleCompleteUserCreation}>
+          <MDBContainer fluid className='h-custom'>
 
-  // fill in petSitter attributes here
+            <MDBRow className='d-flex justify-content-center align-items-center h-100'>
+              <MDBCol col='12' className='m-5'>
+                <MDBCard>
 
+                  <MDBCardBody className='p-0'>
 
+                    <MDBRow>
+                        <div className="mb-1">
+                          <label htmlFor="gridCheck" className="form-label">
+                              I want to provide
+                          </label>
+                        </div>
+                        
+                        <div className="mb-6">
+                            <DropdownButton id="dropdown-basic-button" title="Service" variant="light">
+                                <Dropdown.Item href="#action-1">Daycare</Dropdown.Item>
+                                <Dropdown.Item href="#action-2">Boarding</Dropdown.Item>
+                                <Dropdown.Item href="#action-3">Drop-in Visits</Dropdown.Item>
+                                <Dropdown.Item href="#action-3">Dog Walker</Dropdown.Item>
+                            </DropdownButton>
+                        </div>
+
+                        <MDBRow>
+                        <div className="mb-1">
+                              <label htmlFor="gridCheck" className="form-label">
+                                     Pet Preference 
+                              </label>
+                        </div>
+
+                        <Form>
+                            <Form.Group controlId="formBasicCheckbox">
+                              <Form.Check type="checkbox" label="Dogs and Cats" checked={false} />
+                              <Form.Check type="checkbox" label="Dogs only" checked={false} />
+                              <Form.Check type="checkbox" label="Cats only" checked={false} />
+                            </Form.Group>
+                        </Form>
+
+                        </MDBRow>
+                        
+                    </MDBRow>
+
+                  </MDBCardBody>
+                </MDBCard>
+
+              </MDBCol>
+            </MDBRow>
+
+          </MDBContainer>
+        </form>
+      </>
+    )
+  }
 }
 
 export default SignUp;

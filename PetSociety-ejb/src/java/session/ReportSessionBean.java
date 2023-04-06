@@ -31,9 +31,9 @@ public class ReportSessionBean implements ReportSessionBeanLocal {
     // "Insert Code > Add Business Method")
 
     @Override
-    public Long createReport(Report report) {
-        User reporter = report.getReporter();
-        User reported = report.getReported();
+    public Long createReport(Report report, Long reportedId, Long reporterId) {
+        User reporter = em.find(User.class, reporterId);
+        User reported = em.find(User.class, reportedId);
         reporter.getReportsUserMade().add(report);
         reported.getReportsAgainstUser().add(report);
         em.persist(report);

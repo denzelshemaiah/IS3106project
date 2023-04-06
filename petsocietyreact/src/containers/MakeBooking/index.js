@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import './style.css'
-import { Card, CardText, CardBody, Button, Label, Input, Form, FormGroup} from "reactstrap";
+import { Card, CardText, CardBody, Button, Label, Input, Form, FormGroup, ButtonGroup} from "reactstrap";
 import { faCloudSun, faHouseChimney, faRepeat, faSuitcase, faPaw } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-regular-svg-icons";
@@ -13,19 +13,19 @@ import {Link, useParams, useNavigate} from "react-router-dom";
 //page to view all bookings, follows a tab view
 function MakeBooking(props) {
     const [service, setService] = useState("");
-    const [startDate, setStartDate] = useState(moment().tz('Asia/Singapore').startOf("day").toDate());
+    const [startDate, setStartDate] = useState(moment("2023-04-08 00:00:00").startOf("day").toDate());
     const [cost, setCost] = useState(0);
-    const [created, setCreated] = useState(moment());
-    const [description, setDescription] = useState("");
-    const [freq, setFreq] = useState(0);
-    const [endDate, setEndDate] = useState(moment("1990-01-01 00:00:00").toDate());
-    const [repeat, setRepeat] = useState("once")
-    const numPets = props.numPets
-    const [bookings, setBookings] = useState([]);
+    const [created, setCreated] = useState(moment().toDate());
+    const [description, setDescription] = useState("Hi there! I think you will be perfect for my little PUPPER named PEANUT! pls say yes");
+    const [freq, setFreq] = useState('2');
+    const [endDate, setEndDate] = useState(moment("2023-05-08 00:00:00").startOf("day").toDate());
+    const [repeat, setRepeat] = useState("weekly")
+    const numPets = 2;
     const navigate = useNavigate();
-    const [rate, setRate] = useState(props.rate);
-    const [parentId, setParentId] = useState(0);
+    const [rate, setRate] = useState(10);
+    const [parentId, setParentId] = useState(1);
     const [sitterId, setSitterId] = useState(0);
+    const [daysRepeat, setDaysRepeat] = useState([1, 4, 5]);
 
     useEffect(() => {
         setService("walking")
@@ -34,45 +34,117 @@ function MakeBooking(props) {
             if (service === "boarding" || service === "daycare") {
                 var diffDays = Math.round((endDate - startDate)/(1000 * 60 * 60 * 24));
                 if (repeat === "weekly") {
-                    var numWeeks = calcNumWeeks;
-                    return numWeeks * diffDays * rate;
+                    diffDays = 0;
+                    var copyStart = startDate
+                    while (copyStart <= endDate) {
+                        var dayIdx = copyStart.day();
+                        if (daysRepeat.includes(dayIdx)) {
+                            //add charge for one more day
+                            diffDays++;
+                        }
+                        copyStart = moment(copyStart).add(1, "days");
+                    }
                 }
                 return diffDays * rate;
             } else if (service === "walking" || service === "dropin") {
                 //drop-in case, basis is per visit or walking, basis is per walk
                 diffDays = Math.round((endDate - startDate)/(1000 * 60 * 60 * 24));
-                //get weekly visits
-                var visits = diffDays * freq
                 if (repeat === "weekly") {
-                    var numWeeks = calcNumWeeks;
-                    return numWeeks * visits * rate;
+                    diffDays = 0;
+                    var copyStart = startDate
+                    while (copyStart <= endDate) {
+                        var dayIdx = moment(copyStart).day();
+                        if (daysRepeat.includes(dayIdx)) {
+                            //add charge for one more day
+                            diffDays++;
+                        }
+                        copyStart = moment(copyStart).add(1, "days");
+                    }
                 }
-                return diffDays * rate;
+                return diffDays * rate * freq;
             }      
         }
         setCost(calculateTotalCost)
     }, [service]);
 
-    const calcNumWeeks = () => {
-        var numWeeks = 0
-            var copyStart = startDate
-            while (copyStart < endDate) {
-                copyStart = copyStart.setDate(copyStart.getDate() + 7)
-                numWeeks += 1
-            }
-        return numWeeks;
-    }
-
     //for the top bar stating service
     let serviceIcon = ""
     let serviceText = ""
     let repeatButtons = ""
+    let numOfTimesButton = ""
+    let repeatDaysButton = ""
 
     if (service === "walking") {
         serviceText = "Pet Walking"
         serviceIcon = (
             <FontAwesomeIcon icon={faPaw} style={{float: "left", marginRight: "15px", height:"30px", width:"30px"}}/>
         )
+        numOfTimesButton = (
+            <>  
+                <h5>Number of walks per day: </h5>
+                <ButtonGroup>
+                <Button
+                        style={{ whiteSpace: 'nowrap'}}
+                        active={freq === "1"}>
+                            1
+                    </Button>
+                    <Button
+                        style={{ whiteSpace: 'nowrap'}}
+                        active={freq === "2"}>
+                            2
+                    </Button>
+                    <Button
+                        style={{ whiteSpace: 'nowrap'}}
+                        active={freq === "3"}>
+                            3
+                    </Button>
+                </ButtonGroup>
+            </>
+        )
+        if (repeat === "weekly") {
+            repeatDaysButton = (
+                <>  
+                    <h5>Days for repeat bookings: </h5>
+                    <ButtonGroup>
+                        <Button
+                            style={{ whiteSpace: 'nowrap' }}
+                            active={daysRepeat.includes(1)}>
+                                Monday
+                        </Button>
+                        <Button
+                            style={{ whiteSpace: 'nowrap' }}
+                            active={daysRepeat.includes(2)}>
+                                Tuesday
+                        </Button>
+                        <Button
+                            style={{ whiteSpace: 'nowrap' }}
+                            active={daysRepeat.includes(3)}>
+                                Wednesday
+                        </Button>
+                        <Button
+                            style={{ whiteSpace: 'nowrap' }}
+                            active={daysRepeat.includes(4)}>
+                                Thursday
+                        </Button>
+                        <Button
+                            style={{ whiteSpace: 'nowrap' }}
+                            active={daysRepeat.includes(5)}>
+                                Friday
+                        </Button>
+                        <Button
+                            style={{ whiteSpace: 'nowrap' }}
+                            active={daysRepeat.includes(6)}>
+                                Saturday
+                        </Button>
+                        <Button
+                            style={{ whiteSpace: 'nowrap' }}
+                            active={daysRepeat.includes(0)}>
+                                Sunday
+                        </Button>
+                    </ButtonGroup>
+                </>
+            )
+        }
     } else if (service === "daycare") {
         serviceText = "Day Care"
         serviceIcon = (
@@ -83,6 +155,75 @@ function MakeBooking(props) {
         serviceIcon = (
             <FontAwesomeIcon icon={faHouseChimney} style={{float: "left", marginRight: "15px", height:"30px", width:"30px"}}/>
         )
+        numOfTimesButton = (
+            <>  
+                <h5>Number of visits per day: </h5>
+                <ButtonGroup>
+                    <Button
+                        style={{ whiteSpace: 'nowrap' }}
+                        active={freq === "1"}
+                        color="primary">
+                            1
+                    </Button>
+                    <Button
+                        style={{ whiteSpace: 'nowrap' }}
+                        active={freq === "2"}>
+                            2
+                    </Button>
+                    <Button
+                        style={{ whiteSpace: 'nowrap' }}
+                        active={freq === "3"}>
+                            3
+                    </Button>
+                </ButtonGroup>
+            </>
+        )
+        if (repeat === "weekly") {
+            repeatDaysButton = (
+                <>  
+                    <h5>Days for repeat bookings: </h5>
+                    <ButtonGroup
+                        disabled>
+                        <Button
+                            style={{ whiteSpace: 'nowrap' }}
+                            active={daysRepeat.includes(1)}
+                            >
+                                Monday
+                        </Button>
+                        <Button
+                            style={{ whiteSpace: 'nowrap' }}
+                            active={daysRepeat.includes(2)}>
+                                Tuesday
+                        </Button>
+                        <Button
+                            style={{ whiteSpace: 'nowrap' }}
+                            active={daysRepeat.includes(3)}>
+                                Wednesday
+                        </Button>
+                        <Button
+                            style={{ whiteSpace: 'nowrap' }}
+                            active={daysRepeat.includes(4)}>
+                                Thursday
+                        </Button>
+                        <Button
+                            style={{ whiteSpace: 'nowrap' }}
+                            active={daysRepeat.contains(5)}>
+                                Friday
+                        </Button>
+                        <Button
+                            style={{ whiteSpace: 'nowrap' }}
+                            active={daysRepeat.includes(6)}>
+                                Saturday
+                        </Button>
+                        <Button
+                            style={{ whiteSpace: 'nowrap' }}
+                            active={daysRepeat.includes(0)}>
+                                Sunday
+                        </Button>
+                    </ButtonGroup>
+                </>
+            )
+        }
     } else if (service === "boarding") {
         serviceText = "Boarding"
         serviceIcon = (
@@ -109,22 +250,33 @@ function MakeBooking(props) {
         </>
     )
 
+    const getMaxDate = () => {
+        //can only make bookings for the next 30 days
+        return created.add(30, 'days')
+    }
+
     const selectDates = (dates) => {
         const[start, end] = dates
         setStartDate(start);
         setEndDate(end);
     }
 
-    const addAllBookings = () => {
-        var copyStart = startDate;
+    let booking = {};
 
-    }
-
-    const createBookingSubmit = (form) => {
-        form.preventDefault();
+    //HANDLE FORM
+    const createBookingSubmit = () => {
+        booking = {
+            created : created,
+            description : description,
+            endDate : endDate,
+            numPets : numPets,
+            startDate : startDate,
+            freq : freq,
+            repeatDays : daysRepeat,
+        }
         
         //fetch the Api
-        Api.createBooking(bookings, parentId, sitterId)
+        Api.createBooking(booking, parentId, sitterId, repeat)
         .then((data) => {
             navigate("/bookings");
         });
@@ -166,7 +318,7 @@ function MakeBooking(props) {
                     </Card>
                 </div>
                 
-                <Form onSubmit={createBookingSubmit}>
+                <Form>
                     <div style={{display: "block", marginBottom:"3vh"}}>
                         {repeatButtons}
                     </div>
@@ -180,12 +332,17 @@ function MakeBooking(props) {
                             startDate={startDate}
                             endDate={endDate}
                             selectsRange
-                            readOnly="true"
+                            readOnly={true}
+                            maxDate={getMaxDate}
                         />
                     </div>
 
                     <div style={{display: "block", marginTop:"3vh"}}>
-                        {freqText}
+                        {numOfTimesButton}
+                    </div>
+
+                    <div style={{display: "block", marginTop:"3vh"}}>
+                        {repeatDaysButton}
                     </div>
 
                     <div style={{display: "block", marginTop:"3vh"}}>
@@ -203,7 +360,7 @@ function MakeBooking(props) {
                     </div>
 
                     <div style={{display: "block"}}>
-                        <Button type="submit" style={{backgroundColor: "#e6e4f5", color: "black"}}> Book now </Button>
+                        <Button type="submit" style={{backgroundColor: "#e6e4f5", color: "black"}} onClick={createBookingSubmit}> Book now </Button>
                     </div>
                 </Form>
             </div>

@@ -15,6 +15,8 @@ import javax.ejb.Local;
  */
 @Local
 public interface MeetAndGreetSessionBeanLocal {
+
     public Long createNewMeetAndGreet(MeetAndGreetRequest m);
-    public List<MeetAndGreetRequest> getAllRequests();
+
+    public List<MeetAndGreetRequest> getRequests(String status, Long userId);
 }

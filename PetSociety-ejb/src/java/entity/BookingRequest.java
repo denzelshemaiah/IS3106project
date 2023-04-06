@@ -9,6 +9,8 @@ import enumeration.RequestStatusEnum;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -51,8 +53,11 @@ public class BookingRequest implements Serializable {
     @Column(nullable = false)
     private int numPets;
     @Column(nullable = true)
-    // 1,2 or 3 for drop-in
-    private int visitFreq;
+    // 1,2 or 3 for drop-in/ walk
+    private int freq;
+    @Column(nullable = true)
+    //days basis for repeating bookings
+    private List<Integer> repeatDays;
     
     //relationships
     @ManyToOne
@@ -258,17 +263,31 @@ public class BookingRequest implements Serializable {
     }
 
     /**
-     * @return the numFreq
+     * @return the freq
      */
-    public int getVisitFreq() {
-        return visitFreq;
+    public int getFreq() {
+        return freq;
     }
 
     /**
-     * @param visitFreq the visitFreq to set
+     * @param freq the freq to set
      */
-    public void setVisitFreq(int visitFreq) {
-        this.visitFreq = visitFreq;
+    public void setFreq(int freq) {
+        this.freq = freq;
+    }
+
+    /**
+     * @return the repeatDays
+     */
+    public List<Integer> getRepeatDays() {
+        return repeatDays;
+    }
+
+    /**
+     * @param repeatDays the repeatDays to set
+     */
+    public void setRepeatDays(List<Integer> repeatDays) {
+        this.repeatDays = repeatDays;
     }
     
 }

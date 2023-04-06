@@ -5,15 +5,25 @@
  */
 package session;
 
+import entity.AuthenticationRequest;
 import entity.BankAccount;
 import entity.BookingRequest;
 import entity.CreditCard;
 import entity.PetParent;
+import entity.PetSitter;
+import entity.Rating;
+import entity.Report;
 import entity.Staff;
 import entity.User;
 import enumeration.RequestStatusEnum;
+import enumeration.ServiceEnum;
 import enumeration.UserStatusEnum;
 import error.EntityAlreadyExistsException;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,6 +44,18 @@ import javax.ejb.Startup;
 @LocalBean
 @Startup
 public class DataInitSessionBean {
+
+    @EJB
+    private RatingSessionBeanLocal ratingSessionBean;
+
+    @EJB
+    private ReportSessionBeanLocal reportSessionBean;
+
+    @EJB
+    private AuthenticationReqSessionBeanLocal authenticationReqSessionBean;
+
+    @EJB
+    private PetSitterSessionBeanLocal petSitterSessionBean;
 
     @EJB
     private UserSessionBeanLocal userSessionBean;
@@ -118,7 +140,82 @@ public class DataInitSessionBean {
         p.setCc(cc);
         p.setBankAcc(acc);
 
-        // petParentSessionBean.createNewParent(p);
+        petParentSessionBean.createNewParent(p);
+
+        PetSitter s = new PetSitter();
+        s.setAge(21);
+        s.setBillingAddress("123 Orange Lane");
+        s.setServiceAddress("123 Orange Lane");
+        s.setRegion("central");
+        s.setRate(new BigDecimal(20));
+        s.setFirstName("first");
+        s.setLastName("last");
+        s.setService(ServiceEnum.BOARDING);
+        s.setEmail("petsitter1@mail.com");
+        s.setUsername("petsitter");
+        s.setPassword("password");
+        s.setContactNum("12345678");
+        s.setEmergencyContact("87654321");
+        s.setPreference("preference");
+        s.setStatus(UserStatusEnum.PENDING);
+        BankAccount acc1 = new BankAccount();
+        acc1.setAccName("sitteracc1");
+        acc1.setBankAccNum("88888888");
+        acc1.setBankName("DBS");
+        bankAccountSessionBean.addNewBankAcc(acc1);
+        s.setBankAcc(acc1);
+        CreditCard cc1 = new CreditCard();
+        cc1.setCcName("SitterCard1");
+        cc1.setCcNum("1616161616161616");
+        cc1.setCvv(123);
+        cc1.setExpDate("12/28");
+        creditCardSessionBean.addNewCreditCard(cc1);
+        s.setCc(cc1);
+        // assuming schedule is empty (no unavail dates)
+        petSitterSessionBean.createNewSitter(s);
+
+        AuthenticationRequest aReq = new AuthenticationRequest();
+        aReq.setCreatedDate(new Date());
+        aReq.setResolved(Boolean.FALSE);
+        aReq.setSitter(s);
+        byte[] data = new byte[]{37, 80, 68, 70, 45, 49, 46, 49, 10, 37, -62, -91, -62, -79, -61,
+            -85, 10, 10, 49, 32, 48, 32, 111, 98, 106, 10, 32, 32, 60, 60, 32, 47, 84, 121, 112, 101, 32, 47, 67, 97, 116,
+            97, 108, 111, 103, 10, 32, 32, 32, 32, 32, 47, 80, 97, 103, 101, 115, 32, 50, 32, 48, 32, 82, 10, 32, 32, 62,
+            62, 10, 101, 110, 100, 111, 98, 106, 10, 10, 50, 32, 48, 32, 111, 98, 106, 10, 32, 32, 60, 60, 32, 47, 84, 121,
+            112, 101, 32, 47, 80, 97, 103, 101, 115, 10, 32, 32, 32, 32, 32, 47, 75, 105, 100, 115, 32, 91, 51, 32, 48, 32,
+            82, 93, 10, 32, 32, 32, 32, 32, 47, 67, 111, 117, 110, 116, 32, 49, 10, 32, 32, 32, 32, 32, 47, 77, 101, 100,
+            105, 97, 66, 111, 120, 32, 91, 48, 32, 48, 32, 51, 48, 48, 32, 49, 52, 52, 93, 10, 32, 32, 62, 62, 10, 101,
+            110, 100, 111, 98, 106, 10, 10, 51, 32, 48, 32, 111, 98, 106, 10, 32, 32, 60, 60, 32, 32, 47, 84, 121, 112,
+            101, 32, 47, 80, 97, 103, 101, 10, 32, 32, 32, 32, 32, 32, 47, 80, 97, 114, 101, 110, 116, 32, 50, 32, 48, 32,
+            82, 10, 32, 32, 32, 32, 32, 32, 47, 82, 101, 115, 111, 117, 114, 99, 101, 115, 10, 32, 32, 32, 32, 32, 32, 32,
+            60, 60, 32, 47, 70, 111, 110, 116, 10, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 60, 60, 32, 47, 70, 49, 10,
+            32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 60, 60, 32, 47, 84, 121, 112, 101, 32, 47, 70, 111,
+            110, 116, 10, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 47, 83, 117, 98, 116,
+            121, 112, 101, 32, 47, 84, 121, 112, 101, 49, 10, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
+            32, 32, 32, 47, 66, 97, 115, 101, 70, 111, 110, 116, 32, 47, 84, 105, 109, 101, 115, 45, 82, 111, 109, 97, 110,
+            10, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 62, 62, 10, 32, 32, 32, 32, 32, 32, 32, 32, 32,
+            32, 32, 62, 62, 10, 32, 32, 32, 32, 32, 32, 32, 62, 62, 10, 32, 32, 32, 32, 32, 32, 47, 67, 111, 110, 116, 101,
+            110, 116, 115, 32, 52, 32, 48, 32, 82, 10, 32, 32, 62, 62, 10, 101, 110, 100, 111, 98, 106, 10, 10, 52, 32, 48,
+            32, 111, 98, 106, 10, 32, 32, 60, 60, 32, 47, 76, 101, 110, 103, 116, 104, 32, 53, 53, 32, 62, 62, 10, 115,
+            116, 114, 101, 97, 109, 10, 32, 32, 66, 84, 10, 32, 32, 32, 32, 47, 70, 49, 32, 49, 56, 32, 84, 102, 10, 32,
+            32, 32, 32, 48, 32, 48, 32, 84, 100, 10, 32, 32, 32, 32, 40, 72, 101, 108, 108, 111, 32, 87, 111, 114, 108,
+            100, 41, 32, 84, 106, 10, 32, 32, 69, 84, 10, 101, 110, 100, 115, 116, 114, 101, 97, 109, 10, 101, 110, 100,
+            111, 98, 106, 10, 10, 120, 114, 101, 102, 10, 48, 32, 53, 10, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 32, 54,
+            53, 53, 51, 53, 32, 102, 32, 10, 48, 48, 48, 48, 48, 48, 48, 48, 49, 56, 32, 48, 48, 48, 48, 48, 32, 110, 32,
+            10, 48, 48, 48, 48, 48, 48, 48, 48, 55, 55, 32, 48, 48, 48, 48, 48, 32, 110, 32, 10, 48, 48, 48, 48, 48, 48,
+            48, 49, 55, 56, 32, 48, 48, 48, 48, 48, 32, 110, 32, 10, 48, 48, 48, 48, 48, 48, 48, 52, 53, 55, 32, 48, 48,
+            48, 48, 48, 32, 110, 32, 10, 116, 114, 97, 105, 108, 101, 114, 10, 32, 32, 60, 60, 32, 32, 47, 82, 111, 111,
+            116, 32, 49, 32, 48, 32, 82, 10, 32, 32, 32, 32, 32, 32, 47, 83, 105, 122, 101, 32, 53, 10, 32, 32, 62, 62, 10,
+            115, 116, 97, 114, 116, 120, 114, 101, 102, 10, 53, 54, 53, 10, 37, 37, 69, 79, 70, 10};
+        aReq.setDocument(data);
+        authenticationReqSessionBean.createAuthenticationReq(aReq, s.getUserId());
+
+        Report report = new Report();
+        report.setReportDescription("This is a test report. Test test test test test test test test test test");
+        report.setReported(s);
+        report.setReporter(p);
+        report.setValid(true);
+        reportSessionBean.createReport(report, s.getUserId(), p.getUserId());
 
         if (p.getBookings().isEmpty()) {
             //create new booking
@@ -129,10 +226,18 @@ public class DataInitSessionBean {
             b.setEndDate(new Date());
             b.setNumPets(2);
             b.setParent(p);
+            b.setSitter(s);
             b.setStartDate(new Date());
             b.setStatus(RequestStatusEnum.PENDING);
-            //ok nvm i rl that thrs no sitter yet T-T
-            bookingSessionBean.createNewBooking(b, p.getUserId(), new Long(3));
+            bookingSessionBean.createNewBooking(b, p.getUserId(), s.getUserId(), "once");
+
+            Rating rating = new Rating();
+            rating.setRated(s);
+            rating.setRater(p);
+            rating.setComment("This is a test rating.");
+            rating.setReq(b);
+            rating.setStars(3);
+            ratingSessionBean.createNewRating(rating, p.getUserId(), s.getUserId());
         }
     }
 }

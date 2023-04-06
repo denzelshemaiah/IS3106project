@@ -36,34 +36,44 @@ public class UsersResource {
     @EJB
     private PetParentSessionBeanLocal petParentSessionBeanLocal;
 
-    /*@POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public User createNewUser(User user) {
-        user.setStatus(UserStatusEnum.PENDING);
-        userSessionBean.createNewUser(user);
-        return user;
-    } */
-    
-    // create petparent type user
-    @POST
-    @Path("/petparent")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public User createNewPetParent(User user, PetParent petParent) {
-        userSessionBean.createNewParent(user, petParent);
-        return user;
-    }
+    /*
+     * @POST
+     * 
+     * @Consumes(MediaType.APPLICATION_JSON)
+     * 
+     * @Produces(MediaType.APPLICATION_JSON)
+     * public User createNewUser(User user) {
+     * user.setStatus(UserStatusEnum.PENDING);
+     * userSessionBean.createNewUser(user);
+     * return user;
+     * }
+     */
 
-    // create petsitter type user
-    @POST
-    @Path("/petsitters")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public User createNewPetSitter(User user, PetSitter petSitter) {
-        userSessionBean.createNewSitter(user, petSitter);
-        return user;
-    }
+    // create petparent type user
+    // @POST
+    // @Path("/petparent")
+    // @Consumes(MediaType.APPLICATION_JSON)
+    // @Produces(MediaType.APPLICATION_JSON)
+    // public User createNewPetParent(User user, PetParent petParent) {
+    // user.setStatus(UserStatusEnum.PENDING);
+    // userSessionBean.createNewParent(user, petParent);
+    // return user;
+    // }
+    //
+    // // create petsitter type user
+    // @POST
+    // @Path("/petsitters")
+    // @Produces(MediaType.APPLICATION_JSON)
+    // @Consumes(MediaType.APPLICATION_JSON)
+    // public User createNewPetSitter(User user, PetSitter petSitter) {
+    // user.setStatus(UserStatusEnum.PENDING);
+    //
+    // // Convert service chosen (string) to the corresponding enum value
+    // // petSitter.setService(ServiceEnum.getServiceEnumFromString());
+    //
+    // userSessionBean.createNewSitter(user, petSitter);
+    // return user;
+    // }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

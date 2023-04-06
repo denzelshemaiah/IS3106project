@@ -40,7 +40,7 @@ public class AuthenReqManagedBean implements Serializable {
     public void getAllUnresolvedAReq() {
         unresolvedAReq = authenticationReqSessionBeanLocal.getAllUnresolvedAuthenReq();
         numRes = unresolvedAReq.size();
-        System.out.println("all unresolved areqs loaded");
+        System.out.println("all unresolved areqs loaded " + numRes);
     }
 
     public List<AuthenticationRequest> getUnresolvedAReq() {

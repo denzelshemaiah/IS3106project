@@ -10,6 +10,7 @@ function RequestModal(props) {
     const [modal, setModal] = useState(false);
     const label = props.buttonLabel;
     const [booking, setBooking] = useState(props.booking);
+    const reloadData = props.reloadData;
 
     useEffect(() => {
         if (props.booking) {
@@ -78,21 +79,23 @@ function RequestModal(props) {
       e.preventDefault();
       //change this to current user's Id
       Api.cancelBooking(booking.parent.userId, booking.bookingReqId)
-      props.toggle();
+      toggle();
     }
 
     const submitFormAccept = (e) => {
       e.preventDefault();
       //change this to current user's Id
       Api.acceptBooking(booking.parent.userId, booking.bookingReqId)
-      props.toggle();
+      .then(toggle())
+      .then({reloadData})
     }
 
     const submitFormReject = (e) => {
       e.preventDefault();
       //change this to current user's id
-      Api.acceptBooking(booking.parent.userId, booking.bookingReqId)
-      props.toggle();
+      Api.rejectBooking(booking.parent.userId, booking.bookingReqId)
+      .then(toggle())
+      .then({reloadData})
     }
 
     //edit this
@@ -120,7 +123,10 @@ function RequestModal(props) {
               </p>
               <p>
               You would have to pay: ${calculatePenalty(booking)}
-              <Input type="text" value={booking.bookingId}/>
+              <Input type="text" value={booking.bookingId} hidden={true}/>
+              </p>
+              <p style={{fontSize: "13px", fontWeight:"600"}}>
+                **Note: This will automatically be charged to your credit card**
               </p>
               <Button 
                 color="danger" 

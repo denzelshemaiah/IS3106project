@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Api from "../../helpers/Api";
-import { Button } from "react-bootstrap";
+import { Button, Badge } from "react-bootstrap";
 import RequestModal from "../../components/RequestModals"
 import moment from 'moment-timezone';
+import NoRequestsPage from "../../components/NoRequestsPage";
 
 //page to view all bookings, follows a tab view
 function Bookings(props) {
     const {userId = 1} = useState(1);
     const [chosenTab, setChosenTab] = useState("pending")
     const [bookings, setBookings] = useState([]);
-    const user = {"role": "sitter"}
+    const user = {role : "parent"}
 
     useEffect(() => {
         reloadData();
@@ -25,7 +26,12 @@ function Bookings(props) {
 
                 booking.formatCreated = created.substring(0, created.length - 5)
                 booking.formatStartDate = startDate.split("T")[0]
-                booking.formatEndDate = endDate.split("T")[0];
+                //account for auto timezone conversion to UTC by JSON ;-;
+                booking.formatStartDate = booking.formatStartDate.split("-")
+                booking.formatStartDate = booking.formatStartDate[0] + "-" + booking.formatStartDate[1] + "-" + booking.formatStartDate[2][0] + (Number(booking.formatStartDate[2][1]) + 1)
+                booking.formatEndDate = endDate.split("T")[0]
+                booking.formatEndDate = booking.formatEndDate.split("-")
+                booking.formatEndDate = booking.formatEndDate[0] + "-" + booking.formatEndDate[1] + "-" + booking.formatEndDate[2][0] + (Number(booking.formatEndDate[2][1]) + 1)
             }
             setBookings(bookings);
         });
@@ -44,24 +50,58 @@ function Bookings(props) {
     function editButton(booking) {
         if (user.role === "parent") {
             return <div style={{width:"110px", float:"right"}}>
-                <RequestModal buttonLabel="Edit" booking={booking} updateState={updateState} reloadData={reloadData}/>
+                <RequestModal buttonLabel="Edit" booking={booking} type="booking" updateState={updateState} reloadData={reloadData}/>
                 {' '}
             </div>
         } else if (user.role === "sitter") {
             return <div style={{width:"200px", float:"right"}}>
-                <RequestModal buttonLabel="Reject" booking={booking} updateState={updateState} reloadData={reloadData}/>
+                <RequestModal buttonLabel="Reject" booking={booking} type="booking" updateState={updateState} reloadData={reloadData}/>
                 {' '}
-                <RequestModal buttonLabel="Accept" booking={booking} updateState={updateState} reloadData={reloadData}/>
+                <RequestModal buttonLabel="Accept" booking={booking} type="booking" updateState={updateState} reloadData={reloadData}/>
             </div>
         }
     }
 
     function cancelButton(booking) {
         if (user.role === "parent") {
-            <div style={{width:"110px", float:"right"}}>
-                <RequestModal buttonLabel="Cancel" booking={booking} updateState={updateState}/>
+            return<div style={{width:"110px", float:"right"}}>
+                <RequestModal buttonLabel="Cancel" booking={booking} type="booking" updateState={updateState} reloadData={reloadData}/>
                 {' '}
             </div>
+        }
+    }
+
+    function rateButton(booking) {
+        //only parents can rate sitters
+        if (!booking.rating && user.role === "parent") {
+            return <div style={{display:"block"}}>
+                <Button style={{backgroundColor: "#9d82ff", float:"right"}} onClick={redirectRatings}> Rate </Button>
+            </div>
+        }
+    }
+
+    function repeatText(booking) {
+        if (booking.repeatDay) {
+            var repeatArray = booking.repeatDay;
+            var daysArray = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
+            var daysStr = "";
+            repeatArray.forEach((day) => {
+                daysStr += ", " + daysArray[day];
+            });
+            //booking will be repeated on certain days of wk
+            return <p>Repeat Days: {daysStr.substring(2)}</p>
+        }
+    }
+
+    function badge(booking) {
+        if (booking.status === "PENDING") {
+            return <Badge color="warning" pill>Pending</Badge>
+        } else if (booking.status === "ACCEPTED") {
+            return <Badge color="success" pill>Accepted</Badge>
+        } else if (booking.status === "REJECTED") {
+            return <Badge color="danger" pill>Rejected</Badge>
+        } else {
+            return <Badge color="dark" pill>Archived</Badge>
         }
     }
 
@@ -71,11 +111,15 @@ function Bookings(props) {
         if (chosenTab === "pending" && user.role === "parent") {
             return (
                 <>  
+                {/*  CHANGE TO SITTER ! */}
                     <li className="list-group-item" key={booking.bookingReqId} style={{padding:"10px"}}>
-                        <h5>{booking.parent.firstName} {booking.parent.lastName}</h5>
+                        <h5>{booking.sitter.firstName} {booking.sitter.lastName}</h5>
                         Request Dates: {booking.formatStartDate} to {booking.formatEndDate}<br/>
                         <p>{booking.description}</p>
+                        {repeatText(booking)}
                         {editButton(booking)}
+                        {cancelButton(booking)}
+                        {badge(booking)}
                     </li>
                 </>
             )
@@ -87,7 +131,9 @@ function Bookings(props) {
                         <h5>{booking.parent.firstName} {booking.parent.lastName}</h5>
                         Request Dates: {booking.formatStartDate} to {booking.formatEndDate}<br/>
                         <p>{booking.description}</p>
+                        {repeatText(booking)}
                         {editButton(booking)}
+                        {badge(booking)}
                     </li>
                 </>
             )
@@ -95,37 +141,67 @@ function Bookings(props) {
             return (
                 <>
                     <li className="list-group-item" key={booking.bookingReqId}>
-                        <h5>Request from name</h5>
-                        Request dates<br/>
-                        <p>Desription of request</p>
+                        <h5>{booking.sitter.firstName} {booking.sitter.lastName}</h5>
+                        Request dates: {booking.formatStartDate} to {booking.formatEndDate}<br/>
+                        <p>{booking.description}</p>
+                        {repeatText(booking)}
                         {cancelButton(booking)}
+                        {badge(booking)}
                     </li>
                 </>
             )
-        } 
-        else {
-            return (
-                <>  
-                    <li class="list-group-item" key={booking.bookingReqId}>
-                        <h5>Request from name</h5>
-                        Request dates<br/>
-                        <p>Desription of request</p>
-                        {' '}
-                        <div style={{display:"block"}}>
-                            <Button style={{backgroundColor: "#9d82ff", float:"right"}} onClick={redirectRatings}> Rate </Button>
-                        </div>
+        } else if (chosenTab === "upcoming" && user.role === "sitter") {
+            return ( 
+                <>
+                    <li className="list-group-item" key={booking.bookingReqId} style={{padding:"10px"}}>
+                        <h5>{booking.parent.firstName} {booking.parent.lastName}</h5>
+                        Request Dates: {booking.formatStartDate} to {booking.formatEndDate}<br/>
+                        <p>{booking.description}</p>
+                        {repeatText(booking)}
+                        {badge(booking)}
                     </li>
                 </>
             )
         }
+        else {
+            if (user.role === "parent") {
+                return (
+                    <>  
+                        <li class="list-group-item" key={booking.bookingReqId}>
+                            <h5>{booking.sitter.firstName} {booking.sitter.lastName}</h5>
+                            Request Dates: {booking.formatStartDate} to {booking.formatEndDate}<br/>
+                            <p>{booking.description}</p>
+                            {' '}
+                            {rateButton(booking)}
+                            {badge(booking)}
+                        </li>
+                    </>
+                )
+            } else {
+                //case of sitter
+                return (
+                    <>  
+                        <li class="list-group-item" key={booking.bookingReqId}>
+                            <h5>{booking.parent.firstName} {booking.parent.lastName}</h5>
+                            Request Dates: {booking.formatStartDate} to {booking.formatEndDate}<br/>
+                            <p>{booking.description}</p>
+                            {repeatText(booking)}
+                            {' '}
+                        </li>
+                    </>
+                )
+            }
+        }
     })
+
+    function noReqs() {
+        if (result.length === 0) {
+           return <NoRequestsPage tab={chosenTab} type="bookings"/>
+        }
+    }
 
     function renderList(selectedTab) {
         setChosenTab(selectedTab);
-    }
-
-    function handleReject() {
-        //call API
     }
     
     function redirectRatings() {
@@ -161,21 +237,25 @@ function Bookings(props) {
                         <div className="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="pending-tab">
                             <ul className="list-group">
                                 {result}
+                                {noReqs()}
                             </ul>
                         </div>
                         <div className="tab-pane fade" id="upcoming" role="tabpanel" aria-labelledby="upcoming-tab">
                             <ul className="list-group">
                                 {result}
+                                {noReqs()}
                             </ul>
                         </div>
                         <div className="tab-pane fade" id="rejected" role="tabpanel" aria-labelledby="rejected-tab">
                             <ul className="list-group">
                                 {result}
+                                {noReqs()}
                             </ul>
                         </div>
                         <div className="tab-pane fade" id="archived" role="tabpanel" aria-labelledby="archived-tab">
                             <ul className="list-group">
                                 {result}
+                                {noReqs()}
                             </ul>
                         </div>
                     </div>

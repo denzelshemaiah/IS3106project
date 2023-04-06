@@ -6,6 +6,11 @@
 package managedbean;
 
 import entity.AuthenticationRequest;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -26,17 +31,31 @@ public class ViewAuthenReqManagedBean implements Serializable {
     private Long authenId;
     private AuthenticationRequest authenReq;
     private Long staffId;
+    private File documents;
 
     /**
      * Creates a new instance of ViewAuthenReqManagedBean
      */
     public ViewAuthenReqManagedBean() {
     }
-    
+
     public void findAuthenReq() {
-        authenReq = authenticationReqSessionBeanLocal.findAuthenReqById(authenId);
+        this.authenReq = authenticationReqSessionBeanLocal.findAuthenReqById(authenId);
+        byte[] docBytes = authenReq.getDocument();
+        String filepath = "";
+        File file = new File(filepath);
+        try {
+            OutputStream os = new FileOutputStream(file);
+            os.write(docBytes);
+            System.out.println("Document generated");
+            os.close();
+        } catch (IOException e) {
+            PrintWriter s = new PrintWriter(System.out);
+            e.printStackTrace(s);
+        }
+        this.documents = file;
     }
-    
+
     public String approve() {
         //approve
         authenticationReqSessionBeanLocal.acceptAuthenReq(authenId, staffId);
@@ -52,7 +71,7 @@ public class ViewAuthenReqManagedBean implements Serializable {
         authenReq = null;
         return "authenReq.xhtml?faces-redirect=true";
     }
-    
+
     public Long getAuthenId() {
         return authenId;
     }
@@ -75,5 +94,13 @@ public class ViewAuthenReqManagedBean implements Serializable {
 
     public void setStaffId(Long staffId) {
         this.staffId = staffId;
+    }
+
+    public File getDocuments() {
+        return documents;
+    }
+
+    public void setDocuments(File documents) {
+        this.documents = documents;
     }
 }

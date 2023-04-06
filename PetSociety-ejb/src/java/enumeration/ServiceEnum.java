@@ -10,5 +10,7 @@ package enumeration;
  * @author cally
  */
 public enum ServiceEnum {
-    BOARDING, PET_TAXI, DAYCARE, DROP_IN
+
+    BOARDING, WALKING, DAYCARE, DROP_IN
+
 }
