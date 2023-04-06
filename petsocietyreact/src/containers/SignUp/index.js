@@ -43,6 +43,7 @@ function SignUp(props) {
   // removed status as it is now set in the backend
 
   // pet parent attributes
+
   const [searches, setSearches] = useState([]);
   const [mgRequests, setMgRequests] = useState([]);
   const [bookings, setBookings] = useState([]);
@@ -164,20 +165,7 @@ function SignUp(props) {
     cc: cc,
   }
 
-  //pet parent attributes
-  let petParent = {};
-  const [searches, setSearches] = useState([]);
-  const [mgRequests, setMgRequests] = useState([]);
-  const [bookings, setBookings] = useState([]);
 
-  petParent = {
-    user,
-    petParentAttributes: {
-      searches: searches,
-      mgRequests: mgRequests,
-      bookings: bookings
-    }
-  };
 
   // pet sitter attributes
   let petSitter = {};
@@ -640,9 +628,9 @@ function SignUp(props) {
       <>
         <h1>test2</h1>
       //put below in a method:
-        <button onClick={handleCreationOfSitter}>
+        {/* <button onClick={handleCreationOfSitter}>
           Submit
-        </button>
+        </button> */}
       // redirect 2 sitter homepage
       
       <div className="row pt-3 pb-5 mx-auto">
