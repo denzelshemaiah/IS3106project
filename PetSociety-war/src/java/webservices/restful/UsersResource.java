@@ -50,15 +50,15 @@ public class UsersResource {
      */
 
     // create petparent type user
-    @POST
-    @Path("/petparent")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public User createNewPetParent(User user, PetParent petParent) {
-        user.setStatus(UserStatusEnum.PENDING);
-        userSessionBean.createNewParent(user, petParent);
-        return user;
-    }
+//    @POST
+//    @Path("/petparent")
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public User createNewPetParent(User user, PetParent petParent) {
+//        user.setStatus(UserStatusEnum.PENDING);
+//        userSessionBean.createNewParent(user, petParent);
+//        return user;
+//    }
     
     // // create petsitter type user
     // @POST
