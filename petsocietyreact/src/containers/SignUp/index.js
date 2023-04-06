@@ -65,9 +65,6 @@ function SignUp(props) {
   };
 
 
-
-
-
   // new plan: never creating user until we get the roles. so we must still have user in fe and separate
   // pp and ps entities in order to pass to new BE
   const handleRegistrationOfUser = (e) => {
@@ -163,21 +160,6 @@ function SignUp(props) {
     bankAcc: bankAcc,
     cc: cc,
   }
-
-  //pet parent attributes
-  let petParent = {};
-  const [searches, setSearches] = useState([]);
-  const [mgRequests, setMgRequests] = useState([]);
-  const [bookings, setBookings] = useState([]);
-
-  petParent = {
-    user,
-    petParentAttributes: {
-      searches: searches,
-      mgRequests: mgRequests,
-      bookings: bookings
-    }
-  };
 
   // pet sitter attributes
   let petSitter = {};
@@ -640,7 +622,7 @@ function SignUp(props) {
       <>
         <h1>test2</h1>
       //put below in a method:
-        <button onClick={handleCreationOfSitter}>
+        <button>
           Submit
         </button>
       // redirect 2 sitter homepage
