@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createContext } from "react";
-import { Button, CardTitle, CardSubtitle, ListGroupItem, ListGroup, CardText, Card, CardBody, CardGroup, CardImg } from "reactstrap";
+import { Button, CardTitle, ListGroupItem, ListGroup, CardText, Card, CardBody, CardGroup, CardImg, ButtonGroup } from "reactstrap";
 //import Api from "../../helpers/Api";
 import './style.css';
 import Rating from 'react-rating-stars-component';
@@ -30,7 +30,7 @@ function SearchResults(props) {
         "userId": 1,
         "firstName": "Sarah",
         "lastName": "Tan",
-        "profilePicture": "https://www.rover.com/members/anne-w-well-treat-your-pet-like-family/?service_type=overnight-boarding&frequency=onetime&pet_type=dog",
+        "profilePicture": "https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*",
         "rate": "5.00/hr",
         "rating": 5,
         "comments": "good",
@@ -40,7 +40,7 @@ function SearchResults(props) {
         "userId": 2,
         "firstName": "David",
         "lastName": "Chua",
-        "profilePicture": "https://www.rover.com/members/anne-w-well-treat-your-pet-like-family/?service_type=overnight-boarding&frequency=onetime&pet_type=dog",
+        "profilePicture": "https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*",
         "rate": "6.00/hr",
         "rating": 4,
         "comments": "excellent",
@@ -59,7 +59,9 @@ function SearchResults(props) {
     // //     set walker search parameters
     // const [walkerSearchParam, setWalkerSearchParam] = useState(["service", "petEnum", "location", "startDate", "endDate", "size", "rate", "numTimes", "timeOfDay"]);
 
-    const [startDate, setStartDate] = useState("");
+    //using the form data keyed in from the searchSitter container
+    const { formData } = props;
+
     /*      
             useEffect(() => {
                 Api.getAllPetSitters(userId) 
@@ -89,7 +91,6 @@ function SearchResults(props) {
     return (
         /* here we map over the sitter and display each sitter as a card  */
         <>
-                /* here we map over the sitter and display each sitter as a card  */
             <div className="wrapper">
                 <ul className="card-grid">
                     {sitters.map((sitter) => (
@@ -99,8 +100,8 @@ function SearchResults(props) {
                                     <Card style={{ width: '22rem' }}>
                                         <CardImg
                                             alt="Sample"
-                                            src="https://picsum.photos/300/200" />
-                                        <CardBody>
+                                            src={sitter.profilePicture} />
+                                        <CardBody className="text-center">
                                             <CardTitle tag="h5">
                                                 {sitter.firstName} {sitter.lastName}
                                             </CardTitle>
@@ -126,15 +127,24 @@ function SearchResults(props) {
                                                 </ListGroup>
                                             </CardText>
                                         </CardBody>
-                                        <div className="button-wrapper">
-                                            <Link to={{
-                                                pathname: "/makebooking",
-                                                sitter: sitter,
-                                                startDate: startDate,
-                                            }}>
-                                                <Button>Book Sitter</Button>
-                                            </Link>
-                                        </div>
+                                        <ButtonGroup>
+                                            <div className="button-wrapper" style={{ marginLeft: "50px" }}>
+                                                <Link to={{
+                                                    pathname: "/makebooking",
+                                                    sitter: sitter,
+                                                    formData: formData,
+                                                }}>
+                                                    <Button> Book Sitter</Button>
+                                                </Link>
+                                            </div>
+                                            <div className="button-wrapper">
+                                                <Link to={{
+                                                    pathname: "/meetAndGreets",
+                                                }}>
+                                                    <Button>Book Meet And Greet</Button>
+                                                </Link>
+                                            </div>
+                                        </ButtonGroup>
                                     </Card>
                                 </CardGroup>
                             </article>
@@ -153,8 +163,8 @@ function SearchResults(props) {
             display: flex;
             justify-content: center;
             margin-top: auto;
-            width: 100%;
-          }
+            width: 100px;
+          }\
         `}
             </style></>
     );

@@ -64,7 +64,7 @@ function SearchSitter(props) {
           endDate: null
         },
         petSize: "",
-        rate: [0, 500],
+        rate: [0, 200],
         repeat: "",
         fulltime: false,
         numOfTimes: null,
@@ -113,7 +113,7 @@ function SearchSitter(props) {
         }));
       };
 
-    const [rate, setRate] = useState([1.00, 500.00]);
+    const [rate, setRate] = useState([1.00, 200.00]);
     const handleRateChange = (value) => {
         setRate(value);
         setFormData((prevState) => ({
@@ -125,11 +125,11 @@ function SearchSitter(props) {
     const getLabel = () => {
         switch (selectedItem1) {
             case "Boarding":
-            case "Daycare":
+            case "DayCare":
                 return "Rate (per day):";
             case "Drop-in Visits":
                 return "Rate (per hr):";
-            case "Dog Walking":
+            case "Dog Walker":
                 return "Rate (per walk):";
             default:
                 return "";
@@ -410,7 +410,7 @@ function SearchSitter(props) {
                                         <Slider
                                             range
                                             min={1.00}
-                                            max={500.00}
+                                            max={200.00}
                                             step={1.0}
                                             value={rate}
                                             onChange={handleRateChange} />
