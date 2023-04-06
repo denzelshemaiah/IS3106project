@@ -48,8 +48,6 @@ public class UserSessionBean implements UserSessionBeanLocal {
         petSitter.setUser(user);
         em.persist(petSitter);
     }
-    
-    
 
     @Override
     public User getUser(Long userId) throws EntityNotFoundException {
