@@ -36,3 +36,6 @@ hs_err_pid*
 /PetSociety-war/nbproject/private/
 /PetSociety-ejb/nbproject/private/
 /petsocietyreact/nbproject/private/
+
+# generated pdf files from running
+*.pdf
