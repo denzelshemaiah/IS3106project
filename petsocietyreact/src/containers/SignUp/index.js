@@ -155,7 +155,8 @@ function SignUp(props) {
     handleCreationOfCc(e);
     handleCreationOfBankAcc(e);
   }
-
+  
+  
   // pet parent attributes
   const [searches, setSearches] = useState([]);
   const [mgRequests, setMgRequests] = useState([]);
@@ -205,7 +206,13 @@ function SignUp(props) {
     documents: documents,
   }
 
-  //const handleCreationOfAuthenticationRequest
+  const handleCreationOfAuthenReq = (e) => {
+    e.preventDefault();
+    Api.createAndAssociateNewAuthenReq(authenticationRequest)
+      .then((data) => {
+        navigate("/LoggedInHomepage");
+      })
+  }
 
   // experienceform
   const [yearsOfExperience, setYearsOfExperience] = useState("");
@@ -217,7 +224,14 @@ function SignUp(props) {
     headline: headline,
     experience: experience,
   }
-  //const handleCreationOfExperienceForm
+  
+  const handleCreationOfExperienceForm = (e) => {
+    e.preventDefault();
+    Api.createAndAssociateNewExperienceForm(experienceForm)
+      .then((data) => {
+        navigate("/LoggedInHomepage");
+      })
+  }
 
   // safetyform
   const [q1, setQ1] = useState("");
@@ -229,7 +243,14 @@ function SignUp(props) {
     q2: q2,
     q3: q3,
   }
-  //const handleCreationOfSafetyForm
+  
+  const handleCreationOfSafetyForm = (e) => {
+    e.preventDefault();
+    Api.createAndAssociateNewSafetyForm(safetyForm)
+      .then((data) => {
+        navigate("/LoggedInHomepage");
+      })
+  }
 
   petSitter = {
     user,
@@ -247,14 +268,23 @@ function SignUp(props) {
       mgRequests: mgRequests
     }
   }
-
-  // creation of sitter
-  const handleCreationOfSitter = (e) => {
-    e.preventDefault();
+  
+  const handleCompletePetSitterCreation = (e) => {
+      handleCompleteUserCreation(e);
+      handleCreationOfAuthenReq(e);
+      handleCreationOfExperienceForm(e);
+      handleCreationOfSafetyForm(e);
   }
 
-
-
+  // creation of sitter ??
+  const handleCreationOfSitter = (e) => {
+    e.preventDefault();
+    Api.createNewSitter(user, petSitter)
+      .then((data) => {
+        navigate("/LoggedInHomepage");
+      })
+  }
+  
   const [reportsAgainstUser, setReportsAgainstUser] = useState(null);
   const [reportsUserMade, setReportsUserMade] = useState(null);
   const [ratingsForUsers, setRatingsForUsers] = useState(null);
