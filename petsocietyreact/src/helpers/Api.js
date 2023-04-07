@@ -154,7 +154,7 @@ const Api = {
     },
 
     //reject a meet and greet
-    rejectBooking(sitterId, mgReqId) {
+    rejectMg(sitterId, mgReqId) {
         return fetch(`${SERVER_PREFIX}/meetandgreets/reject/${sitterId}/${mgReqId}`, {
             method: "PUT"
         })

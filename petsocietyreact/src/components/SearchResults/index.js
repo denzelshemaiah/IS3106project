@@ -4,6 +4,7 @@ import { Button, CardTitle, ListGroupItem, ListGroup, CardText, Card, CardBody, 
 import './style.css';
 import Rating from 'react-rating-stars-component';
 import { Link, Navigate } from "react-router-dom";
+import MgModal from "../../components/MgModals";
 
 
 // function search(sitters) {
@@ -133,11 +134,7 @@ function SearchResults(props) {
                                                 </Link>
                                             </div>
                                             <div className="button-wrapper">
-                                                <Link to={{
-                                                    pathname: "/meetAndGreets",
-                                                }}>
-                                                    <Button>Book Meet And Greet</Button>
-                                                </Link>
+                                                    <MgModal sitter={sitter} buttonLabel="Create"></MgModal>
                                             </div>
                                         </ButtonGroup>
                                     </Card>

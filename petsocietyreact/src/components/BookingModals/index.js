@@ -139,7 +139,7 @@ function RequestModal(props) {
           </div>
         ))
       } else if (label === "Accept") {
-        modalBody = ((
+        modalBody = (
           <div id="acceptModal">
             <Form onSubmit={submitFormAccept}>
               <p>
@@ -158,7 +158,7 @@ function RequestModal(props) {
               </Button>
             </Form>
           </div>
-        ))
+        )
       } else if (label === "Reject") {
         modalBody = ((
           <div id="rejectModal">

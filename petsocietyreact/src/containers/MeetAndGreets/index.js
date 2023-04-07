@@ -4,6 +4,7 @@ import Api from "../../helpers/Api";
 import NoRequestsPage from "../../components/NoRequestsPage";
 import { Button } from "react-bootstrap";
 import RequestModal from "../../components/BookingModals"
+import MgModal from "../../components/MgModals";
 
 
 
@@ -143,14 +144,14 @@ function MeetAndGreets() {
     editButton = (request) => {
         if (user.role === "parent" && (chosenTab === "pending" || chosenTab === "rejected")) {
             return <div style={{width:"110px", float:"right"}}>
-                <RequestModal buttonLabel="Edit" booking={request} type="mg" updateState={updateState} reloadData={reloadData}/>
+                <MgModal buttonLabel="Edit" mgReq={request} updateState={updateState} reloadData={reloadData}/>
                 {' '}
             </div>
         } else if (user.role === "sitter") {
             return <div style={{width:"200px", float:"right"}}>
-                <RequestModal buttonLabel="Reject" booking={request} type="mg" updateState={updateState} reloadData={reloadData}/>
+                <MgModal buttonLabel="Reject" mgReq={request} updateState={updateState} reloadData={reloadData}/>
                 {' '}
-                <RequestModal buttonLabel="Accept" booking={request}  type="mg" updateState={updateState} reloadData={reloadData}/>
+                <MgModal buttonLabel="Accept" mgReq={request} updateState={updateState} reloadData={reloadData}/>
             </div>
         }
     }
@@ -160,7 +161,7 @@ function MeetAndGreets() {
     cancelButton = (request) => {
         if (user.role === "parent") {
             return<div style={{width:"110px", float:"right"}}>
-                <RequestModal buttonLabel="Cancel" booking={request} type="mg" updateState={updateState} reloadData={reloadData}/>
+                <MgModal buttonLabel="Cancel" mgReq={request} updateState={updateState} reloadData={reloadData}/>
                 {' '}
             </div>
         }

@@ -71,7 +71,7 @@ function EditForm(props) {
                     name="date"
                     minDate={new moment().tz("Asia/Singapore").toDate()}
                     selected={date}
-                    onChange={(date) => setStartDate(date)}
+                    onChange={(date) => setDate(date)}
                     maxDate={maxDate}
                 />
             </FormGroup>
