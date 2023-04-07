@@ -29,6 +29,11 @@ function SignUp(props) {
     navigate(path);
   }
 
+  const redirect3 = () => {
+    let path = '/SignUp/3';
+    navigate(path);
+  }
+
   // for user, its attributes
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -146,10 +151,9 @@ function SignUp(props) {
 
   // handle original creation of user within FE
   const handleCompleteUserCreation = (e) => {
-    handleRegistrationOfUser();
-    handleCreationOfCc();
-    handleCreationOfBankAcc();
-    navigate(`/SignUp/3`);
+    handleRegistrationOfUser(e);
+    handleCreationOfCc(e);
+    handleCreationOfBankAcc(e);
   }
 
   // pet parent attributes
@@ -554,8 +558,10 @@ function SignUp(props) {
                     <MDBBtn color='success'
                       className='mb-4'
                       size='lg'
-                      type="submit">
-                      Submit</MDBBtn>
+                      type="submit"
+                      onClick = {redirect3}>
+                      Submit
+                      </MDBBtn>
 
                   </MDBCardBody>
                 </MDBCard>

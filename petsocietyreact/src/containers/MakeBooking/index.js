@@ -8,7 +8,7 @@ import { faCalendarAlt } from "@fortawesome/free-regular-svg-icons";
 import moment from 'moment-timezone';
 import "react-datepicker/dist/react-datepicker.css";
 import Api from "../../helpers/Api";
-import {Link, useParams, useNavigate} from "react-router-dom";
+import {Link, useParams, useNavigate, useSearchParams, useLocation} from "react-router-dom";
 
 //page to view all bookings, follows a tab view
 function MakeBooking(props) {
@@ -20,15 +20,31 @@ function MakeBooking(props) {
     const [freq, setFreq] = useState('2');
     const [endDate, setEndDate] = useState(moment("2023-05-08 00:00:00").startOf("day").toDate());
     const [repeat, setRepeat] = useState("weekly")
-    const numPets = 2;
+    const [numPets, setNumPets] = useState(0);
     const navigate = useNavigate();
     const [rate, setRate] = useState(10);
     const [parentId, setParentId] = useState(1);
     const [sitterId, setSitterId] = useState(0);
-    const [daysRepeat, setDaysRepeat] = useState([1, 4, 5]);
+    const [daysRepeat, setDaysRepeat] = useState([]);
+    const location = useLocation();
 
     useEffect(() => {
-        setService("walking")
+        const sitter = location.state?.sitter;
+        const formData = location.state?.formData.searchQuery;
+        console.log(sitter);
+        console.log(formData);
+        setService(sitter.service)
+        setStartDate(formData.dates.startDate)
+        setEndDate(formData.dates.endDate)
+        setRepeat(formData.repeat)
+        setFreq(formData.numOfTimes);
+        if(repeat === "weekly") {
+            setDaysRepeat(convertDays(formData.dayOfWeek));
+            console.log(daysRepeat)
+        }
+        setRate(sitter.rate);
+        setSitterId(sitter.userId);
+
         const calculateTotalCost = () => {
             //per day (boarding,  daycare)
             if (service === "boarding" || service === "daycare") {
@@ -66,6 +82,18 @@ function MakeBooking(props) {
         }
         setCost(calculateTotalCost)
     }, [service]);
+
+    //convert days repeat to integers
+    function convertDays(array) {
+        var daysStr = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
+        var daysNum = [];
+        array.forEach((day) => {
+            var idx = daysStr.indexOf(day);
+            daysNum.push(idx);
+        })
+        //sort earliest day to latest
+        return daysNum.sort()
+    }
 
     //for the top bar stating service
     let serviceIcon = ""

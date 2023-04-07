@@ -6,7 +6,9 @@
 package managedbean;
 
 import entity.AuthenticationRequest;
+import helper.GetProperties;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -14,8 +16,12 @@ import java.io.PrintWriter;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.faces.annotation.ManagedProperty;
+import javax.inject.Inject;
+import javax.servlet.ServletContext;
+import javax.swing.JFileChooser;
 import session.AuthenticationReqSessionBeanLocal;
 
 /**
@@ -31,7 +37,9 @@ public class ViewAuthenReqManagedBean implements Serializable {
     private Long authenId;
     private AuthenticationRequest authenReq;
     private Long staffId;
-    private File documents;
+    private String filepath;
+    private GetProperties getProperties;
+    //private File documents;
 
     /**
      * Creates a new instance of ViewAuthenReqManagedBean
@@ -40,20 +48,31 @@ public class ViewAuthenReqManagedBean implements Serializable {
     }
 
     public void findAuthenReq() {
-        this.authenReq = authenticationReqSessionBeanLocal.findAuthenReqById(authenId);
+        try {
+            getProperties = new GetProperties();
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace(System.out);
+        }
+        this.authenReq = authenticationReqSessionBeanLocal.findAuthenReqById(authenReq.getAuthenticationId());
+        this.authenId = authenReq.getAuthenticationId();
+        System.out.println("AuthenReq found.");
+        //filepath = System.getProperty("user.home") + "/Desktop/authenReqId" + authenReq.getAuthenticationId().toString() + ".pdf";
+        String pdfName = "authenReqId" + authenReq.getAuthenticationId().toString() + ".pdf";
+        filepath = getProperties.getImgPath() + "/" + pdfName;
+        System.out.println("filepath set: " + filepath);
         byte[] docBytes = authenReq.getDocument();
-        String filepath = "";
         File file = new File(filepath);
         try {
-            OutputStream os = new FileOutputStream(file);
+            OutputStream os = new FileOutputStream(filepath);
+            System.out.println("FileOutputStream created");
             os.write(docBytes);
             System.out.println("Document generated");
+            System.out.println(file.getAbsolutePath());
             os.close();
         } catch (IOException e) {
-            PrintWriter s = new PrintWriter(System.out);
-            e.printStackTrace(s);
+            e.printStackTrace(System.out);
         }
-        this.documents = file;
+        //this.documents = file;
     }
 
     public String approve() {
@@ -61,6 +80,7 @@ public class ViewAuthenReqManagedBean implements Serializable {
         authenticationReqSessionBeanLocal.acceptAuthenReq(authenId, staffId);
         authenId = -1L;
         authenReq = null;
+        //documents = null;
         return "authenReq.xhtml?faces-redirect=true";
     }
 
@@ -69,6 +89,14 @@ public class ViewAuthenReqManagedBean implements Serializable {
         authenticationReqSessionBeanLocal.markAuthenReqAsResolved(authenId, staffId);
         authenId = -1L;
         authenReq = null;
+        //documents = null;
+        return "authenReq.xhtml?faces-redirect=true";
+    }
+
+    public String back() {
+        //authenId = -1L;
+        //authenReq = null;
+        //documents = null;
         return "authenReq.xhtml?faces-redirect=true";
     }
 
@@ -86,6 +114,7 @@ public class ViewAuthenReqManagedBean implements Serializable {
 
     public void setAuthenReq(AuthenticationRequest authenReq) {
         this.authenReq = authenReq;
+        findAuthenReq();
     }
 
     public Long getStaffId() {
@@ -96,11 +125,19 @@ public class ViewAuthenReqManagedBean implements Serializable {
         this.staffId = staffId;
     }
 
-    public File getDocuments() {
-        return documents;
+//    public File getDocuments() {
+//        return documents;
+//    }
+//
+//    public void setDocuments(File documents) {
+//        this.documents = documents;
+//    }
+
+    public String getFilepath() {
+        return filepath;
     }
 
-    public void setDocuments(File documents) {
-        this.documents = documents;
+    public void setFilepath(String filepath) {
+        this.filepath = filepath;
     }
 }

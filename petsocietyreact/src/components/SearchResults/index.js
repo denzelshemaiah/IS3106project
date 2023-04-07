@@ -3,7 +3,8 @@ import { Button, CardTitle, ListGroupItem, ListGroup, CardText, Card, CardBody, 
 //import Api from "../../helpers/Api";
 import './style.css';
 import Rating from 'react-rating-stars-component';
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import MgModal from "../../components/MgModals";
 
 
 // function search(sitters) {
@@ -34,7 +35,8 @@ function SearchResults(props) {
         "rate": "5.00/hr",
         "rating": 5,
         "comments": "good",
-        "region": "west"
+        "region": "west",
+        "service": "walking"
     },
     {
         "userId": 2,
@@ -60,8 +62,6 @@ function SearchResults(props) {
     // const [walkerSearchParam, setWalkerSearchParam] = useState(["service", "petEnum", "location", "startDate", "endDate", "size", "rate", "numTimes", "timeOfDay"]);
 
     //using the form data keyed in from the searchSitter container
-    const { formData } = props;
-
     /*      
             useEffect(() => {
                 Api.getAllPetSitters(userId) 
@@ -129,20 +129,12 @@ function SearchResults(props) {
                                         </CardBody>
                                         <ButtonGroup>
                                             <div className="button-wrapper" style={{ marginLeft: "50px" }}>
-                                                <Link to={{
-                                                    pathname: "/makebooking",
-                                                    sitter: sitter,
-                                                    formData: formData,
-                                                }}>
+                                                <Link to="/makebooking" state={{sitter : sitter, formData : props}}>
                                                     <Button> Book Sitter</Button>
                                                 </Link>
                                             </div>
                                             <div className="button-wrapper">
-                                                <Link to={{
-                                                    pathname: "/meetAndGreets",
-                                                }}>
-                                                    <Button>Book Meet And Greet</Button>
-                                                </Link>
+                                                    <MgModal sitter={sitter} buttonLabel="Create"></MgModal>
                                             </div>
                                         </ButtonGroup>
                                     </Card>

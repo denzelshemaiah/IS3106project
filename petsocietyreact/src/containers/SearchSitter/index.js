@@ -182,7 +182,7 @@ function SearchSitter(props) {
         }
         setFormData((prevState) => ({
             ...prevState,
-            dayOfweek: selectedDay
+            dayOfWeek: selectedDay
           }));
       };
     let dayOfWeekButton = ""
@@ -237,7 +237,7 @@ function SearchSitter(props) {
     }
 
     if ((selectedItem1 === "Dog Walker" || selectedItem1 === "Drop-in Visits") && repeat === "weekly") {
-        const daysOfWeek = ["sun", "mon", "tues", "wed", "thurs", "fri", "sat"];
+        const daysOfWeek = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
     
         dayOfWeekButton = (
             <>
