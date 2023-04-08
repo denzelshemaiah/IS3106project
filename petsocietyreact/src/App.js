@@ -11,6 +11,7 @@ import Help from "./containers/Help";
 import Bookings from "./containers/Bookings"
 import MeetAndGreets from "./containers/MeetAndGreets"
 import MakeBooking from "./containers/MakeBooking"
+import LoggedInHomepage from './containers/LoggedInHomepage';
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
     <>
       <Navbar></Navbar>
       <NoLoginNavbar></NoLoginNavbar>
+      <LoggedInHomepage></LoggedInHomepage>
       <div className='container'>
         <Routes>
           {/* public routes */}

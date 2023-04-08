@@ -77,9 +77,18 @@ function SearchSitter(props) {
         fetchUserId();
       }, []);
 
-    //handle search sitter form and attach the pet parentid 
+      //handle search sitter form and attach the pet parentid 
     const handleSearch  = () => {
         console.log(formData.parentId);
+    }
+
+    const [startDate, setStartDate] = useState(moment().tz('Asia/Singapore').startOf("day").toDate());
+    const [endDate, setEndDate] = useState(moment("1990-01-01 00:00:00").toDate());   
+    const selectDates = (dates) => {
+        const [start, end] = dates
+        setStartDate(start);
+        setEndDate(end);
+        formData.dates = {startDate: start, endDate: end}
     }
     
 
@@ -104,14 +113,6 @@ function SearchSitter(props) {
           location: selectedLocation
         }));
       }
-
-    const [startDate, setStartDate] = useState(moment().tz('Asia/Singapore').startOf("day").toDate());
-    const [endDate, setEndDate] = useState(moment("1990-01-01 00:00:00").toDate());   
-    const selectDates = (dates) => {
-        const [start, end] = dates
-        setStartDate(start);
-        setEndDate(end);
-    }
 
     //indicate the weight of the dog
     const [selectedWeight, setSelectedWeight] = useState('');
