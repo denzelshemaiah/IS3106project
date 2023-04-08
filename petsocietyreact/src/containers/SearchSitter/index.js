@@ -15,6 +15,35 @@ import Api from "../../helpers/Api";
 
 function SearchSitter(props) {
 
+    const [showResults, setShowResults] = useState(false);    
+
+    useEffect(() => {
+        const fetchUserId = async () => {
+            try {
+                const response = await Api.getParentId();
+                const parentId = response.data.parentId;
+                setFormData(prevState => ({
+                ...prevState,
+                parentId: parentId
+                }));
+            } catch (error) {
+                console.error(error);
+                setFormData(prevState => ({
+                ...prevState,
+                parentId: null
+                }));
+            }
+        };
+
+
+        fetchUserId();
+    }, []);
+
+//handle search sitter form and attach the pet parentid 
+const handleSearch  = () => {
+    console.log(formData.parentId);
+}
+
     const handleInputChange = (event) => {
         const { name, value, type } = event.target;
         if (type === "checkbox" && name === "petType") {
@@ -38,8 +67,9 @@ function SearchSitter(props) {
             [name]: type === "number" ? parseInt(value) : value
           }));
         }
-    };
+      };
 
+    // define form input query
     const [formData, setFormData] = useState({
         userId: null,
         serviceType: "",
@@ -90,7 +120,6 @@ function SearchSitter(props) {
         setEndDate(end);
         formData.dates = {startDate: start, endDate: end}
     }
-    
 
     const [dropdownOpen1, setDropdownOpen1] = useState(false);
     const [selectedItem1, setSelectedItem1] = useState('DayCare');
@@ -374,7 +403,7 @@ function SearchSitter(props) {
                                         <DatePicker
                                             dateFormat="dd/MM/yyyy"
                                             selected={startDate}
-                                            onChange={(selectDates)}
+                                            onChange={selectDates}
                                             startDate={startDate}
                                             endDate={endDate}
                                             selectsRange />
@@ -449,8 +478,7 @@ function SearchSitter(props) {
                                     <div>
                                         <Button
                                             color="primary"
-                                            type="submit"
-                                            onClick={handleSearch}>
+                                            type="submit">
                                             Search
                                         </Button>
                                     </div>
