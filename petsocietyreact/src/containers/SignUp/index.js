@@ -125,14 +125,14 @@ function SignUp(props) {
         navigate("/LoggedInHomepage");
       })
   }
-
+/*
   cc = {
     ccNum: ccNum,
     expDate: expDate,
     ccName: ccName,
     cvv: cvv,
   }
-
+*/
   // creating final user with its related fields:
   user = {
     firstName: firstName,
@@ -180,105 +180,120 @@ function SignUp(props) {
       })
   }
 
-  // pet sitter attributes
+  // PET SITTER
   let petSitter = {};
-  let authenticationRequest = {};
-  let experienceForm = {};
+  let authenReq = {};
+  let expForm = {};
   let safetyForm = {};
 
+  // Attributes
   const [serviceAddress, setServiceAddress] = useState("");
   const [region, setRegion] = useState("");
   const [preference, setPreference] = useState("");
   const [schedule, setSchedule] = useState([]);
   const [rate, setRate] = useState([]);
-  // setting serviceenum as string, and converting to enum later in the BE
   const [service, setService] = useState("");
+  // setting serviceEnum as string, and converting to enum later in the BE
 
-  // relationships of petsitter:
-  // authenreq
+  // Frontend Creation of Sitter
+  const handleRegistrationOfSitter = (e) => {
+    e.preventDefault();
+
+    petSitter = {
+      user,
+      petSitterAttributes: {
+        serviceAddress: serviceAddress,
+        region: region,
+        preference: preference,
+        schedule: schedule,
+        rate: rate,
+        service: service,
+        authenReq: authenReq,
+        expForm: expForm,
+        safetyForm: safetyForm,
+        bookings: bookings,
+        mgRequests: mgRequests
+      }
+    }
+
+    authenReq = {
+      createdDate: createdDate,
+      petSitter: userId,
+      documents: documents,
+    }
+    console.log(authenReq);
+
+    expForm = {
+      yearsOfExperience: yearsOfExperience,
+      headline: headline,
+      experience: experience,
+    }
+    console.log(expForm);
+
+    safetyForm = {
+      q1: q1,
+      q2: q2,
+      q3: q3,
+    } 
+    console.log(safetyForm);
+  }
+
+  // Relationships
+  // authenReq
   const [createdDate, setCreatedDate] = useState(moment().toDate());
   const [userId, setUserId] = useState(0);
   const [documents, setDocuments] = useState(null);
 
-  authenticationRequest = {
-    createdDate: createdDate,
-    petSitter: userId,
-    documents: documents,
-  }
-
-  const handleCreationOfAuthenReq = (e) => {
-    e.preventDefault();
-    Api.createAndAssociateNewAuthenReq(authenticationRequest)
-      .then((data) => {
-        navigate("/LoggedInHomepage");
-      })
-  }
-
-  // experienceform
+  // expForm
   const [yearsOfExperience, setYearsOfExperience] = useState("");
   const [headline, setHeadLine] = useState("");
   const [experience, setExperience] = useState("");
 
-  experienceForm = {
-    yearsOfExperience: yearsOfExperience,
-    headline: headline,
-    experience: experience,
+   // safetyForm
+   const [q1, setQ1] = useState("");
+   const [q2, setQ2] = useState("");
+   const [q3, setQ3] = useState("");
+
+  // Backend Creation of authenReq, expForm, safetyForm 
+  const handleCreationOfAuthenReq = (e) => {
+    e.preventDefault();
+
+    Api.createAndAssociateNewAuthenReq(authenReq)
+      .then((data) => {
+        navigate("/LoggedInHomepage");
+      })
   }
   
   const handleCreationOfExperienceForm = (e) => {
     e.preventDefault();
-    Api.createAndAssociateNewExperienceForm(experienceForm)
+
+    Api.createAndAssociateNewExperienceForm(expForm)
       .then((data) => {
         navigate("/LoggedInHomepage");
       })
   }
 
-  // safetyform
-  const [q1, setQ1] = useState("");
-  const [q2, setQ2] = useState("");
-  const [q3, setQ3] = useState("");
-
-  safetyForm = {
-    q1: q1,
-    q2: q2,
-    q3: q3,
-  }
-  
   const handleCreationOfSafetyForm = (e) => {
     e.preventDefault();
+
     Api.createAndAssociateNewSafetyForm(safetyForm)
       .then((data) => {
         navigate("/LoggedInHomepage");
       })
   }
 
-  petSitter = {
-    user,
-    petSitterAttributes: {
-      serviceAddress: serviceAddress,
-      region: region,
-      preference: preference,
-      schedule: schedule,
-      rate: rate,
-      service: service,
-      authenticationRequest: authenticationRequest,
-      experienceForm: experienceForm,
-      safetyForm: safetyForm,
-      bookings: bookings,
-      mgRequests: mgRequests
-    }
-  }
-  
-  const handleCompletePetSitterCreation = (e) => {
-      handleCompleteUserCreation(e);
-      handleCreationOfAuthenReq(e);
-      handleCreationOfExperienceForm(e);
-      handleCreationOfSafetyForm(e);
-  }
+   // Frontend Creation of Sitter 
+   const handleCompletePetSitterCreation = (e) => {
+    handleCompleteUserCreation(e);
+    handleCreationOfAuthenReq(e);
+    handleCreationOfExperienceForm(e);
+    handleCreationOfSafetyForm(e);
+}
 
-  // creation of sitter ??
+  // Backend Creation of Sitter
   const handleCreationOfSitter = (e) => {
     e.preventDefault();
+
     Api.createNewSitter(user, petSitter)
       .then((data) => {
         navigate("/LoggedInHomepage");
