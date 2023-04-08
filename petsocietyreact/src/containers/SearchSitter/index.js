@@ -84,33 +84,9 @@ const handleSearch  = () => {
         repeat: "",
         fulltime: false,
         numOfTimes: null,
-    });
-      
-    useEffect(() => {
-        const fetchUserId = async () => {
-          try {
-            const response = await Api.getParentId();
-            const parentId = response.data.parentId;
-            setFormData(prevState => ({
-              ...prevState,
-              parentId: parentId
-            }));
-          } catch (error) {
-            console.error(error);
-            setFormData(prevState => ({
-              ...prevState,
-              parentId: null
-            }));
-          }
-        };
-        
-        fetchUserId();
-      }, []);
-
-      //handle search sitter form and attach the pet parentid 
-    const handleSearch  = () => {
-        console.log(formData.parentId);
-    }
+        // timeOfDay: ""
+      });
+    
 
     const [startDate, setStartDate] = useState(moment().tz('Asia/Singapore').startOf("day").toDate());
     const [endDate, setEndDate] = useState(moment("1990-01-01 00:00:00").toDate());   
@@ -142,6 +118,7 @@ const handleSearch  = () => {
           location: selectedLocation
         }));
       }
+
 
     //indicate the weight of the dog
     const [selectedWeight, setSelectedWeight] = useState('');
@@ -496,5 +473,4 @@ const handleSearch  = () => {
         </>
     );
 }
-
   export default SearchSitter;
