@@ -19,6 +19,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.core.MediaType;
 import session.PetParentSessionBeanLocal;
+import session.PetSitterSessionBeanLocal;
 import session.UserSessionBeanLocal;
 
 /**
@@ -35,6 +36,9 @@ public class UsersResource {
 
     @EJB
     private PetParentSessionBeanLocal petParentSessionBeanLocal;
+    
+    @EJB 
+    private PetSitterSessionBeanLocal petSitterSessionBeanLocal;
 
     /*
      * @POST

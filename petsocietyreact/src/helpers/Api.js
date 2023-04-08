@@ -61,6 +61,41 @@ const Api = {
             body: JSON.stringify(data),
         });
     },
+    
+    createAndAssociateNewAuthenReq(data) {
+        return fetch(`${SERVER_PREFIX}/authenReq`, {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            method: "POST",
+            body: JSON.stringify(data),
+        });
+    },
+    
+    createAndAssociateNewExperienceForm(data) {
+        return fetch(`${SERVER_PREFIX}/experienceForm`, {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            method: "POST",
+            body: JSON.stringify(data),
+        });
+    },
+    
+    createAndAssociateNewSafetyForm(data) {
+        return fetch(`${SERVER_PREFIX}/safetyForm`, {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            method: "POST",
+            body: JSON.stringify(data),
+        });
+    },
+    
+    
 
     //BOOKINGSSSS
     //view all bookings
@@ -88,7 +123,7 @@ const Api = {
     },
     //create new booking
     createBooking(booking, parentId, sitterId, repeat) {
-        return fetch(`${SERVER_PREFIX}/bookings/create/${parentId}/${sitterId}/repeat?=${repeat}`, {
+        return fetch(`${SERVER_PREFIX}/bookings/create/${parentId}/${sitterId}/query?repeat=${repeat}`, {
             headers: {
                 Accept: "application/json",
                 "Content-type": "application/json",

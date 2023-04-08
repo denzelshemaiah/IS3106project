@@ -128,14 +128,10 @@ function SearchResults(props) {
                                             </CardText>
                                         </CardBody>
                                         <ButtonGroup>
-                                            <div className="button-wrapper" style={{ marginLeft: "50px" }}>
                                                 <Link to="/makebooking" state={{sitter : sitter, formData : props}}>
-                                                    <Button> Book Sitter</Button>
+                                                    <Button style={{marginLeft: "20px"}}> Book Sitter</Button>
                                                 </Link>
-                                            </div>
-                                            <div className="button-wrapper">
-                                                    <MgModal sitter={sitter} buttonLabel="Create"></MgModal>
-                                            </div>
+                                                <MgModal sitter={sitter} buttonLabel="Create"></MgModal>
                                         </ButtonGroup>
                                     </Card>
                                 </CardGroup>

@@ -11,7 +11,7 @@ import Api from "../../helpers/Api";
 import {Link, useParams, useNavigate, useSearchParams, useLocation} from "react-router-dom";
 
 //page to view all bookings, follows a tab view
-function MakeBooking(props) {
+function MakeBooking() {
     const [service, setService] = useState("");
     const [startDate, setStartDate] = useState(moment("2023-04-08 00:00:00").startOf("day").toDate());
     const [cost, setCost] = useState(0);
@@ -43,7 +43,10 @@ function MakeBooking(props) {
             console.log(daysRepeat)
         }
         setRate(sitter.rate);
-        setSitterId(sitter.userId);
+        //setSitterId(sitter.userId);
+        setSitterId(2);
+        // setParentId(formData.parentId);
+        setParentId(1);
 
         const calculateTotalCost = () => {
             //per day (boarding,  daycare)
@@ -66,7 +69,6 @@ function MakeBooking(props) {
             } else if (service === "walking" || service === "dropin") {
                 //drop-in case, basis is per visit or walking, basis is per walk
                 diffDays = Math.round((endDate - startDate)/(1000 * 60 * 60 * 24));
-                console.log(diffDays)
                 if (repeat === "weekly") {
                     diffDays = 0;
                     copyStart = startDate
@@ -78,8 +80,9 @@ function MakeBooking(props) {
                         }
                         copyStart = moment(copyStart).add(1, "days");
                     }
+                    console.log(diffDays)
+                    return diffDays * rate * parseInt(freq);
                 }
-                console.log(rate)
                 return (diffDays + 1) * rate * parseInt(freq);
             }      
         }
@@ -303,7 +306,8 @@ function MakeBooking(props) {
     let booking = {};
 
     //HANDLE FORM
-    const createBookingSubmit = () => {
+    const createBookingSubmit = (e) => {
+        e.preventDefault();
         booking = {
             created : created,
             description : description,
@@ -316,7 +320,7 @@ function MakeBooking(props) {
         
         //fetch the Api
         Api.createBooking(booking, parentId, sitterId, repeat)
-        .then((data) => {
+        .then(() => {
             navigate("/bookings");
         });
     }
@@ -357,7 +361,7 @@ function MakeBooking(props) {
                     </Card>
                 </div>
                 
-                <Form>
+                <Form onSubmit={createBookingSubmit}>
                     <div style={{display: "block", marginBottom:"3vh"}}>
                         {repeatButtons}
                     </div>
@@ -399,7 +403,7 @@ function MakeBooking(props) {
                     </div>
 
                     <div style={{display: "block"}}>
-                        <Button type="submit" style={{backgroundColor: "#e6e4f5", color: "black"}} onClick={createBookingSubmit}> Book now </Button>
+                        <Button type="submit" style={{backgroundColor: "#e6e4f5", color: "black"}}> Book now </Button>
                     </div>
                 </Form>
             </div>

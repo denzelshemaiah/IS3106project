@@ -22,7 +22,7 @@ function Bookings(props) {
         .then((res) => res.json())
         .then((bookings) => {
             for (const booking of bookings) {
-                const {bookingReqId, cost, created, description, endDate, numPets, parent, startDate, status, visitFreq} = booking;
+                const {bookingReqId, cost, created, description, endDate, numPets, parent, sitter, startDate, status, visitFreq} = booking;
 
                 booking.formatCreated = created.substring(0, created.length - 5)
                 booking.formatStartDate = startDate.split("T")[0]
@@ -205,7 +205,7 @@ function Bookings(props) {
     }
     
     function redirectRatings() {
-
+        //DENZEL
     }
 
     return (

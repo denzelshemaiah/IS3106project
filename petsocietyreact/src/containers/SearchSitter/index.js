@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import './style.css'
 import { Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup } from "reactstrap";
@@ -10,16 +10,10 @@ import "react-datepicker/dist/react-datepicker.css";
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import SearchResults from "../../components/SearchResults";
+import Api from "../../helpers/Api";
 
 
 function SearchSitter(props) {
-
-    const [showResults, setShowResults] = useState(false);
-
-    const handleSearch = (event) => {
-        event.preventDefault();
-        setShowResults(false);
-    };
 
     const handleInputChange = (event) => {
         const { name, value, type } = event.target;
@@ -44,10 +38,10 @@ function SearchSitter(props) {
             [name]: type === "number" ? parseInt(value) : value
           }));
         }
-      };
+    };
 
-    // define form input query
     const [formData, setFormData] = useState({
+        userId: null,
         serviceType: "",
         petType: [],
         location: "",
@@ -60,9 +54,33 @@ function SearchSitter(props) {
         repeat: "",
         fulltime: false,
         numOfTimes: null,
-        // timeOfDay: ""
-      });
-    
+    });
+      
+    useEffect(() => {
+        const fetchUserId = async () => {
+          try {
+            const response = await Api.getParentId();
+            const parentId = response.data.parentId;
+            setFormData(prevState => ({
+              ...prevState,
+              parentId: parentId
+            }));
+          } catch (error) {
+            console.error(error);
+            setFormData(prevState => ({
+              ...prevState,
+              parentId: null
+            }));
+          }
+        };
+        
+        fetchUserId();
+      }, []);
+
+      //handle search sitter form and attach the pet parentid 
+    const handleSearch  = () => {
+        console.log(formData.parentId);
+    }
 
     const [startDate, setStartDate] = useState(moment().tz('Asia/Singapore').startOf("day").toDate());
     const [endDate, setEndDate] = useState(moment("1990-01-01 00:00:00").toDate());   
@@ -72,6 +90,7 @@ function SearchSitter(props) {
         setEndDate(end);
         formData.dates = {startDate: start, endDate: end}
     }
+    
 
     const [dropdownOpen1, setDropdownOpen1] = useState(false);
     const [selectedItem1, setSelectedItem1] = useState('DayCare');
@@ -94,7 +113,6 @@ function SearchSitter(props) {
           location: selectedLocation
         }));
       }
-
 
     //indicate the weight of the dog
     const [selectedWeight, setSelectedWeight] = useState('');
@@ -431,7 +449,8 @@ function SearchSitter(props) {
                                     <div>
                                         <Button
                                             color="primary"
-                                            type="submit">
+                                            type="submit"
+                                            onClick={handleSearch}>
                                             Search
                                         </Button>
                                     </div>
@@ -449,4 +468,5 @@ function SearchSitter(props) {
         </>
     );
 }
+
   export default SearchSitter;

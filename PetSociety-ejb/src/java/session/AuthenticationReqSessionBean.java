@@ -32,7 +32,7 @@ public class AuthenticationReqSessionBean implements AuthenticationReqSessionBea
     // "Insert Code > Add Business Method")
 
     @Override
-    public Long createAuthenticationReq(AuthenticationRequest authenticationReq, Long userId) throws EntityNotFoundException {
+    public AuthenticationRequest createAuthenticationReq(AuthenticationRequest authenticationReq, Long userId) throws EntityNotFoundException {
         PetSitter user = em.find(PetSitter.class, userId);
         if (user == null) {
             throw new EntityNotFoundException("No sitter found with this userId");
@@ -42,7 +42,7 @@ public class AuthenticationReqSessionBean implements AuthenticationReqSessionBea
         // add sitter into req
         authenticationReq.setSitter(user);
         em.persist(authenticationReq);
-        return authenticationReq.getAuthenticationId();
+        return authenticationReq;
     }
 
     @Override
@@ -100,5 +100,11 @@ public class AuthenticationReqSessionBean implements AuthenticationReqSessionBea
         sitter.setStatus(UserStatusEnum.APPROVED);
         authenReq.setResolved(Boolean.TRUE);
         authenReq.setStaff(staff);
+    }
+    
+    @Override
+    public AuthenticationRequest getAuthenReq() {
+        Query q = em.createQuery("SELECT a From AuthenticationRequest a");
+        return (AuthenticationRequest) q.getResultList().get(0);
     }
 }
