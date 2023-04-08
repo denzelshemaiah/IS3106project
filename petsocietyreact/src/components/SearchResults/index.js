@@ -32,7 +32,7 @@ function SearchResults(props) {
         "firstName": "Sarah",
         "lastName": "Tan",
         "profilePicture": "https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*",
-        "rate": "5.00/hr",
+        "rate": 5.00,
         "rating": 5,
         "comments": "good",
         "region": "west",
@@ -43,7 +43,7 @@ function SearchResults(props) {
         "firstName": "David",
         "lastName": "Chua",
         "profilePicture": "https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*",
-        "rate": "6.00/hr",
+        "rate": 6.00,
         "rating": 4,
         "comments": "excellent",
         "region": "east"

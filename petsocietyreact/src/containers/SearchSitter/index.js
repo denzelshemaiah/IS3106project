@@ -33,14 +33,6 @@ function SearchSitter(props) {
               [name]: petType
             };
           });
-        } else if (name === "startDate"  && name === "endDate") {
-            setFormData((prevState) => ({
-              ...prevState,
-              dates: {
-                ...prevState.dates,
-                [name]: value
-              }
-            }));
         } else if (type === "checkbox" && name === "fulltime") {
             setFormData((prevState) => ({
                 ...prevState,
@@ -78,6 +70,7 @@ function SearchSitter(props) {
         const [start, end] = dates
         setStartDate(start);
         setEndDate(end);
+        formData.dates = {startDate: start, endDate: end}
     }
 
     const [dropdownOpen1, setDropdownOpen1] = useState(false);
@@ -363,7 +356,7 @@ function SearchSitter(props) {
                                         <DatePicker
                                             dateFormat="dd/MM/yyyy"
                                             selected={startDate}
-                                            onChange={selectDates}
+                                            onChange={(selectDates)}
                                             startDate={startDate}
                                             endDate={endDate}
                                             selectsRange />

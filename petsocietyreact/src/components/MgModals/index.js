@@ -93,7 +93,7 @@ function MgModal(props) {
             >
             Meet Sitter
             </Button>
-        ); title = "Meet" + sitter.firstName;
+        ); title = "Meet " + sitter.firstName;
         modalBody = (
             <Form onSubmit={submitFormMake}>
                     <FormGroup>
