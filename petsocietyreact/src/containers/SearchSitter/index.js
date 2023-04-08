@@ -76,12 +76,16 @@ function SearchSitter(props) {
         
         fetchUserId();
       }, []);
+<<<<<<< HEAD
 
       //handle search sitter form and attach the pet parentid 
     const handleSearch  = () => {
         console.log(formData.parentId);
     }
+=======
+>>>>>>> origin/master
 
+<<<<<<< HEAD
     const [startDate, setStartDate] = useState(moment().tz('Asia/Singapore').startOf("day").toDate());
     const [endDate, setEndDate] = useState(moment("1990-01-01 00:00:00").toDate());   
     const selectDates = (dates) => {
@@ -89,6 +93,11 @@ function SearchSitter(props) {
         setStartDate(start);
         setEndDate(end);
         formData.dates = {startDate: start, endDate: end}
+=======
+    //handle search sitter form and attach the pet parentid 
+    const handleSearch  = () => {
+        console.log(formData.parentId);
+>>>>>>> origin/master
     }
     
 
@@ -114,6 +123,17 @@ function SearchSitter(props) {
         }));
       }
 
+<<<<<<< HEAD
+=======
+    const [startDate, setStartDate] = useState(moment().tz('Asia/Singapore').startOf("day").toDate());
+    const [endDate, setEndDate] = useState(moment("1990-01-01 00:00:00").toDate());   
+    const selectDates = (dates) => {
+        const [start, end] = dates
+        setStartDate(start);
+        setEndDate(end);
+    }
+
+>>>>>>> origin/master
     //indicate the weight of the dog
     const [selectedWeight, setSelectedWeight] = useState('');
     const handleWeightSelection = (selectedWeight) => {
@@ -469,4 +489,8 @@ function SearchSitter(props) {
     );
 }
 
+<<<<<<< HEAD
   export default SearchSitter;
+=======
+  export default SearchSitter;
+>>>>>>> origin/master
