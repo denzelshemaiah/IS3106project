@@ -125,14 +125,14 @@ function SignUp(props) {
         navigate("/LoggedInHomepage");
       })
   }
-/*
+
   cc = {
     ccNum: ccNum,
     expDate: expDate,
     ccName: ccName,
     cvv: cvv,
   }
-*/
+
   // creating final user with its related fields:
   user = {
     firstName: firstName,
@@ -285,6 +285,7 @@ function SignUp(props) {
    // Frontend Creation of Sitter 
    const handleCompletePetSitterCreation = (e) => {
     handleCompleteUserCreation(e);
+    handleRegistrationOfSitter(e);
     handleCreationOfAuthenReq(e);
     handleCreationOfExperienceForm(e);
     handleCreationOfSafetyForm(e);
