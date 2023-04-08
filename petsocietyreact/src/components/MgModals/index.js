@@ -89,11 +89,11 @@ function MgModal(props) {
             <Button
               color="warning"
               onClick={toggle}
-              style={{ float: "right" }}
+              style={{ float: "right", marginLeft: "30px", marginRight: "20px"}}
             >
             Meet Sitter
             </Button>
-        ); title = "Meet" + sitter.firstName;
+        ); title = "Meet " + sitter.firstName;
         modalBody = (
             <Form onSubmit={submitFormMake}>
                     <FormGroup>

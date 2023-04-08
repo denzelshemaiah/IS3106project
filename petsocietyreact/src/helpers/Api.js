@@ -123,7 +123,7 @@ const Api = {
     },
     //create new booking
     createBooking(booking, parentId, sitterId, repeat) {
-        return fetch(`${SERVER_PREFIX}/bookings/create/${parentId}/${sitterId}/repeat?=${repeat}`, {
+        return fetch(`${SERVER_PREFIX}/bookings/create/${parentId}/${sitterId}/query?repeat=${repeat}`, {
             headers: {
                 Accept: "application/json",
                 "Content-type": "application/json",
