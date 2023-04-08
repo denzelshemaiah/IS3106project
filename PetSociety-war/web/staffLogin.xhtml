@@ -14,16 +14,6 @@
         <ui:define name="head">
             <h:outputStylesheet name="css/cssLayout.css"/>
             <h:outputStylesheet name="css/default.css"/>
-            <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js">
-                // supposed to makes invalid login message disappear after 2s
-                $(document).ready(function () {
-                    $("#staffLoginButton").click(function () {
-                        $(".invalidLoginMessage").ready(function () {
-                            $(".invalidLoginMessage").hide(duration(2000));
-                        });
-                    });
-                });
-            </script>
         </ui:define>
 
         <ui:define name="top">

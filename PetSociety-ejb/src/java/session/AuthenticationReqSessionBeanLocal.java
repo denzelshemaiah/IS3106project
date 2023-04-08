@@ -17,7 +17,7 @@ import javax.persistence.EntityNotFoundException;
 @Local
 public interface AuthenticationReqSessionBeanLocal {
 
-    Long createAuthenticationReq(AuthenticationRequest authenticationReq, Long userId) throws EntityNotFoundException;
+    AuthenticationRequest createAuthenticationReq(AuthenticationRequest authenticationReq, Long userId) throws EntityNotFoundException;
 
     AuthenticationRequest findAuthenticationReqBySitter(Long sitterId) throws EntityNotFoundException;
 
@@ -30,4 +30,6 @@ public interface AuthenticationReqSessionBeanLocal {
     AuthenticationRequest findAuthenReqById(Long authenId);
 
     void acceptAuthenReq(Long authenId, Long staffId) throws EntityNotFoundException;
+    
+    public AuthenticationRequest getAuthenReq();
 }
