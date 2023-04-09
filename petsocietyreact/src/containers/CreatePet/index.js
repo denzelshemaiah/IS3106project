@@ -9,13 +9,17 @@ import {
     MDBCard,
     MDBCardBody,
     MDBInput,
-    MDBRadio
+    MDBRadio,
+    MDBTextArea
 }
     from 'mdb-react-ui-kit';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaw, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
-
-
+import cuteDog from '../../icons/cute_dog.png';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 function CreatePet() {
     const navigate = useNavigate();
@@ -83,13 +87,18 @@ function CreatePet() {
         <>
             <MDBContainer fluid>
 
-                <MDBRow className='justify-content-center align-items-center m-5'>
+                <MDBRow className='justify-content-center align-items-center m-5 px-5'>
 
                     <MDBCard>
-                        <MDBCardBody className='px-4'>
+                        <MDBCardBody className='px-5'>
+                            <div style={{ alignItems: 'center' }}>
 
-                            <h3 className="fw-bold mt-4 mb-2 pb-2 pb-md-0 mb-md-3 text-center">
-                                Tell us about your pet</h3>
+                                <h3 className="fw-bold mt-4 mb-2 pb-2 pb-md-0 mb-md-3 text-center">
+                                    Tell us about your pet <img src={cuteDog}
+                                        width="60"
+                                        height="60" />
+                                </h3>
+                            </div>
 
                             <div className="p-3">
                                 <div className="pb-3">
@@ -152,14 +161,14 @@ function CreatePet() {
                                         <br></br>
                                         <MDBRadio name='inlineRadio1'
                                             id='inputGenderFemale'
-                                            value={gender}
+                                            value='1'
                                             label='Female'
                                             inline
                                             checked={gender === '1'}
                                             onChange={(e) => setGender(e.target.value)} />
                                         <MDBRadio name='inlineRadio2'
                                             id='inputGenderMale'
-                                            value={gender}
+                                            value='2'
                                             label='Male'
                                             inline
                                             checked={gender === '2'}
@@ -191,26 +200,143 @@ function CreatePet() {
                                     </h5>
                                 </div>
                                 <MDBRow>
-                                    <MDBCol md='6' className='mb-4'>
+                                    <MDBCol md='4' className='mb-4'>
                                         <h6 className="pb-2">Microchipped?</h6>
-                                    
+
                                         <MDBRadio name='inlineRadio3'
                                             id='inputMicrochippedYes'
-                                            value={microchip}
+                                            value='1'
                                             label='Yes'
                                             inline
                                             checked={microchip === '1'}
                                             onChange={(e) => setMicrochip(e.target.value)} />
                                         <MDBRadio name='inlineRadio4'
                                             id='inputMicrochippedNo'
-                                            value={microchip}
+                                            value='2'
                                             label='No'
                                             inline
                                             checked={microchip === '2'}
                                             onChange={(e) => setMicrochip(e.target.value)} />
                                     </MDBCol>
 
+                                    <MDBCol md='4' className='mb-4'>
+                                        <h6 className="pb-2">Spayed/Neutered?</h6>
+
+                                        <MDBRadio name='inlineRadio5'
+                                            id='inputSpayedOrNeuteredYes'
+                                            value={spayedOrNeutered}
+                                            label='Yes'
+                                            inline
+                                            checked={spayedOrNeutered === '1'}
+                                            onChange={(e) => setSpayedOrNeutered(e.target.value)} />
+                                        <MDBRadio name='inlineRadio6'
+                                            id='inputSpayedOrNeuteredNo'
+                                            value='2'
+                                            label='No'
+                                            inline
+                                            checked={spayedOrNeutered === '2'}
+                                            onChange={(e) => setSpayedOrNeutered(e.target.value)} />
+                                    </MDBCol>
+
+                                    <MDBCol md='4' className='mb-4'>
+                                        <h6 className="pb-2">House trained?</h6>
+
+                                        <MDBRadio name='inlineRadio7'
+                                            id='inputHouseTrainedYes'
+                                            value='1'
+                                            label='Yes'
+                                            inline
+                                            checked={houseTrained === '1'}
+                                            onChange={(e) => setHouseTrained(e.target.value)} />
+                                        <MDBRadio name='inlineRadio8'
+                                            id='inputHouseTrainedNo'
+                                            value='2'
+                                            label='No'
+                                            inline
+                                            checked={houseTrained === '2'}
+                                            onChange={(e) => setHouseTrained(e.target.value)} />
+                                    </MDBCol>
+
                                 </MDBRow>
+
+                                <MDBRow>
+                                    <MDBCol md='4' className='mb-4'>
+                                        <h6 className="pb-2">Friendly with children?</h6>
+
+                                        <MDBRadio name='inlineRadio9'
+                                            id='inputFriendlyWithChildrenYes'
+                                            value='1'
+                                            label='Yes'
+                                            inline
+                                            checked={friendlyWithChildren === '1'}
+                                            onChange={(e) => setFriendlyWithChildren(e.target.value)} />
+                                        <MDBRadio name='inlineRadio10'
+                                            id='inputFriendlyWithChildrenNo'
+                                            value='2'
+                                            label='No'
+                                            inline
+                                            checked={friendlyWithChildren === '2'}
+                                            onChange={(e) => setFriendlyWithChildren(e.target.value)} />
+                                    </MDBCol>
+
+                                    <MDBCol md='4' className='mb-4'>
+                                        <h6 className="pb-2">Friendly with dogs?</h6>
+
+                                        <MDBRadio name='inlineRadio11'
+                                            id='inputFriendlyWithDogsYes'
+                                            value='1'
+                                            label='Yes'
+                                            inline
+                                            checked={friendlyWithDogs === '1'}
+                                            onChange={(e) => setFriendlyWithDogs(e.target.value)} />
+                                        <MDBRadio name='inlineRadio12'
+                                            id='inputFriendlyWithDogsNo'
+                                            value='2'
+                                            label='No'
+                                            inline
+                                            checked={friendlyWithDogs === '2'}
+                                            onChange={(e) => setFriendlyWithDogs(e.target.value)} />
+                                    </MDBCol>
+
+                                    <MDBCol md='4' className='mb-4'>
+                                        <h6 className="pb-2">Friendly with cats?</h6>
+
+                                        <MDBRadio name='inlineRadio13'
+                                            id='inputFriendlyWithCatsYes'
+                                            value='1'
+                                            label='Yes'
+                                            inline
+                                            checked={friendlyWithCats === '1'}
+                                            onChange={(e) => setFriendlyWithCats(e.target.value)} />
+                                        <MDBRadio name='inlineRadio14'
+                                            id='inputFriendlyWithCatsNo'
+                                            value='2'
+                                            label='No'
+                                            inline
+                                            checked={friendlyWithCats === '2'}
+                                            onChange={(e) => setFriendlyWithCats(e.target.value)} />
+                                    </MDBCol>
+                                </MDBRow>
+
+                                <MDBRow md='8'>
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DemoContainer components={['DatePicker']}>
+                                            <DatePicker label="Adoption Date" />
+                                        </DemoContainer>
+                                    </LocalizationProvider>
+                                </MDBRow>
+
+                                <MDBRow>
+                                    <h6 className="mt-4 pb-2">About your pet</h6>
+                                    <MDBTextArea label="Add a description of your pet"
+                                    id='inputPetDescription'
+                                    rows={4}
+                                    value={petDescription}
+                                    onChange={(e) => setPetDescription(e.target.value)}>
+                                    </MDBTextArea>
+                                </MDBRow>
+
+
                             </div>
 
 
