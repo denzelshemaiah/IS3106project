@@ -5,6 +5,7 @@
  */
 package entity;
 
+import enumeration.RegionEnum;
 import enumeration.ServiceEnum;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -20,6 +21,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -35,13 +37,21 @@ public class PetSitter extends User implements Serializable {
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
     //private Long sitterId;
 
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @Column(nullable = false)
     private String serviceAddress;
     @Column(nullable = false)
-    @Size(max = 30)
-    private String region;
+    private RegionEnum region;
     @Column(nullable = false)
-    private String preference;
+    private String petPreference;
+    @Column(nullable = false)
+    private int maxWeightPreference;
+    @Column(nullable = false)
+    @Max(3)
+    private int maxNumPets;
     @Column(nullable = false)
     private List<Date> schedule;
     @Column(nullable = false)
@@ -61,17 +71,14 @@ public class PetSitter extends User implements Serializable {
     @OneToMany(mappedBy = "sitter")
     private List<MeetAndGreetRequest> mgRequests;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
+    
     public PetSitter() {
         this.bookings = new ArrayList<>();
         this.mgRequests = new ArrayList<>();
         this.schedule = new ArrayList<>();
     }
 
-    public PetSitter(String serviceAddress, String region, String preference, List<Date> schedule, BigDecimal rate, ServiceEnum service, AuthenticationRequest authenReq, ExperienceForm expForm, SafetyForm safetyForm, List<BookingRequest> bookings, List<MeetAndGreetRequest> mgRequests, User user) {
+    public PetSitter(String serviceAddress, RegionEnum region, String preference, List<Date> schedule, BigDecimal rate, ServiceEnum service, AuthenticationRequest authenReq, ExperienceForm expForm, SafetyForm safetyForm, List<BookingRequest> bookings, List<MeetAndGreetRequest> mgRequests, User user) {
         this.serviceAddress = serviceAddress;
         this.region = region;
         this.preference = preference;
@@ -92,14 +99,6 @@ public class PetSitter extends User implements Serializable {
 
     public void setServiceAddress(String serviceAddress) {
         this.serviceAddress = serviceAddress;
-    }
-
-    public String getRegion() {
-        return region;
-    }
-
-    public void setRegion(String region) {
-        this.region = region;
     }
 
     public String getPreference() {
@@ -194,6 +193,20 @@ public class PetSitter extends User implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    /**
+     * @return the region
+     */
+    public RegionEnum getRegion() {
+        return region;
+    }
+
+    /**
+     * @param region the region to set
+     */
+    public void setRegion(RegionEnum region) {
+        this.region = region;
     }
 
 }
