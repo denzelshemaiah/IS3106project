@@ -170,8 +170,10 @@ const Api = {
     },
 
     //create new meet and greet
-    createMg(mg) {
-        return fetch(`${SERVER_PREFIX}/meetandgreets/create`, {
+    createMg(mg, sitterId, parentId) {
+        console.log(sitterId);
+        console.log(parentId);
+        return fetch(`${SERVER_PREFIX}/meetandgreets/create/${sitterId}/${parentId}`, {
             headers: {
                 Accept: "application/json",
                 "Content-type": "application/json",
@@ -190,6 +192,8 @@ const Api = {
 
     //reject a meet and greet
     rejectMg(sitterId, mgReqId) {
+        console.log(sitterId);
+        console.log(mgReqId);
         return fetch(`${SERVER_PREFIX}/meetandgreets/reject/${sitterId}/${mgReqId}`, {
             method: "PUT"
         })

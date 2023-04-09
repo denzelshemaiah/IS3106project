@@ -16,7 +16,7 @@ function MakeBooking() {
     const [startDate, setStartDate] = useState(moment("2023-04-08 00:00:00").startOf("day").toDate());
     const [cost, setCost] = useState(0);
     const [created, setCreated] = useState(moment().toDate());
-    const [description, setDescription] = useState("Hi there! I think you will be perfect for my little PUPPER named PEANUT! pls say yes");
+    const [description, setDescription] = useState("");
     const [freq, setFreq] = useState('2');
     const [endDate, setEndDate] = useState(moment("2023-05-08 00:00:00").startOf("day").toDate());
     const [repeat, setRepeat] = useState("weekly")
@@ -317,12 +317,18 @@ function MakeBooking() {
             freq : freq,
             repeatDays : daysRepeat,
         }
+        console.log(description.valueOf());
         
         //fetch the Api
         Api.createBooking(booking, parentId, sitterId, repeat)
         .then(() => {
             navigate("/bookings");
         });
+    }
+
+    const handleDescChange = e => {
+        setDescription(e.target.value);
+        console.log(e.target.value);
     }
 
 
@@ -367,7 +373,7 @@ function MakeBooking() {
                     </div>
 
                     <div style={{display: "block"}}>
-                        <h5 style={{ marginBottom:"3vh"}}> Please select the dates for {serviceText} </h5>
+                        <h5 style={{ marginBottom:"3vh"}}> Selected dates for {serviceText} </h5>
                         <DatePicker
                             dateFormat="dd/MM/yyyy"
                             selected={startDate}
@@ -377,6 +383,7 @@ function MakeBooking() {
                             selectsRange
                             readOnly={true}
                             maxDate={getMaxDate}
+                            showIcon
                         />
                     </div>
 
@@ -398,7 +405,7 @@ function MakeBooking() {
                         </h5>
                         <FormGroup>
                             <Label for="exampleText">Share a little about your pet and why they'd have a great time with </Label>
-                            <Input type="textarea" name="text" id="exampleText" style={{height: "20vh"}} onChange={setDescription}/>
+                            <Input type="textarea" name="text" id="exampleText" value={description} style={{height: "20vh"}} onChange={handleDescChange}/>
                         </FormGroup>
                     </div>
 

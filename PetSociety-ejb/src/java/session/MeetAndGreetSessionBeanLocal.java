@@ -18,8 +18,9 @@ import javax.ejb.Local;
 @Local
 public interface MeetAndGreetSessionBeanLocal {
 
-    public Long createNewMeetAndGreet(MeetAndGreetRequest m);
 
+    public Long createNewMeetAndGreet(MeetAndGreetRequest m, Long sitterId, Long parentId);
+    
     public List<MeetAndGreetRequest> getRequests(String status, Long userId);
     
     public void updateRequest(MeetAndGreetRequest mg) throws NoResultException;

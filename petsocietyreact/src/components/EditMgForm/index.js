@@ -32,7 +32,7 @@ function EditForm(props) {
 
     const maxDate = () => {
         //max date for meet and greet
-        var currentDate = new moment();
+        var currentDate = moment();
         return currentDate.add(31, "d").tz("Asia/Singapore").toDate();
     }
 
@@ -40,8 +40,9 @@ function EditForm(props) {
         e.preventDefault();
         //fetch the Api
         form.mgDate = date;
+        console.log(form.mgDate)
         Api.updateMg(form)
-        .then(props.reloadData);
+        .then(props.reloadData());
         props.updateState(form);
         props.toggle();
     }
@@ -56,11 +57,11 @@ function EditForm(props) {
     return (
         <Form onSubmit={submitFormEdit}>
             <FormGroup>
-                <Label for="description"> Request Description: </Label>
+                <Label for="mgDesc"> Request Description: </Label>
                 <Input
                     type="text"
-                    name="description"
-                    id="description"
+                    name="mgDesc"
+                    id="mgDesc"
                     onChange={onChange}
                     value={form.mgDesc === null ? "" : form.mgDesc}
                 />
@@ -69,10 +70,10 @@ function EditForm(props) {
                 <Label for="date"> Start Date: </Label>
                 <DatePicker
                     name="date"
-                    minDate={new moment().tz("Asia/Singapore").toDate()}
+                    minDate={moment().tz("Asia/Singapore").toDate()}
                     selected={date}
                     onChange={(date) => setDate(date)}
-                    maxDate={maxDate}
+                    maxDate={maxDate()}
                 />
             </FormGroup>
             <Button
