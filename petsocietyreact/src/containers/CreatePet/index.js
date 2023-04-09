@@ -12,6 +12,9 @@ import {
     MDBRadio
 }
     from 'mdb-react-ui-kit';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaw, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
+
 
 
 function CreatePet() {
@@ -85,56 +88,131 @@ function CreatePet() {
                     <MDBCard>
                         <MDBCardBody className='px-4'>
 
-                            <h3 className="fw-bold mt-2 mb-4 pb-2 pb-md-0 mb-md-5 text-center">
+                            <h3 className="fw-bold mt-4 mb-2 pb-2 pb-md-0 mb-md-3 text-center">
                                 Tell us about your pet</h3>
 
-                            <div>
-                                <h5 class="text-muted"> Pet Details</h5>
+                            <div className="p-3">
+                                <div className="pb-3">
+                                    <h5>
+                                        <FontAwesomeIcon icon={faPaw} /> Pet Details
+                                    </h5>
+
+                                    <small class="text-muted">Provide a description of your pet.</small>
+                                </div>
+
+                                <MDBRow>
+
+                                    <MDBCol md='9'>
+                                        <MDBInput wrapperClass='mb-4'
+                                            label='Name'
+                                            size='lg'
+                                            id='inputName'
+                                            type='text'
+                                            value={name}
+                                            onChange={(e) => setName(e.target.value)} />
+                                    </MDBCol>
+
+                                    <MDBCol md='3'>
+                                        <MDBInput wrapperClass='mb-4'
+                                            label='Weight (kg)'
+                                            size='lg'
+                                            id='inputWeight'
+                                            type='text'
+                                            value={weight}
+                                            onChange={(e) => setWeight(e.target.value)} />
+                                    </MDBCol>
+
+                                </MDBRow>
+
+                                <MDBRow>
+
+                                    <MDBCol md='3'>
+                                        <MDBInput wrapperClass='mb-4'
+                                            label='Age (Yr.)'
+                                            size='lg'
+                                            id='inputAgeInYears'
+                                            type='text'
+                                            value={ageInYears}
+                                            onChange={(e) => setAgeInYears(e.target.value)} />
+                                    </MDBCol>
+
+                                    <MDBCol md='3'>
+                                        <MDBInput wrapperClass='mb-4'
+                                            label='Age (Mo.)'
+                                            size='lg'
+                                            id='inputAgeInMonths'
+                                            type='text'
+                                            value={ageInMonths}
+                                            onChange={(e) => setAgeInMonths(e.target.value)} />
+                                    </MDBCol>
+
+
+                                    <MDBCol md='6' className='mb-4'>
+                                        <small>Gender </small>
+                                        <br></br>
+                                        <MDBRadio name='inlineRadio1'
+                                            id='inputGenderFemale'
+                                            value={gender}
+                                            label='Female'
+                                            inline
+                                            checked={gender === '1'}
+                                            onChange={(e) => setGender(e.target.value)} />
+                                        <MDBRadio name='inlineRadio2'
+                                            id='inputGenderMale'
+                                            value={gender}
+                                            label='Male'
+                                            inline
+                                            checked={gender === '2'}
+                                            onChange={(e) => setGender(e.target.value)} />
+                                    </MDBCol>
+                                </MDBRow>
+
+                                <MDBRow>
+                                    <small class="text-muted" className="pb-2">
+                                        Enter all breeds that apply. If your dog is a mixed breed, add ‘Mixed’ as well.
+                                    </small>
+                                    <MDBCol md='12'>
+                                        <MDBInput wrapperClass='mb-4'
+                                            label='Breed(s)'
+                                            size='lg'
+                                            id='inputBreed'
+                                            type='text'
+                                            value={breed}
+                                            onChange={(e) => setBreed(e.target.value)} />
+                                    </MDBCol>
+                                </MDBRow>
                             </div>
 
 
-                            <MDBRow>
+                            <div className="p-3">
+                                <div className="pb-3">
+                                    <h5>
+                                        <FontAwesomeIcon icon={faInfoCircle} /> Additional Details
+                                    </h5>
+                                </div>
+                                <MDBRow>
+                                    <MDBCol md='6' className='mb-4'>
+                                        <h6 className="pb-2">Microchipped?</h6>
+                                    
+                                        <MDBRadio name='inlineRadio3'
+                                            id='inputMicrochippedYes'
+                                            value={microchip}
+                                            label='Yes'
+                                            inline
+                                            checked={microchip === '1'}
+                                            onChange={(e) => setMicrochip(e.target.value)} />
+                                        <MDBRadio name='inlineRadio4'
+                                            id='inputMicrochippedNo'
+                                            value={microchip}
+                                            label='No'
+                                            inline
+                                            checked={microchip === '2'}
+                                            onChange={(e) => setMicrochip(e.target.value)} />
+                                    </MDBCol>
 
-                                <MDBCol md='6'>
-                                    <MDBInput wrapperClass='mb-4' label='First Name' size='lg' id='form1' type='text' />
-                                </MDBCol>
-
-                                <MDBCol md='6'>
-                                    <MDBInput wrapperClass='mb-4' label='Last Name' size='lg' id='form2' type='text' />
-                                </MDBCol>
-
-                            </MDBRow>
-
-                            <MDBRow>
-
-                                <MDBCol md='6'>
-                                    <MDBInput wrapperClass='mb-4' label='Birthday' size='lg' id='form3' type='text' />
-                                </MDBCol>
-
-                                <MDBCol md='6' className='mb-4'>
-                                    <h6 className="fw-bold">Gender: </h6>
-                                    <MDBRadio name='inlineRadio' id='inlineRadio1' value='option1' label='Female' inline />
-                                    <MDBRadio name='inlineRadio' id='inlineRadio2' value='option2' label='Male' inline />
-                                    <MDBRadio name='inlineRadio' id='inlineRadio3' value='option3' label='Other' inline />
-                                </MDBCol>
-
-                            </MDBRow>
-
-                            <MDBRow>
-
-                                <MDBCol md='6'>
-                                    <MDBInput wrapperClass='mb-4' label='Email' size='lg' id='form4' type='email' />
-                                </MDBCol>
-
-                                <MDBCol md='6'>
-                                    <MDBInput wrapperClass='mb-4' label='Phone Number' size='lg' id='form5' type='rel' />
-                                </MDBCol>
-
-                            </MDBRow>
-
-                            <div>
-
+                                </MDBRow>
                             </div>
+
 
 
                             <MDBBtn className='mb-4' size='lg'>Submit</MDBBtn>
