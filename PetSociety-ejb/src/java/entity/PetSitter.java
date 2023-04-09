@@ -5,6 +5,7 @@
  */
 package entity;
 
+import enumeration.RegionEnum;
 import enumeration.ServiceEnum;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -38,8 +39,7 @@ public class PetSitter extends User implements Serializable {
     @Column(nullable = false)
     private String serviceAddress;
     @Column(nullable = false)
-    @Size(max = 30)
-    private String region;
+    private RegionEnum region;
     @Column(nullable = false)
     private String preference;
     @Column(nullable = false)
@@ -71,7 +71,7 @@ public class PetSitter extends User implements Serializable {
         this.schedule = new ArrayList<>();
     }
 
-    public PetSitter(String serviceAddress, String region, String preference, List<Date> schedule, BigDecimal rate, ServiceEnum service, AuthenticationRequest authenReq, ExperienceForm expForm, SafetyForm safetyForm, List<BookingRequest> bookings, List<MeetAndGreetRequest> mgRequests, User user) {
+    public PetSitter(String serviceAddress, RegionEnum region, String preference, List<Date> schedule, BigDecimal rate, ServiceEnum service, AuthenticationRequest authenReq, ExperienceForm expForm, SafetyForm safetyForm, List<BookingRequest> bookings, List<MeetAndGreetRequest> mgRequests, User user) {
         this.serviceAddress = serviceAddress;
         this.region = region;
         this.preference = preference;
@@ -92,14 +92,6 @@ public class PetSitter extends User implements Serializable {
 
     public void setServiceAddress(String serviceAddress) {
         this.serviceAddress = serviceAddress;
-    }
-
-    public String getRegion() {
-        return region;
-    }
-
-    public void setRegion(String region) {
-        this.region = region;
     }
 
     public String getPreference() {
@@ -194,6 +186,20 @@ public class PetSitter extends User implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    /**
+     * @return the region
+     */
+    public RegionEnum getRegion() {
+        return region;
+    }
+
+    /**
+     * @param region the region to set
+     */
+    public void setRegion(RegionEnum region) {
+        this.region = region;
     }
 
 }
