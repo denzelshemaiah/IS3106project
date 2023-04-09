@@ -19,7 +19,6 @@ function App() {
     <>
       <Navbar></Navbar>
       <NoLoginNavbar></NoLoginNavbar>
-      <LoggedInHomepage></LoggedInHomepage>
       <div className='container'>
         <Routes>
           {/* public routes */}
