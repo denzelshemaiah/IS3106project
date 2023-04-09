@@ -21,6 +21,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -36,12 +37,21 @@ public class PetSitter extends User implements Serializable {
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
     //private Long sitterId;
 
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @Column(nullable = false)
     private String serviceAddress;
     @Column(nullable = false)
     private RegionEnum region;
     @Column(nullable = false)
-    private String preference;
+    private String petPreference;
+    @Column(nullable = false)
+    private int maxWeightPreference;
+    @Column(nullable = false)
+    @Max(3)
+    private int maxNumPets;
     @Column(nullable = false)
     private List<Date> schedule;
     @Column(nullable = false)
@@ -61,10 +71,7 @@ public class PetSitter extends User implements Serializable {
     @OneToMany(mappedBy = "sitter")
     private List<MeetAndGreetRequest> mgRequests;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
+    
     public PetSitter() {
         this.bookings = new ArrayList<>();
         this.mgRequests = new ArrayList<>();
