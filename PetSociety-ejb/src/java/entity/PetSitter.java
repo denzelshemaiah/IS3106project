@@ -45,7 +45,6 @@ public class PetSitter extends User implements Serializable {
     @Column(nullable = false)
     private int maxWeightPreference;
     @Column(nullable = false)
-    @Max(3)
     private int maxNumPets;
     @Column(nullable = false)
     private List<Date> schedule;
