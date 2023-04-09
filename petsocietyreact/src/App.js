@@ -1,7 +1,6 @@
 import './App.css';
 import { Routes, Route, Navigate } from "react-router-dom";
 import NoLoginNavbar from './components/NoLoginNavbar';
-import ResponsiveNavbar from './components/ResponsiveNavbar';
 import Navbar from './components/Navbar'
 import SearchSitter from "./containers/SearchSitter";
 import Services from "./containers/Services";
