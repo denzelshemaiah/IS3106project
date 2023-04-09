@@ -15,35 +15,6 @@ import Api from "../../helpers/Api";
 
 function SearchSitter(props) {
 
-    const [showResults, setShowResults] = useState(false);    
-
-    useEffect(() => {
-        const fetchUserId = async () => {
-            try {
-                const response = await Api.getParentId();
-                const parentId = response.data.parentId;
-                setFormData(prevState => ({
-                ...prevState,
-                parentId: parentId
-                }));
-            } catch (error) {
-                console.error(error);
-                setFormData(prevState => ({
-                ...prevState,
-                parentId: null
-                }));
-            }
-        };
-
-
-        fetchUserId();
-    }, []);
-
-//handle search sitter form and attach the pet parentid 
-const handleSearch  = () => {
-    console.log(formData.parentId);
-}
-
     const handleInputChange = (event) => {
         const { name, value, type } = event.target;
         if (type === "checkbox" && name === "petType") {
@@ -56,6 +27,14 @@ const handleSearch  = () => {
               [name]: petType
             };
           });
+        } else if (name === "startDate"  && name === "endDate") {
+            setFormData((prevState) => ({
+              ...prevState,
+              dates: {
+                ...prevState.dates,
+                [name]: value
+              }
+            }));
         } else if (type === "checkbox" && name === "fulltime") {
             setFormData((prevState) => ({
                 ...prevState,
@@ -67,9 +46,13 @@ const handleSearch  = () => {
             [name]: type === "number" ? parseInt(value) : value
           }));
         }
+    };
+
+    const [searchQuery, setSearchQuery] = useState({});
+    const handleSearchQuery = (formData) => {
+        setSearchQuery(formData);
       };
 
-    // define form input query
     const [formData, setFormData] = useState({
         userId: null,
         serviceType: "",
@@ -84,18 +67,34 @@ const handleSearch  = () => {
         repeat: "",
         fulltime: false,
         numOfTimes: null,
-        // timeOfDay: ""
-      });
-    
+    });
+      
+    useEffect(() => {
+        const fetchUserId = async () => {
+          try {
+            const response = await Api.getParentId(parentId);
+            const parentId = response.data.parentId;
+            setFormData(prevState => ({
+              ...prevState,
+              parentId: parentId
+            }));
+          } catch (error) {
+            console.error(error);
+            setFormData(prevState => ({
+              ...prevState,
+              parentId: null
+            }));
+          }
+        };
+        
+        fetchUserId();
+      }, []);
 
-    const [startDate, setStartDate] = useState(moment().tz('Asia/Singapore').startOf("day").toDate());
-    const [endDate, setEndDate] = useState(moment("1990-01-01 00:00:00").toDate());   
-    const selectDates = (dates) => {
-        const [start, end] = dates
-        setStartDate(start);
-        setEndDate(end);
-        formData.dates = {startDate: start, endDate: end}
+    //handle search sitter form and attach the pet parentid 
+    const handleSearch  = () => {
+        console.log(formData.parentId);
     }
+    
 
     const [dropdownOpen1, setDropdownOpen1] = useState(false);
     const [selectedItem1, setSelectedItem1] = useState('DayCare');
@@ -119,6 +118,13 @@ const handleSearch  = () => {
         }));
       }
 
+    const [startDate, setStartDate] = useState(moment().tz('Asia/Singapore').startOf("day").toDate());
+    const [endDate, setEndDate] = useState(moment("1990-01-01 00:00:00").toDate());   
+    const selectDates = (dates) => {
+        const [start, end] = dates
+        setStartDate(start);
+        setEndDate(end);
+    }
 
     //indicate the weight of the dog
     const [selectedWeight, setSelectedWeight] = useState('');
@@ -455,7 +461,11 @@ const handleSearch  = () => {
                                     <div>
                                         <Button
                                             color="primary"
-                                            type="submit">
+                                            type="submit"
+                                            onClick={() => {
+                                                handleSearch();
+                                                handleSearchQuery(formData);
+                                            }}>
                                             Search
                                         </Button>
                                     </div>
@@ -466,11 +476,12 @@ const handleSearch  = () => {
                     </div>
                     <div className="col-md-4" style={{ marginLeft: "-25px" }}>
                             {/* {showResults && <SearchResults searchQuery={formData} style={{ overflow: "auto" }} />} */}
-                        <SearchResults searchQuery={formData} style={{ float: "right", overflow: "auto" }} />
+                        <SearchResults searchQuery={searchQuery} style={{ float: "right", overflow: "auto" }} />
                     </div>
                 </div>
         </div>
         </>
     );
 }
+
   export default SearchSitter;

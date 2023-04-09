@@ -146,7 +146,7 @@ public class DataInitSessionBean {
         s.setAge(21);
         s.setBillingAddress("123 Orange Lane");
         s.setServiceAddress("123 Orange Lane");
-        s.setRegion("central");
+        s.setRegion("north");
         s.setRate(new BigDecimal(20));
         s.setFirstName("first");
         s.setLastName("last");
@@ -173,6 +173,70 @@ public class DataInitSessionBean {
         s.setCc(cc1);
         // assuming schedule is empty (no unavail dates)
         petSitterSessionBean.createNewSitter(s);
+        
+        PetSitter s2 = new PetSitter();
+        s2.setAge(21);
+        s2.setBillingAddress("234 Orange Lane");
+        s2.setServiceAddress("234 Orange Lane");
+        s2.setRegion("south");
+        s2.setRate(new BigDecimal(30));
+        s2.setFirstName("chris");
+        s2.setLastName("tan");
+        s2.setService(ServiceEnum.DAYCARE);
+        s2.setEmail("petsitter2@mail.com");
+        s2.setUsername("petsitter2");
+        s2.setPassword("password2");
+        s2.setContactNum("88888888");
+        s2.setEmergencyContact("90123456");
+        s2.setPreference("preference");
+        s2.setStatus(UserStatusEnum.APPROVED);
+        BankAccount acc2 = new BankAccount();
+        acc2.setAccName("sitteracc2");
+        acc2.setBankAccNum("1111111");
+        acc2.setBankName("DBS");
+        bankAccountSessionBean.addNewBankAcc(acc2);
+        s.setBankAcc(acc2);
+        CreditCard cc2 = new CreditCard();
+        cc2.setCcName("SitterCard2");
+        cc2.setCcNum("1212121212121212");
+        cc2.setCvv(234);
+        cc2.setExpDate("12/28");
+        creditCardSessionBean.addNewCreditCard(cc2);
+        s.setCc(cc2);
+        // assuming schedule is empty (no unavail dates)
+        petSitterSessionBean.createNewSitter(s2);
+        
+        PetSitter s3 = new PetSitter();
+        s3.setAge(20);
+        s3.setBillingAddress("234 Bishan st23");
+        s3.setServiceAddress("234 Bishan st23");
+        s3.setRegion("west");
+        s3.setRate(new BigDecimal(30));
+        s3.setFirstName("mary");
+        s3.setLastName("lim");
+        s3.setService(ServiceEnum.DROP_IN);
+        s3.setEmail("petsitter3@mail.com");
+        s3.setUsername("petsitter3");
+        s3.setPassword("password3");
+        s3.setContactNum("81818181");
+        s3.setEmergencyContact("91919191");
+        s3.setPreference("preference");
+        s3.setStatus(UserStatusEnum.APPROVED);
+        BankAccount acc3 = new BankAccount();
+        acc3.setAccName("sitteracc3");
+        acc3.setBankAccNum("2222222");
+        acc3.setBankName("DBS");
+        bankAccountSessionBean.addNewBankAcc(acc3);
+        s.setBankAcc(acc3);
+        CreditCard cc3 = new CreditCard();
+        cc3.setCcName("SitterCard3");
+        cc3.setCcNum("1234561234561212");
+        cc3.setCvv(345);
+        cc3.setExpDate("12/29");
+        creditCardSessionBean.addNewCreditCard(cc3);
+        s.setCc(cc3);
+        // assuming schedule is empty (no unavail dates)
+        petSitterSessionBean.createNewSitter(s3);
 
         AuthenticationRequest aReq = new AuthenticationRequest();
         aReq.setCreatedDate(new Date());
