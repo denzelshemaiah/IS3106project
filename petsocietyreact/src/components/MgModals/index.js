@@ -16,6 +16,7 @@ function MgModal(props) {
     const buttonLabel = props.buttonLabel;
     const reloadData = props.reloadData;
     const mgReq = props.mgReq;
+    const parentId = useState(1);
 
     useEffect(() => {
         if (props.sitter) {
@@ -30,31 +31,31 @@ function MgModal(props) {
     const [form, setValues] = useState({
         createdDate : createdDate,
         mgDate : mgDate,
-        mgDesc : null,
-        sitter : sitter,
+        mgDesc : "",
     });
 
     const submitFormCancel = (e) => {
         e.preventDefault();
         //change this to current user's Id
-        Api.cancelMg(mgReq.parent.userId, mgReq.mgReqId);
+        Api.cancelMg(mgReq.parent.userId, mgReq.mgReqId)
+        .then(props.reloadData());
         toggle();
     }
 
     const submitFormAccept = (e) => {
         e.preventDefault();
         //change this to current user's Id
-        Api.acceptMg(mgReq.parent.userId, mgReq.mgReqId)
+        Api.acceptMg(mgReq.sitter.userId, mgReq.mgReqId)
         .then(toggle())
-        .then(reloadData);
+        .then(props.reloadData());
     }
 
     const submitFormReject = (e) => {
         e.preventDefault();
         //change this to current user's id
-        Api.rejectBooking(mgReq.parent.userId, mgReq.mgReqId)
-        .then(toggle())
-        .then({reloadData})
+        Api.rejectMg(mgReq.sitter.userId, mgReq.mgReqId)
+        .then(props.reloadData())
+        .then(toggle());
     }
 
     //when the form values change
@@ -66,7 +67,7 @@ function MgModal(props) {
     };
 
     const maxDate = () => {
-        var currentDate = new moment();
+        var currentDate = moment();
         return currentDate.add(31, "d").tz("Asia/Singapore").toDate();
     }
 
@@ -75,9 +76,9 @@ function MgModal(props) {
         console.log(form)
         form.createdDate = createdDate;
         form.mgDate = mgDate;
-        // //change this to current user's Id
-        // Api.createMg(form);
-        // toggle();
+        Api.createMg(form, sitter.userId, 1)
+        .then(props.reloadData());
+        toggle();
     }
 
     let button = "";
@@ -111,12 +112,12 @@ function MgModal(props) {
                         <Label for="date"> Date: </Label>
                         <DatePicker
                             name="date"
-                            minDate={new moment().tz("Asia/Singapore").toDate()}
+                            minDate={moment().tz("Asia/Singapore").toDate()}
                             selected={mgDate}
                             onChange={(date) => setMgDate(date)}
                             selectsStart
-                            startDate={new moment().tz("Asia/Singapore").toDate()}
-                            maxDate={maxDate}
+                            startDate={moment().tz("Asia/Singapore").toDate()}
+                            maxDate={maxDate()}
                         />
                     </FormGroup>
                 <Button 
@@ -139,7 +140,10 @@ function MgModal(props) {
             </Button>
         ); title = "Edit Meet and Greet";
         modalBody = (
-            <EditMgForm mgReq={props.mgReq}></EditMgForm>
+            <EditMgForm mgReq={props.mgReq}
+             reloadData={props.reloadData} 
+             updateState={props.updateState}
+             toggle={toggle}></EditMgForm>
         )
     } else if (buttonLabel === "Cancel") {
         button = (

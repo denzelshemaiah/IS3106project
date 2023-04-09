@@ -114,11 +114,10 @@ public class MeetAndGreetResource {
     }
     
     @POST
-    @Path("/create")
+    @Path("/create/{sitterId}/{parentId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public MeetAndGreetRequest createMg (MeetAndGreetRequest mg) {
-        mgSession.createNewMeetAndGreet(mg);
-        return mg;
+    public void createMg (MeetAndGreetRequest mg, @PathParam("sitterId") Long sitterId, @PathParam("parentId") Long parentId) {
+        mgSession.createNewMeetAndGreet(mg, sitterId, parentId);
     }
 }

@@ -28,7 +28,7 @@ function SearchResults(props) {
     // const filteredSitters = search(sitters);
     //data init for testing the card
     const [sitters, setSitters] = useState([{
-        "userId": 1,
+        "userId": 2,
         "firstName": "Sarah",
         "lastName": "Tan",
         "profilePicture": "https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*",
@@ -39,7 +39,7 @@ function SearchResults(props) {
         "service": "walking"
     },
     {
-        "userId": 2,
+        "userId": 3,
         "firstName": "David",
         "lastName": "Chua",
         "profilePicture": "https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*",

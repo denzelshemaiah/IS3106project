@@ -2,15 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Api from "../../helpers/Api";
 import NoRequestsPage from "../../components/NoRequestsPage";
-import { Button } from "react-bootstrap";
+import { Button, Badge } from "react-bootstrap";
 import RequestModal from "../../components/BookingModals"
 import MgModal from "../../components/MgModals";
-
+import titleIcon from "./mgTitle.jpeg"
 
 
 function MeetAndGreets() {
     //initialise all the necessary constants
-    const {userId = 0} = useParams();
+    const userId = 1;
     const [chosenTab, setChosenTab] = useState("pending")
     const [requests, setRequests] = useState([]);
     const user = {"role": "parent"};
@@ -40,94 +40,12 @@ function MeetAndGreets() {
                 const {mgReqId, createdDate, mgDate, mgDesc, status, parent, sitter} = mg;
 
                 mg.createdFormat = createdDate.substring(0, createdDate.length - 5);
-                mg.formatDate = mgDate.split("T")[0]
+                mg.formatDate = mgDate.split("T");
                 //account for auto timezone conversion to UTC by JSON ;-;
-                mg.formatDate = mg.formatDate.split("-")
-                mg.formatDate = mg.formatDate[0] + "-" + mg.formatDate[1] + "-" + mg.formatDate[2][0] + (Number(mg.formatDate[2][1]) + 1)
+                mg.formatDate = mg.formatDate[0];
             }
             setRequests(mgs);
         });
-    }
-
-    // converts the requests array to UI form
-    const result = requests.map((request) => {
-        console.log(request)
-        if (chosenTab === "pending" && user.role === "parent") {
-            //can edit 
-            return (
-                <>  
-                    <li className="list-group-item" key={request.mgReqId} style={{padding:"10px"}}>
-                        <h5>{request.sitter.firstName} {request.sitter.lastName}</h5>
-                        Request Dates: {request.formatDate}<br/>
-                        <p>{request.mgDesc}</p>
-                    </li>
-                </>
-            )
-        } else if (chosenTab === "pending" && user.role === "sitter") {
-            // can only accept/reject here
-            return (
-                <>  
-                    <li className="list-group-item" key={request.bookingReqId} style={{padding:"10px"}}>
-                        <h5>{request.parent.firstName} {request.parent.lastName}</h5>
-                        Request Dates: {request.formatDate}<br/>
-                        <p>{request.mgDesc}</p>
-                    </li>
-                </>
-            )
-        } else if (chosenTab === "upcoming" && user.role === "parent") {
-            //no action, only cancel?
-            return (
-                <>
-                    <li className="list-group-item" key={request.mgReqId}>
-                        <h5>{request.sitter.firstName} {request.sitter.lastName}</h5>                        
-                        Request Dates: {request.formatDate}<br/>
-                        <p>{request.mgDesc}</p>
-                        <Button color="danger">Cancel</Button>
-                    </li>
-                </>
-            )
-        } else if (chosenTab === "upcoming" && user.role === "sitter") {
-            //no action
-            return ( 
-                <>
-                    <li className="list-group-item" key={request.mgReqId} style={{padding:"10px"}}>
-                        <h5>{request.parent.firstName} {request.parent.lastName}</h5>
-                        Request Dates: {request.formatDate}<br/>
-                        <p>{request.mgDesc}</p>
-                    </li>
-                </>
-            )
-        } else if (chosenTab === "rejected" && user.role === "parent") {
-            //can edit here, request will go back to pending status
-            return (
-                <>
-                    <li className="list-group-item" key={request.mgReqId}>
-                        <h5>{request.sitter.firstName} {request.sitter.lastName}</h5>                        
-                        Request Dates: {request.formatDate}<br/>
-                        <p>{request.mgDesc}</p>
-                        <Button color="warning">Edit</Button>
-                    </li>
-                </>
-            )
-        }
-        else {
-            return (
-                <>  
-                    <li class="list-group-item" key={request.mgReqId}>
-                        <h5>{otherParty(request).firstName} {otherParty(request).lastName}</h5>
-                        Request dates<br/>
-                        <p>Desription of request</p>
-                        {' '}
-                    </li>
-                </>
-            )
-        }
-    })
-
-    function noReqs() {
-        if (result.length === 0) {
-           return <NoRequestsPage tab={chosenTab} type="meet and greets"/>
-        }
     }
 
     const updateState = (item) => {
@@ -139,7 +57,20 @@ function MeetAndGreets() {
         ];
         setRequests(newArray);
     };
+
+    function badge(request) {
+        if (request.status === "PENDING") {
+            return <Badge color="warning" pill>Pending</Badge>
+        } else if (request.status === "ACCEPTED") {
+            return <Badge color="success" pill>Accepted</Badge>
+        } else if (request.status === "REJECTED") {
+            return <Badge color="danger" pill>Rejected</Badge>
+        } else {
+            return <Badge color="dark" pill>Archived</Badge>
+        }
+    }
     
+
     let editButton = "";
     editButton = (request) => {
         if (user.role === "parent" && (chosenTab === "pending" || chosenTab === "rejected")) {
@@ -167,10 +98,105 @@ function MeetAndGreets() {
         }
     }
 
-    
+
+    // converts the requests array to UI form
+    const result = requests.map((request) => {
+        console.log(request)
+        if (chosenTab === "pending" && user.role === "parent") {
+            //can edit 
+            return (
+                <>  
+                    <li className="list-group-item" key={request.mgReqId} style={{padding:"20px"}}>
+                        <h5>{request.sitter.firstName} {request.sitter.lastName}</h5>
+                        Request Date: {request.formatDate}<br/>
+                        <p>{request.mgDesc}</p>
+                        {cancelButton(request)}
+                        {editButton(request)}
+                        {badge(request)}
+                    </li>
+                </>
+            )
+        } else if (chosenTab === "pending" && user.role === "sitter") {
+            // can only accept/reject here
+            return (
+                <>  
+                    <li className="list-group-item" key={request.bookingReqId} style={{padding:"20px"}}>
+                        <h5>{request.parent.firstName} {request.parent.lastName}</h5>
+                        Request Date: {request.formatDate}<br/>
+                        <p>{request.mgDesc}</p>
+                        {editButton(request)}
+                        {badge(request)}
+                    </li>
+                </>
+            )
+        } else if (chosenTab === "upcoming" && user.role === "parent") {
+            //no action, only cancel?
+            return (
+                <>
+                    <li className="list-group-item" key={request.mgReqId} style={{padding:"20px"}}>
+                        <h5>{request.sitter.firstName} {request.sitter.lastName}</h5>                        
+                        Request Date: {request.formatDate}<br/>
+                        <p>{request.mgDesc}</p>
+                        {cancelButton(request)}
+                        {badge(request)}
+                    </li>
+                </>
+            )
+        } else if (chosenTab === "upcoming" && user.role === "sitter") {
+            //sitter can cancel
+            return ( 
+                <>
+                    <li className="list-group-item" key={request.mgReqId} style={{padding:"20px"}}>
+                        <h5>{request.parent.firstName} {request.parent.lastName}</h5>
+                        Request Date: {request.formatDate}<br/>
+                        <p>{request.mgDesc}</p>
+                        {badge(request)}
+                        {cancelButton(request)}
+                    </li>
+                </>
+            )
+        } else if (chosenTab === "rejected" && user.role === "parent") {
+            //can edit here, request will go back to pending status
+            return (
+                <>
+                    <li className="list-group-item" key={request.mgReqId} style={{padding:"20px"}}>
+                        <h5>{request.sitter.firstName} {request.sitter.lastName}</h5>                        
+                        Request Date: {request.formatDate}<br/>
+                        <p>{request.mgDesc}</p>
+                        {editButton(request)}
+                        {badge(request)}
+                    </li>
+                </>
+            )
+        }
+        else {
+            return (
+                <>  
+                    <li class="list-group-item" key={request.mgReqId} style={{padding:"20px"}}>
+                        <h5>{otherParty(request).firstName} {otherParty(request).lastName}</h5>
+                        Request Date: {request.formatDate} <br/>
+                        <p>{request.mgDesc}</p>
+                        {' '}
+                        {badge(request)}
+                    </li>
+                </>
+            )
+        }
+    })
+
+    function noReqs() {
+        if (result.length === 0) {
+           return <NoRequestsPage tab={chosenTab} type="meet and greets"/>
+        }
+    }
+
     return (
         <>
-            <div class="card mt-5 shadow rounded">
+            <div style={{display: "block", width:"100%", textAlign:"center"}}>
+                <h3 style={{display: "inline", marginRight: "1vw"}}> My Meet and Greets</h3>
+                <img src={titleIcon} style={{height:"100px"}}/>
+            </div>
+            <div class="card mt-3 mb-2 shadow rounded">
                 <div class="card-header">
                     <ul class="nav nav-pills nav-fill" id="tabs" role="tablist">
                         <li class="nav-item" role="presentation">

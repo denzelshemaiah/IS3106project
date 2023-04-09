@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./styles.css"
 import logo from "./assets/dog_logo.png"
 import { Link } from "react-router-dom";
@@ -34,7 +34,6 @@ function Navbar() {
             <li><Link to="/meetandgreets">Meet and Greets</Link></li>
             <li><Link to="/services">Our Services</Link></li>
           </ul>
-
           <ul className="nav navbar-nav" style={{ float: "right" }}>
             <li className="right"><Link to="/help">Help</Link></li>
             <li className="right"><Link to="/logout">Logout</Link></li>

@@ -30,14 +30,20 @@ public class MeetAndGreetSessionBean implements MeetAndGreetSessionBeanLocal {
     private EntityManager em;
 
     @Override
-    public Long createNewMeetAndGreet(MeetAndGreetRequest m) {
-        if (m.getParent() == null || m.getSitter() == null) {
+    public Long createNewMeetAndGreet(MeetAndGreetRequest m, Long sitterId, Long parentId) {
+        PetSitter sitter = em.find(PetSitter.class, sitterId);
+        PetParent parent = em.find(PetParent.class, parentId);
+        
+        if (sitter == null || parent == null) {
             //exception?
         } else {
+            m.setParent(parent);
+            m.setSitter(sitter);
+            m.setStatus(RequestStatusEnum.PENDING);
             em.persist(m);
             em.flush();
-            m.getParent().getMgRequests().add(m);
-            m.getSitter().getMgRequests().add(m);
+            sitter.getMgRequests().add(m);
+            parent.getMgRequests().add(m);
         }
         return m.getMgReqId();
     }
@@ -55,7 +61,6 @@ public class MeetAndGreetSessionBean implements MeetAndGreetSessionBeanLocal {
         } else if (status.equals("rejected")) {
             statusEnum = RequestStatusEnum.REJECTED;
         } else {
-            // archived tab
             statusEnum = RequestStatusEnum.ARCHIVED;
         }
 
@@ -69,6 +74,7 @@ public class MeetAndGreetSessionBean implements MeetAndGreetSessionBeanLocal {
             q = em.createQuery("SELECT mg FROM MeetAndGreetRequest mg WHERE mg.sitter.userId LIKE :sitterId AND mg.status = :enum")
                     .setParameter("sitterId", userId)
                     .setParameter("enum", statusEnum);
+            System.out.println(userId);
         }
         return q.getResultList();
     }
@@ -81,6 +87,7 @@ public class MeetAndGreetSessionBean implements MeetAndGreetSessionBeanLocal {
         } else {
             old.setMgDesc(mg.getMgDesc());
             old.setMgDate(mg.getMgDate());
+            old.setStatus(RequestStatusEnum.PENDING);
             em.merge(old);
         }
     }
@@ -111,8 +118,6 @@ public class MeetAndGreetSessionBean implements MeetAndGreetSessionBeanLocal {
             throw new NoResultException("User could not be found!");
         } else if (mg == null) {
             throw new NoResultException("Meet and greet request could not be found!");
-        } else if (u instanceof PetSitter) {
-            throw new NoAccessException("Only Pet Parents can cancel bookings!");
         } else {
             mg.setStatus(RequestStatusEnum.ARCHIVED);
         }

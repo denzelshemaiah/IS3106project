@@ -73,6 +73,7 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
                         newB.setStartDate(newStart);
                         //default pending
                         newB.setStatus(RequestStatusEnum.PENDING);
+                        newB.setRepeatDays(b.getRepeatDays());
                         //calculate cost for this cycle
                         if (s.getService().equals(ServiceEnum.DROP_IN) || s.getService().equals(ServiceEnum.WALKING)) {
                             newB.setCost(s.getRate().multiply(BigDecimal.valueOf(b.getFreq())).multiply(BigDecimal.valueOf(days.size())));
@@ -105,6 +106,7 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
                 b.setStatus(RequestStatusEnum.PENDING);
                 b.setCost(s.getRate().multiply(BigDecimal.valueOf(daysDiff)));
                 b.setSitter(s);
+                b.setRepeatDays(b.getRepeatDays());
                 em.persist(b);
                 em.flush();
             }
