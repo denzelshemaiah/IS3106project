@@ -21,6 +21,7 @@ function Navbar() {
           </ul>
 
           <ul className="nav navbar-nav" style={{ float: "right" }}>
+          <li className="right"><Link to="/profile">Profile</Link></li> 
             <li className="right"><Link to="/help">Help</Link></li>
             <li className="right"><Link to="/logout">Logout</Link></li>
           </ul>

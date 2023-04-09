@@ -176,7 +176,7 @@ function SignUp(props) {
     e.preventDefault();
     Api.createNewParent(user, petParent)
       .then((data) => {
-        navigate("/LoggedInHomepage");
+        navigate("/CreatePet");
       })
   }
 
@@ -285,10 +285,10 @@ function SignUp(props) {
    // Frontend Creation of Sitter 
    const handleCompletePetSitterCreation = (e) => {
     handleCompleteUserCreation(e);
-    handleRegistrationOfSitter(e);
     handleCreationOfAuthenReq(e);
     handleCreationOfExperienceForm(e);
     handleCreationOfSafetyForm(e);
+    handleRegistrationOfSitter(e); 
 }
 
   // Backend Creation of Sitter

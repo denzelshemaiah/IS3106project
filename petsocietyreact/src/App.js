@@ -11,6 +11,8 @@ import Bookings from "./containers/Bookings"
 import MeetAndGreets from "./containers/MeetAndGreets"
 import MakeBooking from "./containers/MakeBooking"
 import LoggedInHomepage from './containers/LoggedInHomepage';
+import CreatePet from './containers/CreatePet';
+import Profile from './containers/Profile';
 
 
 function App() {
@@ -23,16 +25,18 @@ function App() {
           {/* public routes */}
           <Route path="/signIn" element={<SignIn />} />
           <Route path="/signUp/:page" element={<SignUp />} />
- 
+
           <Route path="/searchSitter" element={<SearchSitter />} />
           <Route path="/services" element={<Services />} />
-          <Route path="/help" element={<Help/>}/>
-          
+          <Route path="/help" element={<Help />} />
+
           {/* private routes */}
           <Route path="/bookings" element={<Bookings />} />
           <Route path="/meetandgreets" element={<MeetAndGreets />} />
           <Route path="/makebooking" element={<MakeBooking />} />
-          <Route path="/loggedInHomepage" element={<LoggedInHomepage />}/>
+          <Route path="/loggedInHomepage" element={<LoggedInHomepage />} />
+          <Route path="/createPet" element={<CreatePet />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </div>
     </>

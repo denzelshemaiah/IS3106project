@@ -23,7 +23,7 @@ function NoLoginNavbar() {
   const [showNoLoginNavbar, setShowNoLoginNavbar] = useState(false);
 
   return (
-    <MDBNavbar expand='lg' bgColor='E4E2F5' scrollingNavbar>
+    <MDBNavbar expand='lg' bgColor='E4E2F5' className="d-flex auto" scrollingNavbar>
       <MDBContainer fluid>
         <a href="/" class="navbar-brand">
           <img src={logo} class="logo" />
