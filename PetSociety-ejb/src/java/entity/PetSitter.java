@@ -15,15 +15,10 @@ import java.util.List;
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Max;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -77,7 +72,7 @@ public class PetSitter extends User implements Serializable {
         this.mgRequests = new ArrayList<>();
         this.schedule = new ArrayList<>();
     }
-
+/*
     public PetSitter(String serviceAddress, RegionEnum region, String preference, List<Date> schedule, BigDecimal rate, ServiceEnum service, AuthenticationRequest authenReq, ExperienceForm expForm, SafetyForm safetyForm, List<BookingRequest> bookings, List<MeetAndGreetRequest> mgRequests, User user) {
         this.serviceAddress = serviceAddress;
         this.region = region;
@@ -92,7 +87,25 @@ public class PetSitter extends User implements Serializable {
         this.mgRequests = mgRequests;
         this.user = user;
     }
+    */
 
+    public PetSitter(User user, String serviceAddress, RegionEnum region, String petPreference, int maxWeightPreference, int maxNumPets, List<Date> schedule, BigDecimal rate, ServiceEnum service, AuthenticationRequest authenReq, ExperienceForm expForm, SafetyForm safetyForm, List<BookingRequest> bookings, List<MeetAndGreetRequest> mgRequests) {
+        this.user = user;
+        this.serviceAddress = serviceAddress;
+        this.region = region;
+        this.petPreference = petPreference;
+        this.maxWeightPreference = maxWeightPreference;
+        this.maxNumPets = maxNumPets;
+        this.schedule = schedule;
+        this.rate = rate;
+        this.service = service;
+        this.authenReq = authenReq;
+        this.expForm = expForm;
+        this.safetyForm = safetyForm;
+        this.bookings = bookings;
+        this.mgRequests = mgRequests;
+    }
+    
     public String getServiceAddress() {
         return serviceAddress;
     }
@@ -100,7 +113,7 @@ public class PetSitter extends User implements Serializable {
     public void setServiceAddress(String serviceAddress) {
         this.serviceAddress = serviceAddress;
     }
-
+/*
     public String getPreference() {
         return preference;
     }
@@ -108,7 +121,8 @@ public class PetSitter extends User implements Serializable {
     public void setPreference(String preference) {
         this.preference = preference;
     }
-
+*/
+    
     public List<Date> getSchedule() {
         return schedule;
     }
@@ -207,6 +221,48 @@ public class PetSitter extends User implements Serializable {
      */
     public void setRegion(RegionEnum region) {
         this.region = region;
+    }
+
+    /**
+     * @return the petPreference
+     */
+    public String getPetPreference() {
+        return petPreference;
+    }
+
+    /**
+     * @param petPreference the petPreference to set
+     */
+    public void setPetPreference(String petPreference) {
+        this.petPreference = petPreference;
+    }
+
+    /**
+     * @return the maxWeightPreference
+     */
+    public int getMaxWeightPreference() {
+        return maxWeightPreference;
+    }
+
+    /**
+     * @param maxWeightPreference the maxWeightPreference to set
+     */
+    public void setMaxWeightPreference(int maxWeightPreference) {
+        this.maxWeightPreference = maxWeightPreference;
+    }
+
+    /**
+     * @return the maxNumPets
+     */
+    public int getMaxNumPets() {
+        return maxNumPets;
+    }
+
+    /**
+     * @param maxNumPets the maxNumPets to set
+     */
+    public void setMaxNumPets(int maxNumPets) {
+        this.maxNumPets = maxNumPets;
     }
 
 }
