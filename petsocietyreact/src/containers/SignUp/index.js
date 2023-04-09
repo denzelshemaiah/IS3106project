@@ -9,7 +9,8 @@ import {
   MDBInput,
   MDBCheckbox,
   MDBTypography,
-  MDBCardImage
+  MDBCardImage,
+  MDBTextArea
 }
   from 'mdb-react-ui-kit';
 import { MDBCard } from 'mdbreact';
@@ -31,6 +32,26 @@ function SignUp(props) {
 
   const redirect3 = () => {
     let path = '/SignUp/3';
+    navigate(path);
+  }
+
+  const redirect4 = () => {
+    let path = `/SignUp/Sitter`;
+    navigate(path);
+  }
+
+  const redirect5 = () => {
+    let path = `/SignUp/ExpForm`;
+    navigate(path);
+  }
+
+  const redirect6 = () => {
+    let path = `/SignUp/SafetyForm`;
+    navigate(path);
+  }
+
+  const redirect7 = () => {
+    let path = `/SignUp/Authentication`;
     navigate(path);
   }
 
@@ -656,7 +677,8 @@ function SignUp(props) {
                     <div class="row">
                       <div class="col">
                         <button class="btn btn-primary w-100"
-                          style={{ backgroundColor: '#F3F5F4', padding: '20px 40px' }}>
+                          style={{ backgroundColor: '#F3F5F4', padding: '20px 40px' }}
+                          onClick={redirect4}>
                           <img src="https://static.thenounproject.com/png/1138226-200.png"
                             alt="Image"
                             width="250"
@@ -677,16 +699,49 @@ function SignUp(props) {
     )
   }
 
-  // fill in petSitter attributes here in this page
-  else if (page === "5") {
+  // Pet Sitter Pages 
+  else if (page === "Sitter") {
     return (
       <>
-        <h1>test2</h1>
-      //put below in a method:
-        {/* <button onClick={handleCreationOfSitter}>
-          Submit
-        </button> */}
-      // redirect 2 sitter homepage
+
+<MDBContainer fluid>
+
+<MDBRow className='d-flex justify-content-center align-items-center'>
+
+  <MDBCol lg='8'>
+
+    <MDBCard className='my-5 rounded-3' style={{maxWidth: '600px'}}>
+      <MDBCardImage src='https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img3.webp' className='w-100 rounded-top'  alt="Sample photo"/>
+
+      <MDBCardBody className='px-5'>
+
+        <h3 className="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Registration Info</h3>
+        <MDBInput wrapperClass='mb-4' label='Name' id='form1' type='text'/>
+
+        <MDBRow>
+
+          <MDBCol md='6'>
+            <MDBInput wrapperClass='datepicker mb-4' label='Select a date' id='form2' type='text'/>
+          </MDBCol>
+        </MDBRow>
+
+      
+
+        <MDBRow>
+          <MDBCol md='6'>
+            <MDBInput wrapperClass='mb-4' label='Registration code' id='form3' type='text'/>
+          </MDBCol>
+        </MDBRow>
+
+        <MDBBtn color='success' className='mb-4' size='lg'>Submit</MDBBtn>
+
+      </MDBCardBody>
+    </MDBCard>
+
+  </MDBCol>
+</MDBRow>
+
+</MDBContainer>
 
         <div className="row pt-3 pb-5 mx-auto">
           <div className="col-md-2"></div>
@@ -739,6 +794,10 @@ function SignUp(props) {
                           </Form.Group>
                         </Form>
 
+                        <button onClick={redirect5}>
+                          Submit
+                        </button> 
+
                       </MDBRow>
 
                     </MDBRow>
@@ -751,6 +810,80 @@ function SignUp(props) {
 
           </MDBContainer>
         </form>
+      </>
+    )
+  } else if (page === "ExpForm") {
+    return (
+    <>
+      <MDBContainer fluid>
+
+<MDBRow className='d-flex justify-content-center align-items-center'>
+
+  <MDBCol lg='8'>
+
+    <MDBCard className='my-5 rounded-3' style={{maxWidth: '800px'}}>
+      <MDBCardImage src='https://images.unsplash.com/photo-1668036065203-4f1b08f1fcf1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'
+      className='w-100 rounded-top'  alt="Sample photo"/>
+
+      <h3>PetSociety takes pride in matching Pet Parents to the best Pet Sitters!</h3>
+      <h8>We would like to get to know you and your experiences better.</h8>
+
+      <MDBCardBody className='px-5'>
+        <MDBRow>
+          <h5>Years of Experience</h5>
+          <MDBCol md="2">
+            <MDBInput wrapperClass='mb-4' label='Years' id='form1' type='text'/>
+          </MDBCol>
+        </MDBRow>
+
+        <MDBRow>
+          <h5>Testimonials</h5>
+        </MDBRow>
+        
+
+        <MDBRow>
+          <MDBCol md='12'>
+            <h8>Headline</h8>
+            <MDBInput wrapperClass='mb-4' label='Headline' id='form2' type='text'/>
+          </MDBCol>
+        </MDBRow>
+
+        <MDBRow>
+          <h8>Description</h8>
+          <MDBCol md='12'>
+          
+          <MDBTextArea className="mb-4" label='Describe your experience' rows={4}/>
+          </MDBCol>
+        </MDBRow>
+
+        <MDBBtn color='secondary' className='mb-4' size='lg' onClick={redirect6}>Next</MDBBtn>
+
+      </MDBCardBody>
+    </MDBCard>
+
+  </MDBCol>
+</MDBRow>
+
+</MDBContainer>
+
+    </>
+    )
+  } else if (page === "SafetyForm") {
+    return (
+      <>
+        <h1>safety form UI</h1>
+        <button onClick={redirect7}>
+                          Submit
+                        </button>
+      </>
+    )
+  } else if (page === "Authentication") {
+    return (
+      <>
+        <h1>authentication form UI</h1>
+        <button onClick={redirect7}>
+                          Submit
+                        </button>
       </>
     )
   }
