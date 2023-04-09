@@ -48,6 +48,11 @@ function SearchSitter(props) {
         }
     };
 
+    const [searchQuery, setSearchQuery] = useState({});
+    const handleSearchQuery = (formData) => {
+        setSearchQuery(formData);
+      };
+
     const [formData, setFormData] = useState({
         userId: null,
         serviceType: "",
@@ -67,7 +72,7 @@ function SearchSitter(props) {
     useEffect(() => {
         const fetchUserId = async () => {
           try {
-            const response = await Api.getParentId();
+            const response = await Api.getParentId(parentId);
             const parentId = response.data.parentId;
             setFormData(prevState => ({
               ...prevState,
@@ -457,7 +462,10 @@ function SearchSitter(props) {
                                         <Button
                                             color="primary"
                                             type="submit"
-                                            onClick={handleSearch}>
+                                            onClick={() => {
+                                                handleSearch();
+                                                handleSearchQuery(formData);
+                                            }}>
                                             Search
                                         </Button>
                                     </div>
@@ -468,7 +476,7 @@ function SearchSitter(props) {
                     </div>
                     <div className="col-md-4" style={{ marginLeft: "-25px" }}>
                             {/* {showResults && <SearchResults searchQuery={formData} style={{ overflow: "auto" }} />} */}
-                        <SearchResults searchQuery={formData} style={{ float: "right", overflow: "auto" }} />
+                        <SearchResults searchQuery={searchQuery} style={{ float: "right", overflow: "auto" }} />
                     </div>
                 </div>
         </div>

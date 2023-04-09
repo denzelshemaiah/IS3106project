@@ -38,6 +38,16 @@ const Api = {
         });
     }, 
 
+    //retrieve the parentId
+    getParentId(parentId) {
+        return fetch(`${SERVER_PREFIX}/users/petparent/${parentId}`)
+    },
+
+    //retrieve all pet sitters
+    getAllPetSitters() {
+        return fetch(`${SERVER_PREFIX}/users/petsitters`)
+    },
+
     // setting bankAccountNumber and creating it in association with a user
     createAndAssociateNewBankAccount(data) {
         return fetch(`${SERVER_PREFIX}/bankAccount`, {
@@ -194,6 +204,7 @@ const Api = {
             method: "PUT"
         })
     },
+
 };
 
 export default Api;
