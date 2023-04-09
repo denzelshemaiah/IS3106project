@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./styles.css"
 import logo from "./assets/dog_logo.png"
 import { Link } from "react-router-dom";
-import { MDBNavbar } from "mdb-react-ui-kit";
+import { MDBContainer, MDBNavbar } from "mdb-react-ui-kit";
 
 function Navbar() {
   const [loggedInUser, setLoggedInUser] = useState({ role: "parent" });
@@ -46,11 +46,13 @@ function Navbar() {
 
   return (
     <MDBNavbar expand='lg' bgColor='E4E2F5'>
+      <MDBContainer fluid>
       <a href="/" className="navbar-brand">
         <img src={logo} className="logo" />
         PetSociety
       </a>
       {links(loggedInUser)}
+      </MDBContainer>
     </MDBNavbar>
   );
 }

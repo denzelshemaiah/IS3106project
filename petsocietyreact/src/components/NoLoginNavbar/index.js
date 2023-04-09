@@ -2,11 +2,12 @@ import React from "react";
 import "./styles.css";
 import logo from "./assets/dog_logo.png";
 import { Link } from "react-router-dom";
-import { MDBNavbar } from "mdb-react-ui-kit";
+import { MDBNavbar, MDBContainer } from "mdb-react-ui-kit";
  
 function NoLoginNavbar() { 
   return ( 
     <MDBNavbar expand='lg' bgColor='E4E2F5'>
+            <MDBContainer fluid>
     <a href="/" class="navbar-brand"> 
       <img src={logo} class="logo"/>
       PetSociety 
@@ -23,6 +24,7 @@ function NoLoginNavbar() {
         <li class="right"><Link to="/help">Help</Link></li>
       </ul>
     </div>
+    </MDBContainer>
     </MDBNavbar> 
   ); 
 } 

@@ -43,6 +43,9 @@ public class PetParent extends User implements Serializable {
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
+    
+    @OneToMany(mappedBy = "parent")
+    private List<Pet> pets;
 
     public PetParent() {
     }
@@ -105,6 +108,14 @@ public class PetParent extends User implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<Pet> getPets() {
+        return pets;
+    }
+
+    public void setPets(List<Pet> pets) {
+        this.pets = pets;
     }
 
 }
