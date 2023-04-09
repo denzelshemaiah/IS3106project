@@ -66,7 +66,7 @@ public class UsersResource {
     // create petsitter type user
     @POST
     @Path("/petsitters")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.MULTIPART_FORM_DATA)
     @Consumes(MediaType.APPLICATION_JSON)
     public User createNewPetSitter(@FormParam("user") User user, 
             @FormParam("petSitter") PetSitter petSitter) {

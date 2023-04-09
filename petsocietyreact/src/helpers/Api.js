@@ -95,7 +95,17 @@ const Api = {
         });
     },
     
-    
+   // creation of Pet (already associated with Parent)
+   createNewPet(data) {
+    return fetch(`${SERVER_PREFIX}/pet/createPet`, {
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify(data),
+    }); 
+   },
 
     //BOOKINGSSSS
     //view all bookings
