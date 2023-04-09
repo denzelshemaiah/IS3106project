@@ -1,0 +1,28 @@
+/* Inactive tab */
+.navTab li {
+    background-color: white;
+    color: red;
+}
+
+.navTab li > a:hover {
+    background-color: pink;
+}
+
+/* Active tab */
+.navTab ul > li.active > a,
+.navTab ul > li.active > a:hover,
+.navTab ul > li.active > a:focus {
+    background-color: red;
+    color: white;
+    text-decoration: none;
+}
+
+/* Disabled tab */
+.navTab ul > li.disabled > a {
+    background-color: lightgray;
+    color: darkgray;
+}
+
+.nav .nav-item .nav-link.active {
+    background-color: pink;
+}

@@ -146,7 +146,6 @@ public class MeetAndGreetRequest implements Serializable {
     /**
      * @return the parent
      */
-    @JsonbTransient
     public PetParent getParent() {
         return parent;
     }
@@ -161,7 +160,6 @@ public class MeetAndGreetRequest implements Serializable {
     /**
      * @return the sitter
      */
-    @JsonbTransient
     public PetSitter getSitter() {
         return sitter;
     }

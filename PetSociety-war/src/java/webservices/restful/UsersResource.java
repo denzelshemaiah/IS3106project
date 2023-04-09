@@ -15,6 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Path;
 import javax.enterprise.context.RequestScoped;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.core.MediaType;
@@ -36,48 +37,46 @@ public class UsersResource {
 
     @EJB
     private PetParentSessionBeanLocal petParentSessionBeanLocal;
-    
-    @EJB 
+
+    @EJB
     private PetSitterSessionBeanLocal petSitterSessionBeanLocal;
 
-    /*
-     * @POST
-     * 
-     * @Consumes(MediaType.APPLICATION_JSON)
-     * 
-     * @Produces(MediaType.APPLICATION_JSON)
-     * public User createNewUser(User user) {
-     * user.setStatus(UserStatusEnum.PENDING);
-     * userSessionBean.createNewUser(user);
-     * return user;
-     * }
-     */
+    // no longer using this API as not creating user, only either PP or PS
+    /* @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public User createNewUser(User user) {
+        user.setStatus(UserStatusEnum.PENDING);
+        userSessionBean.createNewUser(user);
+        return user;
+    } */
 
     // create petparent type user
-//    @POST
-//    @Path("/petparent")
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public User createNewPetParent(User user, PetParent petParent) {
-//        user.setStatus(UserStatusEnum.PENDING);
-//        userSessionBean.createNewParent(user, petParent);
-//        return user;
-//    }
+    @POST
+    @Path("/petparent")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    public User createNewPetParent(@FormParam("user") User user,
+            @FormParam("petParent") PetParent petParent) {
+        user.setStatus(UserStatusEnum.PENDING);
+        userSessionBean.createNewParent(user, petParent);
+        return user;
+    }
     
-    // // create petsitter type user
-    // @POST
-    // @Path("/petsitters")
-    // @Produces(MediaType.APPLICATION_JSON)
-    // @Consumes(MediaType.APPLICATION_JSON)
-    // public User createNewPetSitter(User user, PetSitter petSitter) {
-    // user.setStatus(UserStatusEnum.PENDING);
-    //
-    // // Convert service chosen (string) to the corresponding enum value
-    // // petSitter.setService(ServiceEnum.getServiceEnumFromString());
-    //
-    // userSessionBean.createNewSitter(user, petSitter);
-    // return user;
-    // }
+    // create petsitter type user
+    @POST
+    @Path("/petsitters")
+    @Produces(MediaType.MULTIPART_FORM_DATA)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public User createNewPetSitter(@FormParam("user") User user, 
+            @FormParam("petSitter") PetSitter petSitter) {
+        user.setStatus(UserStatusEnum.PENDING);
+
+        // Convert service chosen (string) to the corresponding enum value
+        // petSitter.setService(ServiceEnum.getServiceEnumFromString());
+        userSessionBean.createNewSitter(user, petSitter);
+        return user;
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

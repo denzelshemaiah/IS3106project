@@ -37,9 +37,9 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
     @Override
     public void createNewBooking(BookingRequest b, Long parentId, Long sitterId, String repeatBasis) {
         PetParent p = em.find(PetParent.class, parentId);
-        //PetSitter s = em.find(PetSitter.class, sitterId);
+        PetSitter s = em.find(PetSitter.class, sitterId);
         List<Integer> days = b.getRepeatDays();
-        if (p == null ) {//|| s == null) {
+        if (p == null || s == null) {
             //exception?
         } else {
             if (repeatBasis.equals("weekly")) {
@@ -69,19 +69,20 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
                         newB.setFreq(b.getFreq());
                         newB.setNumPets(b.getNumPets());
                         newB.setParent(p);
-//                        newB.setSitter(s);
+                        newB.setSitter(s);
                         newB.setStartDate(newStart);
                         //default pending
                         newB.setStatus(RequestStatusEnum.PENDING);
+                        newB.setRepeatDays(b.getRepeatDays());
                         //calculate cost for this cycle
-//                        if (s.getService().equals(ServiceEnum.DROP_IN) || s.getService().equals(ServiceEnum.WALKING)) {
-//                            newB.setCost(s.getRate().multiply(BigDecimal.valueOf(b.getFreq())).multiply(BigDecimal.valueOf(days.size())));
-//                        } else {
-//                            newB.setCost(s.getRate().multiply(BigDecimal.valueOf(days.size())));
-//                        }
+                        if (s.getService().equals(ServiceEnum.DROP_IN) || s.getService().equals(ServiceEnum.WALKING)) {
+                            newB.setCost(s.getRate().multiply(BigDecimal.valueOf(b.getFreq())).multiply(BigDecimal.valueOf(days.size())));
+                        } else {
+                            newB.setCost(s.getRate().multiply(BigDecimal.valueOf(days.size())));
+                        }
                         //set relations for this new booking
                         p.getBookings().add(newB);
-                       // s.getBookings().add(newB);
+                        s.getBookings().add(newB);
                         em.persist(newB);
                         em.flush();
                     }
@@ -100,11 +101,12 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
                 long daysDiff = TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
                 
                 p.getBookings().add(b);
-//                s.getBookings().add(b);
+                s.getBookings().add(b);
                 b.setParent(p);
                 b.setStatus(RequestStatusEnum.PENDING);
-//                b.setCost(s.getRate().multiply(BigDecimal.valueOf(daysDiff)));
-//                b.setSitter(s);
+                b.setCost(s.getRate().multiply(BigDecimal.valueOf(daysDiff)));
+                b.setSitter(s);
+                b.setRepeatDays(b.getRepeatDays());
                 em.persist(b);
                 em.flush();
             }

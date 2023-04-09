@@ -5,10 +5,12 @@ import './style.css';
 import Rating from 'react-rating-stars-component';
 import { Link } from "react-router-dom";
 import MgModal from "../../components/MgModals";
-import SearchSitter from "../../containers/SearchSitter";
+// import SearchSitter from "../../containers/SearchSitter";
+
 
 function useSearch(sitters, searchQuery) {
     const [searchParam, setSearchParam] = useState(["serviceType", "petType", "location", "startDate", "endDate", "petSize", "rate", "repeat", "full-time", "numOfTimes"]);
+
 
     return sitters.filter((sitter) => {
         return searchParam.some((newItem) => {
@@ -22,13 +24,17 @@ function useSearch(sitters, searchQuery) {
     });
 }
 
+
 function SearchResults(props) {
+
 
     const [sitters, setSitters] = useState([]);
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
 
+
     const filteredSitters = useSearch(sitters, props.searchQuery);
+
 
     useEffect(() => {
         Api.getAllPetSitters()
@@ -66,9 +72,9 @@ function SearchResults(props) {
     //     "comments": "excellent",
     //     "region": "east"
     // }]);
-    
+   
     // useEffect(() => {
-    //     Api.getAllPetSitters() 
+    //     Api.getAllPetSitters()
     //         .then((res) => res.json())
     //         .then(
     //             (result) => {
@@ -84,7 +90,8 @@ function SearchResults(props) {
     //             }
     //         );                                                                                                                                                                                                                                                                                  
     // }, []);
-            
+           
+
 
     return (
         /* here we map over the sitter and display each sitter as a card  */
@@ -158,6 +165,7 @@ function SearchResults(props) {
         `}
             </style></>
     );
+
 
 }
 

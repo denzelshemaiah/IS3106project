@@ -124,14 +124,12 @@ public class BookingsResource {
     }
     
     @POST
-    @Path("/create/{parentId}/{sitterId}")
+    @Path("/create/{parentId}/{sitterId}/query")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public BookingRequest createBooking (@PathParam("parentId") Long parentId, @PathParam("sitterId") Long sitterId,
+    public void createBooking (@PathParam("parentId") Long parentId, @PathParam("sitterId") Long sitterId,
             BookingRequest b, @QueryParam("repeat") String repeatBasis) {
-        System.out.println(repeatBasis);
-        System.out.println("creating: " + b);
+        System.out.println(b);
         bookingSession.createNewBooking(b, parentId, sitterId, repeatBasis);
-        return b;
     } 
 }

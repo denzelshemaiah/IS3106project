@@ -11,12 +11,12 @@ import Api from "../../helpers/Api";
 import {Link, useParams, useNavigate, useSearchParams, useLocation} from "react-router-dom";
 
 //page to view all bookings, follows a tab view
-function MakeBooking(props) {
+function MakeBooking() {
     const [service, setService] = useState("");
     const [startDate, setStartDate] = useState(moment("2023-04-08 00:00:00").startOf("day").toDate());
     const [cost, setCost] = useState(0);
     const [created, setCreated] = useState(moment().toDate());
-    const [description, setDescription] = useState("Hi there! I think you will be perfect for my little PUPPER named PEANUT! pls say yes");
+    const [description, setDescription] = useState("");
     const [freq, setFreq] = useState('2');
     const [endDate, setEndDate] = useState(moment("2023-05-08 00:00:00").startOf("day").toDate());
     const [repeat, setRepeat] = useState("weekly")
@@ -34,21 +34,25 @@ function MakeBooking(props) {
         console.log(sitter);
         console.log(formData);
         setService(sitter.service)
-        setStartDate(formData.dates.startDate)
-        setEndDate(formData.dates.endDate)
+        setStartDate(moment(formData.dates.startDat).toDate())
+        setEndDate(moment(formData.dates.endDate).toDate())
         setRepeat(formData.repeat)
         setFreq(formData.numOfTimes);
-        if(repeat === "weekly") {
+        if(formData.repeat === "weekly") {
             setDaysRepeat(convertDays(formData.dayOfWeek));
             console.log(daysRepeat)
         }
         setRate(sitter.rate);
-        setSitterId(sitter.userId);
+        //setSitterId(sitter.userId);
+        setSitterId(2);
+        // setParentId(formData.parentId);
+        setParentId(1);
 
         const calculateTotalCost = () => {
             //per day (boarding,  daycare)
             if (service === "boarding" || service === "daycare") {
                 var diffDays = Math.round((endDate - startDate)/(1000 * 60 * 60 * 24));
+                console.log(diffDays)
                 if (repeat === "weekly") {
                     diffDays = 0;
                     var copyStart = startDate
@@ -67,7 +71,7 @@ function MakeBooking(props) {
                 diffDays = Math.round((endDate - startDate)/(1000 * 60 * 60 * 24));
                 if (repeat === "weekly") {
                     diffDays = 0;
-                    var copyStart = startDate
+                    copyStart = startDate
                     while (copyStart <= endDate) {
                         var dayIdx = moment(copyStart).day();
                         if (daysRepeat.includes(dayIdx)) {
@@ -76,8 +80,10 @@ function MakeBooking(props) {
                         }
                         copyStart = moment(copyStart).add(1, "days");
                     }
+                    console.log(diffDays)
+                    return diffDays * rate * parseInt(freq);
                 }
-                return diffDays * rate * freq;
+                return (diffDays + 1) * rate * parseInt(freq);
             }      
         }
         setCost(calculateTotalCost)
@@ -186,21 +192,29 @@ function MakeBooking(props) {
         numOfTimesButton = (
             <>  
                 <h5>Number of visits per day: </h5>
-                <ButtonGroup>
+                <ButtonGroup
+                disabled={true}>
                     <Button
-                        style={{ whiteSpace: 'nowrap' }}
+                        style={{ whiteSpace: 'nowrap', cursor: 'none'}}
                         active={freq === "1"}
-                        color="primary">
+                        color="primary"
+                        pointerEvents="none"
+                        disabled={true}
+                    >
                             1
                     </Button>
                     <Button
-                        style={{ whiteSpace: 'nowrap' }}
-                        active={freq === "2"}>
+                        style={{ whiteSpace: 'nowrap', pointerEvents: "none" }}
+                        active={freq === "2"}
+                        pointerEvents="none"
+                        disabled={true}>
                             2
                     </Button>
                     <Button
-                        style={{ whiteSpace: 'nowrap' }}
-                        active={freq === "3"}>
+                        style={{ whiteSpace: 'nowrap', pointerEvents: "none" }}
+                        active={freq === "3"}
+                        pointerEvents="none"
+                        disabled={true}>
                             3
                     </Button>
                 </ButtonGroup>
@@ -211,40 +225,40 @@ function MakeBooking(props) {
                 <>  
                     <h5>Days for repeat bookings: </h5>
                     <ButtonGroup
-                        disabled>
+                        style={{pointerEvents: "none"}}>
                         <Button
-                            style={{ whiteSpace: 'nowrap' }}
+                            style={{ whiteSpace: 'nowrap',  pointerEvents: "none"}}
                             active={daysRepeat.includes(1)}
                             >
                                 Monday
                         </Button>
                         <Button
-                            style={{ whiteSpace: 'nowrap' }}
+                            style={{ whiteSpace: 'nowrap',  pointerEvents: "none"}}
                             active={daysRepeat.includes(2)}>
                                 Tuesday
                         </Button>
                         <Button
-                            style={{ whiteSpace: 'nowrap' }}
+                            style={{ whiteSpace: 'nowrap',  pointerEvents: "none" }}
                             active={daysRepeat.includes(3)}>
                                 Wednesday
                         </Button>
                         <Button
-                            style={{ whiteSpace: 'nowrap' }}
+                            style={{ whiteSpace: 'nowrap',  pointerEvents: "none"}}
                             active={daysRepeat.includes(4)}>
                                 Thursday
                         </Button>
                         <Button
-                            style={{ whiteSpace: 'nowrap' }}
+                            style={{ whiteSpace: 'nowrap',  pointerEvents: "none"}}
                             active={daysRepeat.contains(5)}>
                                 Friday
                         </Button>
                         <Button
-                            style={{ whiteSpace: 'nowrap' }}
+                            style={{ whiteSpace: 'nowrap',  pointerEvents: "none"}}
                             active={daysRepeat.includes(6)}>
                                 Saturday
                         </Button>
                         <Button
-                            style={{ whiteSpace: 'nowrap' }}
+                            style={{ whiteSpace: 'nowrap',  pointerEvents: "none"}}
                             active={daysRepeat.includes(0)}>
                                 Sunday
                         </Button>
@@ -271,9 +285,9 @@ function MakeBooking(props) {
     repeatButtons = (
         <>
             <h5 style={{marginBottom : "3vh"}}>How often do you need {serviceText}?</h5>
-            <Button outline color="secondary" className={repeat === "once" ? "active" : ""} style={{width: "45%", margin:"10px"}}> 
+            <Button outline color="secondary" className={repeat === "once" ? "active" : ""} style={{width: "45%", margin:"10px", pointerEvents: "none"}}> 
                 <FontAwesomeIcon icon={faCalendarAlt} style={{float: "left", height:"30px", width:"30px"}}/> One Time</Button>{' '}
-            <Button outline color="secondary"  className={repeat === "weekly" ? "active" : ""} style={{width: "45%", margin:"10px"}}>
+            <Button outline color="secondary"  className={repeat === "weekly" ? "active" : ""} style={{width: "45%", margin:"10px", pointerEvents: "none"}}>
             <FontAwesomeIcon icon={faRepeat} style={{float: "left", height:"30px", width:"30px"}}/>Repeat Weekly</Button>{' '}
         </>
     )
@@ -292,7 +306,8 @@ function MakeBooking(props) {
     let booking = {};
 
     //HANDLE FORM
-    const createBookingSubmit = () => {
+    const createBookingSubmit = (e) => {
+        e.preventDefault();
         booking = {
             created : created,
             description : description,
@@ -302,12 +317,18 @@ function MakeBooking(props) {
             freq : freq,
             repeatDays : daysRepeat,
         }
+        console.log(description.valueOf());
         
         //fetch the Api
         Api.createBooking(booking, parentId, sitterId, repeat)
-        .then((data) => {
+        .then(() => {
             navigate("/bookings");
         });
+    }
+
+    const handleDescChange = e => {
+        setDescription(e.target.value);
+        console.log(e.target.value);
     }
 
 
@@ -346,13 +367,13 @@ function MakeBooking(props) {
                     </Card>
                 </div>
                 
-                <Form>
+                <Form onSubmit={createBookingSubmit}>
                     <div style={{display: "block", marginBottom:"3vh"}}>
                         {repeatButtons}
                     </div>
 
                     <div style={{display: "block"}}>
-                        <h5 style={{ marginBottom:"3vh"}}> Please select the dates for {serviceText} </h5>
+                        <h5 style={{ marginBottom:"3vh"}}> Selected dates for {serviceText} </h5>
                         <DatePicker
                             dateFormat="dd/MM/yyyy"
                             selected={startDate}
@@ -362,6 +383,7 @@ function MakeBooking(props) {
                             selectsRange
                             readOnly={true}
                             maxDate={getMaxDate}
+                            showIcon
                         />
                     </div>
 
@@ -383,12 +405,12 @@ function MakeBooking(props) {
                         </h5>
                         <FormGroup>
                             <Label for="exampleText">Share a little about your pet and why they'd have a great time with </Label>
-                            <Input type="textarea" name="text" id="exampleText" style={{height: "20vh"}} onChange={setDescription}/>
+                            <Input type="textarea" name="text" id="exampleText" value={description} style={{height: "20vh"}} onChange={handleDescChange}/>
                         </FormGroup>
                     </div>
 
                     <div style={{display: "block"}}>
-                        <Button type="submit" style={{backgroundColor: "#e6e4f5", color: "black"}} onClick={createBookingSubmit}> Book now </Button>
+                        <Button type="submit" style={{backgroundColor: "#e6e4f5", color: "black"}}> Book now </Button>
                     </div>
                 </Form>
             </div>

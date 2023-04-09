@@ -6,7 +6,6 @@
 package session;
 
 import entity.PetParent;
-import entity.User;
 import error.NoResultException;
 import error.ParentNotFoundException;
 import java.util.List;

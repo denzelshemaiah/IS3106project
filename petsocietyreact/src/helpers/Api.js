@@ -105,7 +105,17 @@ const Api = {
         });
     },
     
-    
+   // creation of Pet (already associated with Parent)
+   createNewPet(data) {
+    return fetch(`${SERVER_PREFIX}/pet/createPet`, {
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify(data),
+    }); 
+   },
 
     //BOOKINGSSSS
     //view all bookings
@@ -133,7 +143,7 @@ const Api = {
     },
     //create new booking
     createBooking(booking, parentId, sitterId, repeat) {
-        return fetch(`${SERVER_PREFIX}/bookings/create/${parentId}/${sitterId}/repeat?=${repeat}`, {
+        return fetch(`${SERVER_PREFIX}/bookings/create/${parentId}/${sitterId}/query?repeat=${repeat}`, {
             headers: {
                 Accept: "application/json",
                 "Content-type": "application/json",
@@ -180,8 +190,10 @@ const Api = {
     },
 
     //create new meet and greet
-    createMg(mg) {
-        return fetch(`${SERVER_PREFIX}/meetandgreets/create`, {
+    createMg(mg, sitterId, parentId) {
+        console.log(sitterId);
+        console.log(parentId);
+        return fetch(`${SERVER_PREFIX}/meetandgreets/create/${sitterId}/${parentId}`, {
             headers: {
                 Accept: "application/json",
                 "Content-type": "application/json",
@@ -200,6 +212,8 @@ const Api = {
 
     //reject a meet and greet
     rejectMg(sitterId, mgReqId) {
+        console.log(sitterId);
+        console.log(mgReqId);
         return fetch(`${SERVER_PREFIX}/meetandgreets/reject/${sitterId}/${mgReqId}`, {
             method: "PUT"
         })

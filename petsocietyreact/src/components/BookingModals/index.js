@@ -85,7 +85,7 @@ function RequestModal(props) {
     const submitFormAccept = (e) => {
       e.preventDefault();
       //change this to current user's Id
-      Api.acceptBooking(booking.parent.userId, booking.bookingReqId)
+      Api.acceptBooking(booking.sitter.userId, booking.bookingReqId)
       .then(toggle())
       .then({reloadData})
     }
@@ -93,7 +93,7 @@ function RequestModal(props) {
     const submitFormReject = (e) => {
       e.preventDefault();
       //change this to current user's id
-      Api.rejectBooking(booking.parent.userId, booking.bookingReqId)
+      Api.rejectBooking(booking.sitter.userId, booking.bookingReqId)
       .then(toggle())
       .then({reloadData})
     }
