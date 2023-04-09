@@ -14,12 +14,13 @@ import {
 }
     from 'mdb-react-ui-kit';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaw, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
+import { faPaw, faInfoCircle, faHeartCircleBolt } from '@fortawesome/free-solid-svg-icons'
 import cuteDog from '../../icons/cute_dog.png';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
 
 function CreatePet() {
     const navigate = useNavigate();
@@ -36,7 +37,9 @@ function CreatePet() {
     const [friendlyWithChildren, setFriendlyWithChildren] = useState('1');
     const [friendlyWithDogs, setFriendlyWithDogs] = useState('1');
     const [friendlyWithCats, setFriendlyWithCats] = useState('1');
-    const [adoptionDate, setAdoptionDate] = useState(new Date('2022-01-01'));
+    const [dayJsAdoptionDate, setDayJsAdoptionDate] = useState(new dayjs('2022-01-01'));
+    // converting dayjs object back to date using toDate()
+    const adoptionDate = dayJsAdoptionDate.toDate();
     const [petDescription, setPetDescription] = useState("");
     const [pottyBreakSchedule, setPottyBreakSchedule] = useState('1');
     const [energyLevel, setEnergyLevel] = useState('1');
@@ -48,6 +51,8 @@ function CreatePet() {
     const [photos, setPhotos] = useState(null);
     // to link petparent, useParams here
     // need to find out how to do it
+
+    // reminder to self: to figure out how to take params of this FE pet and pass it in correctly to BE pet... maybe use formParam again
 
     let pet = {};
 
@@ -321,7 +326,9 @@ function CreatePet() {
                                 <MDBRow md='8'>
                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                                         <DemoContainer components={['DatePicker']}>
-                                            <DatePicker label="Adoption Date" />
+                                            <DatePicker label="Adoption Date"
+                                                value={dayJsAdoptionDate}
+                                                onChange={(e) => setDayJsAdoptionDate(e.target.value)} />
                                         </DemoContainer>
                                     </LocalizationProvider>
                                 </MDBRow>
@@ -329,16 +336,74 @@ function CreatePet() {
                                 <MDBRow>
                                     <h6 className="mt-4 pb-2">About your pet</h6>
                                     <MDBTextArea label="Add a description of your pet"
-                                    id='inputPetDescription'
-                                    rows={4}
-                                    value={petDescription}
-                                    onChange={(e) => setPetDescription(e.target.value)}>
+                                        id='inputPetDescription'
+                                        rows={4}
+                                        value={petDescription}
+                                        onChange={(e) => setPetDescription(e.target.value)}>
                                     </MDBTextArea>
+                                </MDBRow>
+                            </div>
+
+                            <div className="p-3">
+                                <div className="pb-3">
+                                    <h5>
+                                        <FontAwesomeIcon icon={faHeartCircleBolt} /> Care Info
+                                    </h5>
+                                </div>
+
+                                <MDBRow>
+                                <MDBCol md='8' className='mb-4'>
+                                        <h6 className="pb-2">Spayed/Neutered?</h6>
+
+                                        <MDBRadio name='inlineRadio15'
+                                            id='inputSpayedOrNeuteredYes'
+                                            value={spayedOrNeutered}
+                                            label='Yes'
+                                            inline
+                                            checked={spayedOrNeutered === '1'}
+                                            onChange={(e) => setSpayedOrNeutered(e.target.value)} />
+                                        <MDBRadio name='inlineRadio16'
+                                            id='inputSpayedOrNeuteredNo'
+                                            value='2'
+                                            label='No'
+                                            inline
+                                            checked={spayedOrNeutered === '2'}
+                                            onChange={(e) => setSpayedOrNeutered(e.target.value)} />
+                                            <MDBRadio name='inlineRadio16'
+                                            id='inputSpayedOrNeuteredNo'
+                                            value='2'
+                                            label='No'
+                                            inline
+                                            checked={spayedOrNeutered === '2'}
+                                            onChange={(e) => setSpayedOrNeutered(e.target.value)} />
+                                            <MDBRadio name='inlineRadio16'
+                                            id='inputSpayedOrNeuteredNo'
+                                            value='2'
+                                            label='No'
+                                            inline
+                                            checked={spayedOrNeutered === '2'}
+                                            onChange={(e) => setSpayedOrNeutered(e.target.value)} />
+                                            <MDBRadio name='inlineRadio17'
+                                            id='inputSpayedOrNeuteredNo'
+                                            value='2'
+                                            label='No'
+                                            inline
+                                            checked={spayedOrNeutered === '2'}
+                                            onChange={(e) => setSpayedOrNeutered(e.target.value)} />
+                                            <MDBRadio name='inlineRadio18'
+                                            id='inputSpayedOrNeuteredNo'
+                                            value='2'
+                                            label='No'
+                                            inline
+                                            checked={spayedOrNeutered === '2'}
+                                            onChange={(e) => setSpayedOrNeutered(e.target.value)} />
+                                    </MDBCol>
                                 </MDBRow>
 
 
-                            </div>
 
+
+                            </div>
 
 
                             <MDBBtn className='mb-4' size='lg'>Submit</MDBBtn>
