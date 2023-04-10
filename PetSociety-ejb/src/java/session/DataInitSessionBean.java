@@ -191,9 +191,9 @@ public class DataInitSessionBean {
         s2.setPassword("password2");
         s2.setContactNum("88888888");
         s2.setEmergencyContact("90123456");
-        s.setPetPreference("Dogs and Cats");
-        s.setMaxNumPets(3);
-        s.setMaxWeightPreference(20);
+        s2.setPetPreference("Dogs and Cats");
+        s2.setMaxNumPets(3);
+        s2.setMaxWeightPreference(20);
         s2.setStatus(UserStatusEnum.APPROVED);
         BankAccount acc2 = new BankAccount();
         acc2.setAccName("sitteracc2");
@@ -225,9 +225,9 @@ public class DataInitSessionBean {
         s3.setPassword("password3");
         s3.setContactNum("81818181");
         s3.setEmergencyContact("91919191");
-        s.setPetPreference("Dogs only");
-        s.setMaxNumPets(3);
-        s.setMaxWeightPreference(30);
+        s3.setPetPreference("Dogs only");
+        s3.setMaxNumPets(3);
+        s3.setMaxWeightPreference(30);
         s3.setStatus(UserStatusEnum.APPROVED);
         BankAccount acc3 = new BankAccount();
         acc3.setAccName("sitteracc3");
