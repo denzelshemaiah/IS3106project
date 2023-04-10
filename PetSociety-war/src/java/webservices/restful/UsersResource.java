@@ -69,10 +69,12 @@ public class UsersResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public User createNewPetSitter(@FormParam("user") User user,
             @FormParam("petSitter") PetSitter petSitter) {
-        user.setStatus(UserStatusEnum.PENDING);
 
-        // Convert service chosen (string) to the corresponding enum value
-        // petSitter.setService(ServiceEnum.getServiceEnumFromString());
+        user.setStatus(UserStatusEnum.PENDING);
+        // Convert enums
+        petSitter.setRegion(RegionEnum.getRegionEnumFromString());
+        petSitter.setService(ServiceEnum.getServiceEnumFromString());
+        
         userSessionBean.createNewSitter(user, petSitter);
         return user;
     }

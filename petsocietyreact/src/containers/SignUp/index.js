@@ -217,8 +217,8 @@ function SignUp(props) {
   let safetyForm = {};
 
   const today = new Date(moment().toDate());
-  const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
+  //const tomorrow = new Date();
+  //tomorrow.setDate(tomorrow.getDate() + 1);
 
   // Attributes
   const [serviceAddress, setServiceAddress] = useState("");
@@ -226,10 +226,26 @@ function SignUp(props) {
   const [petPreference, setPetPreference] = useState("");
   const [maxWeightPreference, setMaxWeightPreference] = useState("");
   const [maxNumPets, setMaxNumPets] = useState("");
-  const [schedule, setSchedule] = useState([]);
+  const [schedule, setSchedule] = useState([today]);
   const [rate, setRate] = useState("");
   const [service, setService] = useState("");
   // setting serviceEnum as string, and converting to enum later in the BE
+
+  // Relationships
+  // authenReq
+  const [createdDate, setCreatedDate] = useState(moment().toDate());
+  //const [userId, setUserId] = useState(0);
+  const [documents, setDocuments] = useState(null);
+
+  // expForm
+  const [yearsOfExperience, setYearsOfExperience] = useState(0);
+  const [headline, setHeadline] = useState("");
+  const [experience, setExperience] = useState("");
+
+   // safetyForm
+   const [q1, setQ1] = useState("");
+   const [q2, setQ2] = useState("");
+   const [q3, setQ3] = useState("");
 
   // Frontend Creation of Sitter
   const handleRegistrationOfSitter = (e) => {
@@ -275,22 +291,6 @@ function SignUp(props) {
     } 
     console.log(safetyForm);
   }
-
-  // Relationships
-  // authenReq
-  const [createdDate, setCreatedDate] = useState(moment().toDate());
-  //const [userId, setUserId] = useState(0);
-  const [documents, setDocuments] = useState("");
-
-  // expForm
-  const [yearsOfExperience, setYearsOfExperience] = useState("");
-  const [headline, setHeadline] = useState("");
-  const [experience, setExperience] = useState("");
-
-   // safetyForm
-   const [q1, setQ1] = useState("");
-   const [q2, setQ2] = useState("");
-   const [q3, setQ3] = useState("");
 
   // Backend Creation of authenReq, expForm, safetyForm 
   const handleCreationOfAuthenReq = (e) => {
@@ -748,14 +748,11 @@ function SignUp(props) {
                         
                         <MDBRow>
                           <h6 className="fw-bold" style={{ color: '#39335c' }}>Select a Service</h6>
-                          
+                        
                           <Form.Group controlId="serviceSelect">
                             <Form.Control className="mb-1" as="select" style={{backgroundColor: "#e8e6f2", color: "black"}}
                               value={service}
-                              onChange={e => {
-                                console.log("e.target.value", e.target.value);
-                                setService(e.target.value);
-                              }}>
+                              onChange={(e) => setService(e.target.value)}>
                               <option>Service</option>
                               <option value="DAYCARE">Daycare</option>
                               <option value="BOARDING">Boarding</option>
@@ -776,10 +773,7 @@ function SignUp(props) {
                             <Form.Group controlId="serviceSelect">
                               <Form.Control as="select" style={{backgroundColor: "#e8e6f2", color: "black"}}
                                 value={region}
-                                onChange={e => {
-                                  console.log("e.target.value", e.target.value);
-                                  setRegion(e.target.value);
-                                }}>
+                                onChange={(e) => setRegion(e.target.value)}>
                                 <option>Region</option>
                                 <option value="NORTH">North</option>
                                 <option value="SOUTH">South</option>
@@ -801,13 +795,10 @@ function SignUp(props) {
                           <h5 className="fw-bold" style={{ color: '#39335c' }}>Preferences</h5>
                           <h6 className="fw-bold" style={{ color: '#39335c' }}>Pet Preference</h6>
                           <MDBCol md='6'>
-                            <Form.Group controlId="serviceSelect" className="mb-3">
+                            <Form.Group controlId="preferenceSelect" className="mb-3">
                               <Form.Control as="select" style={{backgroundColor: "#e8e6f2", color: "black"}}
                                 value={petPreference}
-                                onChange={e => {
-                                  console.log("e.target.value", e.target.value);
-                                  setPetPreference(e.target.value);
-                                }}>
+                                onChange={(e) =>  setPetPreference(e.target.value)}>
                                 <option>Select</option>
                                 <option value="DOGS ONLY">Dogs Only</option>
                                 <option value="CATS ONLY">Cats Only</option>
@@ -917,7 +908,7 @@ function SignUp(props) {
                     
                       <MDBRow>
                         <MDBCol md='12'>
-                          <h8>Headline</h8>
+                          <h6>Headline</h6>
                           <MDBInput wrapperClass='mb-4' label='Headline' id='inputHeadline' type='text'
                           value={headline} 
                           onChange={(e) => setHeadline(e.target.value)}/>
@@ -925,7 +916,7 @@ function SignUp(props) {
                       </MDBRow>
 
                       <MDBRow>
-                        <h8>Description</h8>
+                        <h6>Description</h6>
                         <MDBCol md='12'>
                         
                         <MDBTextArea className="mb-4" label='Describe your experience' rows={4}
@@ -973,7 +964,7 @@ function SignUp(props) {
                     <h3 className="mb-2 text-uppercase fw-bold">SAFETY FORM</h3>
                     <h6 style={{ fontSize: 12}} className="mb-3">We would like to get to know you and your experiences better.</h6>
                     <MDBRow style={{ height: "20vh" }}>
-                      <h8>I am vaccinated from rabies.</h8>
+                      <h6>I am vaccinated from rabies.</h6>
                       <MDBCol md="12">
                       <Form>
                               <Form.Group controlId="formBasicCheckbox">
@@ -985,7 +976,7 @@ function SignUp(props) {
                     </MDBRow>
 
                     <MDBRow style={{ height: "20vh" }}>
-                      <h8>I am ....</h8>
+                      <h6>I have not been convicted of a crime.</h6>
                       <MDBCol md="12">
                       <Form>
                               <Form.Group controlId="formBasicCheckbox">
@@ -997,7 +988,7 @@ function SignUp(props) {
                     </MDBRow>
 
                     <MDBRow style={{ height: "20vh" }}>
-                      <h8>I am .....</h8>
+                      <h6>I am .....</h6>
                       <MDBCol md="12">
                       <Form>
                         <Form.Group controlId="formBasicCheckbox">

@@ -34,7 +34,7 @@ public class ExperienceFormResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ExperienceForm createNewExperienceForm(ExperienceForm expForm) {
+    public ExperienceForm createNewExperienceForm(@FormParam("expForm") ExperienceForm expForm) {
         experienceFormSessionBeanLocal.createNewExperienceForm(expForm);
         return expForm;
     }

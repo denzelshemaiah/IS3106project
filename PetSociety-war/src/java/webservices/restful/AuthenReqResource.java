@@ -35,8 +35,8 @@ public class AuthenReqResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public AuthenticationRequest createNewAuthenticationReq(AuthenticationRequest authenReq) {
-        authenticationReqSessionBeanLocal.createAuthenticationReq(authenReq, Long.MIN_VALUE);
+    public AuthenticationRequest createNewAuthenticationReq(@FormParam("authenReq") AuthenticationRequest authenReq) {
+        authenticationReqSessionBeanLocal.createAuthenticationReq(authenReq, userId);
         return authenReq;
     }
     

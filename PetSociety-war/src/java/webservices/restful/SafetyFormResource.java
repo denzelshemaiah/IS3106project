@@ -31,7 +31,7 @@ public class SafetyFormResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public SafetyForm createNewSafetyForm(SafetyForm safetyForm) {
+    public SafetyForm createNewSafetyForm(@FormParam("safetyForm") SafetyForm safetyForm) {
         safetyFormSessionBeanLocal.createNewSafetyForm(safetyForm);
         return safetyForm;
     }
