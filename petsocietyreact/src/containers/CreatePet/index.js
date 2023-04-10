@@ -11,7 +11,8 @@ import {
     MDBCardBody,
     MDBInput,
     MDBRadio,
-    MDBTextArea
+    MDBTextArea,
+    MDBCheckbox
 }
     from 'mdb-react-ui-kit';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -134,7 +135,7 @@ function CreatePet() {
 
                                 <div className="p-3">
                                     <div className="pb-3">
-                                        <h5 style={{ fontWeight :'bold'}}>
+                                        <h5 style={{ fontWeight: 'bold' }}>
                                             <FontAwesomeIcon icon={faIdCard} /> Pet Details
                                         </h5>
 
@@ -269,7 +270,7 @@ function CreatePet() {
 
                                 <div className="p-3">
                                     <div className="pb-3">
-                                        <h5 style={{ fontWeight :'bold'}}>
+                                        <h5 style={{ fontWeight: 'bold' }}>
                                             <FontAwesomeIcon icon={faEye} /> Additional Details
                                         </h5>
                                     </div>
@@ -416,7 +417,7 @@ function CreatePet() {
 
                                 <div className="p-3">
                                     <div className="pb-3">
-                                        <h5 style={{ fontWeight :'bold'}}>
+                                        <h5 style={{ fontWeight: 'bold' }}>
                                             <FontAwesomeIcon icon={faHeart} /> Care Info
                                         </h5>
 
@@ -500,7 +501,7 @@ function CreatePet() {
                                             <MDBRadio name='inlineRadio21'
                                                 id='inputEnergyLevelModerate'
                                                 value='2'
-                                                label='Moderate'
+                                                label='Average'
                                                 inline
                                                 checked={energyLevel === '2'}
                                                 onChange={(e) => setEnergyLevel(e.target.value)} />
@@ -554,11 +555,11 @@ function CreatePet() {
                                         </MDBCol>
                                     </MDBRow>
 
-                                    <MDBRow>
-                                    <h6 className="pb-2">Can be left alone</h6>
+                                    <MDBRow className='pb-3'>
+                                        <h6 className="pb-2">Can be left alone</h6>
 
                                         <MDBCol md="2" className="pr-md-1">
-                                        <MDBRadio name='inlineRadio26'
+                                            <MDBRadio name='inlineRadio26'
                                                 id='inputTimeCanBeLeftAloneLessThan1Hour'
                                                 value='1'
                                                 label='<1 hour'
@@ -568,36 +569,55 @@ function CreatePet() {
                                         </MDBCol>
 
                                         <MDBCol md="2" className="pr-md-1">
-                                        <MDBRadio name='inlineRadio27'
+                                            <MDBRadio name='inlineRadio27'
                                                 id='inputTimeCanBeLeftAlone1To4Hours'
                                                 value='2'
-                                                label='1 - 4 hurs'
+                                                label='1 - 4 hours'
                                                 inline
-                                                checked={feedingSchedule === '3'}
-                                                onChange={(e) => setFeedingSchedule(e.target.value)} />
+                                                checked={timeCanBeLeftAlone === '2'}
+                                                onChange={(e) => setTimeCanBeLeftAlone(e.target.value)} />
                                         </MDBCol>
 
                                         <MDBCol md="2" className="pr-md-1">
-                                        <MDBRadio name='inlineRadio28'
-                                                id='inputFeedingScheduleCustom'
+                                            <MDBRadio name='inlineRadio28'
+                                                id='inputTimeCanBeLeftAlone4To8Hours'
                                                 value='3'
-                                                label='Custom'
+                                                label='4 - 8 hours'
                                                 inline
-                                                checked={feedingSchedule === '3'}
-                                                onChange={(e) => setFeedingSchedule(e.target.value)} />
+                                                checked={timeCanBeLeftAlone === '3'}
+                                                onChange={(e) => setTimeCanBeLeftAlone(e.target.value)} />
                                         </MDBCol>
 
                                         <MDBCol md="2" className="pr-md-1">
-                                        <MDBRadio name='inlineRadio29'
-                                                id='inputFeedingScheduleCustom'
-                                                value='3'
+                                            <MDBRadio name='inlineRadio29'
+                                                id='inputTimeCanBeLeftAloneCustom'
+                                                value='4'
                                                 label='Custom'
                                                 inline
-                                                checked={feedingSchedule === '3'}
-                                                onChange={(e) => setFeedingSchedule(e.target.value)} />
+                                                checked={timeCanBeLeftAlone === '4'}
+                                                onChange={(e) => setTimeCanBeLeftAlone(e.target.value)} />
                                         </MDBCol>
- 
+
                                     </MDBRow>
+
+                                    <MDBRow>
+                                        <h6 className="pb-2">Medication (select all that apply)</h6>
+
+                                        <MDBCol md='3'>
+                                            <MDBCheckbox label="Pill" />
+                                        </MDBCol>
+
+                                        <MDBCol md='3'>
+                                            <MDBCheckbox label="Topical" />
+                                        </MDBCol>
+
+                                        <MDBCol md='3'>
+                                            <MDBCheckbox label="Injection" />
+                                        </MDBCol>
+
+
+                                    </MDBRow>
+
 
 
 

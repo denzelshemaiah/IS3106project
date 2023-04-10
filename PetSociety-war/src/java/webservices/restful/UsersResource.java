@@ -50,33 +50,32 @@ public class UsersResource {
         userSessionBean.createNewUser(user);
         return user;
     } */
-
     // create petparent type user
-//    @POST
-//    @Path("/petparent")
-//    @Consumes(MediaType.MULTIPART_FORM_DATA)
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public User createNewPetParent(@FormParam("user") User user,
-//            @FormParam("petParent") PetParent petParent) {
-//        user.setStatus(UserStatusEnum.PENDING);
-//        userSessionBean.createNewParent(user, petParent);
-//        return user;
-//    }
-//    
-//    // create petsitter type user
-//    @POST
-//    @Path("/petsitters")
-//    @Produces(MediaType.MULTIPART_FORM_DATA)
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    public User createNewPetSitter(@FormParam("user") User user, 
-//            @FormParam("petSitter") PetSitter petSitter) {
-//        user.setStatus(UserStatusEnum.PENDING);
-//
-//        // Convert service chosen (string) to the corresponding enum value
-//        // petSitter.setService(ServiceEnum.getServiceEnumFromString());
-//        userSessionBean.createNewSitter(user, petSitter);
-//        return user;
-//    }
+    @POST
+    @Path("/petparent")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    public User createNewPetParent(@FormParam("user") User user,
+            @FormParam("petParent") PetParent petParent) {
+        user.setStatus(UserStatusEnum.PENDING);
+        userSessionBean.createNewParent(user, petParent);
+        return user;
+    }
+
+    // create petsitter type user
+    @POST
+    @Path("/petsitters")
+    @Produces(MediaType.MULTIPART_FORM_DATA)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public User createNewPetSitter(@FormParam("user") User user,
+            @FormParam("petSitter") PetSitter petSitter) {
+        user.setStatus(UserStatusEnum.PENDING);
+
+        // Convert service chosen (string) to the corresponding enum value
+        // petSitter.setService(ServiceEnum.getServiceEnumFromString());
+        userSessionBean.createNewSitter(user, petSitter);
+        return user;
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
