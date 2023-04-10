@@ -141,6 +141,7 @@
 
 .search-users-res {
     width: 99%;
+    padding-bottom: 15px;
 }
 
 .disable-button {
@@ -162,4 +163,12 @@
     color: black;
     background-color: #E4E2F5;
     border-color: transparent;
+}
+
+.acceptButton {
+    background-color: #E4E2F5; 
+    border-color: transparent; 
+    color: black; 
+    padding: 7px; 
+    font-size: 12px
 }
