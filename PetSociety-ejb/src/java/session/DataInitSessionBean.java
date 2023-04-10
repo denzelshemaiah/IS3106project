@@ -15,6 +15,7 @@ import entity.Rating;
 import entity.Report;
 import entity.Staff;
 import entity.User;
+import enumeration.RegionEnum;
 import enumeration.RequestStatusEnum;
 import enumeration.ServiceEnum;
 import enumeration.UserStatusEnum;
@@ -146,7 +147,7 @@ public class DataInitSessionBean {
         s.setAge(21);
         s.setBillingAddress("123 Orange Lane");
         s.setServiceAddress("123 Orange Lane");
-        s.setRegion("north");
+        s.setRegion(RegionEnum.NORTH);
         s.setRate(new BigDecimal(20));
         s.setFirstName("first");
         s.setLastName("last");
@@ -156,7 +157,9 @@ public class DataInitSessionBean {
         s.setPassword("password");
         s.setContactNum("12345678");
         s.setEmergencyContact("87654321");
-        s.setPreference("preference");
+        s.setPetPreference("Dogs only");
+        s.setMaxNumPets(3);
+        s.setMaxWeightPreference(30);
         s.setStatus(UserStatusEnum.PENDING);
         BankAccount acc1 = new BankAccount();
         acc1.setAccName("sitteracc1");
@@ -178,7 +181,7 @@ public class DataInitSessionBean {
         s2.setAge(21);
         s2.setBillingAddress("234 Orange Lane");
         s2.setServiceAddress("234 Orange Lane");
-        s2.setRegion("south");
+        s2.setRegion(RegionEnum.SOUTH);
         s2.setRate(new BigDecimal(30));
         s2.setFirstName("chris");
         s2.setLastName("tan");
@@ -188,7 +191,9 @@ public class DataInitSessionBean {
         s2.setPassword("password2");
         s2.setContactNum("88888888");
         s2.setEmergencyContact("90123456");
-        s2.setPreference("preference");
+        s.setPetPreference("Dogs and Cats");
+        s.setMaxNumPets(3);
+        s.setMaxWeightPreference(20);
         s2.setStatus(UserStatusEnum.APPROVED);
         BankAccount acc2 = new BankAccount();
         acc2.setAccName("sitteracc2");
@@ -210,7 +215,7 @@ public class DataInitSessionBean {
         s3.setAge(20);
         s3.setBillingAddress("234 Bishan st23");
         s3.setServiceAddress("234 Bishan st23");
-        s3.setRegion("west");
+        s3.setRegion(RegionEnum.WEST);
         s3.setRate(new BigDecimal(30));
         s3.setFirstName("mary");
         s3.setLastName("lim");
@@ -220,7 +225,9 @@ public class DataInitSessionBean {
         s3.setPassword("password3");
         s3.setContactNum("81818181");
         s3.setEmergencyContact("91919191");
-        s3.setPreference("preference");
+        s.setPetPreference("Dogs only");
+        s.setMaxNumPets(3);
+        s.setMaxWeightPreference(30);
         s3.setStatus(UserStatusEnum.APPROVED);
         BankAccount acc3 = new BankAccount();
         acc3.setAccName("sitteracc3");
