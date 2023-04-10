@@ -10,7 +10,7 @@ import Footer from '../../components/Footer';
 function LoggedInHomepage() {
     return (
         <>
-
+        
             <div className="bg-image" style={{
                 backgroundImage: `url('https://images.pexels.com/photos/1490908/pexels-photo-1490908.jpeg?cs=srgb&dl=pexels-svetozar-milashevich-1490908.jpg&fm=jpg')`,
                 backgroundSize: 'cover',
