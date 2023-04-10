@@ -78,10 +78,10 @@ public class PetSitter extends User implements Serializable {
         this.schedule = new ArrayList<>();
     }
 
-    public PetSitter(String serviceAddress, RegionEnum region, String preference, List<Date> schedule, BigDecimal rate, ServiceEnum service, AuthenticationRequest authenReq, ExperienceForm expForm, SafetyForm safetyForm, List<BookingRequest> bookings, List<MeetAndGreetRequest> mgRequests, User user) {
+    public PetSitter(String serviceAddress, RegionEnum region, String petPreference, List<Date> schedule, BigDecimal rate, ServiceEnum service, AuthenticationRequest authenReq, ExperienceForm expForm, SafetyForm safetyForm, List<BookingRequest> bookings, List<MeetAndGreetRequest> mgRequests, User user) {
         this.serviceAddress = serviceAddress;
         this.region = region;
-        this.preference = preference;
+        this.petPreference = petPreference;
         this.schedule = schedule;
         this.rate = rate;
         this.service = service;
@@ -99,14 +99,6 @@ public class PetSitter extends User implements Serializable {
 
     public void setServiceAddress(String serviceAddress) {
         this.serviceAddress = serviceAddress;
-    }
-
-    public String getPreference() {
-        return preference;
-    }
-
-    public void setPreference(String preference) {
-        this.preference = preference;
     }
 
     public List<Date> getSchedule() {
@@ -207,6 +199,30 @@ public class PetSitter extends User implements Serializable {
      */
     public void setRegion(RegionEnum region) {
         this.region = region;
+    }
+
+    public String getPetPreference() {
+        return petPreference;
+    }
+
+    public void setPetPreference(String petPreference) {
+        this.petPreference = petPreference;
+    }
+
+    public int getMaxWeightPreference() {
+        return maxWeightPreference;
+    }
+
+    public void setMaxWeightPreference(int maxWeightPreference) {
+        this.maxWeightPreference = maxWeightPreference;
+    }
+
+    public int getMaxNumPets() {
+        return maxNumPets;
+    }
+
+    public void setMaxNumPets(int maxNumPets) {
+        this.maxNumPets = maxNumPets;
     }
 
 }
