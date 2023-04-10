@@ -72,9 +72,9 @@ public class UsersResource {
 
         user.setStatus(UserStatusEnum.PENDING);
         // Convert enums
-        petSitter.setRegion(RegionEnum.getRegionEnumFromString());
-        petSitter.setService(ServiceEnum.getServiceEnumFromString());
-        
+        petSitter.setRegion(RegionEnum.valueOf(@FormParam("region")));
+        petSitter.setService(ServiceEnum.valueOf(@FormParam("service")));
+
         userSessionBean.createNewSitter(user, petSitter);
         return user;
     }

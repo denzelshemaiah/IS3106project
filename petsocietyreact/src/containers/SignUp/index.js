@@ -344,6 +344,14 @@ function SignUp(props) {
     handleCreationOfSitter(e);
   }
 
+    function handleDayClick(day, { selected }) {
+      if (selected) {
+        setSchedule(schedule.filter(selectedDay => selectedDay.getTime() !== day.getTime()));
+      } else {
+        setSchedule([...schedule, day]);
+      }
+    }
+  
   const footer =
     schedule && schedule.length > 0 ? (
       <p>You have selected {schedule.length} day(s).</p>
@@ -846,7 +854,7 @@ function SignUp(props) {
                             mode="multiple"
                             min={1}
                             selected={schedule}
-                            onSelect={setSchedule}
+                            onDayClick={handleDayClick}
                             footer={footer}
                           />
 
