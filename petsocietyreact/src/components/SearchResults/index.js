@@ -5,36 +5,60 @@ import './style.css';
 import Rating from 'react-rating-stars-component';
 import { Link } from "react-router-dom";
 import MgModal from "../../components/MgModals";
-// import SearchSitter from "../../containers/SearchSitter";
-
+import SearchSitter from "../../containers/SearchSitter";
 
 function useSearch(sitters, searchQuery) {
-    const [searchParam, setSearchParam] = useState(["serviceType", "petType", "location", "startDate", "endDate", "petSize", "rate", "repeat", "full-time", "numOfTimes"]);
 
-
-    return sitters.filter((sitter) => {
-        return searchParam.some((newItem) => {
-            return (
-                sitter[newItem]
-                    .toString()
-                    .toLowerCase()
-                    .indexOf(searchQuery[newItem].toLowerCase()) > -1
-            );
-        });
+    return sitters.filter(sitter => {
+        if (searchQuery.serviceType && sitter.serviceType !== searchQuery.serviceType) {
+            return false;
+        }
+        if (searchQuery.petType.length && !searchQuery.petType.includes(sitter.petType)) {
+            return false;
+        }
+        if (searchQuery.region && sitter.region !== searchQuery.region) {
+            return false;
+        }
+        if (searchQuery.dates.startDate && sitter.startDate < searchQuery.dates.startDate) {
+            return false;
+        }
+        if (searchQuery.dates.endDate && sitter.endDate > searchQuery.dates.endDate) {
+            return false;
+        }
+        if (searchQuery.numOfPets && sitter.numOfPets !== searchQuery.numOfPets) {
+            return false;
+        }
+        if (searchQuery.petSize.length && !searchQuery.petSize.includes(sitter.petSize)) {
+            return false;
+        }
+        if (searchQuery.repeat && sitter.repeat !== searchQuery.repeat) {
+            return false;
+        }
+        if (searchQuery.dayOfWeek.length && !searchQuery.dayOfWeek.includes(sitter.dayOfWeek)) {
+            return false;
+        }
+        if (searchQuery.fulltime && !sitter.fulltime) {
+            return false;
+        }
+        if (searchQuery.numOfTimes && sitter.numOfTimes !== searchQuery.numOfTimes) {
+            return false;
+        }
+        if (sitter.rate < searchQuery.rate[0] || sitter.rate > searchQuery.rate[1]) {
+            return false;
+        }
+        return true;
     });
-}
 
+}
 
 function SearchResults(props) {
 
-
     const [sitters, setSitters] = useState([]);
+    //retrieve the user attributes
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
 
-
     const filteredSitters = useSearch(sitters, props.searchQuery);
-
 
     useEffect(() => {
         Api.getAllPetSitters()
@@ -72,35 +96,16 @@ function SearchResults(props) {
     //     "comments": "excellent",
     //     "region": "east"
     // }]);
-   
-    // useEffect(() => {
-    //     Api.getAllPetSitters()
-    //         .then((res) => res.json())
-    //         .then(
-    //             (result) => {
-    //                 setIsLoaded(true);
-    //                 setSitters(result);
-    //             },
-    //             // Note: it's important to handle errors here
-    //             // instead of a catch() block so that we don't swallow
-    //             // exceptions from actual bugs in components.
-    //             (error) => {
-    //                 setIsLoaded(true);
-    //                 setError(error);
-    //             }
-    //         );                                                                                                                                                                                                                                                                                  
-    // }, []);
-           
-
+    
 
     return (
-        /* here we map over the sitter and display each sitter as a card  */
+        /* here we map over the sitter and display each sitter as a card but this is based on the booking that they have posted */
         <>
             <div className="wrapper">
                 <ul className="card-grid">
                     {filteredSitters.map((sitter) => (
                         <li>
-                            <article className="card" key={sitter.userId}>
+                            <article className="card" key={sitter.user.userId}>
                                 <CardGroup>
                                     <Card style={{ width: '22rem' }}>
                                         <CardImg
@@ -108,14 +113,14 @@ function SearchResults(props) {
                                             src={sitter.profilePicture} />
                                         <CardBody className="text-center">
                                             <CardTitle tag="h5">
-                                                {sitter.firstName} {sitter.lastName}
+                                                {sitter.user.firstName} {sitter.user.lastName}
                                             </CardTitle>
                                             <div>
                                                 <Rating
                                                     count={5}
                                                     size={24}
                                                     activeColor="#ffd700"
-                                                    value={sitter.rating}
+                                                    value={sitter.user.ratingsForUsers}
                                                     edit={false} />
                                             </div>
                                             <CardText>
@@ -139,7 +144,7 @@ function SearchResults(props) {
                                                 </Link>
                                             </div>
                                             <div className="button-wrapper">
-                                                    <MgModal sitter={sitter} buttonLabel="Create"></MgModal>
+                                                <MgModal sitter={sitter} buttonLabel="Create"></MgModal>
                                             </div>
                                         </ButtonGroup>
                                     </Card>
@@ -165,7 +170,6 @@ function SearchResults(props) {
         `}
             </style></>
     );
-
 
 }
 
