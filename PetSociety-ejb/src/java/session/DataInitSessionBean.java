@@ -300,6 +300,7 @@ public class DataInitSessionBean {
             b.setSitter(s);
             b.setStartDate(new Date());
             b.setStatus(RequestStatusEnum.PENDING);
+            b.setFreq(2);
             bookingSessionBean.createNewBooking(b, p.getUserId(), s.getUserId(), "once");
 
             Rating rating = new Rating();

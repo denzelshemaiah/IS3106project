@@ -65,7 +65,7 @@ function MakeBooking() {
                         copyStart = moment(copyStart).add(1, "days");
                     }
                 }
-                return diffDays * rate;
+                return diffDays * rate * formData.numPets;
             } else if (service === "walking" || service === "dropin") {
                 //drop-in case, basis is per visit or walking, basis is per walk
                 diffDays = Math.round((endDate - startDate)/(1000 * 60 * 60 * 24));
@@ -81,9 +81,9 @@ function MakeBooking() {
                         copyStart = moment(copyStart).add(1, "days");
                     }
                     console.log(diffDays)
-                    return diffDays * rate * parseInt(freq);
+                    return diffDays * rate * parseInt(freq) * formData.numPets;
                 }
-                return (diffDays + 1) * rate * parseInt(freq);
+                return (diffDays + 1) * rate * parseInt(freq) * formData.numPets;
             }      
         }
         setCost(calculateTotalCost)

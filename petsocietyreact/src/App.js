@@ -1,5 +1,5 @@
 import './App.css';
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate , useRouteError} from "react-router-dom";
 import NoLoginNavbar from './components/NoLoginNavbar';
 import Navbar from './components/Navbar'
 import SearchSitter from "./containers/SearchSitter";
@@ -16,6 +16,12 @@ import Profile from './containers/Profile';
 
 
 function App() {
+  function ErrorBoundary() {
+    let error = useRouteError();
+    console.error(error);
+    // Uncaught ReferenceError: path is not defined
+    return <div>Dang!</div>;
+  }
   return (
     <>
       <Navbar></Navbar>
@@ -31,7 +37,9 @@ function App() {
           <Route path="/help" element={<Help />} />
 
           {/* private routes */}
-          <Route path="/bookings" element={<Bookings />} />
+          <Route path="/bookings" 
+          element={<Bookings />}
+          errorElement={<ErrorBoundary />} />
           <Route path="/meetandgreets" element={<MeetAndGreets />} />
           <Route path="/makebooking" element={<MakeBooking />} />
           <Route path="/loggedInHomepage" element={<LoggedInHomepage />} />

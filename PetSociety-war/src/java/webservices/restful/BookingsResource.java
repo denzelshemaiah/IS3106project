@@ -77,6 +77,7 @@ public class BookingsResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response cancelBooking(@PathParam("parentId") Long parentId, @PathParam("bookingId") Long bookingId) {
+        System.out.println("to be cancelled:" + bookingId);
         try {
             bookingSession.cancelBooking(parentId, bookingId);
             return Response.status(204).build();
@@ -129,7 +130,6 @@ public class BookingsResource {
     @Produces(MediaType.APPLICATION_JSON)
     public void createBooking (@PathParam("parentId") Long parentId, @PathParam("sitterId") Long sitterId,
             BookingRequest b, @QueryParam("repeat") String repeatBasis) {
-        System.out.println(b);
         bookingSession.createNewBooking(b, parentId, sitterId, repeatBasis);
     } 
 }

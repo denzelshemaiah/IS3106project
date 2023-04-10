@@ -76,9 +76,11 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
                         newB.setRepeatDays(b.getRepeatDays());
                         //calculate cost for this cycle
                         if (s.getService().equals(ServiceEnum.DROP_IN) || s.getService().equals(ServiceEnum.WALKING)) {
-                            newB.setCost(s.getRate().multiply(BigDecimal.valueOf(b.getFreq())).multiply(BigDecimal.valueOf(days.size())));
+                            newB.setCost(s.getRate().multiply(BigDecimal.valueOf(b.getFreq())).multiply(BigDecimal.valueOf(days.size())).
+                                    multiply(new BigDecimal(newB.getNumPets())));
                         } else {
-                            newB.setCost(s.getRate().multiply(BigDecimal.valueOf(days.size())));
+                            newB.setCost(s.getRate().multiply(BigDecimal.valueOf(days.size())).
+                                    multiply(new BigDecimal(newB.getNumPets())));
                         }
                         //set relations for this new booking
                         p.getBookings().add(newB);
@@ -90,43 +92,29 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
                     start.add(Calendar.DATE, 1);
                 }
             } else if (repeatBasis.equals("once")) {
-                Date start = b.getStartDate();
-                Date end = b.getEndDate();
-                
-                long dateStartInMs = start.getTime();
-                long dateEndInMs = end.getTime();
-                
-                long timeDiff = Math.abs(dateEndInMs - dateStartInMs);
-                
-                long daysDiff = TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
-                
-                p.getBookings().add(b);
-                s.getBookings().add(b);
-                b.setParent(p);
-                b.setStatus(RequestStatusEnum.PENDING);
-                b.setCost(s.getRate().multiply(BigDecimal.valueOf(daysDiff)));
-                b.setSitter(s);
-                b.setRepeatDays(b.getRepeatDays());
+//                Date start = b.getStartDate();
+//                Date end = b.getEndDate();
+//                
+//                long dateStartInMs = start.getTime();
+//                long dateEndInMs = end.getTime();
+//                
+//                long timeDiff = Math.abs(dateEndInMs - dateStartInMs);
+//                long daysDiff = TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
+//                
+//                p.getBookings().add(b);
+//                s.getBookings().add(b);
+//                b.setParent(p);
+//                b.setStatus(RequestStatusEnum.PENDING);
+//                b.setCost(s.getRate().multiply(BigDecimal.valueOf(daysDiff)).multiply(new BigDecimal(b.getNumPets())));
+//                b.setSitter(s);
+//                b.setRepeatDays(b.getRepeatDays());
+            // js rl cost is alr calc in nb
                 em.persist(b);
                 em.flush();
             }
         }
     }
     
-    public int calcNumWeeks(BookingRequest b) {
-        Date startDate = b.getStartDate();
-        Date endDate = b.getEndDate();
-        int numWeeks = 0;
-
-        
-        while (startDate.before(endDate)) {
-            numWeeks += 1;
-            startDate = new Date(startDate.getTime() + (86400 * 7 * 1000));
-        }
-        
-        return numWeeks;
-    }
-
     @Override
     public List<BookingRequest> getBookings(String status, Long userId) {
         User u = em.find(User.class, userId);
@@ -167,6 +155,8 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
             old.setDescription(b.getDescription());
             old.setStartDate(b.getStartDate());
             old.setEndDate(b.getEndDate());
+            old.setCost(b.getCost());
+            old.setNumPets(b.getNumPets());
             em.merge(old);
         }
     }

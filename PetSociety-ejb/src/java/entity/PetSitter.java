@@ -75,7 +75,7 @@ public class PetSitter extends User implements Serializable {
     public PetSitter(String serviceAddress, RegionEnum region, String preference, List<Date> schedule, BigDecimal rate, ServiceEnum service, AuthenticationRequest authenReq, ExperienceForm expForm, SafetyForm safetyForm, List<BookingRequest> bookings, List<MeetAndGreetRequest> mgRequests, User user) {
         this.serviceAddress = serviceAddress;
         this.region = region;
-        this.preference = preference;
+        this.petPreference = petPreference;
         this.schedule = schedule;
         this.rate = rate;
         this.service = service;

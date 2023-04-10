@@ -50,7 +50,6 @@ public class UsersResource {
         userSessionBean.createNewUser(user);
         return user;
     } */
-
     // create petparent type user
     @POST
     @Path("/petparent")
@@ -62,13 +61,13 @@ public class UsersResource {
         userSessionBean.createNewParent(user, petParent);
         return user;
     }
-    
+
     // create petsitter type user
     @POST
     @Path("/petsitters")
     @Produces(MediaType.MULTIPART_FORM_DATA)
     @Consumes(MediaType.APPLICATION_JSON)
-    public User createNewPetSitter(@FormParam("user") User user, 
+    public User createNewPetSitter(@FormParam("user") User user,
             @FormParam("petSitter") PetSitter petSitter) {
         user.setStatus(UserStatusEnum.PENDING);
 

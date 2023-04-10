@@ -62,8 +62,7 @@ public class BookingRequest implements Serializable {
     //relationships
     @ManyToOne
     private PetParent parent;
-    //REMEMBER TO CHANGE THIS!!! JUST FOR TESTING!!!!!!
-    @ManyToOne(optional=true)
+    @ManyToOne(optional=false)
     private PetSitter sitter;
     @OneToOne(optional=true)
     private Payment payment;
