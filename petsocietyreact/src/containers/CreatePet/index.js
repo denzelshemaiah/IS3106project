@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Api from "../../helpers/Api";
+import { Helmet } from "react-helmet";
 import {
     MDBBtn,
     MDBContainer,
@@ -14,7 +15,7 @@ import {
 }
     from 'mdb-react-ui-kit';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaw, faInfoCircle, faHeartCircleBolt } from '@fortawesome/free-solid-svg-icons'
+import { faEye, faIdCard, faHeart } from '@fortawesome/free-regular-svg-icons'
 import cuteDog from '../../icons/cute_dog.png';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -25,6 +26,7 @@ import dayjs from 'dayjs';
 function CreatePet() {
     const navigate = useNavigate();
 
+    const [typeOfPet, setTypeOfPet] = useState('1');
     const [name, setName] = useState("");
     const [weight, setWeight] = useState("");
     const [ageInYears, setAgeInYears] = useState(0);
@@ -37,9 +39,11 @@ function CreatePet() {
     const [friendlyWithChildren, setFriendlyWithChildren] = useState('1');
     const [friendlyWithDogs, setFriendlyWithDogs] = useState('1');
     const [friendlyWithCats, setFriendlyWithCats] = useState('1');
+
     const [dayJsAdoptionDate, setDayJsAdoptionDate] = useState(new dayjs('2022-01-01'));
     // converting dayjs object back to date using toDate()
     const adoptionDate = dayJsAdoptionDate.toDate();
+
     const [petDescription, setPetDescription] = useState("");
     const [pottyBreakSchedule, setPottyBreakSchedule] = useState('1');
     const [energyLevel, setEnergyLevel] = useState('1');
@@ -54,9 +58,12 @@ function CreatePet() {
 
     // reminder to self: to figure out how to take params of this FE pet and pass it in correctly to BE pet... maybe use formParam again
 
+
+
     let pet = {};
 
     pet = {
+        typeOfPet: typeOfPet,
         name: name,
         weight: weight,
         ageInYears: ageInYears,
@@ -90,6 +97,11 @@ function CreatePet() {
 
     return (
         <>
+            <div>
+                <Helmet>
+                    <title>Pet Society | Add Pet</title>
+                </Helmet>
+            </div>
             <MDBContainer fluid>
 
                 <MDBRow className='justify-content-center align-items-center m-5 px-5'>
@@ -108,14 +120,25 @@ function CreatePet() {
                             <div className="p-3">
                                 <div className="pb-3">
                                     <h5>
-                                        <FontAwesomeIcon icon={faPaw} /> Pet Details
+                                        <FontAwesomeIcon icon={faIdCard} /> Pet Details
                                     </h5>
 
                                     <small class="text-muted">Provide a description of your pet.</small>
                                 </div>
 
-                                <MDBRow>
+                                <MDBRow className='mb-4'>
+                                <h6 className="pb-2">What type of pet?</h6>
+                                <MDBCol md='6'>
+                                    <MDBBtn color='light'>hey</MDBBtn>
+                                </MDBCol>
 
+                                <MDBCol md='6'>
+                                    <MDBCard>cutie</MDBCard>
+                                </MDBCol>
+
+                                </MDBRow>
+
+                                <MDBRow>
                                     <MDBCol md='9'>
                                         <MDBInput wrapperClass='mb-4'
                                             label='Name'
@@ -201,7 +224,7 @@ function CreatePet() {
                             <div className="p-3">
                                 <div className="pb-3">
                                     <h5>
-                                        <FontAwesomeIcon icon={faInfoCircle} /> Additional Details
+                                        <FontAwesomeIcon icon={faEye} /> Additional Details
                                     </h5>
                                 </div>
                                 <MDBRow>
@@ -229,7 +252,7 @@ function CreatePet() {
 
                                         <MDBRadio name='inlineRadio5'
                                             id='inputSpayedOrNeuteredYes'
-                                            value={spayedOrNeutered}
+                                            value='1'
                                             label='Yes'
                                             inline
                                             checked={spayedOrNeutered === '1'}
@@ -335,7 +358,8 @@ function CreatePet() {
 
                                 <MDBRow>
                                     <h6 className="mt-4 pb-2">About your pet</h6>
-                                    <MDBTextArea label="Add a description of your pet"
+                                    <MDBTextArea wrapperClass='mb-4'
+                                        label="Add a description of your pet"
                                         id='inputPetDescription'
                                         rows={4}
                                         value={petDescription}
@@ -347,56 +371,94 @@ function CreatePet() {
                             <div className="p-3">
                                 <div className="pb-3">
                                     <h5>
-                                        <FontAwesomeIcon icon={faHeartCircleBolt} /> Care Info
+                                        <FontAwesomeIcon icon={faHeart} /> Care Info
                                     </h5>
+
+                                    <small class="text-muted">Provide your sitter with instructions for walking, feeding, and other care.</small>
+
                                 </div>
 
                                 <MDBRow>
-                                <MDBCol md='8' className='mb-4'>
-                                        <h6 className="pb-2">Spayed/Neutered?</h6>
+                                    <MDBCol md='8' className='mb-4'>
+                                        <h6 className="pb-2">Potty Break Schedule</h6>
 
                                         <MDBRadio name='inlineRadio15'
-                                            id='inputSpayedOrNeuteredYes'
-                                            value={spayedOrNeutered}
-                                            label='Yes'
+                                            id='inputPottyBreakScheduleEveryHour'
+                                            value='1'
+                                            label='Every Hour'
                                             inline
-                                            checked={spayedOrNeutered === '1'}
-                                            onChange={(e) => setSpayedOrNeutered(e.target.value)} />
+                                            checked={pottyBreakSchedule === '1'}
+                                            onChange={(e) => setPottyBreakSchedule(e.target.value)} />
+
                                         <MDBRadio name='inlineRadio16'
-                                            id='inputSpayedOrNeuteredNo'
+                                            id='inputPottyBreakSchedule2Hours'
                                             value='2'
-                                            label='No'
+                                            label='2 hours'
                                             inline
-                                            checked={spayedOrNeutered === '2'}
-                                            onChange={(e) => setSpayedOrNeutered(e.target.value)} />
-                                            <MDBRadio name='inlineRadio16'
-                                            id='inputSpayedOrNeuteredNo'
+                                            checked={pottyBreakSchedule === '2'}
+                                            onChange={(e) => setPottyBreakSchedule(e.target.value)} />
+
+                                        <MDBRadio name='inlineRadio17'
+                                            id='inputPottyBreakSchedule4Hours'
+                                            value='3'
+                                            label='4 hours'
+                                            inline
+                                            checked={pottyBreakSchedule === '3'}
+                                            onChange={(e) => setPottyBreakSchedule(e.target.value)} />
+
+                                        <MDBRadio name='inlineRadio18'
+                                            id='inputPottyBreakSchedule8Hours'
+                                            value='4'
+                                            label='8 hours'
+                                            inline
+                                            checked={pottyBreakSchedule === '4'}
+                                            onChange={(e) => setPottyBreakSchedule(e.target.value)} />
+
+                                        <MDBRadio name='inlineRadio19'
+                                            id='inputPottyBreakScheduleCustomHours'
+                                            value='5'
+                                            label='Custom'
+                                            inline
+                                            checked={pottyBreakSchedule === '5'}
+                                            onChange={(e) => setPottyBreakSchedule(e.target.value)} />
+                                    </MDBCol>
+                                </MDBRow>
+
+                                <MDBRow>
+                                    <MDBCol md='8' className='mb-4'>
+                                        <h6 className="pb-2">Energy Level</h6>
+
+                                        <MDBRadio name='inlineRadio20'
+                                            id='inputEnergyLevelHigh'
+                                            value='1'
+                                            label='High'
+                                            inline
+                                            checked={energyLevel === '1'}
+                                            onChange={(e) => setEnergyLevel(e.target.value)} />
+
+                                        <MDBRadio name='inlineRadio21'
+                                            id='inputEnergyLevelModerate'
                                             value='2'
-                                            label='No'
+                                            label='Moderate'
                                             inline
-                                            checked={spayedOrNeutered === '2'}
-                                            onChange={(e) => setSpayedOrNeutered(e.target.value)} />
-                                            <MDBRadio name='inlineRadio16'
-                                            id='inputSpayedOrNeuteredNo'
-                                            value='2'
-                                            label='No'
+                                            checked={energyLevel === '2'}
+                                            onChange={(e) => setEnergyLevel(e.target.value)} />
+
+                                        <MDBRadio name='inlineRadio22'
+                                            id='inputEnergyLevelLow'
+                                            value='3'
+                                            label='Low'
                                             inline
-                                            checked={spayedOrNeutered === '2'}
-                                            onChange={(e) => setSpayedOrNeutered(e.target.value)} />
-                                            <MDBRadio name='inlineRadio17'
-                                            id='inputSpayedOrNeuteredNo'
-                                            value='2'
-                                            label='No'
-                                            inline
-                                            checked={spayedOrNeutered === '2'}
-                                            onChange={(e) => setSpayedOrNeutered(e.target.value)} />
-                                            <MDBRadio name='inlineRadio18'
-                                            id='inputSpayedOrNeuteredNo'
-                                            value='2'
-                                            label='No'
-                                            inline
-                                            checked={spayedOrNeutered === '2'}
-                                            onChange={(e) => setSpayedOrNeutered(e.target.value)} />
+                                            checked={energyLevel === '3'}
+                                            onChange={(e) => setEnergyLevel(e.target.value)} />
+
+                                    </MDBCol>
+                                </MDBRow>
+
+                                <MDBRow>
+                                    <MDBCol md='8' className='mb-4'>
+                                        <h6 className="pb-2">Feeding Schedule</h6>
+
                                     </MDBCol>
                                 </MDBRow>
 

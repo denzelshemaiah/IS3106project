@@ -4,6 +4,8 @@ import logo from "./assets/dog_logo.png"
 import { Link } from "react-router-dom";
 import { MDBCollapse, MDBContainer, MDBNavbar, MDBNavbarItem, MDBNavbarNav, MDBNavbarToggler } from "mdb-react-ui-kit";
 import hamburgerMenu from '../../icons/hamburger_menu.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser, faBell } from '@fortawesome/free-solid-svg-icons'
 
 function Navbar() {
   const [loggedInUser, setLoggedInUser] = useState({ role: "parent" });
@@ -42,8 +44,12 @@ function Navbar() {
           </MDBNavbarNav>
 
           <MDBNavbarNav className='d-flex ml-auto w-auto'>
-            <MDBNavbarItem>
-              <li><Link to="/profile">Profile</Link></li>
+            <MDBNavbarItem style={{ padding : '0 0.5rem'}}>
+            <li><Link to="/profile"><text><FontAwesomeIcon icon={faUser}/></text></Link></li>
+            </MDBNavbarItem>
+
+            <MDBNavbarItem style={{ padding : '0 0.5rem'}}>
+            <li><Link to="/notifications"><text><FontAwesomeIcon icon={faBell}/></text></Link></li>
             </MDBNavbarItem>
 
             <MDBNavbarItem>
@@ -75,8 +81,12 @@ function Navbar() {
           </MDBNavbarNav>
 
           <MDBNavbarNav className='d-flex ml-auto w-auto'>
-            <MDBNavbarItem>
-              <li><Link to="/profile">Profile</Link></li>
+            <MDBNavbarItem style={{ padding : '0 0.5rem'}}>
+              <li><Link to="/profile"><text><FontAwesomeIcon icon={faUser}/></text></Link></li>
+            </MDBNavbarItem>
+
+            <MDBNavbarItem style={{ padding : '0 0.5rem'}}>
+            <li><Link to="/notifications"><text><FontAwesomeIcon icon={faBell}/></text></Link></li>
             </MDBNavbarItem>
 
             <MDBNavbarItem>

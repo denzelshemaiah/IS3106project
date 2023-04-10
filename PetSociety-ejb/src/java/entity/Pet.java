@@ -27,6 +27,7 @@ public class Pet implements Serializable {
     private Long petId;
     
     // pet details
+    private byte typeOfPet;
     private String name;
     private String weight;
     private int ageInYears;
@@ -268,7 +269,7 @@ public class Pet implements Serializable {
     }
 
     public void setPhotos(byte[] photos) {
-        this.photos = photos;
+        this.setPhotos(photos);
     }
 
     public PetParent getParent() {
@@ -277,6 +278,14 @@ public class Pet implements Serializable {
 
     public void setParent(PetParent parent) {
         this.parent = parent;
+    }
+
+    public byte getTypeOfPet() {
+        return typeOfPet;
+    }
+
+    public void setTypeOfPet(byte typeOfPet) {
+        this.typeOfPet = typeOfPet;
     }
     
 }
