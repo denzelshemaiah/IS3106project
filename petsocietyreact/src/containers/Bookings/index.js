@@ -2,20 +2,34 @@ import React, { useEffect, useState } from "react";
 import Api from "../../helpers/Api";
 import { Button, Badge } from "react-bootstrap";
 import RequestModal from "../../components/BookingModals"
-import moment from 'moment-timezone';
 import NoRequestsPage from "../../components/NoRequestsPage";
 import titleIcon from "./titleIcon.jpg"
+import moment from "moment-timezone";
+import Toast from 'react-bootstrap/Toast'
+import ContactModal from "../../components/ContactDetailsModal";
 
 //page to view all bookings, follows a tab view
 function Bookings(props) {
-    const {userId = 2} = useState(2);
+    const [userId, setUserId] = useState(1);
     const [chosenTab, setChosenTab] = useState("pending")
     const [bookings, setBookings] = useState([]);
-    const user = {role : "sitter"}
+    const user = {role : "parent"}
 
     useEffect(() => {
         reloadData();
     }, [chosenTab]);
+
+    function otherParty(booking) {
+        if (user.role === "parent") {
+            return booking.sitter;
+        } else {
+            return booking.parent;
+        }
+    }
+
+    function refreshPage() {
+        window.location.reload(false);
+    }
 
     //gets all the booking data for this user
     const reloadData = () => {
@@ -25,15 +39,18 @@ function Bookings(props) {
             for (const booking of bookings) {
                 const {bookingReqId, cost, created, description, endDate, numPets, repeatDays, parent, sitter, startDate, status, visitFreq} = booking;
 
-                booking.formatCreated = created.substring(0, created.length - 5)
-                booking.formatStartDate = startDate.split("T");
                 //account for auto timezone conversion to UTC by JSON ;-;
-                booking.formatStartDate = booking.formatStartDate[0];
-                booking.formatEndDate = endDate.split("T");
-                booking.formatEndDate = booking.formatEndDate[0];
+                booking.formatCreated = created.substring(0, created.length - 5)
+                booking.formatStartDate = moment(booking.startDate, "YYYY-MM-DDTHH:mm:ssZ[UTC]").tz("Asia/Singapore").toDate().toString();
+                booking.formatStartDate = booking.formatStartDate.split(" ");
+                booking.formatStartDate = booking.formatStartDate.slice(0,4).join(" ");
+                booking.formatEndDate = moment(booking.endDate, "YYYY-MM-DDTHH:mm:ssZ[UTC]").tz("Asia/Singapore").toDate().toString();
+                booking.formatEndDate = booking.formatEndDate.split(" ");
+                booking.formatEndDate = booking.formatEndDate.slice(0,4).join(" ");
             }
             setBookings(bookings);
-        });
+        })
+        .then(result);
     }
 
     const updateState = (item) => {
@@ -49,14 +66,14 @@ function Bookings(props) {
     function editButton(booking) {
         if (user.role === "parent") {
             return <div style={{width:"110px", float:"right"}}>
-                <RequestModal buttonLabel="Edit" booking={booking} type="booking" updateState={updateState} reloadData={reloadData}/>
+                <RequestModal buttonLabel="Edit" booking={booking} type="booking" updateState={updateState} reloadData={reloadData} refreshPage={refreshPage}/>
                 {' '}
             </div>
         } else if (user.role === "sitter") {
             return <div style={{width:"200px", float:"right"}}>
-                <RequestModal buttonLabel="Reject" booking={booking} type="booking" updateState={updateState} reloadData={reloadData}/>
+                <RequestModal buttonLabel="Reject" booking={booking} type="booking" updateState={updateState} reloadData={reloadData} refreshPage={refreshPage}/>
                 {' '}
-                <RequestModal buttonLabel="Accept" booking={booking} type="booking" updateState={updateState} reloadData={reloadData}/>
+                <RequestModal buttonLabel="Accept" booking={booking} type="booking" updateState={updateState} reloadData={reloadData} refreshPage={refreshPage}/>
             </div>
         }
     }
@@ -64,7 +81,7 @@ function Bookings(props) {
     function cancelButton(booking) {
         if (user.role === "parent") {
             return<div style={{width:"110px", float:"right"}}>
-                <RequestModal buttonLabel="Cancel" booking={booking} type="booking" updateState={updateState} reloadData={reloadData}/>
+                <RequestModal buttonLabel="Cancel" booking={booking} type="booking" updateState={updateState} reloadData={reloadData} refreshPage={refreshPage}/>
                 {' '}
             </div>
         }
@@ -146,6 +163,7 @@ function Bookings(props) {
                         {repeatText(booking)} <br/>
                         {cancelButton(booking)}
                         {badge(booking)}
+                        <ContactModal user={otherParty(booking)}></ContactModal>
                     </li>
                 </>
             )
@@ -158,6 +176,7 @@ function Bookings(props) {
                         Request Description: {booking.description} <br/>
                         {repeatText(booking)} <br/>
                         {badge(booking)}
+                        <ContactModal user={otherParty(booking)}></ContactModal>
                     </li>
                 </>
             )

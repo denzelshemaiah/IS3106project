@@ -25,7 +25,7 @@ function MgModal(props) {
     }, [props.sitter]);
 
     const toggle = () => {
-    setModal(!modal);
+      setModal(!modal);
     };
 
     const [form, setValues] = useState({
@@ -38,7 +38,8 @@ function MgModal(props) {
         e.preventDefault();
         //change this to current user's Id
         Api.cancelMg(mgReq.parent.userId, mgReq.mgReqId)
-        .then(props.reloadData());
+        .then(props.reloadData())
+        .then(props.refreshPage);
         toggle();
     }
 
@@ -47,7 +48,8 @@ function MgModal(props) {
         //change this to current user's Id
         Api.acceptMg(mgReq.sitter.userId, mgReq.mgReqId)
         .then(toggle())
-        .then(props.reloadData());
+        .then(props.reloadData())
+        .then(props.refreshPage);
     }
 
     const submitFormReject = (e) => {
@@ -55,7 +57,8 @@ function MgModal(props) {
         //change this to current user's id
         Api.rejectMg(mgReq.sitter.userId, mgReq.mgReqId)
         .then(props.reloadData())
-        .then(toggle());
+        .then(toggle())
+        .then(props.refreshPage);
     }
 
     //when the form values change

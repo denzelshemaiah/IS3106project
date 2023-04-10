@@ -79,6 +79,8 @@ function RequestModal(props) {
       e.preventDefault();
       //change this to current user's Id
       Api.cancelBooking(booking.parent.userId, booking.bookingReqId)
+      .then(props.reloadData())
+      .then(props.refreshPage);
       toggle();
     }
 
@@ -87,7 +89,8 @@ function RequestModal(props) {
       //change this to current user's Id
       Api.acceptBooking(booking.sitter.userId, booking.bookingReqId)
       .then(toggle())
-      .then({reloadData})
+      .then(props.reloadData())
+      .then(props.refreshPage);
     }
 
     const submitFormReject = (e) => {
@@ -95,7 +98,8 @@ function RequestModal(props) {
       //change this to current user's id
       Api.rejectBooking(booking.sitter.userId, booking.bookingReqId)
       .then(toggle())
-      .then({reloadData})
+      .then(props.reloadData())
+      .then(props.refreshPage);
     }
 
     //edit this
@@ -112,6 +116,7 @@ function RequestModal(props) {
               toggle={toggle}
               booking={props.booking}
               reloadData={props.reloadData}
+              refreshPage={props.refreshPage}
           />
       )
     } else if (label === "Cancel") {
@@ -192,7 +197,7 @@ function RequestModal(props) {
         keyboard={false}
         centered={true}
         >
-            <ModalHeader toggle={toggle} close={closeBtn}>
+            <ModalHeader toggle={toggle}>
                 {title} <FontAwesomeIcon icon={faPaw} style={{float: "left", marginRight: "15px", height:"30px", width:"30px"}}/>
             </ModalHeader>
             <ModalBody>
