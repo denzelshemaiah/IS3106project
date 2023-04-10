@@ -45,6 +45,7 @@ function App() {
           <Route path="/loggedInHomepage" element={<LoggedInHomepage />} />
           <Route path="/createPet" element={<CreatePet />} />
           <Route path="/profile" element={<Profile />} />
+          
         </Routes>
       </div>
     </>
