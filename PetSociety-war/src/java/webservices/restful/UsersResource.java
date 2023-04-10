@@ -8,6 +8,8 @@ package webservices.restful;
 import entity.PetParent;
 import entity.PetSitter;
 import entity.User;
+import enumeration.RegionEnum;
+import enumeration.ServiceEnum;
 import enumeration.UserStatusEnum;
 import java.util.List;
 import javax.ejb.EJB;
@@ -72,8 +74,8 @@ public class UsersResource {
 
         user.setStatus(UserStatusEnum.PENDING);
         // Convert enums
-        petSitter.setRegion(RegionEnum.valueOf(@FormParam("region")));
-        petSitter.setService(ServiceEnum.valueOf(@FormParam("service")));
+        //petSitter.setRegion(RegionEnum.valueOf(@FormParam("region") region));
+        //petSitter.setService(ServiceEnum.valueOf(@FormParam("service")));
 
         userSessionBean.createNewSitter(user, petSitter);
         return user;

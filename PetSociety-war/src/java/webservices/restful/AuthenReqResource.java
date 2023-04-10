@@ -6,16 +6,13 @@
 package webservices.restful;
 
 import entity.AuthenticationRequest;
-import entity.User;
 import javax.ejb.EJB;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PUT;
 import javax.enterprise.context.RequestScoped;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.core.MediaType;
 import session.AuthenticationReqSessionBeanLocal;
@@ -36,7 +33,7 @@ public class AuthenReqResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public AuthenticationRequest createNewAuthenticationReq(@FormParam("authenReq") AuthenticationRequest authenReq) {
-        authenticationReqSessionBeanLocal.createAuthenticationReq(authenReq, userId);
+//        authenticationReqSessionBeanLocal.createAuthenticationReq(authenReq, userId);
         return authenReq;
     }
     
