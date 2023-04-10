@@ -12,11 +12,12 @@ import {
     MDBInput,
     MDBRadio,
     MDBTextArea,
-    MDBCheckbox
+    MDBCheckbox,
+    MDBFile
 }
     from 'mdb-react-ui-kit';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faIdCard, faHeart } from '@fortawesome/free-regular-svg-icons'
+import { faEye, faIdCard, faHeart, faNoteSticky, faImage } from '@fortawesome/free-regular-svg-icons'
 import { faCat, faDog } from '@fortawesome/free-solid-svg-icons'
 import cuteDog from '../../icons/cute_dog.png';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -117,7 +118,7 @@ function CreatePet() {
                 </Helmet>
             </div>
 
-            <form>
+            <form onSubmit={handleCreationOfPet}>
                 <MDBContainer fluid>
 
                     <MDBRow className='justify-content-center align-items-center m-5 px-5'>
@@ -615,14 +616,49 @@ function CreatePet() {
                                             <MDBCheckbox label="Injection" />
                                         </MDBCol>
 
-
                                     </MDBRow>
 
+                                    <MDBRow>
+                                        <h6 className="mt-4 pb-2">Anything else a sitter should know?</h6>
+                                        <MDBTextArea wrapperClass='mb-4'
+                                            label="Add instructions for walking, feeding, or other care"
+                                            id='inputAdditionalSitterInformation'
+                                            rows={4}
+                                            value={additionalSitterInformation}
+                                            onChange={(e) => setAdditionalSitterInformation(e.target.value)}>
+                                        </MDBTextArea>
+                                    </MDBRow>
+                                </div>
 
-
+                                <div className="p-3">
+                                    <div className="pb-3">
+                                        <h5 style={{ fontWeight: 'bold' }}>
+                                            <FontAwesomeIcon icon={faNoteSticky} /> Veterinary Info
+                                        </h5>
+                                        <small class="text-muted">Add your vets name, address, and phone number</small>
+                                    </div>
+                                    
+                                    <MDBRow> 
+                                        <MDBTextArea wrapperClass='mb-4'
+                                            label="Add your vets name, address, and phone number"
+                                            id='inputAdditionalSitterInformation'
+                                            rows={4}
+                                            value={additionalSitterInformation}
+                                            onChange={(e) => setAdditionalSitterInformation(e.target.value)}>
+                                        </MDBTextArea>
+                                    </MDBRow>
 
                                 </div>
 
+                                <div className="p-3">
+                                    <div className="pb-3">
+                                        <h5 style={{ fontWeight: 'bold' }}>
+                                            <FontAwesomeIcon icon={faImage} /> Photo Gallery
+                                        </h5>
+                                        <small class="text-muted">Show off your pet by adding photos and curating photos taken during your bookings.</small>
+                                    </div>
+                                    <MDBFile label='Large file input example' size='lg' id='formFileLg' />
+                            </div>
 
                                 <MDBBtn className='mb-4' size='lg'>Submit</MDBBtn>
 
