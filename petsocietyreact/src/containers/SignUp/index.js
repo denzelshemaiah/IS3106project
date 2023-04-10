@@ -971,41 +971,35 @@ function SignUp(props) {
                   <MDBCardBody className='text-black d-flex flex-column justify-content-center'>
                     <h3 className="mb-2 text-uppercase fw-bold">SAFETY FORM</h3>
                     <h6 style={{ fontSize: 12}} className="mb-3">We would like to get to know you and your experiences better.</h6>
-                    <MDBRow style={{ height: "20vh" }}>
-                      <h6>I am vaccinated from rabies.</h6>
-                      <MDBCol md="12">
-                      <Form>
-                              <Form.Group controlId="formBasicCheckbox">
-                                <Form.Check type="checkbox" label="Yes" checked={false} />
-                                <Form.Check type="checkbox" label="No" checked={false} />
-                              </Form.Group>
-                            </Form>     
-                      </MDBCol>
-                    </MDBRow>
+                    <MDBRow>
+                        <h6>Are you vaccinated against most types of animal-related diseases?</h6>
+                        <MDBCol md='12'>
+                        
+                        <MDBTextArea className="mb-4" label='Answer' rows={2}
+                        value={q1} 
+                        onChange={(e) => setQ1(e.target.value)}/>
+                        </MDBCol>
+                      </MDBRow>
 
-                    <MDBRow style={{ height: "20vh" }}>
-                      <h6>I have not been convicted of a crime.</h6>
-                      <MDBCol md="12">
-                      <Form>
-                              <Form.Group controlId="formBasicCheckbox">
-                                <Form.Check type="checkbox" label="Yes" checked={false} />
-                                <Form.Check type="checkbox" label="No" checked={false} />
-                              </Form.Group>
-                            </Form>     
-                      </MDBCol>
-                    </MDBRow>
+                      <MDBRow>
+                        <h6>Have you been convicted of any crimes?</h6>
+                        <MDBCol md='12'>
+                        
+                        <MDBTextArea className="mb-4" label='Answer' rows={2}
+                        value={q2} 
+                        onChange={(e) => setQ2(e.target.value)}/>
+                        </MDBCol>
+                      </MDBRow>
 
-                    <MDBRow style={{ height: "20vh" }}>
-                      <h6>I am .....</h6>
-                      <MDBCol md="12">
-                      <Form>
-                        <Form.Group controlId="formBasicCheckbox">
-                          <Form.Check type="checkbox" label="Yes" checked={false} />
-                          <Form.Check type="checkbox" label="No" checked={false} />
-                        </Form.Group>
-                      </Form>     
-                      </MDBCol>
-                    </MDBRow>
+                      <MDBRow>
+                        <h6>Another safety question</h6>
+                        <MDBCol md='12'>
+                        
+                        <MDBTextArea className="mb-4" label='Answer' rows={2}
+                        value={q3} 
+                        onChange={(e) => setQ3(e.target.value)}/>
+                        </MDBCol>
+                      </MDBRow>
 
                     <MDBBtn color='dark' className='mb-4' size='lg' type='submit'
                     onClick={redirect7}>Next</MDBBtn>
@@ -1039,19 +1033,28 @@ function SignUp(props) {
                   <MDBCol md='6'>
 
                     <MDBCardBody className='text-black d-flex flex-column justify-content-center'>
-                      <h3 className="mb-2 text-uppercase fw-bold">Last step!</h3>
-                      <h6 style={{ fontSize: 12}} className="mb-3">Authentication</h6>
+                      <h3 className="mb-2 fw-bold">Last step!</h3>
+                      <h6 style={{ fontSize: 12}} className="mb-3">The privacy and security of our community is very important. 
+                       We’re identifying ways to help make our community as secure as possible for everyone.That’s why when you 
+                      become a Pet Sitter with PetSociety, we may need to verify your personal information, such as your legal name, 
+                      address, phone number and other contact details.</h6>
+                      <h6 style={{ fontSize: 12}} className="mb-3"><u>
+                      Please upload a file (in PDF format) containing a photo of 
+                      your Government ID (with NRIC covered) and a selfie.</u></h6>
 
                       <MDBRow>
                           <MDBCol md='12'>
                             <label className="form-label" htmlFor="customFile">Identity Authentication</label>
                             <input type="file"
-                              className="form-control mb-5"
+                              className="form-control mb-1"
                               id="customFile"
                               value={documents}
                               onChange={(e) => setDocuments(e.target.value)} />
                           </MDBCol>
                       </MDBRow>
+
+                      <h6 style={{ fontSize: 14}} className="mb-3">
+                      You may start accepting bookings once your account has been verified by PetSociety.</h6>
 
                       <MDBRow className='mb-5'>
                         <MDBCol md='3'>
