@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./styles.css";
 import logo from "./assets/dog_logo.png";
 import { Link } from "react-router-dom";
 import {
@@ -18,6 +17,7 @@ import {
   MDBDropdownItem,
   MDBCollapse
 } from "mdb-react-ui-kit";
+import hamburgerMenu from '../../icons/hamburger_menu.png';
 
 function NoLoginNavbar() {
   const [showNoLoginNavbar, setShowNoLoginNavbar] = useState(false);
@@ -36,46 +36,46 @@ function NoLoginNavbar() {
           aria-label='Toggle navigation'
           onClick={() => setShowNoLoginNavbar(!showNoLoginNavbar)}
         >
-          <img src="https://assets.stickpng.com/images/588a64e7d06f6719692a2d11.png"
-          width='20'
-          height='20' />
+          <img src={hamburgerMenu}
+            width='20'
+            height='20' />
         </MDBNavbarToggler>
 
         <MDBCollapse navbar show={showNoLoginNavbar}>
           <MDBNavbarNav className='mr-auto mb-2 mb-lg-0'>
             <MDBNavbarItem>
-              <MDBNavbarLink href='/#/searchSitter'>
-                Search Sitter
+              <MDBNavbarLink>
+                <li><Link to="/searchSitter">Search Sitter</Link></li>
               </MDBNavbarLink>
             </MDBNavbarItem>
 
             <MDBNavbarItem>
-              <MDBNavbarLink href='/#/services'>
-                Our Services
+              <MDBNavbarLink>
+                <li><Link to="/services">Our Services</Link></li>
               </MDBNavbarLink>
             </MDBNavbarItem>
           </MDBNavbarNav>
 
           <MDBNavbarNav className='d-flex ml-auto w-auto'>
-          <MDBNavbarItem>
-              <MDBNavbarLink href='/#/signUp/1' className='text-nowrap'>
-                Sign Up
+            <MDBNavbarItem>
+              <MDBNavbarLink className='text-nowrap'>
+                <li><Link to="/signUp/1">Sign Up</Link></li>
               </MDBNavbarLink>
             </MDBNavbarItem>
 
             <MDBNavbarItem>
-              <MDBNavbarLink href='/#/signIn'className='text-nowrap'>
-                Sign In
+              <MDBNavbarLink className='text-nowrap'>
+              <li><Link to="/signIn">Sign In</Link></li>
               </MDBNavbarLink>
             </MDBNavbarItem>
 
             <MDBNavbarItem>
-              <MDBNavbarLink href='/#/help'className='text-nowrap'>
-                Help
+              <MDBNavbarLink className='text-nowrap'>
+              <li><Link to="/help">Help</Link></li>
               </MDBNavbarLink>
             </MDBNavbarItem>
-    
-          </MDBNavbarNav> 
+
+          </MDBNavbarNav>
 
         </MDBCollapse>
       </MDBContainer>

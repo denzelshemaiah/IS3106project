@@ -14,29 +14,29 @@ const Api = {
         });
     }, */
 
-    // creation of petParent
-    createNewParent(data) {
-        return fetch(`${SERVER_PREFIX}/users/petparent`, {
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            method: "POST",
-            body: JSON.stringify(data),
-        });
-    },
+    // // creation of petParent
+    // createNewParent(data) {
+    //     return fetch(`${SERVER_PREFIX}/users/petparent`, {
+    //         headers: {
+    //             Accept: "application/json",
+    //             "Content-Type": "application/json",
+    //         },
+    //         method: "POST",
+    //         body: JSON.stringify(data),
+    //     });
+    // },
 
-    // creation of petSitter
-    createNewSitter(data) {
-        return fetch(`${SERVER_PREFIX}/users/petsitter`, {
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            method: "POST",
-            body: JSON.stringify(data),
-        });
-    }, 
+    // // creation of petSitter
+    // createNewSitter(data) {
+    //     return fetch(`${SERVER_PREFIX}/users/petsitter`, {
+    //         headers: {
+    //             Accept: "application/json",
+    //             "Content-Type": "application/json",
+    //         },
+    //         method: "POST",
+    //         body: JSON.stringify(data),
+    //     });
+    // }, 
 
     //retrieve the parentId
     getParentId(parentId) {

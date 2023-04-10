@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import './style.css'
-import { Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup } from "reactstrap";
+import { Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup, InputGroup, InputGroupText, Input } from "reactstrap";
 import { faCloudSun, faHouseChimney, faRepeat, faSuitcase, faDog } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-regular-svg-icons";
@@ -57,14 +57,16 @@ function SearchSitter(props) {
         userId: null,
         serviceType: "",
         petType: [],
-        location: "",
+        region: "",
         dates: {
           startDate: null,
           endDate: null
         },
-        petSize: "",
+        numOfPets: "",
+        petSize: [],
         rate: [0, 200],
         repeat: "",
+        dayOfWeek:[],
         fulltime: false,
         numOfTimes: null,
     });
@@ -114,7 +116,7 @@ function SearchSitter(props) {
         setSelectedItem2(selectedLocation);
         setFormData(prevState => ({
           ...prevState,
-          location: selectedLocation
+          region: selectedLocation
         }));
       }
 
@@ -126,16 +128,38 @@ function SearchSitter(props) {
         setEndDate(end);
     }
 
-    //indicate the weight of the dog
-    const [selectedWeight, setSelectedWeight] = useState('');
-    const handleWeightSelection = (selectedWeight) => {
-        setSelectedWeight(selectedWeight);
+    //indicate the num of pets
+    const [selectedNumOfPets, setSelectedNumOfPets] = useState('1');
+    const handleNumOfPets = (num) => {
+        setSelectedNumOfPets(num);
+        setPetWeights(new Array(parseInt(num)).fill(''));
         setFormData((prevState) => ({
-          ...prevState,
-          selectedWeight: selectedWeight
+            ...prevState,
+            numOfPets: selectedNumOfPets
         }));
-      };
+    };
 
+    //indicate the weight of the dog and will display the number of weight buttons based on the number of 
+    const [petWeights, setPetWeights] = useState([]);
+    const handleWeightChange = (index, event) => {
+        const updatedPetWeights  = [...petWeights]
+        updatedPetWeights[index] = parseInt(event.target.value);;
+        setPetWeights(updatedPetWeights);
+    };
+    //finding the min and max weight in the array of weights
+    useEffect(() => {
+        const minWeight = Math.min(...petWeights);
+        const maxWeight = Math.max(...petWeights);
+        const sizeRange = new Array(2);
+        sizeRange[0] = minWeight;
+        sizeRange[1] = maxWeight;
+        setFormData((prevState) => ({
+            ...prevState,
+            petSize: sizeRange
+          }));
+    })
+
+    //rate for the service given as a range  
     const [rate, setRate] = useState([1.00, 200.00]);
     const handleRateChange = (value) => {
         setRate(value);
@@ -193,6 +217,28 @@ function SearchSitter(props) {
         )
     }
 
+    //number of weight selection buttons will be displayed based on the number of pets selected and this is mapped to each pet
+    const weightInput = [];
+    for (let i = 0; i < parseInt(selectedNumOfPets); i++) {
+        weightInput.push(
+            <div className="mb-3" key={i}>
+                <label htmlFor={`pet-${i}-weight`} className="form-label">
+                    Pet {i + 1} weight (kg):
+                </label>
+                <InputGroup>
+                <Input
+                    id={`pet-${i}-weight`}
+                    placeholder="Enter weight"
+                    type="number"
+                    onChange={(event) => handleWeightChange(i, event)}
+                />
+                    <InputGroupText>
+                        kg
+                    </InputGroupText>
+                </InputGroup>
+            </div>
+        );
+    }
 
     //indicate the day of the week if user chooses weekly
     const [selectedDay, setSelectedDay] = useState([]);
@@ -394,38 +440,36 @@ function SearchSitter(props) {
 
                                     <div className="mb-3">
                                         <label htmlFor="gridCheck" className="form-label">
-                                            Size of pet(kg):
+                                            Number of pets:
                                         </label>
+                                        <br />
                                         <ButtonGroup>
                                             <Button
                                                 color= "purple"
-                                                active={selectedWeight === '0-10'}
+                                                active={ selectedNumOfPets === '1'}
                                                 style={{ whiteSpace: 'nowrap' }}
-                                                onClick={() => handleWeightSelection('0-10')}>
-                                                0-10
+                                                onClick={() => handleNumOfPets('1')}>
+                                                1
                                             </Button>
                                             <Button
                                                 color= "purple"
-                                                active={selectedWeight === '11-20'}
+                                                active={selectedNumOfPets === '2'}
                                                 style={{ whiteSpace: 'nowrap' }}
-                                                onClick={() => handleWeightSelection('11-20')}>
-                                                11-20
+                                                onClick={() => handleNumOfPets('2')}>
+                                                2
                                             </Button>
                                             <Button
                                                 color= "purple"
-                                                active={selectedWeight === '21-30'}
+                                                active={selectedNumOfPets === '3'}
                                                 style={{ whiteSpace: 'nowrap' }}
-                                                onClick={() => handleWeightSelection('21-30')}>
-                                                21-30
-                                            </Button>
-                                            <Button
-                                                color= "purple"
-                                                active={selectedWeight === '30+'}
-                                                style={{ whiteSpace: 'nowrap' }}
-                                                onClick={() => handleWeightSelection('30+')}>
-                                                30+
+                                                onClick={() => handleNumOfPets('3')}>
+                                                3
                                             </Button>
                                         </ButtonGroup>
+                                    </div>
+
+                                    <div className="mb-3">
+                                        {weightInput }
                                     </div>
 
                                     <div className="mb-3">

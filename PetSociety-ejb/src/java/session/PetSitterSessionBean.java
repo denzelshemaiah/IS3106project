@@ -85,6 +85,8 @@ public class PetSitterSessionBean implements PetSitterSessionBeanLocal {
         oldSitter.setServiceAddress(sitter.getServiceAddress());
         oldSitter.setRegion(sitter.getRegion());
         oldSitter.setPetPreference(sitter.getPetPreference());
+        oldSitter.setMaxNumPets(sitter.getMaxNumPets());
+        oldSitter.setMaxWeightPreference(sitter.getMaxWeightPreference());
         oldSitter.setSchedule(sitter.getSchedule());
         oldSitter.setRate(sitter.getRate());
         oldSitter.setService(sitter.getService());
