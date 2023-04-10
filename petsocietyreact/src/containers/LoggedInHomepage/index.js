@@ -4,8 +4,10 @@ import { Button } from 'reactstrap';
 import { MDBCard, MDBTypography, MDBContainer, MDBCardBody, MDBCardTitle, MDBCardText, MDBCol, MDBRow, MDBBtn } from 'mdb-react-ui-kit';
 import { Link, Route, Routes } from 'react-router-dom';
 import Footer from '../../components/Footer';
-
-
+import dogBoardingIcon from '../../icons/dog_boarding.png';
+import dogWalkingIcon from '../../icons/dog_walking.png';
+import dogDayCareIcon from '../../icons/dog_daycare.png';
+import dogDropInIcon from '../../icons/dog_dropin.png';
 
 function LoggedInHomepage() {
     return (
@@ -48,7 +50,7 @@ function LoggedInHomepage() {
                                             <div class="col">
                                                 <button class="btn btn-primary w-100"
                                                     style={{ backgroundColor: '#F3F5F4', padding: '20px 40px' }}>
-                                                    <img src="https://thenounproject.com/api/private/icons/3762083/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0&token=gAAAAABkMWMLEat10iesV-C94ACSAoRV-z5Xo4OgdZfO4y9adnM0BoOtlZzbuS0r96AmElrzfGxIQ_dnm-rY5ztpyDLqIJMjSg%3D%3D"
+                                                    <img src={dogBoardingIcon}
                                                         alt="Image"
                                                         width="50"
                                                         height="50"
@@ -65,14 +67,14 @@ function LoggedInHomepage() {
                                             <div class="col">
                                                 <button class="btn btn-primary w-100"
                                                     style={{ backgroundColor: '#F3F5F4', padding: '20px 40px' }}>
-                                                    <img src="https://thenounproject.com/api/private/icons/5620968/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0&token=gAAAAABkMWMLEat10iesV-C94ACSAoRV-z5Xo4OgdZfO4y9adnM0BoOtlZzbuS0r96AmElrzfGxIQ_dnm-rY5ztpyDLqIJMjSg%3D%3D"
+                                                    <img src={dogWalkingIcon}
                                                         alt="Image"
                                                         width="50"
                                                         height="50"
                                                         >
                                                     </img>
                                                     <br></br>
-                                                    <span style = {{ color: 'black'}}>PET TAXI</span>
+                                                    <span style = {{ color: 'black'}}>WALKING</span>
                                                 </button>
                                             </div>
                                         </div>
@@ -82,7 +84,7 @@ function LoggedInHomepage() {
                                             <div class="col">
                                                 <button class="btn btn-primary w-100"
                                                     style={{ backgroundColor: '#F3F5F4', padding: '20px 40px' }}>
-                                                    <img src="https://thenounproject.com/api/private/icons/2401714/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0&token=gAAAAABkMWMLEat10iesV-C94ACSAoRV-z5Xo4OgdZfO4y9adnM0BoOtlZzbuS0r96AmElrzfGxIQ_dnm-rY5ztpyDLqIJMjSg%3D%3D"
+                                                    <img src={dogDayCareIcon}
                                                         alt="Image"
                                                         width="50"
                                                         height="50"
@@ -99,7 +101,7 @@ function LoggedInHomepage() {
                                             <div class="col">
                                                 <button class="btn btn-primary w-100"
                                                     style={{ backgroundColor: '#F3F5F4', padding: '20px 40px' }}>
-                                                    <img src="https://thenounproject.com/api/private/icons/403614/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0&token=gAAAAABkMWMLEat10iesV-C94ACSAoRV-z5Xo4OgdZfO4y9adnM0BoOtlZzbuS0r96AmElrzfGxIQ_dnm-rY5ztpyDLqIJMjSg%3D%3D"
+                                                    <img src={dogDropInIcon}
                                                         alt="Image"
                                                         width="50"
                                                         height="50"

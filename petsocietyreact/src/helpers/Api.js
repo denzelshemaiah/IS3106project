@@ -14,29 +14,39 @@ const Api = {
         });
     }, */
 
-    // creation of petParent
-    createNewParent(data) {
-        return fetch(`${SERVER_PREFIX}/users/petparent`, {
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            method: "POST",
-            body: JSON.stringify(data),
-        });
+    // // creation of petParent
+    // createNewParent(data) {
+    //     return fetch(`${SERVER_PREFIX}/users/petparent`, {
+    //         headers: {
+    //             Accept: "application/json",
+    //             "Content-Type": "application/json",
+    //         },
+    //         method: "POST",
+    //         body: JSON.stringify(data),
+    //     });
+    // },
+
+    // // creation of petSitter
+    // createNewSitter(data) {
+    //     return fetch(`${SERVER_PREFIX}/users/petsitter`, {
+    //         headers: {
+    //             Accept: "application/json",
+    //             "Content-Type": "application/json",
+    //         },
+    //         method: "POST",
+    //         body: JSON.stringify(data),
+    //     });
+    // }, 
+
+    //retrieve the parentId
+    getParentId(parentId) {
+        return fetch(`${SERVER_PREFIX}/users/petparent/${parentId}`)
     },
 
-    // creation of petSitter
-    createNewSitter(data) {
-        return fetch(`${SERVER_PREFIX}/users/petsitter`, {
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            method: "POST",
-            body: JSON.stringify(data),
-        });
-    }, 
+    //retrieve all pet sitters
+    getAllPetSitters() {
+        return fetch(`${SERVER_PREFIX}/users/petsitters`)
+    },
 
     // setting bankAccountNumber and creating it in association with a user
     createAndAssociateNewBankAccount(data) {
@@ -95,7 +105,17 @@ const Api = {
         });
     },
     
-    
+   // creation of Pet (already associated with Parent)
+   createNewPet(data) {
+    return fetch(`${SERVER_PREFIX}/pet/createPet`, {
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify(data),
+    }); 
+   },
 
     //BOOKINGSSSS
     //view all bookings
@@ -198,6 +218,7 @@ const Api = {
             method: "PUT"
         })
     },
+
 };
 
 export default Api;

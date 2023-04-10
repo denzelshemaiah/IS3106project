@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import './style.css'
-import { Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup } from "reactstrap";
+import { Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup, InputGroup, InputGroupText, Input } from "reactstrap";
 import { faCloudSun, faHouseChimney, faRepeat, faSuitcase, faDog } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-regular-svg-icons";
@@ -15,35 +15,6 @@ import Api from "../../helpers/Api";
 
 function SearchSitter(props) {
 
-    const [showResults, setShowResults] = useState(false);    
-
-    useEffect(() => {
-        const fetchUserId = async () => {
-            try {
-                const response = await Api.getParentId();
-                const parentId = response.data.parentId;
-                setFormData(prevState => ({
-                ...prevState,
-                parentId: parentId
-                }));
-            } catch (error) {
-                console.error(error);
-                setFormData(prevState => ({
-                ...prevState,
-                parentId: null
-                }));
-            }
-        };
-
-
-        fetchUserId();
-    }, []);
-
-//handle search sitter form and attach the pet parentid 
-const handleSearch  = () => {
-    console.log(formData.parentId);
-}
-
     const handleInputChange = (event) => {
         const { name, value, type } = event.target;
         if (type === "checkbox" && name === "petType") {
@@ -56,6 +27,14 @@ const handleSearch  = () => {
               [name]: petType
             };
           });
+        } else if (name === "startDate"  && name === "endDate") {
+            setFormData((prevState) => ({
+              ...prevState,
+              dates: {
+                ...prevState.dates,
+                [name]: value
+              }
+            }));
         } else if (type === "checkbox" && name === "fulltime") {
             setFormData((prevState) => ({
                 ...prevState,
@@ -67,35 +46,57 @@ const handleSearch  = () => {
             [name]: type === "number" ? parseInt(value) : value
           }));
         }
+    };
+
+    const [searchQuery, setSearchQuery] = useState({});
+    const handleSearchQuery = (formData) => {
+        setSearchQuery(formData);
       };
 
-    // define form input query
     const [formData, setFormData] = useState({
         userId: null,
         serviceType: "",
         petType: [],
-        location: "",
+        region: "",
         dates: {
           startDate: null,
           endDate: null
         },
-        petSize: "",
+        numOfPets: "",
+        petSize: [],
         rate: [0, 200],
         repeat: "",
+        dayOfWeek:[],
         fulltime: false,
         numOfTimes: null,
-        // timeOfDay: ""
-      });
-    
+    });
+      
+    useEffect(() => {
+        const fetchUserId = async () => {
+          try {
+            const response = await Api.getParentId(parentId);
+            const parentId = response.data.parentId;
+            setFormData(prevState => ({
+              ...prevState,
+              parentId: parentId
+            }));
+          } catch (error) {
+            console.error(error);
+            setFormData(prevState => ({
+              ...prevState,
+              parentId: null
+            }));
+          }
+        };
+        
+        fetchUserId();
+      }, []);
 
-    const [startDate, setStartDate] = useState(moment().tz('Asia/Singapore').startOf("day").toDate());
-    const [endDate, setEndDate] = useState(moment("1990-01-01 00:00:00").toDate());   
-    const selectDates = (dates) => {
-        const [start, end] = dates
-        setStartDate(start);
-        setEndDate(end);
-        formData.dates = {startDate: start, endDate: end}
+    //handle search sitter form and attach the pet parentid 
+    const handleSearch  = () => {
+        console.log(formData.parentId);
     }
+    
 
     const [dropdownOpen1, setDropdownOpen1] = useState(false);
     const [selectedItem1, setSelectedItem1] = useState('DayCare');
@@ -115,21 +116,50 @@ const handleSearch  = () => {
         setSelectedItem2(selectedLocation);
         setFormData(prevState => ({
           ...prevState,
-          location: selectedLocation
+          region: selectedLocation
         }));
       }
 
+    const [startDate, setStartDate] = useState(moment().tz('Asia/Singapore').startOf("day").toDate());
+    const [endDate, setEndDate] = useState(moment("1990-01-01 00:00:00").toDate());   
+    const selectDates = (dates) => {
+        const [start, end] = dates
+        setStartDate(start);
+        setEndDate(end);
+    }
 
-    //indicate the weight of the dog
-    const [selectedWeight, setSelectedWeight] = useState('');
-    const handleWeightSelection = (selectedWeight) => {
-        setSelectedWeight(selectedWeight);
+    //indicate the num of pets
+    const [selectedNumOfPets, setSelectedNumOfPets] = useState('1');
+    const handleNumOfPets = (num) => {
+        setSelectedNumOfPets(num);
+        setPetWeights(new Array(parseInt(num)).fill(''));
         setFormData((prevState) => ({
-          ...prevState,
-          selectedWeight: selectedWeight
+            ...prevState,
+            numOfPets: selectedNumOfPets
         }));
-      };
+    };
 
+    //indicate the weight of the dog and will display the number of weight buttons based on the number of 
+    const [petWeights, setPetWeights] = useState([]);
+    const handleWeightChange = (index, event) => {
+        const updatedPetWeights  = [...petWeights]
+        updatedPetWeights[index] = parseInt(event.target.value);;
+        setPetWeights(updatedPetWeights);
+    };
+    //finding the min and max weight in the array of weights
+    useEffect(() => {
+        const minWeight = Math.min(...petWeights);
+        const maxWeight = Math.max(...petWeights);
+        const sizeRange = new Array(2);
+        sizeRange[0] = minWeight;
+        sizeRange[1] = maxWeight;
+        setFormData((prevState) => ({
+            ...prevState,
+            petSize: sizeRange
+          }));
+    })
+
+    //rate for the service given as a range  
     const [rate, setRate] = useState([1.00, 200.00]);
     const handleRateChange = (value) => {
         setRate(value);
@@ -187,6 +217,28 @@ const handleSearch  = () => {
         )
     }
 
+    //number of weight selection buttons will be displayed based on the number of pets selected and this is mapped to each pet
+    const weightInput = [];
+    for (let i = 0; i < parseInt(selectedNumOfPets); i++) {
+        weightInput.push(
+            <div className="mb-3" key={i}>
+                <label htmlFor={`pet-${i}-weight`} className="form-label">
+                    Pet {i + 1} weight (kg):
+                </label>
+                <InputGroup>
+                <Input
+                    id={`pet-${i}-weight`}
+                    placeholder="Enter weight"
+                    type="number"
+                    onChange={(event) => handleWeightChange(i, event)}
+                />
+                    <InputGroupText>
+                        kg
+                    </InputGroupText>
+                </InputGroup>
+            </div>
+        );
+    }
 
     //indicate the day of the week if user chooses weekly
     const [selectedDay, setSelectedDay] = useState([]);
@@ -388,38 +440,36 @@ const handleSearch  = () => {
 
                                     <div className="mb-3">
                                         <label htmlFor="gridCheck" className="form-label">
-                                            Size of pet(kg):
+                                            Number of pets:
                                         </label>
+                                        <br />
                                         <ButtonGroup>
                                             <Button
                                                 color= "purple"
-                                                active={selectedWeight === '0-10'}
+                                                active={ selectedNumOfPets === '1'}
                                                 style={{ whiteSpace: 'nowrap' }}
-                                                onClick={() => handleWeightSelection('0-10')}>
-                                                0-10
+                                                onClick={() => handleNumOfPets('1')}>
+                                                1
                                             </Button>
                                             <Button
                                                 color= "purple"
-                                                active={selectedWeight === '11-20'}
+                                                active={selectedNumOfPets === '2'}
                                                 style={{ whiteSpace: 'nowrap' }}
-                                                onClick={() => handleWeightSelection('11-20')}>
-                                                11-20
+                                                onClick={() => handleNumOfPets('2')}>
+                                                2
                                             </Button>
                                             <Button
                                                 color= "purple"
-                                                active={selectedWeight === '21-30'}
+                                                active={selectedNumOfPets === '3'}
                                                 style={{ whiteSpace: 'nowrap' }}
-                                                onClick={() => handleWeightSelection('21-30')}>
-                                                21-30
-                                            </Button>
-                                            <Button
-                                                color= "purple"
-                                                active={selectedWeight === '30+'}
-                                                style={{ whiteSpace: 'nowrap' }}
-                                                onClick={() => handleWeightSelection('30+')}>
-                                                30+
+                                                onClick={() => handleNumOfPets('3')}>
+                                                3
                                             </Button>
                                         </ButtonGroup>
+                                    </div>
+
+                                    <div className="mb-3">
+                                        {weightInput }
                                     </div>
 
                                     <div className="mb-3">
@@ -455,7 +505,11 @@ const handleSearch  = () => {
                                     <div>
                                         <Button
                                             color="primary"
-                                            type="submit">
+                                            type="submit"
+                                            onClick={() => {
+                                                handleSearch();
+                                                handleSearchQuery(formData);
+                                            }}>
                                             Search
                                         </Button>
                                     </div>
@@ -466,11 +520,12 @@ const handleSearch  = () => {
                     </div>
                     <div className="col-md-4" style={{ marginLeft: "-25px" }}>
                             {/* {showResults && <SearchResults searchQuery={formData} style={{ overflow: "auto" }} />} */}
-                        <SearchResults searchQuery={formData} style={{ float: "right", overflow: "auto" }} />
+                        <SearchResults searchQuery={searchQuery} style={{ float: "right", overflow: "auto" }} />
                     </div>
                 </div>
         </div>
         </>
     );
 }
+
   export default SearchSitter;

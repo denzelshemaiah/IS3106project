@@ -2,54 +2,127 @@ import React, { useState } from "react";
 import "./styles.css"
 import logo from "./assets/dog_logo.png"
 import { Link } from "react-router-dom";
-import { MDBNavbar } from "mdb-react-ui-kit";
+import { MDBCollapse, MDBContainer, MDBNavbar, MDBNavbarItem, MDBNavbarNav, MDBNavbarToggler } from "mdb-react-ui-kit";
+import hamburgerMenu from '../../icons/hamburger_menu.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser, faBell } from '@fortawesome/free-solid-svg-icons'
 
 function Navbar() {
   const [loggedInUser, setLoggedInUser] = useState({ role: "parent" });
   console.log(loggedInUser.role)
 
+  const [showNavbar, setShowNavbar] = useState(false);
+
   function links(loggedInUser) {
     if (loggedInUser.role === "parent") {
       return (
-        <div style={{ display: "block", width: "100%" }}>
-          <ul className="nav navbar-nav" style={{ float: "left" }}>
-            <li><Link to="/searchSitter">Search Sitter</Link></li>
-            <li><Link to="/bookings">Bookings</Link></li>
-            <li><Link to="/meetandgreets">Meet and Greets</Link></li>
-            <li><Link to="/services">Our Services</Link></li>
-            <li><Link to="/makebooking">Make A Booking</Link></li>
-          </ul>
+        <MDBCollapse navbar show={showNavbar}>
+          <MDBNavbarNav className='mr-auto mb-2 mb-lg-0'>
+            <MDBNavbarItem>
+              <li><Link to="/searchSitter">Search Sitter</Link></li>
+            </MDBNavbarItem>
 
-          <ul className="nav navbar-nav" style={{ float: "right" }}>
-            <li className="right"><Link to="/help">Help</Link></li>
-            <li className="right"><Link to="/logout">Logout</Link></li>
-          </ul>
-        </div>
+            <MDBNavbarItem>
+              <li><Link to="/bookings">Bookings</Link></li>
+            </MDBNavbarItem>
+
+            <MDBNavbarItem>
+              <li><Link to="/meetandgreets">Meet and Greets</Link></li>
+            </MDBNavbarItem>
+
+            <MDBNavbarItem>
+              <li><Link to="/services">Our Services</Link></li>
+            </MDBNavbarItem>
+
+            <MDBNavbarItem>
+              <li><Link to="/services">Our Services</Link></li>
+            </MDBNavbarItem>
+
+            <MDBNavbarItem>
+              <li><Link to="/makebooking">Make A Booking</Link></li>
+            </MDBNavbarItem>
+          </MDBNavbarNav>
+
+          <MDBNavbarNav className='d-flex ml-auto w-auto'>
+            <MDBNavbarItem style={{ padding : '0 0.5rem'}}>
+            <li><Link to="/profile"><text><FontAwesomeIcon icon={faUser}/></text></Link></li>
+            </MDBNavbarItem>
+
+            <MDBNavbarItem style={{ padding : '0 0.5rem'}}>
+            <li><Link to="/notifications"><text><FontAwesomeIcon icon={faBell}/></text></Link></li>
+            </MDBNavbarItem>
+
+            <MDBNavbarItem>
+              <li><Link to="/help">Help</Link></li>
+            </MDBNavbarItem>
+            <MDBNavbarItem>
+              <li><Link to="/logout">Logout</Link></li>
+            </MDBNavbarItem>
+          </MDBNavbarNav>
+
+        </MDBCollapse>
       )
+
     } else if (loggedInUser.role === "sitter") {
       return (
-        <div style={{ display: "block", width: "100%" }}>
-          <ul className="nav navbar-nav" style={{ float: "left" }}>
-            <li><Link to="/bookings">Bookings</Link></li>
-            <li><Link to="/meetandgreets">Meet and Greets</Link></li>
-            <li><Link to="/services">Our Services</Link></li>
-          </ul>
-          <ul className="nav navbar-nav" style={{ float: "right" }}>
-            <li className="right"><Link to="/help">Help</Link></li>
-            <li className="right"><Link to="/logout">Logout</Link></li>
-          </ul>
-        </div>
+        <MDBCollapse navbar show={showNavbar}>
+          <MDBNavbarNav className='mr-auto mb-2 mb-lg-0'>
+            <MDBNavbarItem>
+              <li><Link to="/bookings">Bookings</Link></li>
+            </MDBNavbarItem>
+
+            <MDBNavbarItem>
+              <li><Link to="/meetandgreets">Meet and Greets</Link></li>
+            </MDBNavbarItem>
+
+            <MDBNavbarItem>
+              <li><Link to="/services">Our Services</Link></li>
+            </MDBNavbarItem>
+          </MDBNavbarNav>
+
+          <MDBNavbarNav className='d-flex ml-auto w-auto'>
+            <MDBNavbarItem style={{ padding : '0 0.5rem'}}>
+              <li><Link to="/profile"><text><FontAwesomeIcon icon={faUser}/></text></Link></li>
+            </MDBNavbarItem>
+
+            <MDBNavbarItem style={{ padding : '0 0.5rem'}}>
+            <li><Link to="/notifications"><text><FontAwesomeIcon icon={faBell}/></text></Link></li>
+            </MDBNavbarItem>
+
+            <MDBNavbarItem>
+              <li className="right"><Link to="/help">Help</Link></li>
+            </MDBNavbarItem>
+
+            <MDBNavbarItem>
+              <li className="right"><Link to="/logout">Logout</Link></li>
+            </MDBNavbarItem>
+          </MDBNavbarNav>
+        </MDBCollapse>
       )
     }
   }
 
   return (
     <MDBNavbar expand='lg' bgColor='E4E2F5'>
-      <a href="/" className="navbar-brand">
-        <img src={logo} className="logo" />
-        PetSociety
-      </a>
-      {links(loggedInUser)}
+      <MDBContainer fluid>
+        <a href="/" className="navbar-brand">
+          <img src={logo} className="logo" />
+          PetSociety
+        </a>
+
+        <MDBNavbarToggler
+          aria-controls='navbarSupportedContent'
+          aria-expanded='false'
+          aria-label='Toggle navigation'
+          onClick={() => setShowNavbar(!showNavbar)}
+        >
+          <img src={hamburgerMenu}
+            width='20'
+            height='20' />
+        </MDBNavbarToggler>
+
+        {links(loggedInUser)}
+      </MDBContainer>
     </MDBNavbar>
   );
 }

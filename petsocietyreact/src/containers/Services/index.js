@@ -5,7 +5,6 @@ import { Button } from 'reactstrap';
 import { MDBCol, MDBRow, MDBTypography, MDBBtn } from 'mdb-react-ui-kit';
 import { Link, Route, Routes } from 'react-router-dom';
 import Footer from '../../components/Footer';
-import ResponsiveNavbar from '../../components/ResponsiveNavbar/index.js';
 
 
 function Services() {

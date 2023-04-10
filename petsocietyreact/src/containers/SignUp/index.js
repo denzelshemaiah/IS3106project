@@ -9,7 +9,9 @@ import {
   MDBInput,
   MDBCheckbox,
   MDBTypography,
-  MDBCardImage
+  MDBCardImage,
+  MDBTextArea,
+  MDBRadio
 }
   from 'mdb-react-ui-kit';
 import { MDBCard } from 'mdbreact';
@@ -31,6 +33,26 @@ function SignUp(props) {
 
   const redirect3 = () => {
     let path = '/SignUp/3';
+    navigate(path);
+  }
+
+  const redirect4 = () => {
+    let path = `/SignUp/Sitter`;
+    navigate(path);
+  }
+
+  const redirect5 = () => {
+    let path = `/SignUp/ExpForm`;
+    navigate(path);
+  }
+
+  const redirect6 = () => {
+    let path = `/SignUp/SafetyForm`;
+    navigate(path);
+  }
+
+  const redirect7 = () => {
+    let path = `/SignUp/Authentication`;
     navigate(path);
   }
 
@@ -176,7 +198,7 @@ function SignUp(props) {
     e.preventDefault();
     Api.createNewParent(user, petParent)
       .then((data) => {
-        navigate("/LoggedInHomepage");
+        navigate("/CreatePet");
       })
   }
 
@@ -189,6 +211,9 @@ function SignUp(props) {
   // Attributes
   const [serviceAddress, setServiceAddress] = useState("");
   const [region, setRegion] = useState("");
+  const [petPreference, setPetPreference] = useState("");
+  const [maxWeightPreference, setMaxWeightPreference] = useState("");
+  const [maxNumPets, setMaxNumPets] = useState("");
   const [preference, setPreference] = useState("");
   const [schedule, setSchedule] = useState([]);
   const [rate, setRate] = useState([]);
@@ -204,7 +229,9 @@ function SignUp(props) {
       petSitterAttributes: {
         serviceAddress: serviceAddress,
         region: region,
-        preference: preference,
+        petPreference: petPreference,
+        maxWeightPreference: maxWeightPreference,
+        maxNumPets: maxNumPets,
         schedule: schedule,
         rate: rate,
         service: service,
@@ -246,7 +273,7 @@ function SignUp(props) {
 
   // expForm
   const [yearsOfExperience, setYearsOfExperience] = useState("");
-  const [headline, setHeadLine] = useState("");
+  const [headline, setHeadline] = useState("");
   const [experience, setExperience] = useState("");
 
    // safetyForm
@@ -285,10 +312,10 @@ function SignUp(props) {
    // Frontend Creation of Sitter 
    const handleCompletePetSitterCreation = (e) => {
     handleCompleteUserCreation(e);
-    handleRegistrationOfSitter(e);
     handleCreationOfAuthenReq(e);
     handleCreationOfExperienceForm(e);
     handleCreationOfSafetyForm(e);
+    handleRegistrationOfSitter(e); 
 }
 
   // Backend Creation of Sitter
@@ -656,7 +683,8 @@ function SignUp(props) {
                     <div class="row">
                       <div class="col">
                         <button class="btn btn-primary w-100"
-                          style={{ backgroundColor: '#F3F5F4', padding: '20px 40px' }}>
+                          style={{ backgroundColor: '#F3F5F4', padding: '20px 40px' }}
+                          onClick={redirect4}>
                           <img src="https://static.thenounproject.com/png/1138226-200.png"
                             alt="Image"
                             width="250"
@@ -677,18 +705,11 @@ function SignUp(props) {
     )
   }
 
-  // fill in petSitter attributes here in this page
-  else if (page === "5") {
+  // Pet Sitter Pages 
+  else if (page === "Sitter") {
     return (
       <>
-        <h1>test2</h1>
-      //put below in a method:
-        {/* <button onClick={handleCreationOfSitter}>
-          Submit
-        </button> */}
-      // redirect 2 sitter homepage
-
-        <div className="row pt-3 pb-5 mx-auto">
+      <div className="row pt-3 pb-5 mx-auto">
           <div className="col-md-2"></div>
           <div className="col-md-8">
             <div className="w-100 text-center">
@@ -699,7 +720,7 @@ function SignUp(props) {
           <div className="col-md-2"></div>
         </div>
 
-        <form onSubmit={handleCreationOfSitter}>
+      <form onSubmit={handleCompletePetSitterCreation}>
           <MDBContainer fluid className='h-custom'>
 
             <MDBRow className='d-flex justify-content-center align-items-center h-100'>
@@ -709,38 +730,97 @@ function SignUp(props) {
                   <MDBCardBody className='p-0'>
 
                     <MDBRow>
-                      <div className="mb-1">
-                        <label htmlFor="gridCheck" className="form-label">
-                          I want to provide
-                        </label>
-                      </div>
+                      <MDBCol md='6' className='p-5 bg-gray rounded-start' style={{ backgroundColor: '#e8e6f2' }}>
+                        <h3 className="fw-bold mb-5" style={{ color: '#bbb4ed' }}>Sitter Information</h3>
+                        
+                        <MDBRow>
+                          <h7 className="fw-bold" style={{ color: '#39335c' }}>I want to provide</h7>
 
-                      <div className="mb-6">
-                        <DropdownButton id="dropdown-basic-button" title="Service" variant="light">
-                          <Dropdown.Item href="#action-1">Daycare</Dropdown.Item>
-                          <Dropdown.Item href="#action-2">Boarding</Dropdown.Item>
-                          <Dropdown.Item href="#action-3">Drop-in Visits</Dropdown.Item>
-                          <Dropdown.Item href="#action-3">Dog Walker</Dropdown.Item>
-                        </DropdownButton>
-                      </div>
+                          <div className="mb-6">
+                            <DropdownButton id="dropdown-basic-button" title="Select Service" variant="light">
+                              <Dropdown.Item href="#action-1">Daycare</Dropdown.Item>
+                              <Dropdown.Item href="#action-2">Boarding</Dropdown.Item>
+                              <Dropdown.Item href="#action-3">Drop-in Visits</Dropdown.Item>
+                              <Dropdown.Item href="#action-3">Dog Walker</Dropdown.Item>
+                            </DropdownButton>
+                          </div>
+                        </MDBRow>
 
-                      <MDBRow>
-                        <div className="mb-1">
-                          <label htmlFor="gridCheck" className="form-label">
-                            Pet Preference
-                          </label>
-                        </div>
+                        <MDBRow>
+                          <MDBCol md='9'>
+                            <MDBInput wrapperClass='mb-4'
+                            labelClass='text-black' label='Service Address' size='lg' id='inputServiceAddress' type='text'
+                            value={serviceAddress}
+                            onChange={(e) => setServiceAddress(e.target.value)} />
+                          </MDBCol>
 
-                        <Form>
-                          <Form.Group controlId="formBasicCheckbox">
-                            <Form.Check type="checkbox" label="Dogs and Cats" checked={false} />
-                            <Form.Check type="checkbox" label="Dogs only" checked={false} />
-                            <Form.Check type="checkbox" label="Cats only" checked={false} />
-                          </Form.Group>
-                        </Form>
+                          <MDBCol md='3'>
+                            <div className="mb-6">
+                              <DropdownButton id="dropdown-basic-button" title="Region" variant="light">
+                                <Dropdown.Item href="#action-1">NORTH</Dropdown.Item>
+                                <Dropdown.Item href="#action-2">SOUTH</Dropdown.Item>
+                                <Dropdown.Item href="#action-3">EAST</Dropdown.Item>
+                                <Dropdown.Item href="#action-3">WEST</Dropdown.Item>
+                                <Dropdown.Item href="#action-3">CENTRAL</Dropdown.Item>
+                              </DropdownButton>
+                            </div>
+                          </MDBCol>
+                        </MDBRow>
 
-                      </MDBRow>
+                        <MDBRow>
+                          <h5 className="fw-bold" style={{ color: '#39335c' }}>Preferences</h5>
+                          <h7 className="fw-bold" style={{ color: '#39335c' }}>Pet Preference</h7>
+                          <Form>
+                            <Form.Group controlId="formBasicCheckbox">
+                              <Form.Check type="checkbox" label="Dogs and Cats" checked={false} />
+                              <Form.Check type="checkbox" label="Dogs only" checked={false} />
+                              <Form.Check type="checkbox" label="Cats only" checked={false} />
+                            </Form.Group>
+                          </Form>
+                        </MDBRow>
 
+                        <MDBRow>
+                          <h7 className="fw-bold" style={{ color: '#39335c' }}>Max Weight (in kg, per pet)</h7>
+                          <MDBCol md='6'>
+                            <MDBInput wrapperClass='mb-3' label='Max Weight' size='lg' id='inputMaxWeight' type='text'
+                              value={maxWeightPreference}
+                              onChange={(e) => setMaxWeightPreference(e.target.value)} />
+                          </MDBCol>
+
+                          <MDBCol md='6'>
+                            <h7 className="fw-bold" style={{ color: '#39335c' }}>Max Number of Pets</h7>
+                            <MDBInput wrapperClass='mb-3' label='Max Number' size='lg' id='inputMaxNumPets' type='text'
+                              value={maxNumPets}
+                              onChange={(e) => setMaxNumPets(e.target.value)} />
+                          </MDBCol>
+                        </MDBRow>
+                      </MDBCol>
+
+
+                      <MDBCol md='6' className='p-5 rounded-end' style={{ backgroundColor: '#8379c7' }}>
+                        <h3 className="fw-bold mb-5 text-white" style={{ color: '#4835d4' }}>Service Information</h3>
+                        <MDBRow>
+                          <MDBCol md='6'>
+                            <h7 className="fw-bold" style={{ color: '#39335c' }}>Preferred Rate Per Service</h7>
+                            <MDBInput wrapperClass='mb-4' labelClass='text-white' label='Rate' size='lg' id='inputRate' type='text'
+                            value={rate}
+                            onChange={(e) => setRate(e.target.value)} />  
+                          </MDBCol>
+                        </MDBRow>
+
+                        <MDBRow>
+                          <h7 className="fw-bold" style={{ color: '#39335c' }}>Schedule</h7>
+                          <h7 className="fw-bold" style={{ color: '#39335c' }}>//havent inserted!</h7>
+                        </MDBRow>
+
+                        <MDBBtn color='light' size='lg'
+                          type="submit"
+                          onClick={redirect5}
+                        >
+                          Next
+                        </MDBBtn>
+
+                      </MDBCol>
                     </MDBRow>
 
                   </MDBCardBody>
@@ -751,6 +831,153 @@ function SignUp(props) {
 
           </MDBContainer>
         </form>
+      </>
+    )
+  } else if (page === "ExpForm") {
+    return (
+    <>
+    <form onSubmit={handleCompletePetSitterCreation}>
+      <MDBContainer fluid>
+
+        <MDBRow className='d-flex justify-content-center align-items-center'>
+
+          <MDBCol lg='8' style={{ backgroundColor: '#8379c7' }}>
+
+            <MDBCard className='my-5 rounded-3' style={{maxWidth: '800px'}}>
+              <MDBCardImage src='https://images.unsplash.com/photo-1548199973-03cce0bbc87b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=869&q=80'
+              className='w-100 rounded-top'  alt="Sample photo"/>
+
+              <h3>PetSociety takes pride in matching Pet Parents to the best Pet Sitters!</h3>
+              <h8>We would like to get to know you and your experiences better.</h8>
+
+              <MDBCardBody className='px-5'>
+                <MDBRow>
+                  <h5>Years of Experience</h5>
+                  <MDBCol md="2">
+                    <MDBInput wrapperClass='mb-4' label='Years' id='inputYearsOfExperience' type='text'
+                    value={yearsOfExperience} 
+                    onChange={(e) => setYearsOfExperience(e.target.value)}/>
+                  </MDBCol>
+                </MDBRow>
+
+                <MDBRow>
+                  <h5>Testimonials</h5>
+                </MDBRow>
+              
+                <MDBRow>
+                  <MDBCol md='12'>
+                    <h8>Headline</h8>
+                    <MDBInput wrapperClass='mb-4' label='Headline' id='inputHeadline' type='text'
+                    value={headline} 
+                    onChange={(e) => setHeadline(e.target.value)}/>
+                  </MDBCol>
+                </MDBRow>
+
+                <MDBRow>
+                  <h8>Description</h8>
+                  <MDBCol md='12'>
+                  
+                  <MDBTextArea className="mb-4" label='Describe your experience' rows={4}
+                  value={experience} 
+                  onChange={(e) => setExperience(e.target.value)}/>
+                  </MDBCol>
+                </MDBRow>
+
+                <MDBBtn color='secondary' className='mb-4' size='lg' 
+                type='submit' 
+                onClick={redirect6}>Next</MDBBtn>
+
+              </MDBCardBody>
+            </MDBCard>
+
+          </MDBCol>
+        </MDBRow>
+
+      </MDBContainer>
+    </form>  
+
+    </>
+    )
+  } else if (page === "SafetyForm") {
+    return (
+      <>
+      <form onSubmit={handleCompletePetSitterCreation}>
+        <h1>safety form UI</h1>
+
+        <MDBContainer fluid>
+
+        <MDBRow className='d-flex justify-content-center align-items-center'>
+
+          <MDBCol lg='8'>
+
+            <MDBCard className='my-5 rounded-3' style={{maxWidth: '800px'}}>
+              <MDBCardImage src='https://images.unsplash.com/photo-1548199973-03cce0bbc87b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=869&q=80'
+              className='w-100 rounded-top'  alt="Sample photo"/>
+
+              <h3>SAFETY FORM</h3>
+              <h8>We would like to get to know you and your experiences better.</h8>
+
+              <MDBCardBody className='px-5'>
+                <MDBRow style={{ height: "20vh" }}>
+                  <h8>I am vaccinated from rabies.</h8>
+                  <MDBCol md="12">
+                  <Form>
+                          <Form.Group controlId="formBasicCheckbox">
+                            <Form.Check type="checkbox" label="Yes" checked={false} />
+                            <Form.Check type="checkbox" label="No" checked={false} />
+                          </Form.Group>
+                        </Form>     
+                  </MDBCol>
+                </MDBRow>
+
+                <MDBRow style={{ height: "20vh" }}>
+                  <h8>I am ....</h8>
+                  <MDBCol md="12">
+                  <Form>
+                          <Form.Group controlId="formBasicCheckbox">
+                            <Form.Check type="checkbox" label="Yes" checked={false} />
+                            <Form.Check type="checkbox" label="No" checked={false} />
+                          </Form.Group>
+                        </Form>     
+                  </MDBCol>
+                </MDBRow>
+
+                <MDBRow style={{ height: "20vh" }}>
+                  <h8>I am .....</h8>
+                  <MDBCol md="12">
+                  <Form>
+                    <Form.Group controlId="formBasicCheckbox">
+                      <Form.Check type="checkbox" label="Yes" checked={false} />
+                      <Form.Check type="checkbox" label="No" checked={false} />
+                    </Form.Group>
+                  </Form>     
+                  </MDBCol>
+                </MDBRow>
+
+                <MDBBtn color='secondary' className='mb-4' size='lg' type='submit'
+                onClick={redirect7}>Next</MDBBtn>
+
+              </MDBCardBody>
+            </MDBCard>
+
+          </MDBCol>
+        </MDBRow>
+
+      </MDBContainer>
+      </form>  
+      </>
+    )
+  } else if (page === "Authentication") {
+    return (
+      <>
+      <h1>authentication form UI</h1>
+      <form onSubmit={handleCompletePetSitterCreation}>
+
+      </form>
+        
+        <button onClick={redirect7}>
+                          Submit
+                        </button>
       </>
     )
   }
