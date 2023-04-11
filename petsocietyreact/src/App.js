@@ -13,6 +13,7 @@ import MakeBooking from "./containers/MakeBooking"
 import LoggedInHomepage from './containers/LoggedInHomepage';
 import CreatePet from './containers/CreatePet';
 import Profile from './containers/Profile';
+import Homepage from './containers/Homepage';
 
 
 function App() {
@@ -43,8 +44,10 @@ function App() {
           <Route path="/meetandgreets" element={<MeetAndGreets />} />
           <Route path="/makebooking" element={<MakeBooking />} />
           <Route path="/loggedInHomepage" element={<LoggedInHomepage />} />
+          <Route path="/Homepage" element={<Homepage />} /> 
           <Route path="/createPet" element={<CreatePet />} />
           <Route path="/profile" element={<Profile />} />
+          
         </Routes>
       </div>
     </>

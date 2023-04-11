@@ -29,7 +29,7 @@ public class ExperienceForm implements Serializable {
     @Column(nullable = false)
     private Integer yearsOfExperience;
     @Column(nullable = false)
-    @Size(max = 20)
+    @Size(max = 50)
     private String headline;
     @Column(nullable = false)
     @Size(max = 500)
@@ -48,7 +48,6 @@ public class ExperienceForm implements Serializable {
         this.experience = experience;
     }
 
-    
     public Long getExpFormId() {
         return expFormId;
     }

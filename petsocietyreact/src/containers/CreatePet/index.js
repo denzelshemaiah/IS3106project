@@ -25,8 +25,10 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
+import '../../loading.css';
 
 function CreatePet() {
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
     const [typeOfPet, setTypeOfPet] = useState('1');
@@ -104,10 +106,15 @@ function CreatePet() {
     }
 
     const handleCreationOfPet = (e) => {
+        e.preventDefault();
+        setIsLoading(true);
         Api.createNewPet(pet)
             .then((data) => {
                 navigate("/Profile");
             })
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 3000);
     }
 
     return (
@@ -605,15 +612,26 @@ function CreatePet() {
                                         <h6 className="pb-2">Medication (select all that apply)</h6>
 
                                         <MDBCol md='3'>
-                                            <MDBCheckbox label="Pill" />
+                                            <MDBCheckbox label="Pill"
+                                                id='inputMedicationPill'
+                                                value='1'
+                                                checked={medication === '1'}
+                                                onChange={(e) => setMedication(e.target.value)} />
                                         </MDBCol>
 
                                         <MDBCol md='3'>
-                                            <MDBCheckbox label="Topical" />
+                                            <MDBCheckbox label="Topical"
+                                                id='inputMedicationTopical'
+                                                value='2'
+                                                checked={medication === '2'}
+                                                onChange={(e) => setMedication(e.target.value)} />
                                         </MDBCol>
 
                                         <MDBCol md='3'>
-                                            <MDBCheckbox label="Injection" />
+                                            <MDBCheckbox label="Injection"
+                                                value='3'
+                                                checked={medication === '3'}
+                                                onChange={(e) => setMedication(e.target.value)} />
                                         </MDBCol>
 
                                     </MDBRow>
@@ -637,14 +655,14 @@ function CreatePet() {
                                         </h5>
                                         <small class="text-muted">Add your vets name, address, and phone number</small>
                                     </div>
-                                    
-                                    <MDBRow> 
+
+                                    <MDBRow>
                                         <MDBTextArea wrapperClass='mb-4'
                                             label="Add your vets name, address, and phone number"
-                                            id='inputAdditionalSitterInformation'
+                                            id='inputVetDetails'
                                             rows={4}
-                                            value={additionalSitterInformation}
-                                            onChange={(e) => setAdditionalSitterInformation(e.target.value)}>
+                                            value={vetDetails}
+                                            onChange={(e) => setVetDetails(e.target.value)}>
                                         </MDBTextArea>
                                     </MDBRow>
 
@@ -657,10 +675,30 @@ function CreatePet() {
                                         </h5>
                                         <small class="text-muted">Show off your pet by adding photos and curating photos taken during your bookings.</small>
                                     </div>
-                                    <MDBFile label='Large file input example' size='lg' id='formFileLg' />
-                            </div>
+                                    <MDBFile label='Add photos here'
+                                        size='lg'
+                                        id='formFileLg'
+                                        value={photos}
+                                        onChange={(e) => setPhotos(e.target.value)}
+                                    />
+                                </div>
 
-                                <MDBBtn className='mb-4' size='lg'>Submit</MDBBtn>
+                                <div>
+                                    <MDBRow className='justify-content-center p-2'>
+                                        <MDBCol md='2'>
+                                            <MDBBtn className='mb-4 btn-primary'
+                                                size='lg'
+                                                type="submit">
+                                                Save Pet
+                                            </MDBBtn>
+                                            {isLoading && (
+                                                <div className="loading-overlay">
+                                                    <img src={process.env.PUBLIC_URL + '/loadingAnimation.gif'} alt="Loading" className="loading-gif" />
+                                                </div>
+                                            )}
+                                        </MDBCol>
+                                    </MDBRow>
+                                </div>
 
                             </MDBCardBody>
                         </MDBCard>

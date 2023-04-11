@@ -12,6 +12,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.enterprise.context.RequestScoped;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.core.MediaType;
 import session.SafetyFormSessionBeanLocal;
@@ -31,7 +32,7 @@ public class SafetyFormResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public SafetyForm createNewSafetyForm(SafetyForm safetyForm) {
+    public SafetyForm createNewSafetyForm(@FormParam("safetyForm") SafetyForm safetyForm) {
         safetyFormSessionBeanLocal.createNewSafetyForm(safetyForm);
         return safetyForm;
     }
