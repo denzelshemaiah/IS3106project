@@ -134,14 +134,20 @@
     padding-left: 50px;
 }
 
+.search-users-card {
+    padding-top: 40px;
+}
+
 .search-param-menu {
+    border-radius: 10px;
     width: 8in;
     padding: 15px;
+    background-color: white;
 }
 
 .search-users-res {
     width: 99%;
-    padding-bottom: 15px;
+    padding-bottom: 60px;
 }
 
 .disable-button {
@@ -166,9 +172,14 @@
 }
 
 .acceptButton {
+    border-radius: 5px;
     background-color: #E4E2F5; 
     border-color: transparent; 
     color: black; 
     padding: 7px; 
     font-size: 12px
+}
+
+.navbar-bottom {
+    margin: auto 0;
 }
