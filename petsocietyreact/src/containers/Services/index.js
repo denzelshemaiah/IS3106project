@@ -69,6 +69,7 @@ function Services() {
           <MDBRow className='p-5 align-items-end'>
             <MDBCol md='1'></MDBCol>
             <MDBCol md='2' className='offset-md-2 offset-lg-0 text-end mt-5'>
+
               <MDBBtn
                 class="btn btn-primary w-100 btn-rounded"
                 style={{
@@ -76,10 +77,12 @@ function Services() {
                   padding: '15px 20px',
                 }}
               >
-               <b>Register Now!</b> 
+               <a href="/#/SignUp/1" style={{color : 'white'}}><b>Register Now!</b></a> 
               </MDBBtn>
+
             </MDBCol>
             <MDBCol md='2' className='offset-md-2 offset-lg-0 text-end mt-5'>
+            <Link to="/SignUp/1">
               <MDBBtn
                 class="btn btn-primary w-100 btn-rounded"
                 style={{
@@ -89,6 +92,7 @@ function Services() {
               >
                 <b>See More</b>
               </MDBBtn>
+              </Link>
             </MDBCol>
           </MDBRow>
         </div> 
