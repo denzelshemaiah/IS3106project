@@ -404,9 +404,11 @@ function CreatePet() {
                                     <MDBRow md='8'>
                                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                                             <DemoContainer components={['DatePicker']}>
-                                                <DatePicker label="Adoption Date"
-                                                    value={dayJsAdoptionDate}
-                                                    onChange={(e) => setDayJsAdoptionDate(e.target.value)} />
+                                                <DatePicker
+                                                label="Adoption Date"
+                                                value={dayJsAdoptionDate}
+                                                onChange={(newDate) => setDayJsAdoptionDate(newDate)}>
+                                                </DatePicker>
                                             </DemoContainer>
                                         </LocalizationProvider>
                                     </MDBRow>
