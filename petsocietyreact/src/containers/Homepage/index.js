@@ -1,15 +1,19 @@
-
+import React from 'react';
+import homepage from '../../icons/homepage.png';
 
 
 function Homepage() {
   return (
     <>
-
       <div className="bg-image" style={{
-        backgroundImage: `url(${process.env.PUBLIC_URL}/homepage.png)`,
-        backgroundSize: 'cover'
+        backgroundImage: `url(${homepage})`,
+        backgroundSize: 'cover',
+        height: '80vh',
+        width: '100%',
+        display: 'block'
       }}>
       </div>
+      <h1>test</h1>
     </>
   )
 };
