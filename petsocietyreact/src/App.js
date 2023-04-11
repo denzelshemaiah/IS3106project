@@ -1,6 +1,6 @@
 import './App.css';
 import { Routes, Route, Navigate } from "react-router-dom";
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import NoLoginNavbar from './components/NoLoginNavbar';
 import Navbar from './components/Navbar'
 import SearchSitter from "./containers/SearchSitter";
@@ -15,6 +15,8 @@ import LoggedInHomepage from './containers/LoggedInHomepage';
 import CreatePet from './containers/CreatePet';
 import Profile from './containers/Profile';
 import Homepage from './containers/Homepage';
+import Footer from './components/Footer';
+import { react } from '@babel/types';
 
 
 function App() {
@@ -31,20 +33,24 @@ function App() {
 
   if (user === null) {
     navbar = <NoLoginNavbar></NoLoginNavbar>
-    routeList = 
-    (<Routes>
-      <Route path="/signIn" element={<SignIn />} />
-      <Route path="/signUp/:page" element={<SignUp />} />
+    routeList =
+      (<Routes>
+        <Route path="/signIn" element={<SignIn />} />
+        <Route path="/signUp/:page" element={<SignUp />} />
 
-      <Route path="/searchSitter" element={<SearchSitter />} />
-      <Route path="/services" element={<Services />} />
-      <Route path="/help" element={<Help />} />
-    </Routes>);
+        <Route path="/searchSitter" element={<SearchSitter />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/help" element={<Help />} />
+
+        <Route exact path="/" element={<Homepage/>}>
+        </Route>
+
+      </Routes>);
   } else {
     navbar = <Navbar role={userRole} user={user}></Navbar>
-    console.log({userRole})
+    console.log({ userRole })
     routeList =
-    (<Routes>
+      (<Routes>
         <Route path="/bookings" element={<Bookings />} />
         <Route path="/meetandgreets" element={<MeetAndGreets />} />
         <Route path="/makebooking" element={<MakeBooking />} />
@@ -54,12 +60,12 @@ function App() {
         <Route path="/searchSitter" element={<SearchSitter />} />
         <Route path="/services" element={<Services />} />
         <Route path="/help" element={<Help />} />
-    </Routes>)
+      </Routes>)
   }
 
 
   return (
-    <> 
+    <>
       {navbar}
       <div className='container'>
         {routeList}
