@@ -1,4 +1,3 @@
-/*
 import React, { useState, useEffect } from 'react';
 import { Navigate, useParams, useNavigate } from "react-router-dom";
 import {
@@ -67,11 +66,13 @@ function Profile() {
     setBirthday(event.target.value);
   }
 
+  // need to link edit pet/add pet here
+
   return (
     <></>
   )
 }
     
 export default Profile;
-*/
+
         
