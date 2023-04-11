@@ -14,6 +14,7 @@ import MakeBooking from "./containers/MakeBooking"
 import LoggedInHomepage from './containers/LoggedInHomepage';
 import CreatePet from './containers/CreatePet';
 import Profile from './containers/Profile';
+import Homepage from './containers/Homepage';
 
 
 function App() {

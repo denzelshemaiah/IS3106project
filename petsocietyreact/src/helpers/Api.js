@@ -14,29 +14,29 @@ const Api = {
         });
     }, */
 
-    // // creation of petParent
-    // createNewParent(data) {
-    //     return fetch(`${SERVER_PREFIX}/users/petparent`, {
-    //         headers: {
-    //             Accept: "application/json",
-    //             "Content-Type": "application/json",
-    //         },
-    //         method: "POST",
-    //         body: JSON.stringify(data),
-    //     });
-    // },
+    // creation of petParent
+    createNewParent(data) {
+        return fetch(`${SERVER_PREFIX}/users/petparent`, {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            method: "POST",
+            body: JSON.stringify(data),
+        });
+    },
 
     // // creation of petSitter
-    // createNewSitter(data) {
-    //     return fetch(`${SERVER_PREFIX}/users/petsitter`, {
-    //         headers: {
-    //             Accept: "application/json",
-    //             "Content-Type": "application/json",
-    //         },
-    //         method: "POST",
-    //         body: JSON.stringify(data),
-    //     });
-    // }, 
+    createNewSitter(data) {
+        return fetch(`${SERVER_PREFIX}/users/petsitter`, {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            method: "POST",
+            body: JSON.stringify(data),
+        });
+    },
 
     async userLogin(credentials) {
         console.log(credentials)
@@ -95,7 +95,7 @@ const Api = {
             body: JSON.stringify(data),
         });
     },
-    
+
     createAndAssociateNewAuthenReq(data) {
         return fetch(`${SERVER_PREFIX}/authenReq`, {
             headers: {
@@ -106,7 +106,7 @@ const Api = {
             body: JSON.stringify(data),
         });
     },
-    
+
     createAndAssociateNewExperienceForm(data) {
         return fetch(`${SERVER_PREFIX}/experienceForm`, {
             headers: {
@@ -117,7 +117,7 @@ const Api = {
             body: JSON.stringify(data),
         });
     },
-    
+
     createAndAssociateNewSafetyForm(data) {
         return fetch(`${SERVER_PREFIX}/safetyForm`, {
             headers: {
@@ -128,18 +128,18 @@ const Api = {
             body: JSON.stringify(data),
         });
     },
-    
-   // creation of Pet (already associated with Parent)
-   createNewPet(data) {
-    return fetch(`${SERVER_PREFIX}/pet/createPet`, {
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify(data),
-    }); 
-   },
+
+    // creation of Pet (already associated with Parent)
+    createNewPet(data) {
+        return fetch(`${SERVER_PREFIX}/pet/createPet`, {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            method: "POST",
+            body: JSON.stringify(data),
+        });
+    },
 
     //BOOKINGSSSS
     //view all bookings
