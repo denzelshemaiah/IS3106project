@@ -45,6 +45,7 @@ function HelpPage(props) {
                 </NavItem>
             </Nav>
             <TabContent activeTab={activeTab}>
+                {/* this is the Pet Sitter tab! */}
                 <TabPane tabId="1" style={{ padding: "30px" }}>
                     <Row>
                         <Col sm="4">
@@ -218,6 +219,7 @@ function HelpPage(props) {
 
 
                 <TabPane tabId="2" style={{ padding: "30px" }}>
+                    {/* this is the Pet Parent tab! */}
                     <Row>
                         <Col sm="4">
                             <h5>Starting out</h5>
@@ -238,7 +240,7 @@ function HelpPage(props) {
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="start-flush-headingTwo">
                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#startTwo" aria-expanded="false" aria-controls="flush-collapseStartTwo">
-                                            How do I sign up as a Sitter?
+                                            How do I sign up as a Pet Parent?
                                         </button>
                                     </h2>
                                     <div id="startTwo" class="accordion-collapse collapse" aria-labelledby="start-flush-headingTwo" data-bs-parent="#accordionFlushOne">
@@ -260,7 +262,7 @@ function HelpPage(props) {
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="account-flush-headingOne">
                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accountOne" aria-expanded="false" aria-controls="flush-collapseAccountOne">
-                                            How do i update my profile
+                                            How do I update my profile?
                                         </button>
                                     </h2>
                                     <div id="accountOne" class="accordion-collapse collapse" aria-labelledby="account-flush-headingOne" data-bs-parent="#accordionFlushAccount">
@@ -318,13 +320,78 @@ function HelpPage(props) {
                     </Row>
                     
                     <Row style={{ marginTop: "30px" }}>
+                    <Col sm="4">
+                            <h5>Bookings</h5>
+                            <div class="accordion accordion-flush" id="accordionBookingsParent">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="bookings2-flush-headingOne">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#bookingsParentsOne" aria-expanded="false" aria-controls="bookings2-flush-collapseOne">
+                                            How do I find a sitter?
+                                        </button>
+                                    </h2>
+                                    <div id="bookingsParentsOne" class="accordion-collapse collapse" aria-labelledby="bookings2-flush-headingOne" data-bs-parent="#accordionBookingsParent">
+                                        <div class="accordion-body">
+                                            In the navigation bar, there is a "Search Sitter" option. <br/>
+                                            Upon clicking this, multiple options will be shown to help us <br/>
+                                            filter a perfect sitter for your needs! <br/>
+                                             
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="bookings2-flush-headingTwo">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#bookingsParentsTwo" aria-expanded="false" aria-controls="bookings2-flush-collapseTwo">
+                                            How does cancellation work?
+                                        </button>
+                                    </h2>
+                                    <div id="bookingsParentsTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionBookingsParent">
+                                        <div class="accordion-body">
+                                            Cancellation will be chargeable if cancelled within 72 hours of the booking date. <br/>
+                                            Do note that the time of the booking is not taken into account, and the 72 hours will
+                                            be counted from 12AM of the booking date. <br/>
+                                            Before this time period, cancellation is free.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="bookings2-flush-headingThree">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#bookingsParentsThree" aria-expanded="false" aria-controls="bookings2-flush-collapseThree">
+                                            How do I contact the sitter?
+                                        </button>
+                                    </h2>
+                                    <div id="bookingsParentsThree" class="accordion-collapse collapse" aria-labelledby="bookings2-flush-headingThree" data-bs-parent="#bookings2-flush-collapseThree">
+                                        <div class="accordion-body">
+                                            Contact details will only be shown for upcoming bookings, where the booking has been accepted
+                                            by the sitter.<br/>
+                                            For each booking, clicking the "Contact" button will display the sitter's details in a pop-up dialog.<br/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="bookings2-flush-headingFour">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#bookingsParentsFour" aria-expanded="false" aria-controls="bookings2-flush-collapseFour">
+                                            What are "Meet and Greets"?
+                                        </button>
+                                    </h2>
+                                    <div id="bookingsParentsFour" class="accordion-collapse collapse" aria-labelledby="bookings2-flush-headingFour" data-bs-parent="#bookings2-flush-collapseFour">
+                                        <div class="accordion-body">
+                                            Meet and Greets are a complimentary service offered by PetSociety's trusted sitters.<br/>
+                                            Before making a decision to book a Sitter, you can choose to schedule a Meet and Greet. <br/>
+                                            All Meet and Greets are displayed on your "Meet and Greets" menu. <br/>
+                                            In the case that a Meet and Greet is rejected, you will have the option to edit your initial
+                                            Meet and Greet. <br/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Col>
                         <Col sm="4">
                             <h5> Payment </h5>
                             <div class="accordion accordion-flush" id="accordionFlushPayment">
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="payment-flush-headingOne">
                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#paymentOne" aria-expanded="false" aria-controls="payment-flush-collapseOne">
-                                            Accordion Item #1
+                                            How is the payment processed?
                                         </button>
                                     </h2>
                                     <div id="paymentOne" class="accordion-collapse collapse" aria-labelledby="payment-flush-headingOne" data-bs-parent="#accordionFlushExample">

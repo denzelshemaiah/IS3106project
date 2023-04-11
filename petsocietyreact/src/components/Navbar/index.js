@@ -34,13 +34,6 @@ function Navbar() {
               <li><Link to="/services">Our Services</Link></li>
             </MDBNavbarItem>
 
-            <MDBNavbarItem>
-              <li><Link to="/services">Our Services</Link></li>
-            </MDBNavbarItem>
-
-            <MDBNavbarItem>
-              <li><Link to="/makebooking">Make A Booking</Link></li>
-            </MDBNavbarItem>
           </MDBNavbarNav>
 
           <MDBNavbarNav className='d-flex ml-auto w-auto'>

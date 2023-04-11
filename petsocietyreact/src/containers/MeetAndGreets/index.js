@@ -6,6 +6,7 @@ import { Button, Badge } from "react-bootstrap";
 import RequestModal from "../../components/BookingModals"
 import MgModal from "../../components/MgModals";
 import titleIcon from "./mgTitle.jpeg"
+import moment from "moment-timezone";
 
 
 function MeetAndGreets() {
@@ -31,6 +32,10 @@ function MeetAndGreets() {
         }
     }
 
+    function refreshPage() {
+        window.location.reload(false);
+    }
+
     //gets all the mg data for this user
     const reloadData = () => {
         Api.getAllMeets(chosenTab, userId)
@@ -39,10 +44,10 @@ function MeetAndGreets() {
             for (const mg of mgs) {
                 const {mgReqId, createdDate, mgDate, mgDesc, status, parent, sitter} = mg;
 
-                mg.createdFormat = createdDate.substring(0, createdDate.length - 5);
-                mg.formatDate = mgDate.split("T");
-                //account for auto timezone conversion to UTC by JSON ;-;
-                mg.formatDate = mg.formatDate[0];
+                mg.formatCreated = createdDate.substring(0, createdDate.length - 5)
+                mg.formatMgDate = moment(mgDate, "YYYY-MM-DDTHH:mm:ssZ[UTC]").tz("Asia/Singapore").toDate().toString();
+                mg.formatMgDate = mg.formatMgDate.split(" ");
+                mg.formatMgDate = mg.formatMgDate.slice(0,4).join(" ");
             }
             setRequests(mgs);
         });
@@ -75,14 +80,14 @@ function MeetAndGreets() {
     editButton = (request) => {
         if (user.role === "parent" && (chosenTab === "pending" || chosenTab === "rejected")) {
             return <div style={{width:"110px", float:"right"}}>
-                <MgModal buttonLabel="Edit" mgReq={request} updateState={updateState} reloadData={reloadData}/>
+                <MgModal buttonLabel="Edit" mgReq={request} updateState={updateState} reloadData={reloadData} refreshPage={refreshPage}/>
                 {' '}
             </div>
         } else if (user.role === "sitter") {
             return <div style={{width:"200px", float:"right"}}>
-                <MgModal buttonLabel="Reject" mgReq={request} updateState={updateState} reloadData={reloadData}/>
+                <MgModal buttonLabel="Reject" mgReq={request} updateState={updateState} reloadData={reloadData} refreshPage={refreshPage}/>
                 {' '}
-                <MgModal buttonLabel="Accept" mgReq={request} updateState={updateState} reloadData={reloadData}/>
+                <MgModal buttonLabel="Accept" mgReq={request} updateState={updateState} reloadData={reloadData} refreshPage={refreshPage}/>
             </div>
         }
     }
@@ -92,7 +97,7 @@ function MeetAndGreets() {
     cancelButton = (request) => {
         if (user.role === "parent") {
             return<div style={{width:"110px", float:"right"}}>
-                <MgModal buttonLabel="Cancel" mgReq={request} updateState={updateState} reloadData={reloadData}/>
+                <MgModal buttonLabel="Cancel" mgReq={request} updateState={updateState} reloadData={reloadData} refreshPage={refreshPage}/>
                 {' '}
             </div>
         }
@@ -108,7 +113,7 @@ function MeetAndGreets() {
                 <>  
                     <li className="list-group-item" key={request.mgReqId} style={{padding:"20px"}}>
                         <h5>{request.sitter.firstName} {request.sitter.lastName}</h5>
-                        Request Date: {request.formatDate}<br/>
+                        Request Date: {request.formatMgDate}<br/>
                         <p>{request.mgDesc}</p>
                         {cancelButton(request)}
                         {editButton(request)}

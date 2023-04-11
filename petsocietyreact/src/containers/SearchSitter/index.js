@@ -48,6 +48,7 @@ function SearchSitter(props) {
         }
     };
 
+
     const [searchQuery, setSearchQuery] = useState({});
     const handleSearchQuery = (formData) => {
         setSearchQuery(formData);
@@ -63,7 +64,7 @@ function SearchSitter(props) {
           endDate: null
         },
         numOfPets: "",
-        petSize: [],
+        petSize: "",
         rate: [0, 200],
         repeat: "",
         dayOfWeek:[],
@@ -72,10 +73,12 @@ function SearchSitter(props) {
     });
       
     useEffect(() => {
+        let parentId;
+        
         const fetchUserId = async () => {
           try {
-            const response = await Api.getParentId(parentId);
-            const parentId = response.data.parentId;
+            const response = await Api.getParentId();
+            parentId = response.data.parentId;
             setFormData(prevState => ({
               ...prevState,
               parentId: parentId
@@ -90,13 +93,14 @@ function SearchSitter(props) {
         };
         
         fetchUserId();
-      }, []);
-
-    //handle search sitter form and attach the pet parentid 
-    const handleSearch  = () => {
-        console.log(formData.parentId);
-    }
+      }, [formData]);
     
+    //SearchResult will only show when they user clicks the search button
+    const [showResults, setShowResults] = useState(false);
+    //handle search sitter form and attach the pet parentid 
+    const handleSearch = () => {
+        setShowResults(true);
+    }
 
     const [dropdownOpen1, setDropdownOpen1] = useState(false);
     const [selectedItem1, setSelectedItem1] = useState('DayCare');
@@ -148,14 +152,10 @@ function SearchSitter(props) {
     };
     //finding the min and max weight in the array of weights
     useEffect(() => {
-        const minWeight = Math.min(...petWeights);
         const maxWeight = Math.max(...petWeights);
-        const sizeRange = new Array(2);
-        sizeRange[0] = minWeight;
-        sizeRange[1] = maxWeight;
         setFormData((prevState) => ({
             ...prevState,
-            petSize: sizeRange
+            petSize: maxWeight
           }));
     })
 
@@ -507,7 +507,7 @@ function SearchSitter(props) {
                                             color="primary"
                                             type="submit"
                                             onClick={() => {
-                                                handleSearch();
+                                                handleSearch(true);
                                                 handleSearchQuery(formData);
                                             }}>
                                             Search
@@ -519,8 +519,8 @@ function SearchSitter(props) {
                     </div>
                     </div>
                     <div className="col-md-4" style={{ marginLeft: "-25px" }}>
-                            {/* {showResults && <SearchResults searchQuery={formData} style={{ overflow: "auto" }} />} */}
-                        <SearchResults searchQuery={searchQuery} style={{ float: "right", overflow: "auto" }} />
+                        {showResults && <SearchResults searchQuery={searchQuery} style={{ overflow: "auto" }} />}
+                        {/* <SearchResults searchQuery={searchQuery} style={{ float: "right", overflow: "auto" }} /> */}
                     </div>
                 </div>
         </div>

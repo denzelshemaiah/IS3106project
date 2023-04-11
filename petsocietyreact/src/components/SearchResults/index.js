@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Button, CardTitle, ListGroupItem, ListGroup, CardText, Card, CardBody, CardGroup, CardImg, ButtonGroup } from "reactstrap";
+import { Button, CardTitle, ListGroupItem, ListGroup, CardText, Card, CardBody, CardGroup, CardImg, ButtonGroup, Alert } from "reactstrap";
 import Api from "../../helpers/Api";
 import './style.css';
 import Rating from 'react-rating-stars-component';
@@ -28,7 +28,7 @@ function useSearch(sitters, searchQuery) {
         if (searchQuery.numOfPets && sitter.numOfPets !== searchQuery.numOfPets) {
             return false;
         }
-        if (searchQuery.petSize.length && !searchQuery.petSize.includes(sitter.petSize)) {
+        if (searchQuery.petSize && sitter.petSize > searchQuery.petSize[1]) {
             return false;
         }
         if (searchQuery.repeat && sitter.repeat !== searchQuery.repeat) {
@@ -58,8 +58,6 @@ function SearchResults(props) {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
 
-    const filteredSitters = useSearch(sitters, props.searchQuery);
-
     useEffect(() => {
         Api.getAllPetSitters()
             .then((res) => res.json())
@@ -74,6 +72,19 @@ function SearchResults(props) {
                 }
             );
     }, []);
+    const filteredSitters = useSearch(sitters, props.searchQuery);
+
+    //will show the alert prompt when there are no match
+    const [visible, setVisible] = useState(true);
+    const onDismiss = () => setVisible(false);
+    if (filteredSitters.length === 0) {
+        return (
+            <Alert color="info" isOpen={visible} toggle={onDismiss} className="position-fixed top-0 end-0 m-3">
+                Results doesn't match! Try changing your searching criteria!
+            </Alert>
+        );
+    }
+
     //data init for testing the card
     // const [sitters, setSitters] = useState([{
     //     "userId": 1,
