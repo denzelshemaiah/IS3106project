@@ -1,5 +1,6 @@
 import './App.css';
-import { Routes, Route, Navigate , useRouteError} from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useState, useEffect } from 'react';
 import NoLoginNavbar from './components/NoLoginNavbar';
 import Navbar from './components/Navbar'
 import SearchSitter from "./containers/SearchSitter";
@@ -17,38 +18,51 @@ import Homepage from './containers/Homepage';
 
 
 function App() {
-  function ErrorBoundary() {
-    let error = useRouteError();
-    console.error(error);
-    // Uncaught ReferenceError: path is not defined
-    return <div>Dang!</div>;
+  const [user, setUser] = useState(null);
+  const [userRole, setUserRole] = useState("");
+
+  useEffect(() => {
+    setUser(sessionStorage.getItem('user'));
+    setUserRole(sessionStorage.getItem('user_role'));
+  }, [sessionStorage.getItem('user')])
+
+  let navbar = ''
+  let routeList = ''
+
+  if (user === null) {
+    navbar = <NoLoginNavbar></NoLoginNavbar>
+    routeList = 
+    (<Routes>
+      <Route path="/signIn" element={<SignIn />} />
+      <Route path="/signUp/:page" element={<SignUp />} />
+
+      <Route path="/searchSitter" element={<SearchSitter />} />
+      <Route path="/services" element={<Services />} />
+      <Route path="/help" element={<Help />} />
+    </Routes>);
+  } else {
+    navbar = <Navbar role={userRole} user={user}></Navbar>
+    console.log({userRole})
+    routeList =
+    (<Routes>
+        <Route path="/bookings" element={<Bookings />} />
+        <Route path="/meetandgreets" element={<MeetAndGreets />} />
+        <Route path="/makebooking" element={<MakeBooking />} />
+        <Route path="/loggedInHomepage" element={<LoggedInHomepage />} />
+        <Route path="/createPet" element={<CreatePet />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/searchSitter" element={<SearchSitter />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/help" element={<Help />} />
+    </Routes>)
   }
+
+
   return (
-    <>
-      <Navbar></Navbar>
-      <NoLoginNavbar></NoLoginNavbar>
+    <> 
+      {navbar}
       <div className='container'>
-        <Routes>
-          {/* public routes */}
-          <Route path="/signIn" element={<SignIn />} />
-          <Route path="/signUp/:page" element={<SignUp />} />
-
-          <Route path="/searchSitter" element={<SearchSitter />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/help" element={<Help />} />
-
-          {/* private routes */}
-          <Route path="/bookings" 
-          element={<Bookings />}
-          errorElement={<ErrorBoundary />} />
-          <Route path="/meetandgreets" element={<MeetAndGreets />} />
-          <Route path="/makebooking" element={<MakeBooking />} />
-          <Route path="/loggedInHomepage" element={<LoggedInHomepage />} />
-          <Route path="/Homepage" element={<Homepage />} /> 
-          <Route path="/createPet" element={<CreatePet />} />
-          <Route path="/profile" element={<Profile />} />
-          
-        </Routes>
+        {routeList}
       </div>
     </>
   )

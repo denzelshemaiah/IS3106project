@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./styles.css"
 import logo from "./assets/dog_logo.png"
 import { Link } from "react-router-dom";
@@ -7,14 +8,22 @@ import hamburgerMenu from '../../icons/hamburger_menu.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faBell } from '@fortawesome/free-solid-svg-icons'
 
-function Navbar() {
-  const [loggedInUser, setLoggedInUser] = useState({ role: "parent" });
-  console.log(loggedInUser.role)
+function Navbar(props) {
+  const [loggedInUser, setLoggedInUser] = useState(props.user);
 
   const [showNavbar, setShowNavbar] = useState(false);
 
-  function links(loggedInUser) {
-    if (loggedInUser.role === "parent") {
+  let navigate = useNavigate();
+
+  function handleLogout(e) {
+    e.preventDefault();
+    sessionStorage.removeItem("user")
+    sessionStorage.removeItem("user_role")
+    navigate('/signIn')
+  }
+
+  function links() {
+    if (props.role === '"parent"') {
       return (
         <MDBCollapse navbar show={showNavbar}>
           <MDBNavbarNav className='mr-auto mb-2 mb-lg-0'>
@@ -49,14 +58,14 @@ function Navbar() {
               <li><Link to="/help">Help</Link></li>
             </MDBNavbarItem>
             <MDBNavbarItem>
-              <li><Link to="/logout">Logout</Link></li>
+              <li onClick={(e) => handleLogout(e)}><Link to="/signIn">Logout</Link></li>
             </MDBNavbarItem>
           </MDBNavbarNav>
 
         </MDBCollapse>
       )
-
-    } else if (loggedInUser.role === "sitter") {
+    } else if (props.role === '"sitter"') {
+      console.log("in sitter")
       return (
         <MDBCollapse navbar show={showNavbar}>
           <MDBNavbarNav className='mr-auto mb-2 mb-lg-0'>
@@ -87,7 +96,7 @@ function Navbar() {
             </MDBNavbarItem>
 
             <MDBNavbarItem>
-              <li className="right"><Link to="/logout">Logout</Link></li>
+              <li onClick={(e) => handleLogout(e)}><Link to="/signIn">Logout</Link></li>
             </MDBNavbarItem>
           </MDBNavbarNav>
         </MDBCollapse>
@@ -114,7 +123,7 @@ function Navbar() {
             height='20' />
         </MDBNavbarToggler>
 
-        {links(loggedInUser)}
+        {links()}
       </MDBContainer>
     </MDBNavbar>
   );

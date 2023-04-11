@@ -38,6 +38,30 @@ const Api = {
         });
     },
 
+    async userLogin(credentials) {
+        console.log(credentials)
+        return fetch(`${SERVER_PREFIX}/users/signIn`, {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            method: "POST",
+            body: JSON.stringify(credentials),
+        })
+    },
+
+    getUserRole(data) {
+        console.log(data);
+        return fetch(`${SERVER_PREFIX}/users/userRole`, {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            method: "POST",
+            body: JSON.stringify(data),
+        })
+    },
+
     //retrieve the parentId
     getParentId(parentId) {
         return fetch(`${SERVER_PREFIX}/users/petparent/${parentId}`)

@@ -48,4 +48,6 @@ public interface UserSessionBeanLocal {
 
     public User getPetSitter(Long userId) throws EntityNotFoundException;
     
+    public User userLogin(String email, String password) throws EntityNotFoundException;
+    
 }
