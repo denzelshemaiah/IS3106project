@@ -10,17 +10,17 @@ import ContactModal from "../../components/ContactDetailsModal";
 
 //page to view all bookings, follows a tab view
 function Bookings(props) {
-    const [userId, setUserId] = useState(1);
+    const [userId, setUserId] = useState(JSON.parse(sessionStorage.getItem("user")).userId);
     const [chosenTab, setChosenTab] = useState("pending")
     const [bookings, setBookings] = useState([]);
-    const user = {role : "parent"}
+    const [userRole, setUserRole] = useState(JSON.parse(sessionStorage.getItem("user_role")));
 
     useEffect(() => {
         reloadData();
     }, [chosenTab]);
 
     function otherParty(booking) {
-        if (user.role === "parent") {
+        if (userRole === "parent") {
             return booking.sitter;
         } else {
             return booking.parent;
@@ -64,12 +64,12 @@ function Bookings(props) {
     };
 
     function editButton(booking) {
-        if (user.role === "parent") {
+        if (userRole === "parent") {
             return <div style={{width:"110px", float:"right"}}>
                 <RequestModal buttonLabel="Edit" booking={booking} type="booking" updateState={updateState} reloadData={reloadData} refreshPage={refreshPage}/>
                 {' '}
             </div>
-        } else if (user.role === "sitter") {
+        } else if (userRole === "sitter") {
             return <div style={{width:"200px", float:"right"}}>
                 <RequestModal buttonLabel="Reject" booking={booking} type="booking" updateState={updateState} reloadData={reloadData} refreshPage={refreshPage}/>
                 {' '}
@@ -79,7 +79,7 @@ function Bookings(props) {
     }
 
     function cancelButton(booking) {
-        if (user.role === "parent") {
+        if (userRole === "parent") {
             return<div style={{width:"110px", float:"right"}}>
                 <RequestModal buttonLabel="Cancel" booking={booking} type="booking" updateState={updateState} reloadData={reloadData} refreshPage={refreshPage}/>
                 {' '}
@@ -124,7 +124,7 @@ function Bookings(props) {
     // converts the bookings array to UI form
     const result = bookings.map((booking) => {
         console.log(booking)
-        if (chosenTab === "pending" && user.role === "parent") {
+        if (chosenTab === "pending" && userRole === "parent") {
             return (
                 <>  
                 {/*  CHANGE TO SITTER ! */}
@@ -139,7 +139,7 @@ function Bookings(props) {
                     </li>
                 </>
             )
-        } else if (chosenTab === "pending" && user.role === "sitter") {
+        } else if (chosenTab === "pending" && userRole === "sitter") {
             // can only reject here
             return (
                 <>  
@@ -153,7 +153,7 @@ function Bookings(props) {
                     </li>
                 </>
             )
-        } else if (chosenTab === "upcoming" && user.role === "parent") {
+        } else if (chosenTab === "upcoming" && userRole === "parent") {
             return (
                 <>
                     <li className="list-group-item" key={booking.bookingReqId}  style={{padding:"20px"}}>
@@ -167,7 +167,7 @@ function Bookings(props) {
                     </li>
                 </>
             )
-        } else if (chosenTab === "upcoming" && user.role === "sitter") {
+        } else if (chosenTab === "upcoming" && userRole === "sitter") {
             return ( 
                 <>
                     <li className="list-group-item" key={booking.bookingReqId} style={{padding:"20px"}}>

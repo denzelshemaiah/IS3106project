@@ -1,16 +1,54 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MDBContainer, MDBCol, MDBRow, MDBBtn, MDBIcon, MDBInput, MDBCheckbox, MDBModal, MDBModalDialog, MDBModalContent, MDBModalHeader, MDBModalTitle, MDBModalBody, MDBModalFooter } from 'mdb-react-ui-kit';
 import "./style.css";
+import swal from 'sweetalert';
+import Api from "../../helpers/Api";
 
 function SignIn() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  let navigate = useNavigate();
 
   // remember to import User from SignUp so that password can be changed
   const [forgotPasswordModal, setForgotPasswordModal] = useState(false);
   const toggleShowForgotPassword = () => setForgotPasswordModal(!forgotPasswordModal);
 
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    const response = await Api.userLogin({
+      email, password
+    }). then((res) => res.json());
+    if ('userId' in response) {
+       console.log(response)
+        sessionStorage.setItem('user', JSON.stringify(response));
+        getUserRole(response);
+        navigate("/loggedInHomepage");
+    } else {
+        swal("Failed", response.message, "error", {
+          buttons: false,
+          timer: 2000,
+          toast: true,
+          target: "#error-target",
+          customClass: {
+            container: 'position-absolute'
+          },
+        })
+      }
+    }
+
+    async function getUserRole(user) {
+      const response = await Api.getUserRole(user.userId)
+      .then((res) => res.json())
+      sessionStorage.setItem("user_role", JSON.stringify(response['userRole']))
+      console.log("user role:" + sessionStorage.getItem('user_role'))
+    }
+
   return (
     <>
       <MDBContainer fluid className="p-3 my-5 h-custom">
+        <MDBRow id="#error-target">
+        </MDBRow>
 
         <MDBRow>
 
@@ -24,12 +62,14 @@ function SignIn() {
               label='Email'
               id='formControlLg'
               type='email'
-              size="lg" />
+              size="lg" 
+              onChange={(e) => setEmail(e.target.value)}/>
             <MDBInput wrapperClass='mb-4'
               label='Password'
               id='formControlLg'
               type='password'
-              size="lg" />
+              size="lg"
+              onChange={(e) => setPassword(e.target.value)}/>
 
             <div className="d-flex justify-content-between mb-4">
               <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Remember me' />
@@ -72,7 +112,8 @@ function SignIn() {
 
             <div className='text-center text-md-start mt-4 pt-2'>
               <MDBBtn className="mb-0 px-5"
-                size='lg'>Login
+                size='lg'
+                onClick={(e) => handleLogin(e)}>Login
               </MDBBtn>
               <p className="small fw-bold mt-2 pt-1 mb-2">Don't have an account?
                 <a href="#/SignUp/1" className="link-danger"> Register</a></p>

@@ -8,11 +8,17 @@ import dogBoardingIcon from '../../icons/dog_boarding.png';
 import dogWalkingIcon from '../../icons/dog_walking.png';
 import dogDayCareIcon from '../../icons/dog_daycare.png';
 import dogDropInIcon from '../../icons/dog_dropin.png';
+import { useState, useEffect } from 'react';
 
 function LoggedInHomepage() {
+    const [user, setUser] = useState(sessionStorage.getItem("user"));
+
+    useEffect(() => {
+        setUser(sessionStorage.getItem("user"));
+    }, [user])
+
     return (
         <>
-        
             <div className="bg-image" style={{
                 backgroundImage: `url('https://images.pexels.com/photos/1490908/pexels-photo-1490908.jpeg?cs=srgb&dl=pexels-svetozar-milashevich-1490908.jpg&fm=jpg')`,
                 backgroundSize: 'cover',

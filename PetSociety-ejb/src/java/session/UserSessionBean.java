@@ -146,4 +146,19 @@ public class UserSessionBean implements UserSessionBeanLocal {
         q.setParameter("enum", UserStatusEnum.DISABLED);
         return q.getResultList();
     }
+    
+    @Override
+    public User userLogin(String email, String password) throws EntityNotFoundException {
+        Query q = em.createQuery("SELECT u FROM User u WHERE LOWER(u.email) LIKE LOWER(:email) AND u.password LIKE :password")
+                .setParameter("email", email)
+                .setParameter("password", password);
+        
+        User u = (User) q.getSingleResult();
+        
+        if (u == null) {
+            throw new EntityNotFoundException("Invalid login credentials!");
+        } else {
+            return u;
+        }
+    }
 }
