@@ -17,6 +17,7 @@ import Profile from './containers/Profile';
 import Homepage from './containers/Homepage';
 import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
+import AllSitters from './containers/AllSitters';
 
 
 function App() {
@@ -28,7 +29,7 @@ function App() {
       setUser(JSON.parse(localStorage.getItem("user")));
       setUserRole(JSON.parse(localStorage.getItem("user_role")));
     }
-  
+
     window.addEventListener('storage', handleStorage())
     return () => window.removeEventListener('storage', handleStorage())
   }, [])
@@ -36,41 +37,43 @@ function App() {
   return (
     <>
       <Navbar></Navbar>
-        <div className='container'>
-          <Routes>
-            <Route path="/signIn" element={<SignIn />} />
-            <Route path="/signUp/:page" element={<SignUp />} />
-            <Route path="/bookings" 
+      <div className='container'>
+        <Routes>
+          <Route path ="allSitters" element={<AllSitters/>} />
+          <Route exact path="/" element= {user === null ? <Homepage /> : <LoggedInHomepage />} />
+          <Route path="/signIn" element={<SignIn />} />
+          <Route path="/signUp/:page" element={<SignUp />} />
+          <Route path="/bookings"
             element={
               <ProtectedRoute user={user}>
                 <Bookings />
               </ProtectedRoute>} />
-            <Route path="/meetandgreets" 
+          <Route path="/meetandgreets"
             element={
               <ProtectedRoute user={user}>
                 <MeetAndGreets />
               </ProtectedRoute>} />
-            <Route path="/makebooking" 
+          <Route path="/makebooking"
             element={
               <ProtectedRoute user={user}>
                 <MakeBooking />
               </ProtectedRoute>} />
-            <Route path="/loggedInHomepage"
+          <Route path="/loggedInHomepage"
             element={
               <ProtectedRoute user={user}>
                 <LoggedInHomepage />
               </ProtectedRoute>} />
-            <Route path="/createPet" element={<CreatePet />} />
-            <Route path="/profile" 
+          <Route path="/createPet" element={<CreatePet />} />
+          <Route path="/profile"
             element={
               <ProtectedRoute>
                 <Profile />
               </ProtectedRoute>} />
-            <Route path="/searchSitter" element={<SearchSitter />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/help" element={<Help />} />
-          </Routes>
-        </div>
+          <Route path="/searchSitter" element={<SearchSitter />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/help" element={<Help />} />
+        </Routes>
+      </div>
     </>
   )
 }

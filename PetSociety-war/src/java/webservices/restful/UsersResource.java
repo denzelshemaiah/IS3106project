@@ -110,9 +110,17 @@ public class UsersResource {
 //    }
 
     @GET
+    @Path("/getAllUsers")
     @Produces(MediaType.APPLICATION_JSON)
     public List<User> getAllUsers() {
         return userSessionBean.retrieveAllUsers();
+    }
+
+    @GET
+    @Path("/getAllSitters")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<User> getAllSitters() {
+        return userSessionBean.retrieveAllSitters();
     }
     
     @POST

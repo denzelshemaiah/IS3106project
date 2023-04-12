@@ -29,13 +29,13 @@ public class AuthenReqResource {
     @EJB
     private AuthenticationReqSessionBeanLocal authenticationReqSessionBeanLocal;
 
-//    @POST
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public AuthenticationRequest createNewAuthenticationReq(@FormParam("authenReq") AuthenticationRequest authenReq) {
-////        authenticationReqSessionBeanLocal.createAuthenticationReq(authenReq, userId);
-//        return authenReq;
-//    }
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public AuthenticationRequest createNewAuthenticationReq(AuthenticationRequest authenReq) {
+        authenticationReqSessionBeanLocal.createAuthenticationReq(authenReq);
+        return authenReq;
+    }
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
