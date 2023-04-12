@@ -164,6 +164,12 @@ function SignUp(props) {
       })
   }
 
+  bankAcc = {
+    bankAccNum: bankAccNum,
+    bankName: bankName,
+    accName: accName,
+  }
+
   cc = {
     ccNum: ccNum,
     expDate: expDate,
@@ -202,19 +208,32 @@ function SignUp(props) {
   const [bookings, setBookings] = useState([]);
 
   const petParent = {
-    user,
-    petParentAttributes: {
+      firstName: firstName,
+      lastName: lastName,
+      username: username,
+      contactNum: contactNum,
+      email: email,
+      password: password,
+      age: age,
+      emergencyContact: emergencyContact,
+      profilePicture: profilePicture,
+      billingAddress: billingAddress,
+      bankAcc: bankAcc,
+      cc: cc,
       searches: searches,
       mgRequests: mgRequests,
-      bookings: bookings
-    }
+      bookings: bookings,
+      daysDisabled: 0,
   };
 
   // creation of petparent
   const handleCreationOfParent = (e) => {
     e.preventDefault();
+    console.log(e);
+    console.log(user);
+    console.log(petParent);
     setIsLoading(true);
-    Api.createNewParent(user, petParent)
+    Api.createNewParent(petParent)
       .then((data) => {
         navigate("/CreatePet");
       })
