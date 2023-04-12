@@ -44,6 +44,14 @@ public class AuthenticationReqSessionBean implements AuthenticationReqSessionBea
         em.persist(authenticationReq);
         return authenticationReq;
     }
+    
+    @Override
+    public AuthenticationRequest createAuthenticationReq(AuthenticationRequest authenticationReq) {
+    
+        em.persist(authenticationReq);
+        em.flush();
+        return authenticationReq;
+    }
 
     @Override
     public AuthenticationRequest findAuthenticationReqBySitter(Long sitterId) throws EntityNotFoundException {

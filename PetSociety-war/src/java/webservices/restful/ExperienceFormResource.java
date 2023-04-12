@@ -29,13 +29,13 @@ public class ExperienceFormResource {
     @EJB
     private ExperienceFormSessionBeanLocal experienceFormSessionBeanLocal;
 
-//    @POST
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public ExperienceForm createNewExperienceForm(@FormParam("expForm") ExperienceForm expForm) {
-//        experienceFormSessionBeanLocal.createNewExperienceForm(expForm);
-//        return expForm;
-//    }
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public ExperienceForm createNewExperienceForm(ExperienceForm expForm) {
+        experienceFormSessionBeanLocal.createNewExperienceForm(expForm);
+        return expForm;
+    }
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
