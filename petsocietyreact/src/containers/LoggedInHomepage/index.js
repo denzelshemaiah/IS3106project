@@ -8,27 +8,28 @@ import dogBoardingIcon from '../../icons/dog_boarding.png';
 import dogWalkingIcon from '../../icons/dog_walking.png';
 import dogDayCareIcon from '../../icons/dog_daycare.png';
 import dogDropInIcon from '../../icons/dog_dropin.png';
-import dogHeader from '../../icons/dog_header.png'
 import { useState, useEffect } from 'react';
-import Services from '../Services';
 
 function LoggedInHomepage() {
-    const [user, setUser] = useState(sessionStorage.getItem("user"));
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+    const [userRole, setUserRole] = useState(JSON.parse(localStorage.getItem("user_role")));
 
     useEffect(() => {
-        setUser(sessionStorage.getItem("user"));
-    }, [user])
+        const handleStorage = () => {
+          setUser(JSON.parse(localStorage.getItem("user")));
+          setUserRole(JSON.parse(localStorage.getItem("user_role")));
+        }
+      
+        window.addEventListener('storage', handleStorage())
+        return () => window.removeEventListener('storage', handleStorage())
+      }, [])
 
     return (
         <>
-            <div div className="bg-image" style={{
-                backgroundImage: `url(${dogHeader})`,
+            <div className="bg-image" style={{
+                backgroundImage: `url('https://images.pexels.com/photos/1490908/pexels-photo-1490908.jpeg?cs=srgb&dl=pexels-svetozar-milashevich-1490908.jpg&fm=jpg')`,
                 backgroundSize: 'cover',
-                height: '90vh',
-                width: '100%',
-                padding: '0',
-                margin: '0',
-                display: 'block'
+                height: '100vh',
             }}>
 
                 <MDBTypography tag='div'
@@ -66,10 +67,10 @@ function LoggedInHomepage() {
                                                         alt="Image"
                                                         width="50"
                                                         height="50"
-                                                    >
+                                                        >
                                                     </img>
                                                     <br></br>
-                                                    <span style={{ color: 'black' }}>BOARDING</span>
+                                                    <span style = {{ color: 'black'}}>BOARDING</span>
                                                 </button>
                                             </div>
                                         </div>
@@ -83,10 +84,10 @@ function LoggedInHomepage() {
                                                         alt="Image"
                                                         width="50"
                                                         height="50"
-                                                    >
+                                                        >
                                                     </img>
                                                     <br></br>
-                                                    <span style={{ color: 'black' }}>WALKING</span>
+                                                    <span style = {{ color: 'black'}}>WALKING</span>
                                                 </button>
                                             </div>
                                         </div>
@@ -100,10 +101,10 @@ function LoggedInHomepage() {
                                                         alt="Image"
                                                         width="50"
                                                         height="50"
-                                                    >
+                                                        >
                                                     </img>
                                                     <br></br>
-                                                    <span style={{ color: 'black' }}>DAYCARE</span>
+                                                    <span style = {{ color: 'black'}}>DAYCARE</span>
                                                 </button>
                                             </div>
                                         </div>
@@ -117,22 +118,22 @@ function LoggedInHomepage() {
                                                         alt="Image"
                                                         width="50"
                                                         height="50"
-                                                    >
+                                                        >
                                                     </img>
                                                     <br></br>
-                                                    <span style={{ color: 'black' }}>DROP IN</span>
+                                                    <span style = {{ color: 'black'}}>DROP IN</span>
                                                 </button>
                                             </div>
                                         </div>
                                     </MDBCol>
-                                </MDBRow>s
-
+                                </MDBRow>
+                                
                             </div>
                         </div>
                     </MDBCol>
                 </div>
             </div>
-            <Services></Services>
+            <Footer />
         </>
     )
 }

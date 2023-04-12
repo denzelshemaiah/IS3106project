@@ -3,27 +3,40 @@ import { useNavigate } from "react-router-dom";
 import "./styles.css"
 import logo from "./assets/dog_logo.png"
 import { Link } from "react-router-dom";
-import { MDBCollapse, MDBContainer, MDBNavbar, MDBNavbarItem, MDBNavbarNav, MDBNavbarToggler } from "mdb-react-ui-kit";
+import { MDBCollapse, MDBContainer, MDBNavbar, MDBNavbarItem, MDBNavbarNav, MDBNavbarToggler, MDBNavbarLink } from "mdb-react-ui-kit";
 import hamburgerMenu from '../../icons/hamburger_menu.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faBell } from '@fortawesome/free-solid-svg-icons'
 
-function Navbar(props) {
-  const [loggedInUser, setLoggedInUser] = useState(props.user);
+function Navbar() {
+  const [loggedInUser, setLoggedInUser] = useState(localStorage.getItem("user"));
+  const [userRole, setUserRole] = useState(localStorage.getItem("user_role"))
 
   const [showNavbar, setShowNavbar] = useState(false);
+
+  const [showNoLoginNavbar, setShowNoLoginNavbar] = useState(false);
+
+  useEffect(() => {
+    const handleStorage = () => {
+      setLoggedInUser(JSON.parse(localStorage.getItem("user")));
+      setUserRole(JSON.parse(localStorage.getItem("user_role")));
+    }
+  
+    window.addEventListener('storage', handleStorage())
+    return () => window.removeEventListener('storage', handleStorage())
+  }, [])
 
   let navigate = useNavigate();
 
   function handleLogout(e) {
     e.preventDefault();
-    sessionStorage.removeItem("user")
-    sessionStorage.removeItem("user_role")
+    localStorage.removeItem("user")
+    localStorage.removeItem("user_role")
     navigate('/signIn')
   }
 
   function links() {
-    if (props.role === '"parent"') {
+    if (userRole === "parent") {
       return (
         <MDBCollapse navbar show={showNavbar}>
           <MDBNavbarNav className='mr-auto mb-2 mb-lg-0'>
@@ -64,7 +77,7 @@ function Navbar(props) {
 
         </MDBCollapse>
       )
-    } else if (props.role === '"sitter"') {
+    } else if (userRole === "sitter") {
       console.log("in sitter")
       return (
         <MDBCollapse navbar show={showNavbar}>
@@ -101,6 +114,60 @@ function Navbar(props) {
           </MDBNavbarNav>
         </MDBCollapse>
       )
+    } else if (userRole === null) {
+      return (
+        <>
+          <MDBNavbarToggler
+            aria-controls='navbarSupportedContent'
+            aria-expanded='false'
+            aria-label='Toggle navigation'
+            onClick={() => setShowNoLoginNavbar(!showNoLoginNavbar)}
+          >
+            <img src={hamburgerMenu}
+              width='20'
+              height='20' />
+          </MDBNavbarToggler>
+  
+          <MDBCollapse navbar show={showNoLoginNavbar}>
+            <MDBNavbarNav className='mr-auto mb-2 mb-lg-0'>
+              <MDBNavbarItem>
+                <MDBNavbarLink>
+                  <li><Link to="/searchSitter">Search Sitter</Link></li>
+                </MDBNavbarLink>
+              </MDBNavbarItem>
+  
+              <MDBNavbarItem>
+                <MDBNavbarLink>
+                  <li><Link to="/services">Our Services</Link></li>
+                </MDBNavbarLink>
+              </MDBNavbarItem>
+            </MDBNavbarNav>
+  
+            <MDBNavbarNav className='d-flex ml-auto w-auto'>
+              <MDBNavbarItem>
+                <MDBNavbarLink className='text-nowrap'>
+                  <li><Link to="/signUp/1">Sign Up</Link></li>
+                </MDBNavbarLink>
+              </MDBNavbarItem>
+  
+              <MDBNavbarItem>
+                <MDBNavbarLink className='text-nowrap'>
+                <li><Link to="/signIn">Sign In</Link></li>
+                </MDBNavbarLink>
+              </MDBNavbarItem>
+  
+              <MDBNavbarItem>
+                <MDBNavbarLink className='text-nowrap'>
+                <li><Link to="/help">Help</Link></li>
+                </MDBNavbarLink>
+              </MDBNavbarItem>
+  
+            </MDBNavbarNav>
+  
+          </MDBCollapse>
+        </>
+      );
+
     }
   }
 

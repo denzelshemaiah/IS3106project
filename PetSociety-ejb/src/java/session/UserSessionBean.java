@@ -10,6 +10,7 @@ import entity.PetSitter;
 import entity.User;
 import enumeration.UserStatusEnum;
 import error.UserNotFoundException;
+import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -148,17 +149,13 @@ public class UserSessionBean implements UserSessionBeanLocal {
     }
     
     @Override
-    public User userLogin(String email, String password) throws EntityNotFoundException {
+    public User userLogin(String email, String password) {
         Query q = em.createQuery("SELECT u FROM User u WHERE LOWER(u.email) LIKE LOWER(:email) AND u.password LIKE :password")
                 .setParameter("email", email)
                 .setParameter("password", password);
         
-        User u = (User) q.getSingleResult();
-        
-        if (u == null) {
-            throw new EntityNotFoundException("Invalid login credentials!");
-        } else {
-            return u;
-        }
+        User u = (User) q.getResultList().get(0);
+         
+        return u;
     }
 }

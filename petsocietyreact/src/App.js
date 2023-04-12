@@ -16,60 +16,61 @@ import CreatePet from './containers/CreatePet';
 import Profile from './containers/Profile';
 import Homepage from './containers/Homepage';
 import Footer from './components/Footer';
-import { react } from '@babel/types';
+import ProtectedRoute from './components/ProtectedRoute';
 
 
 function App() {
   const [user, setUser] = useState(null);
-  const [userRole, setUserRole] = useState("");
+  const [userRole, setUserRole] = useState();
 
   useEffect(() => {
-    setUser(sessionStorage.getItem('user'));
-    setUserRole(sessionStorage.getItem('user_role'));
-  }, [sessionStorage.getItem('user')])
-
-  let navbar = ''
-  let routeList = ''
-
-  if (user === null) {
-    navbar = <NoLoginNavbar></NoLoginNavbar>
-    routeList =
-      (<Routes>
-        <Route path="/signIn" element={<SignIn />} />
-        <Route path="/signUp/:page" element={<SignUp />} />
-
-        <Route path="/searchSitter" element={<SearchSitter />} />
-        <Route path="/services" element={<Services />} />
-        <Route path="/help" element={<Help />} />
-
-        <Route exact path="/" element={<Homepage/>}>
-        </Route>
-
-      </Routes>);
-  } else {
-    navbar = <Navbar role={userRole} user={user}></Navbar>
-    console.log({ userRole })
-    routeList =
-      (<Routes>
-        <Route path="/bookings" element={<Bookings />} />
-        <Route path="/meetandgreets" element={<MeetAndGreets />} />
-        <Route path="/makebooking" element={<MakeBooking />} />
-        <Route path="/loggedInHomepage" element={<LoggedInHomepage />} />
-        <Route path="/createPet" element={<CreatePet />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/searchSitter" element={<SearchSitter />} />
-        <Route path="/services" element={<Services />} />
-        <Route path="/help" element={<Help />} />
-      </Routes>)
-  }
-
+    const handleStorage = () => {
+      setUser(JSON.parse(localStorage.getItem("user")));
+      setUserRole(JSON.parse(localStorage.getItem("user_role")));
+    }
+  
+    window.addEventListener('storage', handleStorage())
+    return () => window.removeEventListener('storage', handleStorage())
+  }, [])
 
   return (
     <>
-      {navbar}
-      <div className='container'>
-        {routeList}
-      </div>
+      <Navbar></Navbar>
+        <div className='container'>
+          <Routes>
+            <Route path="/signIn" element={<SignIn />} />
+            <Route path="/signUp/:page" element={<SignUp />} />
+            <Route path="/bookings" 
+            element={
+              <ProtectedRoute user={user}>
+                <Bookings />
+              </ProtectedRoute>} />
+            <Route path="/meetandgreets" 
+            element={
+              <ProtectedRoute user={user}>
+                <MeetAndGreets />
+              </ProtectedRoute>} />
+            <Route path="/makebooking" 
+            element={
+              <ProtectedRoute user={user}>
+                <MakeBooking />
+              </ProtectedRoute>} />
+            <Route path="/loggedInHomepage"
+            element={
+              <ProtectedRoute user={user}>
+                <LoggedInHomepage />
+              </ProtectedRoute>} />
+            <Route path="/createPet" element={<CreatePet />} />
+            <Route path="/profile" 
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>} />
+            <Route path="/searchSitter" element={<SearchSitter />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/help" element={<Help />} />
+          </Routes>
+        </div>
     </>
   )
 }

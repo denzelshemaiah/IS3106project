@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/PetSociety-war/static/css/main.38c2d11c.css",
-    "main.js": "/PetSociety-war/static/js/main.05f190c0.js",
+    "main.js": "/PetSociety-war/static/js/main.295ab4e4.js",
     "static/js/787.bfc8a029.chunk.js": "/PetSociety-war/static/js/787.bfc8a029.chunk.js",
     "static/media/twoPeopleWaving.jpg": "/PetSociety-war/static/media/twoPeopleWaving.46468086ac81f8e60d3a.jpg",
     "static/media/ownerHuggingDog.jpg": "/PetSociety-war/static/media/ownerHuggingDog.73de58cdc1ec32ce4aef.jpg",
@@ -22,11 +22,11 @@
     "static/media/dog_boarding.png": "/PetSociety-war/static/media/dog_boarding.d1dab766526d86a7573a.png",
     "index.html": "/PetSociety-war/index.html",
     "main.38c2d11c.css.map": "/PetSociety-war/static/css/main.38c2d11c.css.map",
-    "main.05f190c0.js.map": "/PetSociety-war/static/js/main.05f190c0.js.map",
+    "main.295ab4e4.js.map": "/PetSociety-war/static/js/main.295ab4e4.js.map",
     "787.bfc8a029.chunk.js.map": "/PetSociety-war/static/js/787.bfc8a029.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.38c2d11c.css",
-    "static/js/main.05f190c0.js"
+    "static/js/main.295ab4e4.js"
   ]
 }

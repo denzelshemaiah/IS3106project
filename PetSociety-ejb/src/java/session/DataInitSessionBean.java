@@ -9,6 +9,7 @@ import entity.AuthenticationRequest;
 import entity.BankAccount;
 import entity.BookingRequest;
 import entity.CreditCard;
+import entity.MeetAndGreetRequest;
 import entity.PetParent;
 import entity.PetSitter;
 import entity.Rating;
@@ -47,6 +48,9 @@ import javax.ejb.Startup;
 public class DataInitSessionBean {
 
     @EJB
+    private MeetAndGreetSessionBeanLocal mgSessionBean;
+
+    @EJB
     private RatingSessionBeanLocal ratingSessionBean;
 
     @EJB
@@ -75,6 +79,8 @@ public class DataInitSessionBean {
 
     @EJB(name = "StaffSessionBeanLocal")
     private StaffSessionBeanLocal staffSessionBeanLocal;
+    
+    
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
@@ -111,12 +117,25 @@ public class DataInitSessionBean {
         cc.setCvv(123);
         cc.setExpDate("03/2026");
         cc.setPayments(new ArrayList<>());
+        
+        CreditCard cc4 = new CreditCard();
+        cc4.setCcName("Susan Tan");
+        cc4.setCcNum("2345678901234567");
+        cc4.setCvv(155);
+        cc4.setExpDate("03/2026");
+        cc4.setPayments(new ArrayList<>());
 
         BankAccount acc = new BankAccount();
         acc.setAccName("first");
         acc.setBankAccNum("123456789101112");
         acc.setBankName("UOB");
         acc.setTransactions(new ArrayList<>());
+        
+        BankAccount acc4 = new BankAccount();
+        acc4.setAccName("first");
+        acc4.setBankAccNum("1234567891234567");
+        acc4.setBankName("UOB");
+        acc4.setTransactions(new ArrayList<>());
 
         bankAccountSessionBean.addNewBankAcc(acc);
         creditCardSessionBean.addNewCreditCard(cc);
@@ -142,6 +161,26 @@ public class DataInitSessionBean {
         p.setBankAcc(acc);
 
         petParentSessionBean.createNewParent(p);
+        
+        PetParent p2 = new PetParent();
+        p2.setAge(35);
+        p2.setBillingAddress("19 Banana Avenue");
+        p2.setBookings(new ArrayList<>());
+        p2.setContactNum("92000000");
+        p2.setEmergencyContact("91000000");
+        p2.setEmail("parent2@gmail.com");
+        p2.setPassword("password2");
+        p2.setFirstName("Susan");
+        p2.setLastName("Tan");
+        p2.setUsername("susanTan2");
+        p2.setStatus(UserStatusEnum.APPROVED);
+        p2.setRatingsForUsers(new ArrayList<>());
+        p2.setRatingsUserMade(new ArrayList<>());
+        p2.setReportsAgainstUser(new ArrayList<>());
+        p2.setReportsUserMade(new ArrayList<>());
+        p2.setMgRequests(new ArrayList<>());
+        p2.setCc(cc4);
+        p2.setBankAcc(acc4);
 
         PetSitter s = new PetSitter();
         s.setAge(21);
@@ -310,6 +349,25 @@ public class DataInitSessionBean {
             rating.setReq(b);
             rating.setStars(3);
             ratingSessionBean.createNewRating(rating, p.getUserId(), s.getUserId());
+            
+        } if (p.getMgRequests().isEmpty()) {
+            MeetAndGreetRequest mg = new MeetAndGreetRequest();
+            mg.setMgDate(new Date(2023, 04, 20, 00, 00, 00));
+            mg.setCreatedDate(new Date());
+            mg.setMgDesc("Hello there! I would really like to meet you with my puppy Oreo!");
+            mg.setParent(p);
+            mg.setSitter(s);
+            mg.setStatus(RequestStatusEnum.PENDING);
+            mgSessionBean.createNewMeetAndGreet(mg, p.getUserId(), s.getUserId());
+            
+            MeetAndGreetRequest mg2 = new MeetAndGreetRequest();
+            mg2.setMgDate(new Date(2023, 04, 18, 00, 00, 00));
+            mg2.setCreatedDate(new Date());
+            mg2.setMgDesc("Hello there! I would really like to meet you with my puppy Oreo!");
+            mg2.setParent(p);
+            mg2.setSitter(s2);
+            mg2.setStatus(RequestStatusEnum.PENDING);
+            mgSessionBean.createNewMeetAndGreet(mg, p.getUserId(), s2.getUserId());
         }
     }
 }
