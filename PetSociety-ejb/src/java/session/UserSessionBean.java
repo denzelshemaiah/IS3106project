@@ -111,15 +111,15 @@ public class UserSessionBean implements UserSessionBeanLocal {
     public List<User> retrieveAllSitters() {
         Query q = em.createQuery("SELECT u FROM User u");
         List<User> users = q.getResultList();
-        List<User> petParents = new ArrayList<>();
+        List<User> petSitters = new ArrayList<>();
         
         for (User u : users) {
             if (u instanceof PetSitter) {
-                petParents.add(u);
+                petSitters.add(u);
             }
         }
-        System.out.println("PET SITTERS:" + petParents);
-        return petParents;
+        System.out.println("PET SITTERS:" + petSitters);
+        return petSitters;
     }
 
     @Override

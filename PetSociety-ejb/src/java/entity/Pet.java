@@ -7,10 +7,14 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 
@@ -25,43 +29,67 @@ public class Pet implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long petId;
-    
+
     // pet details
+    @Column
     private byte typeOfPet;
+    @Column
     private String name;
+    @Column
     private String weight;
+    @Column
     private int ageInYears;
+    @Column
     private int ageInMonths;
+    @Column
     private byte gender;
+    @Column
     private String breed;
-    
+
     // addnl info
+    @Column
     private byte microchip;
+    @Column
     private byte spayedOrNeutered;
+    @Column
     private byte houseTrained;
+    @Column
     private byte friendlyWithChildren;
+    @Column
     private byte friendlyWithDogs;
+    @Column
     private byte friendlyWithCats;
+    @Column
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date adoptionDate;
+    @Column
     private String petDescription;
-    
+
     // care info
+    @Column
     private byte pottyBreakSchedule;
+    @Column
     private byte energyLevel;
+    @Column
     private byte feedingSchedule;
+    @Column
     private byte timeCanBeLeftAlone;
+    @Column
     private byte medication;
+    @Column
     private String additionalSitterInformation;
-    
+
     // vet info
+    @Column
     private String vetDetails;
-     
-    private byte[] photos;
     
+    @Column(nullable = true)
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    private byte[] photos;
+
     @ManyToOne
     private PetParent parent;
-    
 
     public Long getPetId() {
         return petId;
@@ -269,8 +297,8 @@ public class Pet implements Serializable {
     }
 
     public void setPhotos(byte[] photos) {
-        this.setPhotos(photos);
-    }
+        this.photos = photos;
+    } 
 
     public PetParent getParent() {
         return parent;
@@ -287,5 +315,5 @@ public class Pet implements Serializable {
     public void setTypeOfPet(byte typeOfPet) {
         this.typeOfPet = typeOfPet;
     }
-    
+
 }
