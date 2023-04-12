@@ -4,6 +4,8 @@ import { MDBContainer, MDBCol, MDBRow, MDBBtn, MDBIcon, MDBInput, MDBCheckbox, M
 import "./style.css";
 import swal from 'sweetalert';
 import Api from "../../helpers/Api";
+import loginBanner from "../../icons/login_banner.png"
+import Footer from '../../components/Footer';
 
 function SignIn() {
   const [email, setEmail] = useState("");
@@ -18,31 +20,31 @@ function SignIn() {
     e.preventDefault();
     const response = await Api.userLogin({
       email, password
-    }). then((res) => res.json());
+    }).then((res) => res.json());
     if ('userId' in response) {
-       console.log(response)
-        sessionStorage.setItem('user', JSON.stringify(response));
-        getUserRole(response);
-        navigate("/loggedInHomepage");
+      console.log(response)
+      sessionStorage.setItem('user', JSON.stringify(response));
+      getUserRole(response);
+      navigate("/loggedInHomepage");
     } else {
-        swal("Failed", response.message, "error", {
-          buttons: false,
-          timer: 2000,
-          toast: true,
-          target: "#error-target",
-          customClass: {
-            container: 'position-absolute'
-          },
-        })
-      }
+      swal("Failed", response.message, "error", {
+        buttons: false,
+        timer: 2000,
+        toast: true,
+        target: "#error-target",
+        customClass: {
+          container: 'position-absolute'
+        },
+      })
     }
+  }
 
-    async function getUserRole(user) {
-      const response = await Api.getUserRole(user.userId)
+  async function getUserRole(user) {
+    const response = await Api.getUserRole(user.userId)
       .then((res) => res.json())
-      sessionStorage.setItem("user_role", JSON.stringify(response['userRole']))
-      console.log("user role:" + sessionStorage.getItem('user_role'))
-    }
+    sessionStorage.setItem("user_role", JSON.stringify(response['userRole']))
+    console.log("user role:" + sessionStorage.getItem('user_role'))
+  }
 
   return (
     <>
@@ -53,23 +55,31 @@ function SignIn() {
         <MDBRow>
 
           <MDBCol col='10' md='6'>
-            <img src="https://img.freepik.com/free-vector/cute-dogs-park-scene_24877-51193.jpg?w=996&t=st=1679651672~exp=1679652272~hmac=d7bdc505e0a2d856d8720a32d6aea325646619df4af95b19a0baaf3eda102e49" class="img-fluid" alt="Sample image" />
+            <img src={loginBanner}
+              class="img-fluid"
+              alt="Sample image" 
+              height="600"
+              width="300"/>
           </MDBCol>
 
           <MDBCol col='4' md='6'>
-            <h1>Welcome Back!</h1>
+            <h1>
+              <b>
+                Sign In
+              </b>
+            </h1>
             <MDBInput wrapperClass='mb-4'
               label='Email'
               id='formControlLg'
               type='email'
-              size="lg" 
-              onChange={(e) => setEmail(e.target.value)}/>
+              size="lg"
+              onChange={(e) => setEmail(e.target.value)} />
             <MDBInput wrapperClass='mb-4'
               label='Password'
               id='formControlLg'
               type='password'
               size="lg"
-              onChange={(e) => setPassword(e.target.value)}/>
+              onChange={(e) => setPassword(e.target.value)} />
 
             <div className="d-flex justify-content-between mb-4">
               <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Remember me' />
@@ -91,14 +101,14 @@ function SignIn() {
                     </MDBModalHeader>
 
                     <MDBModalBody>
-                      <MDBInput label='Old Password' id='oldPassword' type='text'/>
+                      <MDBInput label='Old Password' id='oldPassword' type='text' />
                       <div style={{ margin: '1rem 0' }}></div>
-                      <MDBInput label='New Password' id='newPassword' type='text'/> 
+                      <MDBInput label='New Password' id='newPassword' type='text' />
                     </MDBModalBody>
 
                     <MDBModalFooter>
-                      <MDBBtn color='secondary' 
-                      onClick={toggleShowForgotPassword}>
+                      <MDBBtn color='secondary'
+                        onClick={toggleShowForgotPassword}>
                         Close
                       </MDBBtn>
                       <MDBBtn>Save changes</MDBBtn>
@@ -121,37 +131,10 @@ function SignIn() {
 
           </MDBCol>
 
-        </MDBRow>
-
-        <div className="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
-
-          <div className="text-white mb-3 mb-md-0" style = {{ color : 'indigo'}}>
-            Copyright Pet Society ©. All rights reserved.
-          </div>
-
-          <div>
-
-            <MDBBtn tag='a' color='none' className='mx-3' style={{ color: 'white' }}>
-              <MDBIcon fab icon='facebook-f' size="md" />
-            </MDBBtn>
-
-            <MDBBtn tag='a' color='none' className='mx-3' style={{ color: 'white' }}>
-              <MDBIcon fab icon='twitter' size="md" />
-            </MDBBtn>
-
-            <MDBBtn tag='a' color='none' className='mx-3' style={{ color: 'white' }}>
-              <MDBIcon fab icon='google' size="md" />
-            </MDBBtn>
-
-            <MDBBtn tag='a' color='none' className='mx-3' style={{ color: 'white' }}>
-              <MDBIcon fab icon='linkedin-in' size="md" />
-            </MDBBtn>
-
-          </div>
-
-        </div>
+        </MDBRow> 
 
       </MDBContainer>
+      <Footer></Footer>
     </>
   );
 }

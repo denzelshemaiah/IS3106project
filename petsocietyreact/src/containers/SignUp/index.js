@@ -27,9 +27,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCat, faDog } from '@fortawesome/free-solid-svg-icons';
 import Footer from '../../components/Footer';
 import dogBanner from '../../icons/dog_banner.png';
+import ppPicture from '../../icons/petparent.png';
+import psPicture from '../../icons/petsitter.png';
+import '../../loading.css';
 
 
 function SignUp(props) {
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { page } = useParams();
 
@@ -185,6 +189,7 @@ function SignUp(props) {
 
   // handle original creation of user within FE
   const handleCompleteUserCreation = (e) => {
+    e.preventDefault();
     handleRegistrationOfUser(e);
     handleCreationOfCc(e);
     handleCreationOfBankAcc(e);
@@ -208,10 +213,14 @@ function SignUp(props) {
   // creation of petparent
   const handleCreationOfParent = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     Api.createNewParent(user, petParent)
       .then((data) => {
         navigate("/CreatePet");
       })
+      setTimeout(() => {
+        setIsLoading(false);
+    }, 3000);
   }
 
   // PET SITTER
@@ -393,7 +402,7 @@ function SignUp(props) {
 
                       <MDBCol md='6' className='p-5 bg-gray rounded-start'>
 
-                        <h3 className="fw-bold mb-5" style={{ color: '#4835d4' }}>General Information</h3>
+                        <h3 className="fw-bold mb-5" style={{ color: '#7B69A9' }}>General Information</h3>
 
                         <MDBRow>
 
@@ -461,7 +470,7 @@ function SignUp(props) {
                       </MDBCol>
 
 
-                      <MDBCol md='6' className='p-5 rounded-end' style={{ backgroundColor: '#4835d4' }}>
+                      <MDBCol md='6' className='p-5 rounded-end' style={{ backgroundColor: '#7B69A9' }}>
 
                         <h3 className="fw-bold mb-5 text-white" style={{ color: '#4835d4' }}>Contact Details</h3>
                         <MDBInput wrapperClass='mb-4'
@@ -670,13 +679,18 @@ function SignUp(props) {
                       </MDBCol>
                     </MDBRow>
 
-                    <MDBBtn color='success'
-                      className='mb-4'
-                      size='lg'
-                      type="submit"
-                      onClick={redirect3}>
-                      Submit
-                    </MDBBtn>
+                    <MDBRow className='justify-content-center'>
+                      <MDBCol md='3' className='p-2'>
+                        <MDBBtn
+                          style={{ backgroundColor: '#7B69A9' }}
+                          className='w-100 mb-4'
+                          size='lg'
+                          type="submit"
+                          onClick={redirect3}>
+                          Submit
+                        </MDBBtn>
+                      </MDBCol>
+                    </MDBRow>
 
                   </MDBCardBody>
                 </MDBCard>
@@ -698,7 +712,7 @@ function SignUp(props) {
                 <h1 class="my-5 display-3 fw-bold ls-tight">
                   <span>Welcome Onboard!</span>
                   <br></br>
-                  <span class="text-primary">Who do you want to be?</span>
+                  <span style={{ color: '#7B69A9' }}>Who do you want to be?</span>
                 </h1>
                 <MDBRow>
                   <MDBCol>
@@ -706,16 +720,21 @@ function SignUp(props) {
                       <div class="col">
                         <a href="/#/SignUp/1">
                           <button class="btn btn-primary w-100"
-                            style={{ backgroundColor: '#4B0082', padding: '20px 20px' }}
+                            style={{ backgroundColor: '#E4E2F5', padding: '50px 30px' }}
                             onClick={handleCreationOfParent}>
-                            <img src="https://cdn-icons-png.flaticon.com/512/3775/3775548.png"
+                            <img src={ppPicture}
                               alt="Image"
                               width="250"
                               height="250"
-                              style={{ padding: '10px' }}>
+                              style={{ padding: '30px' }}>
                             </img>
-                            <h2>I want to be a PetParent</h2>
+                            <h2 style={{ color : '#000000'}}><b>I want to be a PetParent</b></h2>
                           </button>
+                          {isLoading && (
+                            <div className="loading-overlay">
+                              <img src={process.env.PUBLIC_URL + '/loadingAnimation.gif'} alt="Loading" className="loading-gif" />
+                            </div>
+                          )}
                         </a>
                       </div>
                     </div>
@@ -725,15 +744,16 @@ function SignUp(props) {
                     <div class="row">
                       <div class="col">
                         <button class="btn btn-primary w-100"
-                          style={{ backgroundColor: '#F3F5F4', padding: '20px 40px' }}
+                          style={{ backgroundColor: '#ffffff', padding: '50px 40px' }}
                           onClick={redirect4}>
-                          <img src="https://static.thenounproject.com/png/1138226-200.png"
+                          <img src={psPicture}
                             alt="Image"
                             width="250"
                             height="250"
                             style={{ padding: '10px' }}>
                           </img>
-                          <h2 style={{ color: 'black' }}>I want to be a PetSitter</h2>
+                          <h2 style={{ color: '#7b69a9' }}>
+                            <b>I want to be a PetSitter</b></h2>
                         </button>
                       </div>
                     </div>

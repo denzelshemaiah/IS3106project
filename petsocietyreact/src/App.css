@@ -91,6 +91,7 @@
 
 body {
   margin: 0;
+  padding: 0;
   font-family: var(--bs-body-font-family);
   font-size: var(--bs-body-font-size);
   font-weight: var(--bs-body-font-weight);
@@ -633,10 +634,12 @@ progress {
   --bs-gutter-x: 1.5rem;
   --bs-gutter-y: 0;
   width: 100%;
-  padding-right: calc(var(--bs-gutter-x) * 0.5);
-  padding-left: calc(var(--bs-gutter-x) * 0.5);
+  /* padding-right: calc(var(--bs-gutter-x) * 0.5);
+  padding-left: calc(var(--bs-gutter-x) * 0.5); 
   margin-right: auto;
-  margin-left: auto;
+  margin-left: auto;*/
+  padding: 0;
+  margin: 0;
 }
 
 @media (min-width: 576px) {
@@ -10403,5 +10406,9 @@ textarea.form-control-lg {
   }
   .custom-mdb-btn {
     background-color: purple !important;
+  }
+
+  .root {
+    padding : 0;
   }
 }/*# sourceMappingURL=App.css.map */
