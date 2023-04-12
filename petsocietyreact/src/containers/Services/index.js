@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from "react-helmet";
 import "./styles.js";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button } from 'reactstrap';
@@ -12,6 +13,12 @@ import { position } from 'dom-helpers';
 function Services() {
   return (
     <>
+     <div>
+        <Helmet>
+          <title>Pet Society | Services</title>
+        </Helmet>
+      </div>
+
       <div className="hero-section">
         <div className="bg-image" style={{
           backgroundImage: `url(${serviceBanner})`,
