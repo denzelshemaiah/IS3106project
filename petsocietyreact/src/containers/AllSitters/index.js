@@ -9,27 +9,31 @@ function AllSitters() {
 
     useEffect(() => {
         Api.getAllPetSitters()
-            .then(data => setSitters(data))
+            .then((res) => res.json())
+            .then((data) => setSitters(data))
             .catch(error => console.error(error));
         console.log(sitters);
     }, []);
 
+    // const getAllSitters = async () => {
+    //     const response = await fetch(Api.getAllPetSitters());
+    //     const data = await response.json();
+    //     return data;
+    // };
+
     return (
         <div>
+            <h1>List of Sitters</h1>
             <ul>
-                {sitters.map(sitter => (
+                {sitters.map((sitter) => (
                     <li key={sitter.userId}>
-                        <div>{sitter.firstName}</div>
-                        <div>{sitter.lastName}</div>
-                    </li>
+                        {sitter.firstName}
+                        {sitter.lastName}</li>
                 ))}
             </ul>
             <h1> test</h1>
         </div>
-
-
     )
-
 }
 
 export default AllSitters;

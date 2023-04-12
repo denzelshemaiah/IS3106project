@@ -131,8 +131,8 @@ public class UsersResource {
     @GET
     @Path("/getAllSitters")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<PetSitter> getAllSitters() {
-        return petSitterSessionBeanLocal.retrieveAllSitters();
+    public List<User> getAllSitters() {
+        return userSessionBean.retrieveAllSitters();
     }
     
     @POST

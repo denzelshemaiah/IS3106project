@@ -49,7 +49,7 @@ public class PetSitterSessionBean implements PetSitterSessionBeanLocal {
          Query query = em.createQuery("SELECT s FROM PetSitter s");
         
         List<PetSitter> sitters = query.getResultList();
-        
+        System.out.println(sitters);
         return sitters;
      }
     
