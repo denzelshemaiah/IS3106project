@@ -43,6 +43,8 @@ public class GetProperties {
     }
 
     public String getImgPath() {
-        return properties.getProperty("img.path");
+        String imgPath = properties.getProperty("img.path");
+        System.out.println("img.path: " + imgPath);
+        return imgPath;
     }
 }
