@@ -5,6 +5,8 @@
  */
 package webservices.restful;
 
+import entity.BankAccount;
+import entity.CreditCard;
 import entity.PetParent;
 import entity.PetSitter;
 import entity.User;
@@ -63,10 +65,41 @@ public class UsersResource {
 //    @POST
 //    @Path("/petparent")
 //    @Consumes(MediaType.MULTIPART_FORM_DATA)
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public User createNewPetParent(@FormParam("user") User user,
-//            @FormParam("petParent") PetParent petParent) {
+//    @Produces(MediaType.MULTIPART_FORM_DATA)
+//    public User createNewPetParent(@FormParam("firstName") String firstName,
+//            @FormParam("lastName") String lastName,
+//            @FormParam("username") String username,
+//            @FormParam("contactNum") String contactNum,
+//            @FormParam("email") String email,
+//            @FormParam("password") String password,
+//            @FormParam("age") int age,
+//            @FormParam("emergencyContact") String emergencyContact,
+//            @FormParam("profilePicture") byte[] profilePicture,
+//            @FormParam("billingAddress") String billingAddress,
+//            @FormParam("status") UserStatusEnum status,
+//            @FormParam("daysDisabled") int daysDisabled,
+//            @FormParam("bankAcc") BankAccount bankAcc,
+//            @FormParam("cc") CreditCard cc) {
+//        
+//        User user = new User();
+//        userSessionBean.createNewUser(user);
+//        user.setFirstName(firstName);
+//        user.setLastName(lastName);
+//        user.setContactNum(contactNum);
+//        user.setEmail(email);
+//        user.setPassword(password);
+//        user.setAge(age);
+//        user.setEmergencyContact(emergencyContact);
+//        user.setProfilePicture(profilePicture);
+//        user.setBillingAddress(billingAddress);
 //        user.setStatus(UserStatusEnum.PENDING);
+//        user.setDaysDisabled(daysDisabled);
+//        user.setBankAcc(bankAcc);
+//        user.setCc(cc);
+//        
+//        PetParent petParent = new PetParent();
+//        petParentSessionBeanLocal.createNewParent(petParent);
+//       
 //        userSessionBean.createNewParent(user, petParent);
 //        return user;
 //    }

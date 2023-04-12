@@ -8,46 +8,53 @@ import dogBoardingIcon from '../../icons/dog_boarding.png';
 import dogWalkingIcon from '../../icons/dog_walking.png';
 import dogDayCareIcon from '../../icons/dog_daycare.png';
 import dogDropInIcon from '../../icons/dog_dropin.png';
+import dogHeader from '../../icons/dog_header.png';
 import { useState, useEffect } from 'react';
+import Services from '../Services';
 
 function LoggedInHomepage() {
-    const [user, setUser] = useState(sessionStorage.getItem("user"));
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+    const [userRole, setUserRole] = useState(JSON.parse(localStorage.getItem("user_role")));
 
     useEffect(() => {
-        setUser(sessionStorage.getItem("user"));
-    }, [user])
+        const handleStorage = () => {
+            setUser(JSON.parse(localStorage.getItem("user")));
+            setUserRole(JSON.parse(localStorage.getItem("user_role")));
+        }
+
+        window.addEventListener('storage', handleStorage())
+        return () => window.removeEventListener('storage', handleStorage())
+    }, [])
 
     return (
         <>
             <div className="bg-image" style={{
-                backgroundImage: `url('https://images.pexels.com/photos/1490908/pexels-photo-1490908.jpeg?cs=srgb&dl=pexels-svetozar-milashevich-1490908.jpg&fm=jpg')`,
+                backgroundImage: `url(${dogHeader})`,
                 backgroundSize: 'cover',
-                height: '100vh',
+                height: '90vh',
             }}>
 
-                <MDBTypography tag='div'
-                    className='display-3 pt-5 pb-5 text-center'
-                    style={{ color: 'white', fontWeight: "bold" }}>
-                    Loving pet care in your neighbourhood.
-                </MDBTypography>
-
-                <div className="d-flex justify-content-center pb-5">
-                    <div className="col-md-8">
-                        <div className="w-100 text-center"
-                            style={{ color: 'white' }}>
-                            <MDBTypography tag='h4'>Book trusted sitters and dog walkers.
-                            </MDBTypography>
-                        </div>
-                    </div>
-                </div>
-
+                <MDBRow className='m-5'></MDBRow>
+                <MDBRow className='m-5'></MDBRow>
+                <MDBRow className='m-5'></MDBRow>
+                <MDBRow className='m-5'></MDBRow>
+                <MDBRow className='m-5'></MDBRow>
+                <MDBRow className='m-5'></MDBRow>
+                <MDBRow className='m-5'></MDBRow>
                 <div className="d-flex justify-content-center">
                     <MDBCol md='10'>
-                        <div class="card mb-3">
+                        <div class="card mb-3" style={{ backgroundColor: 'rgba(123, 105, 169, 0.5)' }}>
                             <div class="card-body">
-                                <h5 class="card-title" style={{ fontWeight: "bold" }}>BOOK A SERVICE TODAY</h5>
-                                <p class="card-text">
-                                    <small class="text-muted">Available Services:</small>
+                                <h4 class="card-title text-center"
+                                    style={{
+                                        fontWeight: "bold",
+                                        color: '#FFFFFF',
+                                        padding : '10px'
+                                    }}>
+                                    BOOK A SERVICE TODAY
+                                </h4>
+                                <p class="card-text text-center">
+                                    <small style={{ color: '#FFFFFF' }}>Available Services:</small>
                                 </p>
 
                                 <MDBRow>
@@ -60,10 +67,10 @@ function LoggedInHomepage() {
                                                         alt="Image"
                                                         width="50"
                                                         height="50"
-                                                        >
+                                                    >
                                                     </img>
                                                     <br></br>
-                                                    <span style = {{ color: 'black'}}>BOARDING</span>
+                                                    <span style={{ color: 'black' }}>BOARDING</span>
                                                 </button>
                                             </div>
                                         </div>
@@ -77,10 +84,10 @@ function LoggedInHomepage() {
                                                         alt="Image"
                                                         width="50"
                                                         height="50"
-                                                        >
+                                                    >
                                                     </img>
                                                     <br></br>
-                                                    <span style = {{ color: 'black'}}>WALKING</span>
+                                                    <span style={{ color: 'black' }}>WALKING</span>
                                                 </button>
                                             </div>
                                         </div>
@@ -94,10 +101,10 @@ function LoggedInHomepage() {
                                                         alt="Image"
                                                         width="50"
                                                         height="50"
-                                                        >
+                                                    >
                                                     </img>
                                                     <br></br>
-                                                    <span style = {{ color: 'black'}}>DAYCARE</span>
+                                                    <span style={{ color: 'black' }}>DAYCARE</span>
                                                 </button>
                                             </div>
                                         </div>
@@ -111,22 +118,22 @@ function LoggedInHomepage() {
                                                         alt="Image"
                                                         width="50"
                                                         height="50"
-                                                        >
+                                                    >
                                                     </img>
                                                     <br></br>
-                                                    <span style = {{ color: 'black'}}>DROP IN</span>
+                                                    <span style={{ color: 'black' }}>DROP IN</span>
                                                 </button>
                                             </div>
                                         </div>
                                     </MDBCol>
                                 </MDBRow>
-                                
+
                             </div>
                         </div>
                     </MDBCol>
                 </div>
             </div>
-            <Footer />
+            <Services></Services>
         </>
     )
 }

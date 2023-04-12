@@ -23,7 +23,7 @@ function SignIn() {
     }).then((res) => res.json());
     if ('userId' in response) {
       console.log(response)
-      sessionStorage.setItem('user', JSON.stringify(response));
+      localStorage.setItem('user', JSON.stringify(response));
       getUserRole(response);
       navigate("/loggedInHomepage");
     } else {
@@ -42,8 +42,8 @@ function SignIn() {
   async function getUserRole(user) {
     const response = await Api.getUserRole(user.userId)
       .then((res) => res.json())
-    sessionStorage.setItem("user_role", JSON.stringify(response['userRole']))
-    console.log("user role:" + sessionStorage.getItem('user_role'))
+    localStorage.setItem("user_role", JSON.stringify(response['userRole']))
+    console.log("user role:" + localStorage.getItem('user_role'))
   }
 
   return (

@@ -60,7 +60,7 @@
     </mime-mapping>
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
-        <welcome-file>staffLogin.xhtml</welcome-file>
+<!--        <welcome-file>staffLogin.xhtml</welcome-file>-->
     </welcome-file-list>
     <ejb-local-ref>
         <ejb-ref-name>UserSessionBean</ejb-ref-name>

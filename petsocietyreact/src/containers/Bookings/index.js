@@ -10,14 +10,26 @@ import ContactModal from "../../components/ContactDetailsModal";
 
 //page to view all bookings, follows a tab view
 function Bookings(props) {
-    const [userId, setUserId] = useState(JSON.parse(sessionStorage.getItem("user")).userId);
+    const [userId, setUserId] = useState(null);
     const [chosenTab, setChosenTab] = useState("pending")
     const [bookings, setBookings] = useState([]);
-    const [userRole, setUserRole] = useState(JSON.parse(sessionStorage.getItem("user_role")));
+    const [userRole, setUserRole] = useState(null);
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
         reloadData();
     }, [chosenTab]);
+
+    useEffect(() => {
+        const handleStorage = () => {
+            setUser(JSON.parse(localStorage.getItem("user")));
+            setUserId(JSON.parse(localStorage.getItem("user")).userId);
+            setUserRole(JSON.parse(localStorage.getItem("user_role")));
+        }
+        
+        window.addEventListener('storage', handleStorage())
+        return () => window.removeEventListener('storage', handleStorage())
+    }, [])
 
     function otherParty(booking) {
         if (userRole === "parent") {

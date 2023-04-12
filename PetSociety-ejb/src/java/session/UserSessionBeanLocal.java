@@ -9,6 +9,7 @@ import entity.PetParent;
 import entity.PetSitter;
 import entity.User;
 import error.UserNotFoundException;
+import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Local;
 import javax.persistence.EntityNotFoundException;
