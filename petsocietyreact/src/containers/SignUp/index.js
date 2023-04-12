@@ -1003,7 +1003,7 @@ function SignUp(props) {
                         <h3 className="mb-2 text-uppercase fw-bold">SAFETY FORM</h3>
                         <h6 style={{ fontSize: 12 }} className="mb-3">We would like to get to know you and your experiences better.</h6>
                         <MDBRow>
-                          <h6>Are you vaccinated against most types of animal-related diseases?</h6>
+                          <h6>I have another job apart from being a Pet Sitter.</h6>
                           <MDBCol md='12'>
 
                             <MDBTextArea className="mb-4" label='Answer' rows={2}
@@ -1013,7 +1013,7 @@ function SignUp(props) {
                         </MDBRow>
 
                         <MDBRow>
-                          <h6>Have you been convicted of any crimes?</h6>
+                          <h6>Are you vaccinated against most types of animal-related diseases?</h6>
                           <MDBCol md='12'>
 
                             <MDBTextArea className="mb-4" label='Answer' rows={2}
@@ -1023,7 +1023,7 @@ function SignUp(props) {
                         </MDBRow>
 
                         <MDBRow>
-                          <h6>Another safety question</h6>
+                          <h6>Do you have any past criminal records?</h6>
                           <MDBCol md='12'>
 
                             <MDBTextArea className="mb-4" label='Answer' rows={2}

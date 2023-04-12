@@ -18,7 +18,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "bootstrap": "^5.2.3",
+    "bootstrap": "^3.3.7",
     "date-fns": "^2.29.3",
     "dayjs": "^1.11.7",
     "debug": "^4.3.4",
