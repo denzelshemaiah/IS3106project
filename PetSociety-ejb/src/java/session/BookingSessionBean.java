@@ -296,4 +296,22 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
                 .setParameter("enum", RequestStatusEnum.ACCEPTED);
         return q.getResultList();
     }
+    
+    public List<BookingRequest> getFinishedBookings(Date date) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        // only pay 1 day after end date
+        c.add(Calendar.DATE, -1);
+        Date bookingEnd = c.getTime();
+        
+        Query q = em.createQuery("SELECT b FROM BookingRequest b WHERE b.status = :enum "
+                + "AND b.endDate >= :dayBefore "
+                + "AND b.endDate < :currDate")
+                .setParameter("enum", RequestStatusEnum.ACCEPTED)
+                .setParameter("dayBefore", bookingEnd)
+                .setParameter("currDate", date);
+        
+
+        return q.getResultList();
+    }
 }

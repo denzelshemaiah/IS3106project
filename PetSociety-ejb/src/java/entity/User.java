@@ -9,6 +9,7 @@ import enumeration.UserStatusEnum;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -98,10 +99,10 @@ public class User implements Serializable  {
     private CreditCard cc;
     
     // getting PetParent and PetSitter
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade=CascadeType.PERSIST)
     private PetParent petParent;
     
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade=CascadeType.PERSIST)
     private PetSitter petSitter;
     
     public User() {
@@ -305,7 +306,8 @@ public class User implements Serializable  {
     public void setDaysDisabled(int daysDisabled) {
         this.daysDisabled = daysDisabled;
     }
-
+    
+    @JsonbTransient
     public PetParent getPetParent() {
         return petParent;
     }
