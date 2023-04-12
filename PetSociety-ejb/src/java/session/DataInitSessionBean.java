@@ -181,6 +181,8 @@ public class DataInitSessionBean {
         p2.setMgRequests(new ArrayList<>());
         p2.setCc(cc4);
         p2.setBankAcc(acc4);
+        
+        petParentSessionBean.createNewParent(p2);
 
         PetSitter s = new PetSitter();
         s.setAge(21);

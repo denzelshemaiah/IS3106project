@@ -22,12 +22,6 @@ function RequestModal(props) {
       setModal(!modal);
     };
 
-    const closeBtn = (
-        <button className="close" class="btn" onClick={toggle}>
-          &times;
-        </button>
-    );
-
     let button = "";
     let title = "";
 
@@ -79,8 +73,11 @@ function RequestModal(props) {
       e.preventDefault();
       //change this to current user's Id
       Api.cancelBooking(booking.parent.userId, booking.bookingReqId)
+      .catch(err => {
+        console.log(err)
+        props.showErrorToast()
+      })
       .then(props.reloadData())
-      .then(props.refreshPage);
       toggle();
     }
 

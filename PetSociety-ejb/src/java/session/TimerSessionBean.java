@@ -9,9 +9,11 @@ import entity.BankAccount;
 import entity.BookingRequest;
 import entity.CreditCard;
 import entity.Payment;
+import entity.PetSitter;
 import entity.User;
 import enumeration.RequestStatusEnum;
 import enumeration.UserStatusEnum;
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -65,6 +67,7 @@ public class TimerSessionBean {
     
     @Schedule(hour = "00")
     public void payment() {
+        //accepted bookings
         List<BookingRequest> bookings = bookingSessionBean.getCurrentBookings(new Date());
         for (BookingRequest b:bookings) {
             CreditCard cc = b.getParent().getCc();
@@ -77,6 +80,7 @@ public class TimerSessionBean {
             payment.setBooking(b);
             em.persist(payment);
         }
+        //cancelled booking within 3 days!
     }
     
     //update status of all bookings
@@ -98,7 +102,7 @@ public class TimerSessionBean {
         
         //get upcoming bookings that have already passed
         List<BookingRequest> upcoming = bookingSessionBean.getCurrentBookings(current);
-        for (BookingRequest b : bookings) {
+        for (BookingRequest b : upcoming) {
             Date end = b.getEndDate();
             Calendar cStart = Calendar.getInstance();
             cStart.setTime(end);
@@ -109,4 +113,20 @@ public class TimerSessionBean {
         }
     }
     
+    //provide Pet Sitters with payment
+    @Schedule(hour = "00")
+    public void paySitters() {
+        List<BookingRequest> pendingPayment = bookingSessionBean.getFinishedBookings(new Date());
+        for (BookingRequest b : pendingPayment) {
+            BigDecimal cost = b.getCost();
+            BigDecimal payment = new BigDecimal(0.90).multiply(cost);
+            PetSitter s = b.getSitter();
+            Payment p = new Payment();
+            p.setAmount(payment);
+            p.setBankAcc(s.getBankAcc());
+            p.setBooking(b);
+            p.setCreated(new Date());
+            em.persist(p);
+        }
+    }
 }

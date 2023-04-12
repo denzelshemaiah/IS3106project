@@ -46,6 +46,7 @@ public class StaffManagedBean implements Serializable {
         newStaff.setPassword(password.trim());
         try {
             staffSessionBeanLocal.createStaff(newStaff);
+            return "createStaffSuccess.xhtml?faces-redirect=true";
         } catch (EntityAlreadyExistsException ex) {
             firstName = "";
             lastName = "";
@@ -53,9 +54,16 @@ public class StaffManagedBean implements Serializable {
             password = "";
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: ",  "Username already taken!"));
-            return null;
+            return "createStaff.xhtml";
+        } catch (Exception ex) {
+            firstName = "";
+            lastName = "";
+            username = "";
+            password = "";
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: ",  "Staff not created!"));
+            return "createStaff.xhtml";
         }
-        return "createStaffSuccess.xhtml?faces-redirect=true";
     }
 
     public String getFirstName() {
