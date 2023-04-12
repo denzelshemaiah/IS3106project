@@ -94,6 +94,12 @@ public class UsersResource {
         return userSessionBean.retrieveAllUsers();
     }
     
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<PetSitter> getAllSitters() {
+        return petSitterSessionBeanLocal.retrieveAllSitters();
+    }
+    
     @POST
     @Path("/signIn")
     @Produces(MediaType.APPLICATION_JSON)
