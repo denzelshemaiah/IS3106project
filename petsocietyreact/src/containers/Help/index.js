@@ -89,7 +89,7 @@ function HelpPage(props) {
                                         <div class="accordion-body">
                                             In order to sign up as a Pet Sitter, a fee will be charged to conduct a background review of you. <br />
                                             This is to ensure the safety of our furry friends on this platform. <br />
-                                            For each booking completed, a comission fee of 15% will be deducted from the overall amount earnt. <br />
+                                            For each booking completed, a comission fee of 10% will be deducted from the overall amount earnt. <br />
                                         </div>
                                     </div>
                                 </div>
@@ -332,7 +332,7 @@ function HelpPage(props) {
                                     <div id="bookingsParentsOne" class="accordion-collapse collapse" aria-labelledby="bookings2-flush-headingOne" data-bs-parent="#accordionBookingsParent">
                                         <div class="accordion-body">
                                             In the navigation bar, there is a "Search Sitter" option. <br/>
-                                            Upon clicking this, multiple options will be shown to help us <br/>
+                                            Upon clicking this, multiple options will be shown to help us
                                             filter a perfect sitter for your needs! <br/>
                                              
                                         </div>
@@ -395,7 +395,9 @@ function HelpPage(props) {
                                         </button>
                                     </h2>
                                     <div id="paymentOne" class="accordion-collapse collapse" aria-labelledby="payment-flush-headingOne" data-bs-parent="#accordionFlushExample">
-                                        <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
+                                        <div class="accordion-body">
+                                            At the start of every booking, the credit card linked to your account will be charged the full fee for the booking.
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="accordion-item">

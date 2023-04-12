@@ -7,6 +7,8 @@ import swal from 'sweetalert';
 import Api from "../../helpers/Api";
 import loginBanner from "../../icons/login_banner.png"
 import Footer from '../../components/Footer';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function SignIn() {
   const [email, setEmail] = useState("");
@@ -17,27 +19,29 @@ function SignIn() {
   const [forgotPasswordModal, setForgotPasswordModal] = useState(false);
   const toggleShowForgotPassword = () => setForgotPasswordModal(!forgotPasswordModal);
 
+  const showErrorToast = () => {
+    toast.error('Invalid Credentials!', {
+      position: toast.POSITION.TOP_RIGHT,
+      className:'error-toast'
+    });
+  }
+
   const handleLogin = async (e) => {
     e.preventDefault();
     const response = await Api.userLogin({
       email, password
-    }).then((res) => res.json());
-    if ('userId' in response) {
-      console.log(response)
-      localStorage.setItem('user', JSON.stringify(response));
-      getUserRole(response);
-      navigate("/loggedInHomepage");
-    } else {
-      swal("Failed", response.message, "error", {
-        buttons: false,
-        timer: 2000,
-        toast: true,
-        target: "#error-target",
-        customClass: {
-          container: 'position-absolute'
-        },
-      })
-    }
+    }).then((res) => res.json())
+    .then((res) => {
+      if ('userId' in res) {
+        localStorage.setItem('user', JSON.stringify(res));
+        getUserRole(res);
+        navigate("/loggedInHomepage");
+      }
+    })
+    .catch(err => {
+      console.log(err)
+      showErrorToast();
+    })
   }
 
   async function getUserRole(user) {
@@ -58,7 +62,6 @@ function SignIn() {
       <MDBContainer fluid className="p-3 my-5 h-custom">
         <MDBRow id="#error-target">
         </MDBRow>
-
         <MDBRow>
 
           <MDBCol md='6'>
