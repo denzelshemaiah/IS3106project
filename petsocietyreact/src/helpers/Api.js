@@ -69,7 +69,7 @@ const Api = {
 
     //retrieve all pet sitters
     getAllPetSitters() {
-        return fetch(`${SERVER_PREFIX}/users/petsitters`)
+        return fetch(`${SERVER_PREFIX}/users/getAllSitters`)
     },
 
     // setting bankAccountNumber and creating it in association with a user

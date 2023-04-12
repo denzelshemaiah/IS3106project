@@ -11,6 +11,7 @@ import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import SearchResults from "../../components/SearchResults";
 import Api from "../../helpers/Api";
+import AllSitters from "../AllSitters"
 
 
 function SearchSitter(props) {
@@ -333,11 +334,10 @@ function SearchSitter(props) {
 
     return (
         <>
-        <div className="container">
+        <div className="container-fluid">
             <div className="row">
-                <div
-                    className="col-md-5"
-                    style={{ display: 'block', backgroundColor: '#6c757d', float: "right", marginLeft: "-42px" }}>
+                <div className="col-md-4"
+                    style={{ display: 'block', backgroundColor: '#6c757d', float: "right" }}>
 
                     <div style={{ height: "100vh", overflow: "auto", marginTop: "3vh"}}>
                         <form className="bg-light p-4 custom-form" onSubmit={handleSearch}>
@@ -518,11 +518,15 @@ function SearchSitter(props) {
                         </form>
                     </div>
                     </div>
-                    <div className="col-md-4" style={{ marginLeft: "-25px" }}>
-                        {showResults && <SearchResults searchQuery={searchQuery} style={{ overflow: "auto" }} />}
-                        {/* <SearchResults searchQuery={searchQuery} style={{ float: "right", overflow: "auto" }} /> */}
-                    </div>
+                   
+
+                <div class="col-md-8">
+                    <h1> test</h1>
+                    <AllSitters></AllSitters>
                 </div>
+                </div>
+
+               
         </div>
         </>
     );
