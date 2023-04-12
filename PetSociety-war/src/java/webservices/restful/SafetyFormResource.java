@@ -29,13 +29,13 @@ public class SafetyFormResource {
     @EJB
     private SafetyFormSessionBeanLocal safetyFormSessionBeanLocal;
 
-//    @POST
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public SafetyForm createNewSafetyForm(@FormParam("safetyForm") SafetyForm safetyForm) {
-//        safetyFormSessionBeanLocal.createNewSafetyForm(safetyForm);
-//        return safetyForm;
-//    }
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public SafetyForm createNewSafetyForm(SafetyForm safetyForm) {
+        safetyFormSessionBeanLocal.createNewSafetyForm(safetyForm);
+        return safetyForm;
+    }
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
