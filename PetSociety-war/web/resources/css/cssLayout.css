@@ -117,6 +117,7 @@
     padding-top: 50px;
     width: 8.3in;
     min-height: 11.69in;
+    padding-bottom: 50px;
 }
 
 .authen-req-header {
@@ -178,8 +179,4 @@
     color: black; 
     padding: 7px; 
     font-size: 12px
-}
-
-.navbar-bottom {
-    margin: auto 0;
 }
