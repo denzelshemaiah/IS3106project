@@ -9,11 +9,13 @@ import entity.AuthenticationRequest;
 import entity.BankAccount;
 import entity.BookingRequest;
 import entity.CreditCard;
+import entity.ExperienceForm;
 import entity.MeetAndGreetRequest;
 import entity.PetParent;
 import entity.PetSitter;
 import entity.Rating;
 import entity.Report;
+import entity.SafetyForm;
 import entity.Staff;
 import entity.User;
 import enumeration.RegionEnum;
@@ -77,6 +79,12 @@ public class DataInitSessionBean {
     @EJB
     private BankAccSessionBeanLocal bankAccountSessionBean;
 
+    @EJB
+    private ExperienceFormSessionBeanLocal experienceFormSessionBean;
+
+    @EJB
+    private SafetyFormSessionBeanLocal safetyFormSessionBean;
+
     @EJB(name = "StaffSessionBeanLocal")
     private StaffSessionBeanLocal staffSessionBeanLocal;
     
@@ -139,6 +147,24 @@ public class DataInitSessionBean {
 
         bankAccountSessionBean.addNewBankAcc(acc);
         creditCardSessionBean.addNewCreditCard(cc);
+
+        AuthenticationRequest authen = new AuthenticationRequest();
+        authen.setCreatedDate(new Date());
+        authen.setDocument(null);
+
+        ExperienceForm expForm = new ExperienceForm();
+        expForm.setYearsOfExperience(2);
+        expForm.setHeadline("Vet Assistant");
+        expForm.setExperience("I have been taking care of my friends' pets.");
+        
+        SafetyForm safetyform = new SafetyForm();
+        safetyform.setQ1("I am a student.");
+        safetyform.setQ2("Yes.");
+        safetyform.setQ3("No.");
+
+        authenticationReqSessionBean.createAuthenticationReq(authen);
+        experienceFormSessionBean.createNewExperienceForm(expForm);
+        safetyFormSessionBean.createNewSafetyForm(safetyform);
 
         PetParent p = new PetParent();
         p.setAge(21);
@@ -217,6 +243,9 @@ public class DataInitSessionBean {
         s.setCc(cc1);
         // assuming schedule is empty (no unavail dates)
         petSitterSessionBean.createNewSitter(s);
+        s.setAuthenReq(authen);
+        s.setExpForm(expForm);
+        s.setSafetyForm(safetyform);
         
         PetSitter s2 = new PetSitter();
         s2.setAge(21);

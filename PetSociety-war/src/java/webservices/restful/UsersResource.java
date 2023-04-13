@@ -93,21 +93,20 @@ public class UsersResource {
     }
 
 //    // create petsitter type user
-//    @POST
-//    @Path("/petsitters")
-//    @Produces(MediaType.MULTIPART_FORM_DATA)
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    public User createNewPetSitter(@FormParam("user") User user,
-//            @FormParam("petSitter") PetSitter petSitter) {
-//
-//        user.setStatus(UserStatusEnum.PENDING);
-//        // Convert enums
-//        //petSitter.setRegion(RegionEnum.valueOf(@FormParam("region") region));
-//        //petSitter.setService(ServiceEnum.valueOf(@FormParam("service")));
-//
-//        userSessionBean.createNewSitter(user, petSitter);
-//        return user;
-//    }
+    @POST
+    @Path("/petsitters")
+    @Produces(MediaType.MULTIPART_FORM_DATA)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public User createNewPetSitter(PetSitter petSitter) {
+
+        petSitter.setStatus(UserStatusEnum.PENDING);
+        // Convert enums
+        //petSitter.setRegion(RegionEnum.valueOf(@FormParam("region") region));
+        //petSitter.setService(ServiceEnum.valueOf(@FormParam("service")));
+
+        petSitterSessionBeanLocal.createNewSitter(petSitter);
+        return petSitter;
+    }
 
     @GET
     @Path("/getAllUsers")
