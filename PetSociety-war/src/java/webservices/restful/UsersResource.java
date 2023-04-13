@@ -6,16 +6,23 @@
 package webservices.restful;
 
 import entity.BankAccount;
+import entity.BookingRequest;
 import entity.CreditCard;
+import entity.MeetAndGreetRequest;
+import entity.Pet;
 import entity.PetParent;
 import entity.PetSitter;
+import entity.Search;
 import entity.User;
 import enumeration.RegionEnum;
 import enumeration.ServiceEnum;
 import enumeration.UserStatusEnum;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
@@ -23,6 +30,9 @@ import javax.ws.rs.Path;
 import javax.enterprise.context.RequestScoped;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.persistence.EntityNotFoundException;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -30,6 +40,8 @@ import javax.ws.rs.POST;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.primefaces.shaded.json.JSONObject;
+import session.BankAccSessionBeanLocal;
+import session.CreditCardSessionBeanLocal;
 import session.PetParentSessionBeanLocal;
 import session.PetSitterSessionBeanLocal;
 import session.UserSessionBeanLocal;
@@ -51,7 +63,14 @@ public class UsersResource {
 
     @EJB
     private PetSitterSessionBeanLocal petSitterSessionBeanLocal;
-
+    
+    @EJB
+    private CreditCardSessionBeanLocal creditCardSessionBeanLocal;
+    
+    @EJB
+    private BankAccSessionBeanLocal bankAccSessionBeanLocal;
+    
+    
     // no longer using this API as not creating user, only either PP or PS
     /* @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -62,64 +81,32 @@ public class UsersResource {
         return user;
     } */
     // create petparent type user
-//    @POST
-//    @Path("/petparent")
-//    @Consumes(MediaType.MULTIPART_FORM_DATA)
-//    @Produces(MediaType.MULTIPART_FORM_DATA)
-//    public User createNewPetParent(@FormParam("firstName") String firstName,
-//            @FormParam("lastName") String lastName,
-//            @FormParam("username") String username,
-//            @FormParam("contactNum") String contactNum,
-//            @FormParam("email") String email,
-//            @FormParam("password") String password,
-//            @FormParam("age") int age,
-//            @FormParam("emergencyContact") String emergencyContact,
-//            @FormParam("profilePicture") byte[] profilePicture,
-//            @FormParam("billingAddress") String billingAddress,
-//            @FormParam("status") UserStatusEnum status,
-//            @FormParam("daysDisabled") int daysDisabled,
-//            @FormParam("bankAcc") BankAccount bankAcc,
-//            @FormParam("cc") CreditCard cc) {
-//        
-//        User user = new User();
-//        userSessionBean.createNewUser(user);
-//        user.setFirstName(firstName);
-//        user.setLastName(lastName);
-//        user.setContactNum(contactNum);
-//        user.setEmail(email);
-//        user.setPassword(password);
-//        user.setAge(age);
-//        user.setEmergencyContact(emergencyContact);
-//        user.setProfilePicture(profilePicture);
-//        user.setBillingAddress(billingAddress);
-//        user.setStatus(UserStatusEnum.PENDING);
-//        user.setDaysDisabled(daysDisabled);
-//        user.setBankAcc(bankAcc);
-//        user.setCc(cc);
-//        
-//        PetParent petParent = new PetParent();
-//        petParentSessionBeanLocal.createNewParent(petParent);
-//       
-//        userSessionBean.createNewParent(user, petParent);
-//        return user;
-//    }
+    @POST
+    @Path("/petparent")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public PetParent createNewPetParent(PetParent p) {
+        p.setPets(new ArrayList<Pet>());
+        p.setStatus(UserStatusEnum.APPROVED);
+        petParentSessionBeanLocal.createNewParent(p);
+        return p;
+    }
 
 //    // create petsitter type user
-//    @POST
-//    @Path("/petsitters")
-//    @Produces(MediaType.MULTIPART_FORM_DATA)
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    public User createNewPetSitter(@FormParam("user") User user,
-//            @FormParam("petSitter") PetSitter petSitter) {
-//
-//        user.setStatus(UserStatusEnum.PENDING);
-//        // Convert enums
-//        //petSitter.setRegion(RegionEnum.valueOf(@FormParam("region") region));
-//        //petSitter.setService(ServiceEnum.valueOf(@FormParam("service")));
-//
-//        userSessionBean.createNewSitter(user, petSitter);
-//        return user;
-//    }
+    @POST
+    @Path("/petsitters")
+    @Produces(MediaType.MULTIPART_FORM_DATA)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public User createNewPetSitter(PetSitter petSitter) {
+
+        petSitter.setStatus(UserStatusEnum.PENDING);
+        // Convert enums
+        //petSitter.setRegion(RegionEnum.valueOf(@FormParam("region") region));
+        //petSitter.setService(ServiceEnum.valueOf(@FormParam("service")));
+
+        petSitterSessionBeanLocal.createNewSitter(petSitter);
+        return petSitter;
+    }
 
     @GET
     @Path("/getAllUsers")
@@ -131,8 +118,8 @@ public class UsersResource {
     @GET
     @Path("/getAllSitters")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<PetSitter> getAllSitters() {
-        return petSitterSessionBeanLocal.retrieveAllSitters();
+    public List<User> getAllSitters() {
+        return userSessionBean.retrieveAllSitters();
     }
     
     @POST

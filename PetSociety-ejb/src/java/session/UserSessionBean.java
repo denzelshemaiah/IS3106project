@@ -10,6 +10,7 @@ import entity.PetSitter;
 import entity.User;
 import enumeration.UserStatusEnum;
 import error.UserNotFoundException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -98,6 +99,27 @@ public class UserSessionBean implements UserSessionBeanLocal {
     public List<User> retrieveAllUsers() {
         Query q = em.createQuery("SELECT u FROM User u");
         return q.getResultList();
+    }
+    
+    @Override
+    public List<User> retrieveAllParents() {
+        Query q = em.createQuery("SELECT u FROM User u WHERE u.petParent IS NOT NULL");
+        return q.getResultList();
+    }
+    
+    @Override
+    public List<User> retrieveAllSitters() {
+        Query q = em.createQuery("SELECT u FROM User u");
+        List<User> users = q.getResultList();
+        List<User> petSitters = new ArrayList<>();
+        
+        for (User u : users) {
+            if (u instanceof PetSitter) {
+                petSitters.add(u);
+            }
+        }
+        System.out.println("PET SITTERS:" + petSitters);
+        return petSitters;
     }
 
     @Override

@@ -60,7 +60,7 @@
     </mime-mapping>
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
-<!--        <welcome-file>staffLogin.xhtml</welcome-file>-->
+        <!--        <welcome-file>staffLogin.xhtml</welcome-file>-->
     </welcome-file-list>
     <ejb-local-ref>
         <ejb-ref-name>UserSessionBean</ejb-ref-name>
@@ -70,6 +70,24 @@
     </ejb-local-ref>
     <ejb-local-ref>
         <ejb-ref-name>CreditCardSessionBean</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>session.CreditCardSessionBeanLocal</local>
+        <ejb-link>PetSociety-ejb.jar#CreditCardSessionBean</ejb-link>
+    </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>BankAccSessionBean</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>session.BankAccSessionBeanLocal</local>
+        <ejb-link>PetSociety-ejb.jar#BankAccSessionBean</ejb-link>
+    </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>BankAccSessionBean1</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>session.BankAccSessionBeanLocal</local>
+        <ejb-link>PetSociety-ejb.jar#BankAccSessionBean</ejb-link>
+    </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>CreditCardSessionBean1</ejb-ref-name>
         <ejb-ref-type>Session</ejb-ref-type>
         <local>session.CreditCardSessionBeanLocal</local>
         <ejb-link>PetSociety-ejb.jar#CreditCardSessionBean</ejb-link>

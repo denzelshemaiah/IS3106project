@@ -17,6 +17,7 @@ import Profile from './containers/Profile';
 import Homepage from './containers/Homepage';
 import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
+import AllSitters from './containers/AllSitters';
 
 
 function App() {
@@ -38,7 +39,7 @@ function App() {
       <Navbar></Navbar>
       <div className='container'>
         <Routes>
-          <Route exact path="/" element={<Homepage />} />
+          <Route exact path="/" element= {user === null ? <Homepage /> : <LoggedInHomepage />} />
           <Route path="/signIn" element={<SignIn />} />
           <Route path="/signUp/:page" element={<SignUp />} />
           <Route path="/bookings"

@@ -7,22 +7,22 @@ import titleIcon from "./titleIcon.jpg"
 import moment from "moment-timezone";
 import Toast from 'react-bootstrap/Toast'
 import ContactModal from "../../components/ContactDetailsModal";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 //page to view all bookings, follows a tab view
-function Bookings(props) {
-    const [userId, setUserId] = useState(null);
+function Bookings() {
+    const [userId, setUserId] = useState(JSON.parse(localStorage.getItem("user")).userId);
     const [chosenTab, setChosenTab] = useState("pending")
     const [bookings, setBookings] = useState([]);
-    const [userRole, setUserRole] = useState(null);
-    const [user, setUser] = useState(null);
-
+    const [userRole, setUserRole] = useState(JSON.parse(localStorage.getItem("user_role")));
+    
     useEffect(() => {
         reloadData();
     }, [chosenTab]);
 
     useEffect(() => {
         const handleStorage = () => {
-            setUser(JSON.parse(localStorage.getItem("user")));
             setUserId(JSON.parse(localStorage.getItem("user")).userId);
             setUserRole(JSON.parse(localStorage.getItem("user_role")));
         }
@@ -30,6 +30,13 @@ function Bookings(props) {
         window.addEventListener('storage', handleStorage())
         return () => window.removeEventListener('storage', handleStorage())
     }, [])
+
+    const showErrorToast = () => {
+        toast.error('Could not carry out request!', {
+          position: toast.POSITION.TOP_RIGHT,
+          className:'error-toast'
+        });
+    }
 
     function otherParty(booking) {
         if (userRole === "parent") {
@@ -93,7 +100,7 @@ function Bookings(props) {
     function cancelButton(booking) {
         if (userRole === "parent") {
             return<div style={{width:"110px", float:"right"}}>
-                <RequestModal buttonLabel="Cancel" booking={booking} type="booking" updateState={updateState} reloadData={reloadData} refreshPage={refreshPage}/>
+                <RequestModal buttonLabel="Cancel" booking={booking} type="booking" updateState={updateState} reloadData={reloadData} refreshPage={refreshPage} showErrorToast={showErrorToast}/>
                 {' '}
             </div>
         }
@@ -139,7 +146,6 @@ function Bookings(props) {
         if (chosenTab === "pending" && userRole === "parent") {
             return (
                 <>  
-                {/*  CHANGE TO SITTER ! */}
                     <li className="list-group-item" key={booking.bookingReqId}  style={{padding:"20px"}}>
                         <h5>{booking.sitter.firstName} {booking.sitter.lastName}</h5>
                         Request Dates: {booking.formatStartDate} to {booking.formatEndDate}<br/>
@@ -196,7 +202,7 @@ function Bookings(props) {
                 return (
                     <>  
                         <li class="list-group-item" key={booking.bookingReqId} style={{padding:"20px"}}>
-                            <h5>{booking.sitter.firstName} {booking.sitter.lastName}</h5>
+                            <h5>{otherParty.firstName} {otherParty.lastName}</h5>
                             Request Dates: {booking.formatStartDate} to {booking.formatEndDate}<br/>
                             Request Description: {booking.description} <br/>
                             {repeatText(booking)} <br/>
@@ -224,6 +230,7 @@ function Bookings(props) {
 
     return (
         <>
+            <ToastContainer/>
             <div style={{display: "block", width:"100%", textAlign:"center"}}>
                 <h3 style={{display: "inline", marginRight: "1vw"}}> My Bookings </h3>
                 <img src={titleIcon} style={{height:"100px"}}/>
