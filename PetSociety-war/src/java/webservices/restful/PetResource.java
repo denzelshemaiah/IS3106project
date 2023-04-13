@@ -6,6 +6,8 @@
 package webservices.restful;
 
 import entity.Pet;
+import entity.User;
+import entity.PetParent;
 import javax.ejb.EJB;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -16,8 +18,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.POST;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import session.PetParentSessionBeanLocal;
 import session.PetSessionBeanLocal;
+import session.UserSessionBeanLocal;
 
 /**
  * REST Web Service
@@ -30,15 +35,14 @@ public class PetResource {
 
     @EJB
     private PetSessionBeanLocal petSessionBeanLocal;
-    
+     
     // create pet
     @POST
     @Path("/createPet")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Pet createNewPet(Pet pet) {
+    public Pet createNewPet(Pet pet) {     
         petSessionBeanLocal.createNewPet(pet);
-        
         return pet;
     }
 }

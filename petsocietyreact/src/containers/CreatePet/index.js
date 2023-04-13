@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Api from "../../helpers/Api";
 import { Helmet } from "react-helmet";
 import {
@@ -28,6 +28,7 @@ import dayjs from 'dayjs';
 import '../../loading.css';
 
 function CreatePet() {
+    
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -108,6 +109,7 @@ function CreatePet() {
     const handleCreationOfPet = (e) => {
         e.preventDefault();
         setIsLoading(true);
+       
         Api.createNewPet(pet)
             .then((data) => {
                 navigate("/Profile");
@@ -405,9 +407,9 @@ function CreatePet() {
                                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                                             <DemoContainer components={['DatePicker']}>
                                                 <DatePicker
-                                                label="Adoption Date"
-                                                value={dayJsAdoptionDate}
-                                                onChange={(newDate) => setDayJsAdoptionDate(newDate)}>
+                                                    label="Adoption Date"
+                                                    value={dayJsAdoptionDate}
+                                                    onChange={(newDate) => setDayJsAdoptionDate(newDate)}>
                                                 </DatePicker>
                                             </DemoContainer>
                                         </LocalizationProvider>
