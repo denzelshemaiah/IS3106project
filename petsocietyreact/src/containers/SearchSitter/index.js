@@ -11,6 +11,8 @@ import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import SearchResults from "../../components/SearchResults";
 import Api from "../../helpers/Api";
+import { QueryClient, QueryClientProvider } from 'react-query';
+import $ from 'jquery';
 
 
 const queryClient = new QueryClient();
@@ -36,25 +38,22 @@ function SearchSitter(props) {
         fulltime: false,
         numOfTimes: null,
     });
-     
+    
+
+    const [userId, setUserId] = useState(JSON.parse(localStorage.getItem("user")).userId);
     useEffect(() => {
-
-
         const handleStorage = () => {
-          const storedUser = JSON.parse(localStorage.getItem("user"));
-          setUser(storedUser);
-          if (storedUser) {
-            setUserId(storedUser.userId);
-            setUserRole(JSON.parse(localStorage.getItem("user_role")));
+            setUserId(JSON.parse(localStorage.getItem("user")).userId);
+          if (!userId) {
             setFormData(prevState => ({
-                ...prevState,
-                userId: storedUser.userId
-              }));}
-            }
-            window.addEventListener('storage', handleStorage())
-            return () => window.removeEventListener('storage'. handleStorage())
-        }, [])
-
+              ...prevState,
+              userId: userId
+            }));
+          }
+        };
+        window.addEventListener('storage', handleStorage); // pass handleStorage as a callback
+        return () => window.removeEventListener('storage', handleStorage);
+      }, []);
 
 
 
@@ -246,13 +245,17 @@ function SearchSitter(props) {
 
     let dayOfWeekButton = ""
 
-
+    const [fulltime, setfulltime] = useState(false);  
+    const handleFullTime = (event) => {
+        const { checked } = event.target;
+        setfulltime(checked);
+    }
     let fulltimeButton = "";
     if (selectedItem1 === "DayCare") {
         fulltimeButton = (
             <>
                 <div className="form-check">
-                    <input className="form-check-input" type="checkbox" id="fulltimeCheck" name="fulltime" onChange={handleInputChange} />
+                    <input className="form-check-input" type="checkbox" id="fulltimeCheck" name="fulltime" onChange={handleFullTime} />
                     <label className="form-check-label" htmlFor="fulltimeCheck">
                         Sitter is home full-time
                     </label>

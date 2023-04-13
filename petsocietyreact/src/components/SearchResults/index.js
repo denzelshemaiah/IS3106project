@@ -11,9 +11,6 @@ import { useQuery } from "react-query";
 
 
 
-
-
-
 function SearchResults(props) {
 
 
@@ -133,30 +130,33 @@ function SearchResults(props) {
     return (
         /* here we map over the sitter and display each sitter as a card but this is based on the booking that they have posted */
         <>
-            {/* <div>
-                <h1>Search Results</h1>
-                <p>Form Data: {JSON.stringify(formData)}</p>
-            </div> */}
+
             <div className="wrapper">
                 <ul className="card-grid">
-                    {data.map((sitter) => (
+                    {filteredData.map((sitter) => (
                         <li>
                             <article className="card" key={sitter.user.userId}>
+                            {/* <article className="card" key={sitter.userId}> */}
                                 <CardGroup>
                                     <Card style={{ width: '22rem' }}>
                                         <CardImg
                                             alt="Sample"
                                             src={sitter.profilePicture} />
+                                            {/* src={sitter.profilePicture} /> */}
                                         <CardBody className="text-center">
                                             <CardTitle tag="h5">
                                                 {sitter.user.firstName} {sitter.user.lastName}
                                             </CardTitle>
+                                            {/* <CardTitle tag="h5">
+                                                {sitter.firstName} {sitter.lastName}
+                                            </CardTitle> */}
                                             <div>
                                                 <Rating
                                                     count={5}
                                                     size={24}
                                                     activeColor="#ffd700"
                                                     value={sitter.user.ratingsForUsers}
+                                                    // value={sitter.rating}
                                                     edit={false} />
                                             </div>
                                             <CardText>
