@@ -130,6 +130,7 @@ public class BookingsResource {
     @Produces(MediaType.APPLICATION_JSON)
     public void createBooking (@PathParam("parentId") Long parentId, @PathParam("sitterId") Long sitterId,
             BookingRequest b, @QueryParam("repeat") String repeatBasis) {
+        System.out.println("create web resource");
         bookingSession.createNewBooking(b, parentId, sitterId, repeatBasis);
     } 
 }

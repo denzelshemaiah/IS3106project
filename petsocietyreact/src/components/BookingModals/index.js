@@ -75,7 +75,7 @@ function RequestModal(props) {
       Api.cancelBooking(booking.parent.userId, booking.bookingReqId)
       .catch(err => {
         console.log(err)
-        props.showErrorToast()
+        props.showErrorToast();
       })
       .then(props.reloadData())
       toggle();

@@ -7,6 +7,7 @@ import moment from 'moment-timezone';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaw } from "@fortawesome/free-solid-svg-icons";
 import EditMgForm from "../../components/EditMgForm";
+import { useNavigate } from "react-router-dom";
 
 function MgModal(props) {
     const [modal, setModal] = useState(false);
@@ -17,6 +18,8 @@ function MgModal(props) {
     const reloadData = props.reloadData;
     const mgReq = props.mgReq;
     const parentId = useState(1);
+
+    let navigate = useNavigate();
 
     useEffect(() => {
         if (props.sitter) {
@@ -39,17 +42,15 @@ function MgModal(props) {
         //change this to current user's Id
         Api.cancelMg(mgReq.parent.userId, mgReq.mgReqId)
         .then(props.reloadData())
-        .then(props.refreshPage);
-        toggle();
+        .then(toggle());
     }
 
     const submitFormAccept = (e) => {
         e.preventDefault();
         //change this to current user's Id
         Api.acceptMg(mgReq.sitter.userId, mgReq.mgReqId)
-        .then(toggle())
         .then(props.reloadData())
-        .then(props.refreshPage);
+        .then(toggle());
     }
 
     const submitFormReject = (e) => {
@@ -57,8 +58,7 @@ function MgModal(props) {
         //change this to current user's id
         Api.rejectMg(mgReq.sitter.userId, mgReq.mgReqId)
         .then(props.reloadData())
-        .then(toggle())
-        .then(props.refreshPage);
+        .then(toggle());
     }
 
     //when the form values change
@@ -80,7 +80,7 @@ function MgModal(props) {
         form.createdDate = createdDate;
         form.mgDate = mgDate;
         Api.createMg(form, sitter.userId, 1)
-        .then(props.reloadData());
+        .then(toggle());
         toggle();
     }
 
@@ -91,9 +91,9 @@ function MgModal(props) {
     if (buttonLabel === "Create") {
         button = (
             <Button
-              color="warning"
+              color="primary"
               onClick={toggle}
-              style={{ float: "right", marginLeft: "30px", marginRight: "20px"}}
+              style={{ float: "right", marginLeft: "30px", marginRight: "20px", padding: '15px 25px'}}
             >
             Meet Sitter
             </Button>
@@ -101,7 +101,7 @@ function MgModal(props) {
         modalBody = (
             <Form onSubmit={submitFormMake}>
                     <FormGroup>
-                        <Label for="mgDesc"> Booking Description: </Label>
+                        <Label for="mgDesc"> You can introduce yourself and your furry friend </Label>
                         <Input
                             type="text"
                             name="mgDesc"

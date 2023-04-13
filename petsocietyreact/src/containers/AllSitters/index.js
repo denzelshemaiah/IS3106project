@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { MDBCard, MDBTypography, MDBContainer, MDBCardBody, MDBCardTitle, MDBCardText, MDBCol, MDBRow, MDBBtn } from 'mdb-react-ui-kit';
 import sitterList from "../../icons/sitter_list.png";
 import sitterListBg from "../../icons/sitter_list_bg.png";
+import { Link } from 'react-router-dom';
+import MgModal from '../../components/MgModals';
+import { ButtonGroup } from 'reactstrap';
 
 
 function AllSitters() {
@@ -18,12 +21,6 @@ function AllSitters() {
             .catch(error => console.error(error));
         console.log(sitters);
     }, []);
-
-    // const getAllSitters = async () => {
-    //     const response = await fetch(Api.getAllPetSitters());
-    //     const data = await response.json();
-    //     return data;
-    // };
 
     return (
         <div style={{
@@ -48,18 +45,23 @@ function AllSitters() {
                             key={sitter.userId}>
                             <MDBCardBody className="p-2 m-2">
                                 <MDBRow className="align-items-center">
-                                    <MDBCol md='8'>
+                                    <MDBCol md='6'>
                                         <h5><b>{sitter.firstName} {sitter.lastName}</b></h5>
                                         <p>{sitter.email}</p>
                                         <small>Rating</small>
                                     </MDBCol>
-                                    <MDBCol md='4'>
-                                        <MDBBtn class="btn btn-primary"
-                                            style={{
-                                                backgroundColor: '#7B69A9',
-                                                padding: '15px 25px'}}>
-                                                Book Now!
-                                        </MDBBtn>
+                                    <MDBCol md='6'>
+                                        <ButtonGroup style={{float: "right"}}>
+                                            <Link to="/makebooking" state={{sitter : sitter}}>
+                                            <MDBBtn class="btn btn-primary"
+                                                style={{
+                                                    backgroundColor: '#7B69A9',
+                                                    padding: '15px 25px'}}>
+                                                    Book Now!
+                                            </MDBBtn>
+                                            </Link>
+                                        </ButtonGroup>
+                                        <MgModal sitter={sitter} buttonLabel="Create"></MgModal>
                                     </MDBCol>
                                 </MDBRow>
                             </MDBCardBody>

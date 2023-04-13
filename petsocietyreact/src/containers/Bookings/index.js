@@ -115,7 +115,7 @@ function Bookings() {
     }
 
     function repeatText(booking) {
-        if (booking.repeatDays) {
+        if (!booking.repeatDays.length === 0 ) {
             var repeatArray = booking.repeatDays;
             var daysArray = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
             var daysStr = "";
@@ -202,7 +202,7 @@ function Bookings() {
                 return (
                     <>  
                         <li class="list-group-item" key={booking.bookingReqId} style={{padding:"20px"}}>
-                            <h5>{otherParty.firstName} {otherParty.lastName}</h5>
+                            <h5>{otherParty(booking).firstName} {otherParty(booking).lastName}</h5>
                             Request Dates: {booking.formatStartDate} to {booking.formatEndDate}<br/>
                             Request Description: {booking.description} <br/>
                             {repeatText(booking)} <br/>

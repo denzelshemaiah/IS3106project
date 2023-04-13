@@ -39,6 +39,7 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
         PetParent p = em.find(PetParent.class, parentId);
         PetSitter s = em.find(PetSitter.class, sitterId);
         List<Integer> days = b.getRepeatDays();
+        System.out.println("BOOKING BEING CREATED: " + b);
         if (p == null || s == null) {
             //exception?
         } else {
@@ -92,23 +93,9 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
                     start.add(Calendar.DATE, 1);
                 }
             } else if (repeatBasis.equals("once")) {
-//                Date start = b.getStartDate();
-//                Date end = b.getEndDate();
-//                
-//                long dateStartInMs = start.getTime();
-//                long dateEndInMs = end.getTime();
-//                
-//                long timeDiff = Math.abs(dateEndInMs - dateStartInMs);
-//                long daysDiff = TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
-//                
-//                p.getBookings().add(b);
-//                s.getBookings().add(b);
-//                b.setParent(p);
-//                b.setStatus(RequestStatusEnum.PENDING);
-//                b.setCost(s.getRate().multiply(BigDecimal.valueOf(daysDiff)).multiply(new BigDecimal(b.getNumPets())));
-//                b.setSitter(s);
-//                b.setRepeatDays(b.getRepeatDays());
-            // js rl cost is alr calc in nb
+                b.setStatus(RequestStatusEnum.PENDING);
+                b.setParent(p);
+                b.setSitter(s);
                 em.persist(b);
                 em.flush();
             }
@@ -134,6 +121,7 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
 
         if (u instanceof PetParent) {
             //if user is a parent
+            System.out.println("is a parent");
             q = em.createQuery("SELECT b FROM BookingRequest b WHERE b.parent.userId LIKE :parentId AND b.status = :enum")
                     .setParameter("parentId", userId)
                     .setParameter("enum", statusEnum);
@@ -149,13 +137,16 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
     @Override
     public void updateBooking(BookingRequest b) throws NoResultException {
         BookingRequest old = em.find(BookingRequest.class, b.getBookingReqId());
+        System.out.println("updating....");
         if (old == null) {
             throw new NoResultException("No booking can be found!");
         } else {
             old.setDescription(b.getDescription());
             old.setStartDate(b.getStartDate());
             old.setEndDate(b.getEndDate());
-            old.setCost(b.getCost());
+            if (b.getCost() != null) {
+                old.setCost(b.getCost());
+            }
             old.setNumPets(b.getNumPets());
             em.merge(old);
         }

@@ -145,6 +145,7 @@ const Api = {
     //view all bookings
     //retrieve the ID of the user and the user object from the web resources
     getAllBookings(status, userId) {
+        console.log("getting bookings");
         return fetch(`${SERVER_PREFIX}/bookings/${status}/${userId}`)
     },
 

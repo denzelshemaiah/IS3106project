@@ -32,7 +32,6 @@ function Navbar() {
     e.preventDefault();
     localStorage.removeItem("user")
     localStorage.removeItem("user_role")
-    navigate('/signIn')
   }
 
   function links() {
