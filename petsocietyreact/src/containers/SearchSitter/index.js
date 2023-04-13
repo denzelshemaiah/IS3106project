@@ -11,11 +11,15 @@ import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import SearchResults from "../../components/SearchResults";
 import Api from "../../helpers/Api";
+<<<<<<< HEAD
 import { QueryClient, QueryClientProvider } from 'react-query';
 import $ from 'jquery';
 
 
 const queryClient = new QueryClient();
+=======
+import AllSitters from "../AllSitters";
+>>>>>>> origin/master
 
 
 function SearchSitter(props) {
