@@ -11,7 +11,7 @@ import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import SearchResults from "../../components/SearchResults";
 import Api from "../../helpers/Api";
-import AllSitters from "../AllSitters"
+import AllSitters from "../AllSitters";
 
 
 function SearchSitter(props) {
