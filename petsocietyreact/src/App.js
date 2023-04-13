@@ -39,7 +39,6 @@ function App() {
       <Navbar></Navbar>
       <div className='container'>
         <Routes>
-          <Route path ="allSitters" element={<AllSitters/>} />
           <Route exact path="/" element= {user === null ? <Homepage /> : <LoggedInHomepage />} />
           <Route path="/signIn" element={<SignIn />} />
           <Route path="/signUp/:page" element={<SignUp />} />
