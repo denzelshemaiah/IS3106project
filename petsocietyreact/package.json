@@ -37,6 +37,7 @@
     "react-helmet": "^6.1.0",
     "react-input-slider": "^6.0.1",
     "react-multi-date-picker": "^3.3.4",
+    "react-query": "^3.39.3",
     "react-rating-stars-component": "^2.2.0",
     "react-responsive-modal": "^6.4.1",
     "react-router-dom": "^6.9.0",

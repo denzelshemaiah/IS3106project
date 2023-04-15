@@ -44,7 +44,7 @@ public class Report implements Serializable {
     public Report() {
         this.settled = false;
         this.staff = null;
-        this.valid = null;
+        this.valid = false;
     }
     
     @JsonbTransient
