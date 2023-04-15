@@ -55,11 +55,12 @@ function MakeBooking() {
     const calculateTotalCost = () => {
         //per day (boarding,  daycare)
         if (service === "BOARDING" || service === "DAYCARE") {
-            var diffDays = Math.round((endDate.getTime() - startDate.getTime())/(1000 * 60 * 60 * 24));
-
-            console.log("first diff" + diffDays)
-            if (repeat === "weekly") {
-                diffDays = 0;
+            if (repeat === "once") {
+                var diffDays = Math.round((endDate - startDate)/(1000 * 60 * 60 * 24)) + 1;
+                setCost((diffDays) * rate * numPets);
+            }
+            else if (repeat === "weekly") {
+                var diffDays = 0;
                 var copyStart = startDate
                 while (copyStart <= endDate) {
                     var dayIdx = moment(copyStart).day();
@@ -70,16 +71,16 @@ function MakeBooking() {
                     }
                     copyStart = moment(copyStart).add(1, "days");
                 }
+                setCost(diffDays * rate * numPets);
             }
-            console.log("diff days:" +  diffDays);
-            console.log(rate);
-            console.log(numPets);
-            setCost(diffDays * rate * numPets);
         } else if (service === "WALKING" || service === "DROP_IN") {
             //drop-in case, basis is per visit or walking, basis is per walk
-            diffDays = Math.round((endDate - startDate)/(1000 * 60 * 60 * 24));
-            if (repeat === "weekly") {
-                diffDays = 0;
+            if (repeat === "once") {
+                var diffDays = Math.round((endDate - startDate)/(1000 * 60 * 60 * 24)) + 1;
+                setCost((diffDays) * rate * parseInt(freq) * numPets);
+            }
+            else if (repeat === "weekly") {
+                var diffDays = 0;
                 copyStart = startDate
                 while (copyStart <= endDate) {
                     var dayIdx = moment(copyStart).day();
@@ -90,10 +91,13 @@ function MakeBooking() {
                     }
                     copyStart = moment(copyStart).add(1, "days");
                 }
-                console.log(diffDays)
+                console.log(rate);
+                console.log(numPets);
+                console.log(diffDays);
+                console.log(freq);
                 setCost(diffDays * rate * parseInt(freq) * numPets);
+                console.log(diffDays * rate * parseInt(freq) * numPets);
             }
-            setCost((diffDays + 1) * rate * parseInt(freq) * numPets);
         }      
     }
 
@@ -138,9 +142,10 @@ function MakeBooking() {
         var daysNum = [];
         array.forEach((day) => {
             var idx = daysStr.indexOf(day);
-            daysNum.push(idx);
+            daysNum.push(idx + 1);
         })
         //sort earliest day to latest
+        console.log(daysNum);
         return daysNum.sort()
     }
 
@@ -273,7 +278,9 @@ function MakeBooking() {
             cost: cost,
         }
         console.log(booking);
-        
+
+        booking.repeatDays = convertDays(daysRepeat);
+
         //fetch the Api
         await Api.createBooking(booking, parentId, sitterId, repeat)
         .then(() => navigate("/bookings"));
@@ -343,23 +350,23 @@ function MakeBooking() {
                         <ButtonGroup>
                             <Button
                                 color="purple"
-                                active={numPets === '1'}
+                                active={numPets === 1}
                                 style={{ whiteSpace: 'nowrap' }}
-                                onClick={() => {setNumPets('1')}}>
+                                onClick={() => {setNumPets(1)}}>
                                 1
                             </Button>
                             <Button
                                 color="purple"
-                                active={numPets === '2'}
+                                active={numPets === 2}
                                 style={{ whiteSpace: 'nowrap' }}
-                                onClick={() => {setNumPets('2')}}>
+                                onClick={() => {setNumPets(2)}}>
                                 2
                             </Button>
                             <Button
                                 color="purple"
-                                active={numPets === '3'}
+                                active={numPets === 3}
                                 style={{ whiteSpace: 'nowrap' }}
-                                onClick={() => {setNumPets('3')}}>
+                                onClick={() => {setNumPets(3)}}>
                                 3
                             </Button>
                         </ButtonGroup>

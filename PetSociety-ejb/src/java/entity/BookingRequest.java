@@ -58,6 +58,8 @@ public class BookingRequest implements Serializable {
     @Column(nullable = true)
     //days basis for repeating bookings
     private List<Integer> repeatDays;
+    @Column(nullable = true)
+    private boolean penalty;
     
     //relationships
     @ManyToOne
@@ -287,6 +289,20 @@ public class BookingRequest implements Serializable {
      */
     public void setRepeatDays(List<Integer> repeatDays) {
         this.repeatDays = repeatDays;
+    }
+
+    /**
+     * @return the penalty
+     */
+    public boolean isPenalty() {
+        return penalty;
+    }
+
+    /**
+     * @param penalty the penalty to set
+     */
+    public void setPenalty(boolean penalty) {
+        this.penalty = penalty;
     }
     
 }

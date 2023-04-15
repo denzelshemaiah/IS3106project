@@ -6,16 +6,13 @@ import { faBone } from "@fortawesome/free-solid-svg-icons";
 
 function ContactModal(props) {
     const [firstName, setFirstName] = useState("first name");
-    const [address, setAddress] = useState("address");
     const [contact, setContact] = useState("contact");
     const [modal, setModal] = useState(false);
 
     useEffect(() => {
-        if (props.user) {
-            setFirstName(props.user.firstName);
-            setAddress(props.user.serviceAddress);
-            setContact(props.user.contactNum);
-        }
+        setFirstName(props.user.firstName);
+        setFirstName(props.user.firstName);
+        setContact(props.user.contactNum)
     }, [props.user])
 
     const toggle = () => {
@@ -43,9 +40,8 @@ function ContactModal(props) {
                     Contact {firstName} <FontAwesomeIcon icon={faBone} style={{float: "left", marginRight: "15px", height:"30px", width:"30px"}}/>
                 </ModalHeader>
                 <ModalBody>
-                    <p>Please contact {firstName} to finalise details on your booking </p>
-                    <p>Address: {address} </p>
-                    <p>Contact: {contact} </p>
+                    <p>Please contact the other party, {firstName}, to finalise details on your booking </p>
+                    <p>Contact Number: {contact} </p>
                 </ModalBody>
             </Modal>
         </>

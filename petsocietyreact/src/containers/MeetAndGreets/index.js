@@ -7,14 +7,14 @@ import RequestModal from "../../components/BookingModals"
 import MgModal from "../../components/MgModals";
 import titleIcon from "./mgTitle.jpeg"
 import moment from "moment-timezone";
-
+import ContactModal from "../../components/ContactDetailsModal";
 
 function MeetAndGreets() {
     //initialise all the necessary constants
-    const [userId, setUserId] = useState(0);
+    const [userId, setUserId] = useState(JSON.parse(localStorage.getItem("user")).userId);
     const [chosenTab, setChosenTab] = useState("pending")
     const [requests, setRequests] = useState([]);
-    const [userRole, setUserRole] = useState("");
+    const [userRole, setUserRole] = useState(JSON.parse(localStorage.getItem("user_role")));
     const [user, setUser] = useState({});
 
     useEffect(() => {
@@ -64,6 +64,8 @@ function MeetAndGreets() {
             setRequests(mgs);
         })
         .then(result);
+
+        console.log(requests)
     }
 
     const updateState = (item) => {
@@ -93,7 +95,7 @@ function MeetAndGreets() {
     editButton = (request) => {
         if (userRole === "parent" && (chosenTab === "pending" || chosenTab === "rejected")) {
             return <div style={{width:"110px", float:"right"}}>
-                <MgModal buttonLabel="Edit" mgReq={request} updateState={updateState} reloadData={reloadData} refreshPage={refreshPage}/>
+                <MgModal buttonLabel="Edit" mgReq={request} userId={userId} updateState={updateState} reloadData={reloadData} refreshPage={refreshPage}/>
                 {' '}
             </div>
         } else if (userRole === "sitter") {
@@ -140,7 +142,7 @@ function MeetAndGreets() {
                 <>  
                     <li className="list-group-item" key={request.bookingReqId} style={{padding:"20px"}}>
                         <h5>{request.parent.firstName} {request.parent.lastName}</h5>
-                        Request Date: {request.formatDate}<br/>
+                        Request Date: {request.formatMgDate}<br/>
                         <p>{request.mgDesc}</p>
                         {editButton(request)}
                         {badge(request)}
@@ -153,10 +155,11 @@ function MeetAndGreets() {
                 <>
                     <li className="list-group-item" key={request.mgReqId} style={{padding:"20px"}}>
                         <h5>{request.sitter.firstName} {request.sitter.lastName}</h5>                        
-                        Request Date: {request.formatDate}<br/>
+                        Request Date: {request.formatMgDate}<br/>
                         <p>{request.mgDesc}</p>
                         {cancelButton(request)}
                         {badge(request)}
+                        <ContactModal user={otherParty(request)}></ContactModal>
                     </li>
                 </>
             )
@@ -166,10 +169,11 @@ function MeetAndGreets() {
                 <>
                     <li className="list-group-item" key={request.mgReqId} style={{padding:"20px"}}>
                         <h5>{request.parent.firstName} {request.parent.lastName}</h5>
-                        Request Date: {request.formatDate}<br/>
+                        Request Date: {request.formatMgDate}<br/>
                         <p>{request.mgDesc}</p>
                         {badge(request)}
                         {cancelButton(request)}
+                        <ContactModal user={otherParty(request)}></ContactModal>
                     </li>
                 </>
             )
@@ -179,7 +183,7 @@ function MeetAndGreets() {
                 <>
                     <li className="list-group-item" key={request.mgReqId} style={{padding:"20px"}}>
                         <h5>{request.sitter.firstName} {request.sitter.lastName}</h5>                        
-                        Request Date: {request.formatDate}<br/>
+                        Request Date: {request.formatMgDate}<br/>
                         <p>{request.mgDesc}</p>
                         {editButton(request)}
                         {badge(request)}

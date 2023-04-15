@@ -118,6 +118,8 @@ public class MeetAndGreetResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public void createMg (MeetAndGreetRequest mg, @PathParam("sitterId") Long sitterId, @PathParam("parentId") Long parentId) {
+        System.out.println(sitterId);
+        System.out.println(parentId);
         mgSession.createNewMeetAndGreet(mg, sitterId, parentId);
     }
 }

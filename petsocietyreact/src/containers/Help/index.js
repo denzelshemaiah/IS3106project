@@ -185,31 +185,58 @@ function HelpPage(props) {
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="payment-flush-headingOne">
                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#paymentOne" aria-expanded="false" aria-controls="payment-flush-collapseOne">
-                                            Accordion Item #1
+                                            How will I get paid for my services?
                                         </button>
                                     </h2>
                                     <div id="paymentOne" class="accordion-collapse collapse" aria-labelledby="payment-flush-headingOne" data-bs-parent="#accordionFlushExample">
-                                        <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
+                                        <div class="accordion-body">
+                                            1 day after the completion of the service, the service fee minus the commission fees will be transferred to your bank account.
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="payment-flush-headingTwo">
                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#paymentTwo" aria-expanded="false" aria-controls="payment-flush-collapseTwo">
-                                            Accordion Item #2
+                                            Is there a commission?
                                         </button>
                                     </h2>
                                     <div id="paymentTwo" class="accordion-collapse collapse" aria-labelledby="payment-flush-headingTwo" data-bs-parent="#accordionFlushExample">
-                                        <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the second item's accordion body. Let's imagine this being filled with some actual content.</div>
+                                        <div class="accordion-body">
+                                            Yes, there is a commission. The commission for all Pet Sitters who use this platform will be 10% of the total booking fee.
+                                            <br/>
+                                            This will be automatically deducted from the payment we transfer to you, so don't worry about it!
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Col>
+
+                        <Col sm="4">
+                            <h5> Bookings </h5>
+                            <div class="accordion accordion-flush" id="accordionFlushBkings">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="bkings-flush-headingOne">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#bkingsOne" aria-expanded="false" aria-controls="bkings-flush-collapseOne">
+                                            Where can I see my bookings?
+                                        </button>
+                                    </h2>
+                                    <div id="bkingsOne" class="accordion-collapse collapse" aria-labelledby="bkings-flush-headingOne" data-bs-parent="#accordionFlushBkings">
+                                        <div class="accordion-body">
+                                           You can view your bookings from the "Booking" menu in the navigation bar at the top of the screen.
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="accordion-item">
-                                    <h2 class="accordion-header" id="payment-flush-headingThree">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#paymentThree" aria-expanded="false" aria-controls="payment-flush-collapseThree">
-                                            Accordion Item #3
+                                    <h2 class="accordion-header" id="bkings-flush-headingTwo">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#bkingsTwo" aria-expanded="false" aria-controls="bkings-flush-collapseTwo">
+                                            How do I contact the Pet Parent of a booking?
                                         </button>
                                     </h2>
-                                    <div id="paymentThree" class="accordion-collapse collapse" aria-labelledby="payment-flush-headingThree" data-bs-parent="#accordionFlushExample">
-                                        <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion body. Nothing more exciting happening here in terms of content, but just filling up the space to make it look, at least at first glance, a bit more representative of how this would look in a real-world application.</div>
+                                    <div id="bkingsTwo" class="accordion-collapse collapse" aria-labelledby="payment-flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                                        <div class="accordion-body">
+                                            After accepting a booking, a "Contact" button will appear on the screen. <br/>
+                                            This allows you to view the contact information of the respective Pet Parent and liaise with them.
+                                        </div>
                                     </div>
                                 </div>
                             </div>

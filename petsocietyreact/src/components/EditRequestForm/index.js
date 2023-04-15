@@ -17,6 +17,7 @@ function EditForm(props) {
     const [sitter, setSitter] = useState(booking.sitter);
     const [cost, setCost] = useState(null);
     const [repeatDays, setRepeatDays] = useState(props.booking.repeatDays);
+    const [numPets, setNumPets] = useState(props.booking.numPets)
 
     const [form, setValues] = useState({
         bookingReqId : booking.bookingReqId,
@@ -24,9 +25,9 @@ function EditForm(props) {
         created : booking.created,
         description : booking.description,
         endDate: endDate,
-        numPets: booking.numPets,
+        numPets: numPets,
         startDate: startDate,
-        visitFreq: visitFreq,
+        visitFreq: booking.freq,
     });
 
     //when the form values change
@@ -38,30 +39,31 @@ function EditForm(props) {
     };
 
     function calculateNewCost(start, end) {
-        if (booking.repeatDays) {
-            let freq = 1;
+        console.log(booking)
+        if (!booking.repeatDays.length === 0) {
             //repeat bookings
             diffDays = 0;
             var copyStart = start
             while (copyStart <= end) {
-                var dayIdx = copyStart.day();
+                var dayIdx = moment(copyStart).day();
                 if (repeatDays.includes(dayIdx)) {
-                    //add charge for one more day
                     diffDays++;
                 }
                 copyStart = moment(copyStart).add(1, "days");
             }
-            return diffDays * sitter.rate * parseInt(freq) * form.numPets;
-        } else if (service === "boarding" || service === "daycare") {
+            console.log("diff 1" + diffDays);
+            console.log(sitter.rate);
+            return diffDays * sitter.rate * booking.freq * numPets;
+        } else if (service === "BOARDING" || service === "DAYCARE") {
             var diffDays = Math.round((end - start)/(1000 * 60 * 60 * 24));
-            return diffDays * sitter.rate * form.numPets;
-        } else if (service === "walking" || service === "dropin") {
+            console.log(diffDays);
+            console.log(sitter.rate);
+            console.log("num pets: " + numPets);
+            return diffDays * sitter.rate * numPets;
+        } else if (service === "WALKING" || service === "DROP_IN") {
             //drop-in case, basis is per visit or walking, basis is per walk
             diffDays = Math.round((end - start)/(1000 * 60 * 60 * 24));
-            console.log(diffDays)
-            console.log(booking.freq)
-            console.log(form.numPets)
-            return (diffDays + 1) * sitter.rate * parseInt(booking.freq) * form.numPets;
+            return (diffDays + 1) * sitter.rate * booking.freq * numPets;
         }
     }
 
@@ -86,6 +88,8 @@ function EditForm(props) {
         if (props.booking) {
             const {bookingReqId, cost, created, description, endDate, numPets, parent, sitter, repeatDays, startDate, status} = props.booking;
             setValues({bookingReqId, cost, created, description, endDate, numPets, parent, sitter, repeatDays, startDate, status})
+            setService(sitter.service);
+            setNumPets(booking.numPets);
         }
     }, [props.booking]);
 
@@ -97,11 +101,6 @@ function EditForm(props) {
     const handleEndDateChange = (date) => {
         setEndDate(moment(date).tz("Asia/Singapore").toDate());
         setCost(calculateNewCost(startDate, date));
-    }
-
-    const handleNumPets = (num) => {
-        form.numPets = num.target.value;
-        setCost(calculateNewCost(startDate, endDate));
     }
 
     return (
@@ -122,7 +121,7 @@ function EditForm(props) {
                     name="startDate"
                     minDate={new moment().tz("Asia/Singapore").toDate()}
                     selected={startDate}
-                    onChange={handleStartDateChange}
+                    onChange={(dates) => handleStartDateChange(dates)}
                     selectsStart
                     startDate={startDate}
                     endDate={endDate}
@@ -141,16 +140,7 @@ function EditForm(props) {
                     maxDate={maxDate()}
                 />
             </FormGroup>
-            <FormGroup>
-                <Label for="numPets"> Number of pets: </Label>
-                <Input
-                    type="number"
-                    name="numPets"
-                    id="numPets"
-                    onChange={handleNumPets}
-                    value={form.numPets === null ? "" : form.numPets}
-                />
-            </FormGroup>
+        
             <FormGroup>
                 The new cost will be: {cost}
             </FormGroup>

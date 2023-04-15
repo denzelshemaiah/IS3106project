@@ -42,11 +42,9 @@ function EditForm(props) {
         form.mgDate = date;
         console.log(form.mgDate)
         Api.updateMg(form)
-        .then(props.reloadData())
-        .then(props.refreshPage);
+        .then(props.reloadData)
         props.updateState(form);
         props.toggle();
-
     }
 
     useEffect(() => {

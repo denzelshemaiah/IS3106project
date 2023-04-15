@@ -28,8 +28,7 @@ function Navbar() {
 
   let navigate = useNavigate();
 
-  function handleLogout(e) {
-    e.preventDefault();
+  function handleLogout() {
     localStorage.removeItem("user")
     localStorage.removeItem("user_role")
   }
@@ -70,7 +69,7 @@ function Navbar() {
               <li><Link to="/help">Help</Link></li>
             </MDBNavbarItem>
             <MDBNavbarItem>
-              <li onClick={(e) => handleLogout(e)}><Link to="/signIn">Logout</Link></li>
+              <li onClick={() => handleLogout()}><Link to="/signIn">Logout</Link></li>
             </MDBNavbarItem>
           </MDBNavbarNav>
 
@@ -108,7 +107,7 @@ function Navbar() {
             </MDBNavbarItem>
 
             <MDBNavbarItem>
-              <li onClick={(e) => handleLogout(e)}><Link to="/signIn">Logout</Link></li>
+              <li onClick={() => handleLogout()}><Link to="/signIn">Logout</Link></li>
             </MDBNavbarItem>
           </MDBNavbarNav>
         </MDBCollapse>

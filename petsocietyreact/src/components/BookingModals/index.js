@@ -4,6 +4,8 @@ import EditForm from '../EditRequestForm';
 import Api from "../../helpers/Api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaw } from "@fortawesome/free-solid-svg-icons";
+import moment from 'moment-timezone';
+
 
 function RequestModal(props) {
 
@@ -24,6 +26,70 @@ function RequestModal(props) {
 
     let button = "";
     let title = "";
+
+    const calcDaysDiff = () => {
+      var diffDays = Math.round((moment(booking.endDate, "YYYY-MM-DDTHH:mm:ssZ[UTC]").toDate()).getTime() - moment(booking.startDate, "YYYY-MM-DDTHH:mm:ssZ[UTC]").toDate().getTime())/(1000 * 60 * 60 * 24);
+      console.log("DIFF: " + diffDays);
+      return diffDays;
+    }
+    
+    const calcDaysFromBooking = () => {
+      var diffDays = Math.abs(Math.round((moment().toDate()).getTime() - moment(booking.startDate, "YYYY-MM-DDTHH:mm:ssZ[UTC]").toDate().getTime())/(1000 * 60 * 60 * 24));
+      console.log("DIFF2: " + diffDays);
+      return diffDays;
+    }
+    //edit this
+    const calculatePenalty = (booking) => {
+      return 0.75 * booking.cost;
+    }
+
+    const submitFormCancel = (e) => {
+      e.preventDefault();
+      //change this to current user's Id
+      Api.cancelBooking(booking.parent.userId, booking.bookingReqId, booking)
+      .catch(err => {
+        console.log(err)
+        props.showErrorToast();
+      })
+      .then(props.reloadData())
+      toggle();
+    }
+
+    let penaltyMsg = ""
+    if (calcDaysFromBooking() <= 3) {
+      penaltyMsg = (<Form onSubmit={submitFormCancel}>
+              <p>
+                Do you want to cancel this booking?
+              </p>
+              <p>
+              You would have to pay: ${calculatePenalty(booking)}
+              <Input type="text" value={booking.bookingId} hidden={true}/>
+              </p>
+              <p style={{fontSize: "13px", fontWeight:"600"}}>
+                **Note: This will automatically be charged to your credit card**
+              </p>
+              <Button 
+                color="danger" 
+                type="submit"
+                style={{float: "right"}}
+                >
+                Confirm
+              </Button>
+            </Form>)
+    } else {
+      penaltyMsg = (<Form onSubmit={submitFormCancel}>
+        <p>
+          Do you want to cancel this booking?
+        </p>
+        <Button 
+          color="danger" 
+          type="submit"
+          style={{float: "right"}}
+          >
+          Confirm
+        </Button>
+      </Form>)
+    }
 
     if (label === "Edit") {
         button = (
@@ -67,18 +133,6 @@ function RequestModal(props) {
           </Button>
         );
         title = "Reject this booking?";
-  }
-    
-    const submitFormCancel = (e) => {
-      e.preventDefault();
-      //change this to current user's Id
-      Api.cancelBooking(booking.parent.userId, booking.bookingReqId)
-      .catch(err => {
-        console.log(err)
-        props.showErrorToast();
-      })
-      .then(props.reloadData())
-      toggle();
     }
 
     const submitFormAccept = (e) => {
@@ -87,21 +141,16 @@ function RequestModal(props) {
       Api.acceptBooking(booking.sitter.userId, booking.bookingReqId)
       .then(toggle())
       .then(props.reloadData())
-      .then(props.refreshPage);
     }
 
     const submitFormReject = (e) => {
       e.preventDefault();
+      console.log(booking.sitter.userId)
       //change this to current user's id
       Api.rejectBooking(booking.sitter.userId, booking.bookingReqId)
       .then(toggle())
       .then(props.reloadData())
       .then(props.refreshPage);
-    }
-
-    //edit this
-    const calculatePenalty = (booking) => {
-      return 0.75 * booking.cost;
     }
 
     let modalBody = ""
@@ -119,25 +168,7 @@ function RequestModal(props) {
     } else if (label === "Cancel") {
         modalBody = ((
           <div id="cancelModal">
-            <Form onSubmit={submitFormCancel}>
-              <p>
-                Do you want to cancel this booking?
-              </p>
-              <p>
-              You would have to pay: ${calculatePenalty(booking)}
-              <Input type="text" value={booking.bookingId} hidden={true}/>
-              </p>
-              <p style={{fontSize: "13px", fontWeight:"600"}}>
-                **Note: This will automatically be charged to your credit card**
-              </p>
-              <Button 
-                color="danger" 
-                type="submit"
-                style={{float: "right"}}
-                >
-                Confirm
-              </Button>
-            </Form>
+            {penaltyMsg}
           </div>
         ))
       } else if (label === "Accept") {

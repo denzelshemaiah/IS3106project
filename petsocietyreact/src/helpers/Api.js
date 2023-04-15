@@ -161,7 +161,7 @@ const Api = {
         })
     },
     //cancel this booking, move 2 archive
-    cancelBooking(parentId, bookingId) {
+    cancelBooking(parentId, bookingId, booking) {
         return fetch(`${SERVER_PREFIX}/bookings/cancel/${parentId}/${bookingId}`, {
             method: "DELETE",
         })

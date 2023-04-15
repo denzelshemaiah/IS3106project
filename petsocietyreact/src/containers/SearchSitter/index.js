@@ -73,28 +73,28 @@ function SearchSitter(props) {
         numOfTimes: null,
     });
 
-    useEffect(() => {
-        let parentId;
+    // useEffect(() => {
+    //     let parentId;
 
-        const fetchUserId = async () => {
-            try {
-                const response = await Api.getParentId();
-                parentId = response.data.parentId;
-                setFormData(prevState => ({
-                    ...prevState,
-                    parentId: parentId
-                }));
-            } catch (error) {
-                console.error(error);
-                setFormData(prevState => ({
-                    ...prevState,
-                    parentId: null
-                }));
-            }
-        };
+    //     const fetchUserId = async () => {
+    //         try {
+    //             const response = await Api.getParentId();
+    //             parentId = response.data.parentId;
+    //             setFormData(prevState => ({
+    //                 ...prevState,
+    //                 parentId: parentId
+    //             }));
+    //         } catch (error) {
+    //             console.error(error);
+    //             setFormData(prevState => ({
+    //                 ...prevState,
+    //                 parentId: null
+    //             }));
+    //         }
+    //     };
 
-        fetchUserId();
-    }, [formData]);
+    //     fetchUserId();
+    // }, [formData]);
 
     //SearchResult will only show when they user clicks the search button
     const [showResults, setShowResults] = useState(false);
@@ -525,7 +525,6 @@ function SearchSitter(props) {
 
 
                     <div class="col-md-8">
-
                         <AllSitters></AllSitters>
                     </div>
                 </div>

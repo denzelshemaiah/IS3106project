@@ -76,8 +76,7 @@ public class BookingsResource {
     @Path("/cancel/{parentId}/{bookingId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response cancelBooking(@PathParam("parentId") Long parentId, @PathParam("bookingId") Long bookingId) {
-        System.out.println("to be cancelled:" + bookingId);
+    public Response cancelBooking(@PathParam("parentId") Long parentId, @PathParam("bookingId") Long bookingId, BookingRequest booking) {
         try {
             bookingSession.cancelBooking(parentId, bookingId);
             return Response.status(204).build();
