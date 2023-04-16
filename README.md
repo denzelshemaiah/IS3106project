@@ -29,19 +29,15 @@ When the request is pending, Pet Parents can still cancel or edit the request. P
 
 After a request is accepted, both Pet Sitter and Pet Parent can view the contact details of the other party using the “Contact” button on each request listing.
 
-### Notifications
-Users 
-(it was supposed to be a part of our system but we literally had the groupmate from hell who didn’t even create this entity)
-
 ### Reports
 (it was supposed to be a part of our system but we literally had the groupmate from hell who didn’t even create this entity)
 
 Users can create a report against another user after filling in the report details. The report will then be sent for approval.
 
 ### Ratings
-For an archived booking, users can choose to rate the other party. On each Booking listing, a Rate button will be accessible, which leads them to make a rating. Each party is only allowed to make 1 rating for every booking that they have made.
-
 (it was supposed to be a part of our system but we literally had the groupmate from hell who didn’t even create this entity)
+
+For an archived booking, users can choose to rate the other party. On each Booking listing, a Rate button will be accessible, which leads them to make a rating. Each party is only allowed to make 1 rating for every booking that they have made.
 
 ### Miscellaneous
 #### Homepage
@@ -100,6 +96,7 @@ Backend: MySQL, JavaEE
 
 ## Admin Portal:
 Frontend: PrimeFaces 10.0
+
 Backend: MySQL, JavaEE
 
 # Collaborators 
