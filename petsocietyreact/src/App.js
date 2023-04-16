@@ -21,14 +21,19 @@ import AllSitters from './containers/AllSitters';
 
 
 function App() {
-  const [user, setUser] = useState(null);
-  const [userRole, setUserRole] = useState();
+  const [user, setUser] = useState({});
+  const [userRole, setUserRole] = useState("");
 
   useEffect(() => {
     const handleStorage = () => {
-      setUser(JSON.parse(localStorage.getItem("user")));
-      setUserRole(JSON.parse(localStorage.getItem("user_role")));
+      if (localStorage.getItem("user") && localStorage.getItem("user_role")) {
+        setUser(JSON.parse(localStorage.getItem("user")));
+        setUserRole(JSON.parse(localStorage.getItem("user_role")));
+      }
     }
+
+    // localStorage.removeItem('user')
+    // localStorage.removeItem('user_role')
 
     window.addEventListener('storage', handleStorage())
     return () => window.removeEventListener('storage', handleStorage())
@@ -36,10 +41,10 @@ function App() {
 
   return (
     <>
-      <Navbar></Navbar>
+      <Navbar user={user}></Navbar>
       <div className='container'>
         <Routes>
-          <Route exact path="/" element= {user === null ? <Homepage /> : <LoggedInHomepage />} />
+          <Route exact path="/" element= {user === {} ? <Homepage /> : <LoggedInHomepage />} />
           <Route path="/signIn" element={<SignIn />} />
           <Route path="/signUp/:page" element={<SignUp />} />
           <Route path="/bookings"

@@ -1,9 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button } from 'reactstrap';
 import { MDBCard, MDBTypography, MDBContainer, MDBCardBody, MDBCardTitle, MDBCardText, MDBCol, MDBRow, MDBBtn } from 'mdb-react-ui-kit';
-import { Link, Route, Routes } from 'react-router-dom';
-import Footer from '../../components/Footer';
 import dogBoardingIcon from '../../icons/dog_boarding.png';
 import dogWalkingIcon from '../../icons/dog_walking.png';
 import dogDayCareIcon from '../../icons/dog_daycare.png';
@@ -13,15 +10,15 @@ import { useState, useEffect } from 'react';
 import Services from '../Services';
 
 function LoggedInHomepage() {
-    const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
-    const [userRole, setUserRole] = useState(JSON.parse(localStorage.getItem("user_role")));
+    const [user, setUser] = useState({});
+    const [userRole, setUserRole] = useState("");
 
     useEffect(() => {
         const handleStorage = () => {
-            setUser(JSON.parse(localStorage.getItem("user")));
-            setUserRole(JSON.parse(localStorage.getItem("user_role")));
+          setUser(JSON.parse(localStorage.getItem("user")));
+          setUserRole(JSON.parse(localStorage.getItem("user_role")));
         }
-
+      
         window.addEventListener('storage', handleStorage())
         return () => window.removeEventListener('storage', handleStorage())
     }, [])

@@ -28,14 +28,20 @@ function SignIn() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const response = await Api.userLogin({
+    await Api.userLogin({
       email, password
-    }).then((res) => res.json())
+    })
+    .then((res) => res.json())
     .then((res) => {
       if ('userId' in res) {
         localStorage.setItem('user', JSON.stringify(res));
-        getUserRole(res);
+        getUserRole();
+      }
+    })
+    .then(() => {
+      if (localStorage.getItem('user_role')) {
         navigate("/loggedInHomepage");
+        window.location.reload(false)
       }
     })
     .catch(err => {
@@ -44,11 +50,12 @@ function SignIn() {
     })
   }
 
-  async function getUserRole(user) {
-    const response = await Api.getUserRole(user.userId)
-      .then((res) => res.json())
+  async function getUserRole() {
+    const response = await Api.getUserRole(JSON.parse(localStorage.getItem('user')).userId)
+      .then((res) => res.json());
     localStorage.setItem("user_role", JSON.stringify(response['userRole']))
-    console.log("user role:" + localStorage.getItem('user_role'))
+    navigate("/loggedInHomepage")
+    window.location.reload(false);
   }
 
   return (

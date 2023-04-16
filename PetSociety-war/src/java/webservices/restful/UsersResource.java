@@ -138,11 +138,13 @@ public class UsersResource {
     public Map<String,String> getUserRole(Long userId) {
         HashMap<String,String> hash =  new HashMap<>();
         User u = userSessionBean.getUser(userId);
+        System.out.println(u);
         if (u instanceof PetParent) {
             hash.put("userRole", "parent");
         } else {
             hash.put("userRole", "sitter");
         }
+        System.out.println("USER ROLE: " + hash.get("userRole"));
         return hash;
     }
 }

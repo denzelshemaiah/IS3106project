@@ -7,10 +7,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function HelpPage(props) {
     const [activeTab, setActiveTab] = useState('1');
 
-    useEffect(() => {
-
-    });
-
     function toggle(tab) {
         if (activeTab !== tab) {
             setActiveTab(tab);

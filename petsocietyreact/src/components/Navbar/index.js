@@ -8,9 +8,9 @@ import hamburgerMenu from '../../icons/hamburger_menu.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faBell } from '@fortawesome/free-solid-svg-icons'
 
-function Navbar() {
-  const [loggedInUser, setLoggedInUser] = useState(localStorage.getItem("user"));
-  const [userRole, setUserRole] = useState(localStorage.getItem("user_role"))
+function Navbar(props) {
+  const [loggedInUser, setLoggedInUser] = useState({});
+  const [userRole, setUserRole] = useState("");
 
   const [showNavbar, setShowNavbar] = useState(false);
 
@@ -18,8 +18,10 @@ function Navbar() {
 
   useEffect(() => {
     const handleStorage = () => {
-      setLoggedInUser(JSON.parse(localStorage.getItem("user")));
-      setUserRole(JSON.parse(localStorage.getItem("user_role")));
+      if (localStorage.getItem("user") != null && localStorage.getItem("user_role") != null) {
+        setLoggedInUser(JSON.parse(localStorage.getItem("user")));
+        setUserRole(JSON.parse(localStorage.getItem("user_role")));
+      }
     }
   
     window.addEventListener('storage', handleStorage())
@@ -31,9 +33,11 @@ function Navbar() {
   function handleLogout() {
     localStorage.removeItem("user")
     localStorage.removeItem("user_role")
+    window.location.reload(false);
   }
 
   function links() {
+    console.log(userRole);
     if (userRole === "parent") {
       return (
         <MDBCollapse navbar show={showNavbar}>
@@ -76,7 +80,6 @@ function Navbar() {
         </MDBCollapse>
       )
     } else if (userRole === "sitter") {
-      console.log("in sitter")
       return (
         <MDBCollapse navbar show={showNavbar}>
           <MDBNavbarNav className='mr-auto mb-2 mb-lg-0'>
@@ -112,7 +115,7 @@ function Navbar() {
           </MDBNavbarNav>
         </MDBCollapse>
       )
-    } else if (userRole === null) {
+    } else {
       return (
         <>
           <MDBNavbarToggler
@@ -165,7 +168,6 @@ function Navbar() {
           </MDBCollapse>
         </>
       );
-
     }
   }
 
