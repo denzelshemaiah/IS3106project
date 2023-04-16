@@ -39,6 +39,7 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
         PetParent p = em.find(PetParent.class, parentId);
         PetSitter s = em.find(PetSitter.class, sitterId);
         List<Integer> days = b.getRepeatDays();
+        System.out.println("BOOKING BEING CREATED: " + b);
         if (p == null || s == null) {
             //exception?
         } else {
@@ -46,6 +47,7 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
                 Date startDate = b.getStartDate();
                 Date endDate = b.getEndDate();
                 
+                System.out.println("start Date:" + startDate);
                 Calendar start = Calendar.getInstance();
                 start.setTime(startDate);
                 
@@ -55,6 +57,7 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
                 while (start.compareTo(end) < 0) {
                     int day = start.get(Calendar.DAY_OF_WEEK);
                     //starting day, make a new booking with this as start day!!!
+                    System.out.println(day);
                     if (day == days.get(0)) {
                         Date newStart = start.getTime();
                         int diffDays = days.get(days.size() - 1);
@@ -92,23 +95,9 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
                     start.add(Calendar.DATE, 1);
                 }
             } else if (repeatBasis.equals("once")) {
-//                Date start = b.getStartDate();
-//                Date end = b.getEndDate();
-//                
-//                long dateStartInMs = start.getTime();
-//                long dateEndInMs = end.getTime();
-//                
-//                long timeDiff = Math.abs(dateEndInMs - dateStartInMs);
-//                long daysDiff = TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
-//                
-//                p.getBookings().add(b);
-//                s.getBookings().add(b);
-//                b.setParent(p);
-//                b.setStatus(RequestStatusEnum.PENDING);
-//                b.setCost(s.getRate().multiply(BigDecimal.valueOf(daysDiff)).multiply(new BigDecimal(b.getNumPets())));
-//                b.setSitter(s);
-//                b.setRepeatDays(b.getRepeatDays());
-            // js rl cost is alr calc in nb
+                b.setStatus(RequestStatusEnum.PENDING);
+                b.setParent(p);
+                b.setSitter(s);
                 em.persist(b);
                 em.flush();
             }
@@ -134,6 +123,7 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
 
         if (u instanceof PetParent) {
             //if user is a parent
+            System.out.println("is a parent");
             q = em.createQuery("SELECT b FROM BookingRequest b WHERE b.parent.userId LIKE :parentId AND b.status = :enum")
                     .setParameter("parentId", userId)
                     .setParameter("enum", statusEnum);
@@ -149,13 +139,16 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
     @Override
     public void updateBooking(BookingRequest b) throws NoResultException {
         BookingRequest old = em.find(BookingRequest.class, b.getBookingReqId());
+        System.out.println("updating....");
         if (old == null) {
             throw new NoResultException("No booking can be found!");
         } else {
             old.setDescription(b.getDescription());
             old.setStartDate(b.getStartDate());
             old.setEndDate(b.getEndDate());
-            old.setCost(b.getCost());
+            if (b.getCost() != null) {
+                old.setCost(b.getCost());
+            }
             old.setNumPets(b.getNumPets());
             em.merge(old);
         }
@@ -227,18 +220,21 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
             }
             //cancelled within 3 days!
             Date startDate = b.getStartDate();
-            Date endDate = b.getEndDate();
+            Date currDate = new Date();
 
             long dateBeforeInMs = startDate.getTime();
-            long dateAfterInMs = endDate.getTime();
+            long dateAfterInMs = currDate.getTime();
 
             long timeDiff = Math.abs(dateAfterInMs - dateBeforeInMs);
 
-            long daysDiff = TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
+            long daysDiff = timeDiff/(1000 * 24 * 60 * 60);
+            
+            System.out.println("Days diff" + daysDiff);
             
             if (daysDiff <= 3) {
                 //must charge the penalty!
                 b.setCost(penalty);
+                b.setPenalty(true);
             }
             b.setStatus(RequestStatusEnum.ARCHIVED);
         }
@@ -252,17 +248,25 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
         Date current = new Date();
 
         int result = bookingStart.compareTo(current);
+        
+        System.out.println("Accepted booking!");
+        System.out.println(u);
 
         if (u == null) {
+            System.out.println("Accepted 1!");
             throw new NoResultException("User could not be found!");
         } else if (b == null) {
+            System.out.println("Accepted 2!");
             throw new NoResultException("Booking could not be found!");
         } else if (u instanceof PetParent) {
+            System.out.println("Accepted 3!");
             throw new NoAccessException("Only Pet Sitters can accept booking!");
         } else {
             if (result < 0) {
+                System.out.println("Accepted booking 3!");
                 throw new NoAccessException("Booking has already started and cannot be accepted!");
             }
+            System.out.println("Accepted booking!");
             b.setStatus(RequestStatusEnum.ACCEPTED);
             em.merge(b);
         }
@@ -280,7 +284,21 @@ public class BookingSessionBean implements BookingSessionBeanLocal {
         q.setParameter("enum", RequestStatusEnum.ACCEPTED);
         q.setParameter("date", date);
         q.setParameter("endOfDate", endOfDay);
-        return q.getResultList();
+        List<BookingRequest> accepted =  q.getResultList();
+        
+        //account for penalty
+        Query q2 = em.createQuery("SELECT b FROM BookingRequest b WHERE b.status = :enum "
+                + "AND b.startDate >= :date "
+                + "AND b.startDate < :endOfDate"
+                + "AND b.penalty = TRUE")
+                .setParameter("enum", RequestStatusEnum.ARCHIVED)
+                .setParameter("date", date)
+                .setParameter("endOfDate", endOfDay);
+        List<BookingRequest> archived = q2.getResultList();
+        
+        accepted.addAll(archived);
+        
+        return accepted;
     }
     
     @Override

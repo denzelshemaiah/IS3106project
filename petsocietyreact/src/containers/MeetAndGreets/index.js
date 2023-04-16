@@ -7,25 +7,37 @@ import RequestModal from "../../components/BookingModals"
 import MgModal from "../../components/MgModals";
 import titleIcon from "./mgTitle.jpeg"
 import moment from "moment-timezone";
-
+import ContactModal from "../../components/ContactDetailsModal";
 
 function MeetAndGreets() {
     //initialise all the necessary constants
-    const userId = 1;
+    const [userId, setUserId] = useState(JSON.parse(localStorage.getItem("user")).userId);
     const [chosenTab, setChosenTab] = useState("pending")
     const [requests, setRequests] = useState([]);
-    const user = {"role": "parent"};
+    const [userRole, setUserRole] = useState(JSON.parse(localStorage.getItem("user_role")));
+    const [user, setUser] = useState({});
 
     useEffect(() => {
         reloadData();
     }, [chosenTab]);
+
+    useEffect(() => {
+        const handleStorage = () => {
+            setUserId(JSON.parse(localStorage.getItem("user")).userId);
+            setUserRole(JSON.parse(localStorage.getItem("user_role")));
+            setUser(JSON.parse(localStorage.getItem("user")));
+        }
+        
+        window.addEventListener('storage', handleStorage())
+        return () => window.removeEventListener('storage', handleStorage())
+    }, [])
 
     function renderList(selectedTab) {
         setChosenTab(selectedTab);
     }
 
     function otherParty(request) {
-        if (user.role === "parent") {
+        if (userRole === "parent") {
             return request.sitter;
         } else {
             return request.parent;
@@ -50,7 +62,10 @@ function MeetAndGreets() {
                 mg.formatMgDate = mg.formatMgDate.slice(0,4).join(" ");
             }
             setRequests(mgs);
-        });
+        })
+        .then(result);
+
+        console.log(requests)
     }
 
     const updateState = (item) => {
@@ -78,12 +93,12 @@ function MeetAndGreets() {
 
     let editButton = "";
     editButton = (request) => {
-        if (user.role === "parent" && (chosenTab === "pending" || chosenTab === "rejected")) {
+        if (userRole === "parent" && (chosenTab === "pending" || chosenTab === "rejected")) {
             return <div style={{width:"110px", float:"right"}}>
-                <MgModal buttonLabel="Edit" mgReq={request} updateState={updateState} reloadData={reloadData} refreshPage={refreshPage}/>
+                <MgModal buttonLabel="Edit" mgReq={request} userId={userId} updateState={updateState} reloadData={reloadData} refreshPage={refreshPage}/>
                 {' '}
             </div>
-        } else if (user.role === "sitter") {
+        } else if (userRole === "sitter") {
             return <div style={{width:"200px", float:"right"}}>
                 <MgModal buttonLabel="Reject" mgReq={request} updateState={updateState} reloadData={reloadData} refreshPage={refreshPage}/>
                 {' '}
@@ -95,7 +110,7 @@ function MeetAndGreets() {
     let cancelButton = "";
     
     cancelButton = (request) => {
-        if (user.role === "parent") {
+        if (userRole === "parent") {
             return<div style={{width:"110px", float:"right"}}>
                 <MgModal buttonLabel="Cancel" mgReq={request} updateState={updateState} reloadData={reloadData} refreshPage={refreshPage}/>
                 {' '}
@@ -107,7 +122,7 @@ function MeetAndGreets() {
     // converts the requests array to UI form
     const result = requests.map((request) => {
         console.log(request)
-        if (chosenTab === "pending" && user.role === "parent") {
+        if (chosenTab === "pending" && userRole === "parent") {
             //can edit 
             return (
                 <>  
@@ -121,52 +136,54 @@ function MeetAndGreets() {
                     </li>
                 </>
             )
-        } else if (chosenTab === "pending" && user.role === "sitter") {
+        } else if (chosenTab === "pending" && userRole === "sitter") {
             // can only accept/reject here
             return (
                 <>  
                     <li className="list-group-item" key={request.bookingReqId} style={{padding:"20px"}}>
                         <h5>{request.parent.firstName} {request.parent.lastName}</h5>
-                        Request Date: {request.formatDate}<br/>
+                        Request Date: {request.formatMgDate}<br/>
                         <p>{request.mgDesc}</p>
                         {editButton(request)}
                         {badge(request)}
                     </li>
                 </>
             )
-        } else if (chosenTab === "upcoming" && user.role === "parent") {
+        } else if (chosenTab === "upcoming" && userRole === "parent") {
             //no action, only cancel?
             return (
                 <>
                     <li className="list-group-item" key={request.mgReqId} style={{padding:"20px"}}>
                         <h5>{request.sitter.firstName} {request.sitter.lastName}</h5>                        
-                        Request Date: {request.formatDate}<br/>
+                        Request Date: {request.formatMgDate}<br/>
                         <p>{request.mgDesc}</p>
                         {cancelButton(request)}
                         {badge(request)}
+                        <ContactModal user={otherParty(request)}></ContactModal>
                     </li>
                 </>
             )
-        } else if (chosenTab === "upcoming" && user.role === "sitter") {
+        } else if (chosenTab === "upcoming" && userRole === "sitter") {
             //sitter can cancel
             return ( 
                 <>
                     <li className="list-group-item" key={request.mgReqId} style={{padding:"20px"}}>
                         <h5>{request.parent.firstName} {request.parent.lastName}</h5>
-                        Request Date: {request.formatDate}<br/>
+                        Request Date: {request.formatMgDate}<br/>
                         <p>{request.mgDesc}</p>
                         {badge(request)}
                         {cancelButton(request)}
+                        <ContactModal user={otherParty(request)}></ContactModal>
                     </li>
                 </>
             )
-        } else if (chosenTab === "rejected" && user.role === "parent") {
+        } else if (chosenTab === "rejected" && userRole === "parent") {
             //can edit here, request will go back to pending status
             return (
                 <>
                     <li className="list-group-item" key={request.mgReqId} style={{padding:"20px"}}>
                         <h5>{request.sitter.firstName} {request.sitter.lastName}</h5>                        
-                        Request Date: {request.formatDate}<br/>
+                        Request Date: {request.formatMgDate}<br/>
                         <p>{request.mgDesc}</p>
                         {editButton(request)}
                         {badge(request)}

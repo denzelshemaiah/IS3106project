@@ -31,20 +31,20 @@ public class MeetAndGreetSessionBean implements MeetAndGreetSessionBeanLocal {
 
     @Override
     public Long createNewMeetAndGreet(MeetAndGreetRequest m, Long sitterId, Long parentId) {
-        PetSitter sitter = em.find(PetSitter.class, sitterId);
-        PetParent parent = em.find(PetParent.class, parentId);
+        PetSitter sitter = (PetSitter) em.find(User.class, sitterId);
+        PetParent parent = (PetParent) em.find(User.class, parentId);
+        System.out.println(parent);
+        System.out.println(sitter);
+       
+        m.setParent(parent);
+        m.setSitter(sitter);
+        m.setStatus(RequestStatusEnum.PENDING);
+        em.persist(m);
+        System.out.println("persisted");
+        em.flush();
+        sitter.getMgRequests().add(m);
+        parent.getMgRequests().add(m);
         
-        if (sitter == null || parent == null) {
-            //exception?
-        } else {
-            m.setParent(parent);
-            m.setSitter(sitter);
-            m.setStatus(RequestStatusEnum.PENDING);
-            em.persist(m);
-            em.flush();
-            sitter.getMgRequests().add(m);
-            parent.getMgRequests().add(m);
-        }
         return m.getMgReqId();
     }
     

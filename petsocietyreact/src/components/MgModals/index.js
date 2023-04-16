@@ -7,6 +7,7 @@ import moment from 'moment-timezone';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaw } from "@fortawesome/free-solid-svg-icons";
 import EditMgForm from "../../components/EditMgForm";
+import { useNavigate } from "react-router-dom";
 
 function MgModal(props) {
     const [modal, setModal] = useState(false);
@@ -16,11 +17,23 @@ function MgModal(props) {
     const buttonLabel = props.buttonLabel;
     const reloadData = props.reloadData;
     const mgReq = props.mgReq;
-    const parentId = useState(1);
+    const [parent, setParent] = useState({});
+    const [formatMgDate, setFormatMgDate] = useState("");
+
+    let navigate = useNavigate();
 
     useEffect(() => {
+        if (mgReq) {
+          var formatDate = moment(mgReq.mgDate, "YYYY-MM-DDTHH:mm:ssZ[UTC]").tz("Asia/Singapore").toDate().toString();
+          formatDate = formatDate.split(" ");
+          formatDate = formatDate.slice(0,4).join(" ");
+          setFormatMgDate(formatDate);
+        }
         if (props.sitter) {
-          setSitter(props.sitter)
+          setSitter(props.sitter);
+        }
+        if (JSON.parse(localStorage.getItem("user"))) {
+          setParent(JSON.parse(localStorage.getItem("user")));
         }
     }, [props.sitter]);
 
@@ -37,19 +50,21 @@ function MgModal(props) {
     const submitFormCancel = (e) => {
         e.preventDefault();
         //change this to current user's Id
-        Api.cancelMg(mgReq.parent.userId, mgReq.mgReqId)
+        console.log(parent.userId);
+        console.log(mgReq.mgReqId);
+        Api.cancelMg(parent.userId, mgReq.mgReqId)
         .then(props.reloadData())
-        .then(props.refreshPage);
-        toggle();
+        // .then(props.refreshPage())
+        .then(toggle());
     }
 
     const submitFormAccept = (e) => {
         e.preventDefault();
         //change this to current user's Id
         Api.acceptMg(mgReq.sitter.userId, mgReq.mgReqId)
-        .then(toggle())
         .then(props.reloadData())
-        .then(props.refreshPage);
+        .then(props.refreshPage())
+        .then(toggle());
     }
 
     const submitFormReject = (e) => {
@@ -57,8 +72,8 @@ function MgModal(props) {
         //change this to current user's id
         Api.rejectMg(mgReq.sitter.userId, mgReq.mgReqId)
         .then(props.reloadData())
-        .then(toggle())
-        .then(props.refreshPage);
+        .then(props.refreshPage())
+        .then(toggle());
     }
 
     //when the form values change
@@ -76,11 +91,11 @@ function MgModal(props) {
 
     const submitFormMake = (e) => {
         e.preventDefault();
-        console.log(form)
         form.createdDate = createdDate;
         form.mgDate = mgDate;
-        Api.createMg(form, sitter.userId, 1)
-        .then(props.reloadData());
+        console.log(form);
+        Api.createMg(form, sitter.userId, parent.userId)
+        .then(toggle());
         toggle();
     }
 
@@ -91,9 +106,9 @@ function MgModal(props) {
     if (buttonLabel === "Create") {
         button = (
             <Button
-              color="warning"
+              color="primary"
               onClick={toggle}
-              style={{ float: "right", marginLeft: "30px", marginRight: "20px"}}
+              style={{ float: "right", marginLeft: "30px", marginRight: "20px", padding: '15px 25px'}}
             >
             Meet Sitter
             </Button>
@@ -101,7 +116,7 @@ function MgModal(props) {
         modalBody = (
             <Form onSubmit={submitFormMake}>
                     <FormGroup>
-                        <Label for="mgDesc"> Booking Description: </Label>
+                        <Label for="mgDesc"> You can introduce yourself and your furry friend </Label>
                         <Input
                             type="text"
                             name="mgDesc"
@@ -146,6 +161,7 @@ function MgModal(props) {
             <EditMgForm mgReq={props.mgReq}
              reloadData={props.reloadData} 
              updateState={props.updateState}
+             refreshPage={props.refreshPage}
              toggle={toggle}></EditMgForm>
         )
     } else if (buttonLabel === "Cancel") {
@@ -153,7 +169,7 @@ function MgModal(props) {
             <Button
               color="danger"
               onClick={toggle}
-              style={{ float: "right" }}
+              style={{ float: "right", marginRight: "10px" }}
             >
             Cancel
             </Button>
@@ -187,7 +203,7 @@ function MgModal(props) {
         modalBody = (
               <Form onSubmit={submitFormReject}>
                 <p>
-                  Date: {mgReq.mgDate} <br/>
+                  Date: {formatMgDate} <br/>
                   Description: {mgReq.mgDesc} <br/>
                   Parent : {mgReq.parent.firstName} {mgReq.parent.lastName} <br/>
                 </p>
@@ -205,7 +221,7 @@ function MgModal(props) {
             <Button
               color="success"
               onClick={toggle}
-              style={{ float: "right" }}
+              style={{ float: "right", marginRight: "10px" }}
             >
             Accept
             </Button>
@@ -214,7 +230,7 @@ function MgModal(props) {
             <div id="acceptModal">
               <Form onSubmit={submitFormAccept}>
                 <p>
-                  Date: {mgReq.mgDate} <br/>
+                  Date: {formatMgDate} <br/>
                   Description: {mgReq.mgDesc} <br/>
                   Parent : {mgReq.parent.firstName} {mgReq.parent.lastName} <br/>
                 </p>

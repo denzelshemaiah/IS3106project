@@ -99,10 +99,10 @@ public class User implements Serializable  {
     private CreditCard cc;
     
     // getting PetParent and PetSitter
-    @OneToOne(mappedBy = "user", cascade=CascadeType.PERSIST)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
     private PetParent petParent;
     
-    @OneToOne(mappedBy = "user", cascade=CascadeType.PERSIST)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
     private PetSitter petSitter;
     
     public User() {

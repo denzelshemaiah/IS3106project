@@ -58,6 +58,7 @@ function Bookings() {
             for (const booking of bookings) {
                 const {bookingReqId, cost, created, description, endDate, numPets, repeatDays, parent, sitter, startDate, status, visitFreq} = booking;
 
+                console.log(booking.repeatDays);
                 //account for auto timezone conversion to UTC by JSON ;-;
                 booking.formatCreated = created.substring(0, created.length - 5)
                 booking.formatStartDate = moment(booking.startDate, "YYYY-MM-DDTHH:mm:ssZ[UTC]").tz("Asia/Singapore").toDate().toString();
@@ -85,14 +86,14 @@ function Bookings() {
     function editButton(booking) {
         if (userRole === "parent") {
             return <div style={{width:"110px", float:"right"}}>
-                <RequestModal buttonLabel="Edit" booking={booking} type="booking" updateState={updateState} reloadData={reloadData} refreshPage={refreshPage}/>
+                <RequestModal buttonLabel="Edit" booking={booking} type="booking" updateState={updateState} reloadData={reloadData} refreshPage={refreshPage} showErrorToast={showErrorToast}/>
                 {' '}
             </div>
         } else if (userRole === "sitter") {
             return <div style={{width:"200px", float:"right"}}>
-                <RequestModal buttonLabel="Reject" booking={booking} type="booking" updateState={updateState} reloadData={reloadData} refreshPage={refreshPage}/>
+                <RequestModal buttonLabel="Reject" booking={booking} type="booking" updateState={updateState} reloadData={reloadData} refreshPage={refreshPage} showErrorToast={showErrorToast}/>
                 {' '}
-                <RequestModal buttonLabel="Accept" booking={booking} type="booking" updateState={updateState} reloadData={reloadData} refreshPage={refreshPage}/>
+                <RequestModal buttonLabel="Accept" booking={booking} type="booking" updateState={updateState} reloadData={reloadData} refreshPage={refreshPage} showErrorToast={showErrorToast}/>
             </div>
         }
     }
@@ -116,8 +117,9 @@ function Bookings() {
 
     function repeatText(booking) {
         if (booking.repeatDays) {
+            console.log(booking.repeatDays)
             var repeatArray = booking.repeatDays;
-            var daysArray = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
+            var daysArray = ["filler", "Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
             var daysStr = "";
             repeatArray.forEach((day) => {
                 daysStr += ", " + daysArray[day];
@@ -202,7 +204,7 @@ function Bookings() {
                 return (
                     <>  
                         <li class="list-group-item" key={booking.bookingReqId} style={{padding:"20px"}}>
-                            <h5>{otherParty.firstName} {otherParty.lastName}</h5>
+                            <h5>{otherParty(booking).firstName} {otherParty(booking).lastName}</h5>
                             Request Dates: {booking.formatStartDate} to {booking.formatEndDate}<br/>
                             Request Description: {booking.description} <br/>
                             {repeatText(booking)} <br/>

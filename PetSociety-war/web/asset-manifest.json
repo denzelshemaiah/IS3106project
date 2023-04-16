@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/PetSociety-war/static/css/main.d3afbc3c.css",
-    "main.js": "/PetSociety-war/static/js/main.4abc913c.js",
+    "main.css": "/PetSociety-war/static/css/main.fbcbcf51.css",
+    "main.js": "/PetSociety-war/static/js/main.c32a2c7e.js",
     "static/js/787.bfc8a029.chunk.js": "/PetSociety-war/static/js/787.bfc8a029.chunk.js",
     "static/media/twoPeopleWaving.jpg": "/PetSociety-war/static/media/twoPeopleWaving.46468086ac81f8e60d3a.jpg",
     "static/media/ownerHuggingDog.jpg": "/PetSociety-war/static/media/ownerHuggingDog.73de58cdc1ec32ce4aef.jpg",
@@ -24,12 +24,12 @@
     "static/media/dogQuestioning.jpeg": "/PetSociety-war/static/media/dogQuestioning.b7dedeefaf22a8571384.jpeg",
     "static/media/dog_boarding.png": "/PetSociety-war/static/media/dog_boarding.d1dab766526d86a7573a.png",
     "index.html": "/PetSociety-war/index.html",
-    "main.d3afbc3c.css.map": "/PetSociety-war/static/css/main.d3afbc3c.css.map",
-    "main.4abc913c.js.map": "/PetSociety-war/static/js/main.4abc913c.js.map",
+    "main.fbcbcf51.css.map": "/PetSociety-war/static/css/main.fbcbcf51.css.map",
+    "main.c32a2c7e.js.map": "/PetSociety-war/static/js/main.c32a2c7e.js.map",
     "787.bfc8a029.chunk.js.map": "/PetSociety-war/static/js/787.bfc8a029.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.d3afbc3c.css",
-    "static/js/main.4abc913c.js"
+    "static/css/main.fbcbcf51.css",
+    "static/js/main.c32a2c7e.js"
   ]
 }
