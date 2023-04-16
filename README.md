@@ -88,6 +88,7 @@ Go back into Projects folder, right-click ‘PetSociety’. Select clean and bui
 
 ## Admin Portal
 Add the PrimeFaces 10.0 library to your IDE (https://www.primefaces.org/downloads/)
+
 Change the ```img.path``` property in ```config.properties``` to ```[PROJECT_BASE_DIRECTORY]/PetSociety-war/web/img```. ```config.properties``` can be found in ```[PROJECT_BASE_DIRECTORY]/PetSociety-war/web```.
 
 # Tech stack
