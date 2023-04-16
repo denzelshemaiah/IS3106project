@@ -11,6 +11,7 @@
             <web-module-libraries>
                 <library dirs="100">
                     <file>${reference.PetSociety-ejb.dist}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
                     <file>${libs.GlassFish Server 5.1.0 JAX-RS.classpath}</file>
@@ -25,10 +26,6 @@
                 </library>
                 <library dirs="200">
                     <file>${libs.PrimeFaces_10.0.classpath}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
-                </library>
-                <library dirs="200">
-                    <file>${libs.Primefaces_10.0.classpath}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
             </web-module-libraries>

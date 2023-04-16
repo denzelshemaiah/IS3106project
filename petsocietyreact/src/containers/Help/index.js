@@ -75,7 +75,7 @@ function HelpPage(props) {
                                             In the navigation bar at the top of the screen, there is a Sign Up link. <br />
                                             Upon clicking this link, you will be prompted to fill in personal details and
                                             payment details. <br />
-                                            Subsequently, after choosing the Pet Sitter option, you will be required to fill in ...
+                                            Subsequently, after choosing the Pet Sitter option, you will be required to fill in the service you are providing, the area of your service, the pet preference, weight preference of the pet and the maximum number of pets you can take. Following you will provide the rate and the schedule of the service. Lastly, you would also have to fill in and experience form, safety form and a authentification form to confirm your identity.
                                         </div>
                                     </div>
                                 </div>
@@ -89,7 +89,7 @@ function HelpPage(props) {
                                         <div class="accordion-body">
                                             In order to sign up as a Pet Sitter, a fee will be charged to conduct a background review of you. <br />
                                             This is to ensure the safety of our furry friends on this platform. <br />
-                                            For each booking completed, a comission fee of 10% will be deducted from the overall amount earnt. <br />
+                                            For each booking completed, a commission fee of 10% will be deducted from the overall amount earnt. <br />
                                         </div>
                                     </div>
                                 </div>
@@ -103,31 +103,11 @@ function HelpPage(props) {
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="account-flush-headingOne">
                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accountOne" aria-expanded="false" aria-controls="flush-collapseAccountOne">
-                                            Accordion Item #1
+                                            When will my account be terminated?
                                         </button>
                                     </h2>
                                     <div id="accountOne" class="accordion-collapse collapse" aria-labelledby="account-flush-headingOne" data-bs-parent="#accordionFlushAccount">
-                                        <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
-                                    </div>
-                                </div>
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="account-flush-headingTwo">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accountTwo" aria-expanded="false" aria-controls="flush-collapseAccountTwo">
-                                            Accordion Item #2
-                                        </button>
-                                    </h2>
-                                    <div id="accountTwo" class="accordion-collapse collapse" aria-labelledby="account-flush-headingTwo" data-bs-parent="#accordionFlushAccount">
-                                        <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the second item's accordion body. Let's imagine this being filled with some actual content.</div>
-                                    </div>
-                                </div>
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="account-flush-headingThree">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accountThree" aria-expanded="false" aria-controls="flush-collapseAccountThree">
-                                            Accordion Item #3
-                                        </button>
-                                    </h2>
-                                    <div id="accountThree" class="accordion-collapse collapse" aria-labelledby="account-flush-headingThree" data-bs-parent="#accordionFlushAccount">
-                                        <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion body. Nothing more exciting happening here in terms of content, but just filling up the space to make it look, at least at first glance, a bit more representative of how this would look in a real-world application.</div>
+                                        <div class="accordion-body">As pet parents are able to lodge a complain to PetSociety if they are met with unsatifactory services provided by pet sitters, our staff will look into the report and make relevant actions accordingly.</div>
                                     </div>
                                 </div>
                             </div>
@@ -185,31 +165,11 @@ function HelpPage(props) {
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="payment-flush-headingOne">
                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#paymentOne" aria-expanded="false" aria-controls="payment-flush-collapseOne">
-                                            Accordion Item #1
+                                            How will i be charged for the service?
                                         </button>
                                     </h2>
                                     <div id="paymentOne" class="accordion-collapse collapse" aria-labelledby="payment-flush-headingOne" data-bs-parent="#accordionFlushExample">
-                                        <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
-                                    </div>
-                                </div>
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="payment-flush-headingTwo">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#paymentTwo" aria-expanded="false" aria-controls="payment-flush-collapseTwo">
-                                            Accordion Item #2
-                                        </button>
-                                    </h2>
-                                    <div id="paymentTwo" class="accordion-collapse collapse" aria-labelledby="payment-flush-headingTwo" data-bs-parent="#accordionFlushExample">
-                                        <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the second item's accordion body. Let's imagine this being filled with some actual content.</div>
-                                    </div>
-                                </div>
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="payment-flush-headingThree">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#paymentThree" aria-expanded="false" aria-controls="payment-flush-collapseThree">
-                                            Accordion Item #3
-                                        </button>
-                                    </h2>
-                                    <div id="paymentThree" class="accordion-collapse collapse" aria-labelledby="payment-flush-headingThree" data-bs-parent="#accordionFlushExample">
-                                        <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion body. Nothing more exciting happening here in terms of content, but just filling up the space to make it look, at least at first glance, a bit more representative of how this would look in a real-world application.</div>
+                                        <div class="accordion-body">Upon makling a booking with your prefered pet sitter, we will caluclate the total cost of the service and it will be shown on the make a booking page. This amount will be charged directlty to your bank account.</div>
                                     </div>
                                 </div>
                             </div>
@@ -262,11 +222,11 @@ function HelpPage(props) {
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="account-flush-headingOne">
                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accountOne" aria-expanded="false" aria-controls="flush-collapseAccountOne">
-                                            How do I update my profile?
+                                            What do i do if i forget my account password?
                                         </button>
                                     </h2>
                                     <div id="accountOne" class="accordion-collapse collapse" aria-labelledby="account-flush-headingOne" data-bs-parent="#accordionFlushAccount">
-                                        <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
+                                        <div class="accordion-body">When you are at the log-in page, you can click on forgot password to reset your password.</div>
                                     </div>
                                 </div>
                             </div>
@@ -398,26 +358,6 @@ function HelpPage(props) {
                                         <div class="accordion-body">
                                             At the start of every booking, the credit card linked to your account will be charged the full fee for the booking.
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="payment-flush-headingTwo">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#paymentTwo" aria-expanded="false" aria-controls="payment-flush-collapseTwo">
-                                            Accordion Item #2
-                                        </button>
-                                    </h2>
-                                    <div id="paymentTwo" class="accordion-collapse collapse" aria-labelledby="payment-flush-headingTwo" data-bs-parent="#accordionFlushExample">
-                                        <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the second item's accordion body. Let's imagine this being filled with some actual content.</div>
-                                    </div>
-                                </div>
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="payment-flush-headingThree">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#paymentThree" aria-expanded="false" aria-controls="payment-flush-collapseThree">
-                                            Accordion Item #3
-                                        </button>
-                                    </h2>
-                                    <div id="paymentThree" class="accordion-collapse collapse" aria-labelledby="payment-flush-headingThree" data-bs-parent="#accordionFlushExample">
-                                        <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion body. Nothing more exciting happening here in terms of content, but just filling up the space to make it look, at least at first glance, a bit more representative of how this would look in a real-world application.</div>
                                     </div>
                                 </div>
                             </div>

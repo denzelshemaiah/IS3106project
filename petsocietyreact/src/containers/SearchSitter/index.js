@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback} from "react";
+import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import './style.css'
 import { Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup, InputGroup, InputGroupText, Input } from "reactstrap";
@@ -10,9 +10,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import SearchResults from "../../components/SearchResults";
-import Api from "../../helpers/Api";
 import { QueryClient, QueryClientProvider } from 'react-query';
-import $ from 'jquery';
 
 
 const queryClient = new QueryClient();
@@ -35,7 +33,7 @@ function SearchSitter(props) {
         rate: [0, 200],
         repeat: "",
         dayOfWeek: [],
-        fulltime: false,
+        // fulltime: false,
         numOfTimes: null,
     });
     
@@ -63,7 +61,7 @@ function SearchSitter(props) {
     const handleSearch = () => {
         setFormData({
             ...formData,
-            // userId: userId,
+            userId: userId,
             serviceType: selectedItem1,
             petType: selectedType,
             region: selectedItem2,
@@ -76,7 +74,7 @@ function SearchSitter(props) {
             rate: rate,
             repeat: repeat,
             dayOfWeek: selectedDay,
-            fulltime: fulltime,
+            // fulltime: fulltime,
             numOfTimes: selectedNum,
         });
         setShowResults(true);
@@ -245,24 +243,24 @@ function SearchSitter(props) {
 
     let dayOfWeekButton = ""
 
-    const [fulltime, setfulltime] = useState(false);  
-    const handleFullTime = (event) => {
-        const { checked } = event.target;
-        setfulltime(checked);
-    }
-    let fulltimeButton = "";
-    if (selectedItem1 === "DayCare") {
-        fulltimeButton = (
-            <>
-                <div className="form-check">
-                    <input className="form-check-input" type="checkbox" id="fulltimeCheck" name="fulltime" onChange={handleFullTime} />
-                    <label className="form-check-label" htmlFor="fulltimeCheck">
-                        Sitter is home full-time
-                    </label>
-                </div>
-            </>
-        )
-    }
+    // const [fulltime, setfulltime] = useState(false);  
+    // const handleFullTime = (event) => {
+    //     const { checked } = event.target;
+    //     setfulltime(checked);
+    // }
+    // let fulltimeButton = "";
+    // if (selectedItem1 === "DayCare") {
+    //     fulltimeButton = (
+    //         <>
+    //             <div className="form-check">
+    //                 <input className="form-check-input" type="checkbox" id="fulltimeCheck" name="fulltime" onChange={handleFullTime} />
+    //                 <label className="form-check-label" htmlFor="fulltimeCheck">
+    //                     Sitter is home full-time
+    //                 </label>
+    //             </div>
+    //         </>
+    //     )
+    // }
 
 
     if (selectedItem1 === "Dog Walker" || selectedItem1 === "Drop-in Visits") {
@@ -505,9 +503,9 @@ function SearchSitter(props) {
                                         </div>
 
 
-                                        <div className="mb-3">
+                                        {/* <div className="mb-3">
                                             {fulltimeButton}
-                                        </div>
+                                        </div> */}
 
 
                                         <div className="mb-3">
@@ -536,8 +534,8 @@ function SearchSitter(props) {
                     </div>
                     </div>
                     <div className="col-md-4" style={{ marginLeft: "-25px" }}>
-                        {/* {showResults && <SearchResults formData={formData} style={{ overflow: "auto" }} />} */}
-                        <SearchResults formData={formData} style={{ float: "right", overflow: "auto" }} />
+                        {showResults && <SearchResults formData={formData} style={{ overflow: "auto" }} />}
+                        {/* <SearchResults formData={formData} style={{ float: "right", overflow: "auto" }} /> */}
                     </div>
                 </div>
         </div>
@@ -548,5 +546,3 @@ function SearchSitter(props) {
 
 
 export default SearchSitter;
-
-

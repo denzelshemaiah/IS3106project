@@ -56,7 +56,7 @@ import session.UserSessionBeanLocal;
 public class UsersResource {
 
     @EJB
-    private UserSessionBeanLocal userSessionBean;
+    private UserSessionBeanLocal userSessionBeanLocal;
 
     @EJB
     private PetParentSessionBeanLocal petParentSessionBeanLocal;
@@ -112,14 +112,14 @@ public class UsersResource {
     @Path("/getAllUsers")
     @Produces(MediaType.APPLICATION_JSON)
     public List<User> getAllUsers() {
-        return userSessionBean.retrieveAllUsers();
+        return userSessionBeanLocal.retrieveAllUsers();
     }
 
     @GET
     @Path("/getAllSitters")
     @Produces(MediaType.APPLICATION_JSON)
     public List<User> getAllSitters() {
-        return userSessionBean.retrieveAllSitters();
+        return userSessionBeanLocal.retrieveAllSitters();
     }
     
     @POST
@@ -128,7 +128,7 @@ public class UsersResource {
     public User userLogin(HashMap<String, String> credentials) {
         String email = credentials.get("email");
         String password = credentials.get("password");
-        User u = userSessionBean.userLogin(email, password);
+        User u = userSessionBeanLocal.userLogin(email, password);
         return u;
     }
     
@@ -137,7 +137,7 @@ public class UsersResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Map<String,String> getUserRole(Long userId) {
         HashMap<String,String> hash =  new HashMap<>();
-        User u = userSessionBean.getUser(userId);
+        User u = userSessionBeanLocal.getUser(userId);
         if (u instanceof PetParent) {
             hash.put("userRole", "parent");
         } else {
