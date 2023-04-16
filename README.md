@@ -10,10 +10,12 @@ Users log in with their email and password.
 Users will be taken through a 3-step onboarding process where they will first fill up required account creation fields. The second step is to fill in bank account and credit card details. Finally, they will choose whether to become a Pet Parent or Pet Sitter. 
 
 ### Profile
-(it was supposed to be a part of our system but we literally had the groupmate from hell who didn’t even create this entity)
+[MISSING FEATURE DUE TO IRRESPONSIBLE GROUP MATES] Users can view and edit their personal details as well as their bank account and credit card details.
 
 ### Search Sitters
-(Function doesn’t work so we [we being Andrea, Cally-Anne, RachelAng] just dynamically rendered list of available sitters to book lmao)
+Pet Parents can set parameters (such as schedule, frequency, and location) to search for available sitters.
+
+(Function assigned to group member doesn’t work so we [we being Andrea, Cally-Anne, RachelAng] dynamically rendered list of available sitters to book)
 
 ### Bookings
 Upon finding a suitable Pet Sitter, clicking on the “Book now” button leads the Pet Parent to make a booking. After indicating necessary information such as the dates, frequency, and message for the booking, the booking will be sent to the Pet Sitter.
@@ -30,12 +32,12 @@ When the request is pending, Pet Parents can still cancel or edit the request. P
 After a request is accepted, both Pet Sitter and Pet Parent can view the contact details of the other party using the “Contact” button on each request listing.
 
 ### Reports
-(it was supposed to be a part of our system but we literally had the groupmate from hell who didn’t even create this entity)
+[it was supposed to be a part of our system but we literally had the groupmate from hell who didn’t even create this entity]
 
 Users can create a report against another user after filling in the report details. The report will then be sent for approval.
 
 ### Ratings
-(it was supposed to be a part of our system but we literally had the groupmate from hell who didn’t even create this entity)
+[it was supposed to be a part of our system but we literally had the groupmate from hell who didn’t even create this entity]
 
 For an archived booking, users can choose to rate the other party. On each Booking listing, a Rate button will be accessible, which leads them to make a rating. Each party is only allowed to make 1 rating for every booking that they have made.
 
@@ -100,4 +102,4 @@ Frontend: PrimeFaces 10.0
 Backend: MySQL, JavaEE
 
 # Collaborators 
-The Committers – [andrealyh319](https://github.com/andrealyh319) [callyanne](https://github.com/callyanne) [rrachelangrq](https://github.com/rrachelangrq)
+[andrealyh319](https://github.com/andrealyh319) [callyanne](https://github.com/callyanne) [rrachelangrq](https://github.com/rrachelangrq)
