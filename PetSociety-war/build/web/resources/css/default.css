@@ -1,0 +1,33 @@
+body {
+    padding-top: 50px;
+    background-color: white;
+}
+
+.h3 {
+    align-self: center;
+}
+
+.navbar {
+    background-color: #E4E2F5;
+    border-color: transparent;
+}
+
+.navbar-header {
+    height: 70px;
+}
+
+.header {
+    padding-bottom: 30px
+}
+
+.navlink {
+    color: black !important;
+}
+
+.navlink:hover, navlink:active, navlink:focus {
+    color: #bf58ec !important;
+}
+
+.navbar-brand {
+    color: black !important;
+}
